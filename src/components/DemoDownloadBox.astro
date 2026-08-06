@@ -5,12 +5,12 @@ interface Props {
 }
 
 import { statSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
 
 const { demoFile, name } = Astro.props;
 
 // Build-time boyut: public/ altındaki gerçek dosyadan KB hesabı (0 client JS)
-const publicDir = fileURLToPath(new URL('../../public/', import.meta.url));
+// import.meta.url, Vite build'de dist içini gösterebildiğinden proje kökü process.cwd() ile alınır.
+const publicDir = new URL('public/', `file://${process.cwd()}/`);
 const fileName = demoFile.split('/').filter(Boolean).pop() ?? demoFile;
 
 // Defansif: geçersiz demoFile yolu link render etmez (şemaya dokunulmaz)
@@ -19,7 +19,7 @@ const demoFileValid = demoFile.startsWith('/demo/') && demoFile.endsWith('.xlsx'
 let sizeKB = 0;
 if (demoFileValid) {
   try {
-    sizeKB = Math.max(1, Math.round(statSync(publicDir + demoFile.slice(1)).size / 1024));
+    sizeKB = Math.max(1, Math.round(statSync(new URL(demoFile.slice(1), publicDir)).size / 1024));
   } catch {
     console.warn('[DEMO MISSING] ' + demoFile);
   }
