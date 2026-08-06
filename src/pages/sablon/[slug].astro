@@ -148,10 +148,10 @@ const jsonLd = {
         Her sheet'in gerçek ekran görüntüsü. Görsele tıklayınca büyür.
       </p>
       <div class="mt-6">
-        <PreviewGallery images={t.screenshots} />
+        <DemoDownloadBox demoFile={t.demoFile} name={t.name} />
       </div>
       <div class="mt-8">
-        <DemoDownloadBox file={t.demoFile} name={t.name} />
+        <PreviewGallery images={t.screenshots} />
       </div>
     </section>
 

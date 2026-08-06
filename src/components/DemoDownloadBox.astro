@@ -1,22 +1,47 @@
 ---
 interface Props {
-  file: string;
+  demoFile: string;
   name: string;
 }
 
-const { file, name } = Astro.props;
+import { statSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
+const { demoFile, name } = Astro.props;
+
+// Build-time boyut: public/ altındaki gerçek dosyadan KB hesabı (0 client JS)
+const publicDir = fileURLToPath(new URL('../../public/', import.meta.url));
+const fileName = demoFile.split('/').filter(Boolean).pop() ?? demoFile;
+
+// Defansif: geçersiz demoFile yolu link render etmez (şemaya dokunulmaz)
+const demoFileValid = demoFile.startsWith('/demo/') && demoFile.endsWith('.xlsx');
+
+let sizeKB = 0;
+if (demoFileValid) {
+  try {
+    sizeKB = Math.max(1, Math.round(statSync(publicDir + demoFile.slice(1)).size / 1024));
+  } catch {
+    console.warn('[DEMO MISSING] ' + demoFile);
+  }
+}
 ---
 
-<div class="flex flex-col gap-4 border border-rule-strong bg-surface-elevated p-6 sm:flex-row sm:items-center sm:justify-between">
-  <div>
-    <p class="mono-xs text-ink-400">Ücretsiz demo</p>
-    <p class="mt-1 text-sm text-ink-700">{name} — sınırlı veri, filigranlı çıktı</p>
-  </div>
-  <a
-    href={file}
-    download
-    class="inline-flex min-h-11 items-center justify-center bg-accent-subtle px-6 font-mono text-sm text-accent-primary transition-colors duration-150 ease-out hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
-  >
-    Demo dosyayı indir
-  </a>
-</div>
+{
+  !demoFileValid ? (
+    <div class="cf warn">demo path geçersiz</div>
+  ) : (
+    <div
+      class="flex flex-col items-start gap-3 border border-xl-border bg-xl-canvas p-5"
+      style="border-radius:6px"
+    >
+      <p class="kicker">ÜCRETSİZ DEMO</p>
+      <p class="text-sm text-xl-ink-2">{name} — sınırlı veri, filigranlı çıktı</p>
+      <a class="btn" href={demoFile} download>
+        Ücretsiz Demo <span class="dn">↓</span>
+      </a>
+      <p class="mono text-[11px] text-xl-ink-3">
+        {fileName} · ~{sizeKB} KB · makrosuz · şifresiz
+      </p>
+    </div>
+  )
+}

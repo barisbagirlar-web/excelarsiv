@@ -1,0 +1,382 @@
+<!doctype html>
+<!-- EXCEL ARŞİV · LIVING WORKBOOK v5 · LIVING SHEET · CSS-0JS + opsiyonel Motion One -->
+<html lang="tr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Excel Arşiv — Kurumsal_Şablonlar.xlsx</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Inter+Tight:wght@800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+@property --p{syntax:'<percentage>';initial-value:0%;inherits:false}
+:root{
+  --xl-green:#107C41;--xl-green-dark:#0C5A30;--xl-select:#217346;--xl-green-tint:#E9F5EE;
+  --xl-canvas:#FFF;--xl-paper:#F8F8F7;--xl-header:#F3F2F1;--xl-head-hov:#E9E8E7;
+  --xl-grid:#E5E5E3;--xl-border:#D1D1CF;
+  --xl-ink:#1B1B1F;--xl-ink-2:#44444A;--xl-ink-3:#616166;--xl-blue:#0F6CBD;
+  --cf-good-bg:#C6EFCE;--cf-good-tx:#006100;--cf-warn-bg:#FFEB9C;--cf-warn-tx:#9C6500;--cf-bad-bg:#FFC7CE;--cf-bad-tx:#9C0006;
+  --ch-1:#4472C4;--ch-2:#ED7D31;--ch-6:#70AD47;
+  --font-body:"Inter",system-ui,sans-serif;--font-display:"Inter Tight",var(--font-body);--font-mono:"JetBrains Mono",ui-monospace,monospace;
+  --ease-out:cubic-bezier(.33,1,.68,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);color:var(--xl-ink);padding:28px 16px;-webkit-font-smoothing:antialiased;background:#EDEDEB;
+  background-image:linear-gradient(to right,rgba(27,27,31,.045) 1px,transparent 1px),linear-gradient(to bottom,rgba(27,27,31,.045) 1px,transparent 1px);background-size:96px 42px}
+a{text-decoration:none;color:inherit;cursor:pointer}
+.mono{font-family:var(--font-mono)}
+.window{max-width:1280px;margin:0 auto;background:var(--xl-canvas);border:1px solid var(--xl-border);border-radius:10px;overflow:hidden;box-shadow:0 40px 100px rgba(27,27,31,.22)}
+.titlebar{display:flex;align-items:center;gap:14px;background:var(--xl-header);border-bottom:1px solid var(--xl-border);padding:10px 16px}
+.dots{display:flex;gap:7px}.dots i{width:12px;height:12px;border-radius:50%}
+.dots i:nth-child(1){background:#FF5F57}.dots i:nth-child(2){background:#FEBC2E}.dots i:nth-child(3){background:#28C840}
+.file{font-family:var(--font-mono);font-size:12px;color:var(--xl-ink-2);flex:1;text-align:center}
+.cf{display:inline-block;padding:3px 8px;border-radius:2px;font-family:var(--font-mono);font-size:11px;font-weight:600}
+.cf.good{background:var(--cf-good-bg);color:var(--cf-good-tx)}
+.cf.warn{background:var(--cf-warn-bg);color:var(--cf-warn-tx)}
+.pulse{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--cf-good-tx);margin-right:6px;animation:blink 2s infinite}
+@keyframes blink{50%{opacity:.25}}
+.upar{display:inline-block;animation:floaty 2.5s ease-in-out infinite}
+@keyframes floaty{50%{transform:translateY(-1.5px)}}
+.ribbon{display:flex;align-items:flex-end;gap:2px;background:var(--xl-header);padding:6px 12px 0;border-bottom:1px solid var(--xl-border)}
+.tab{padding:9px 18px;font-size:14px;color:var(--xl-ink-2);border-radius:6px 6px 0 0;border:1px solid transparent;border-bottom:0;transition:background .15s}
+.tab:hover{background:var(--xl-head-hov)}
+.tab.active{background:#fff;color:var(--xl-green-dark);font-weight:600;border-color:var(--xl-border);box-shadow:inset 0 2px 0 var(--xl-green)}
+.formulabar{display:flex;align-items:center;gap:10px;background:#fff;border-bottom:1px solid var(--xl-grid);padding:8px 12px}
+.namebox{min-width:56px;text-align:center;font-family:var(--font-mono);font-size:12px;color:var(--xl-ink-2);background:var(--xl-paper);border:1px solid var(--xl-border);border-radius:3px;padding:5px 8px}
+.fx{font-family:Georgia,serif;font-style:italic;font-size:14px;color:var(--xl-ink-3);border-right:1px solid var(--xl-grid);padding-right:10px}
+.fstack{position:relative;height:20px;flex:1;overflow:hidden}
+.fstack span{position:absolute;left:0;top:0;white-space:nowrap;font-family:var(--font-mono);font-size:13px;color:var(--xl-green-dark);opacity:0;animation:frot 12s infinite}
+.fstack span:nth-child(2){animation-delay:4s}.fstack span:nth-child(3){animation-delay:8s}
+@keyframes frot{0%{opacity:0;transform:translateY(8px)}4%{opacity:1;transform:none}33%{opacity:1}37%{opacity:0;transform:translateY(-8px)}100%{opacity:0}}
+.colheads{display:grid;grid-template-columns:48px repeat(9,1fr);background:var(--xl-header);border-bottom:1px solid var(--xl-border)}
+.colheads span{padding:7px 0;text-align:center;font-family:var(--font-mono);font-size:12px;color:var(--xl-ink-2);border-left:1px solid var(--xl-grid)}
+.colheads .corner{border-left:0;background:linear-gradient(135deg,transparent 49%,var(--xl-border) 50%)}
+.colheads .sel{background:var(--xl-head-hov);color:var(--xl-green-dark);font-weight:600;box-shadow:inset 0 -2px 0 var(--xl-select)}
+.sheet-body{display:grid;grid-template-columns:48px 1fr}
+.rowheads{background:var(--xl-header);border-right:1px solid var(--xl-border)}
+.rowheads span{display:grid;place-items:center;height:42px;font-family:var(--font-mono);font-size:12px;color:var(--xl-ink-2);border-bottom:1px solid var(--xl-grid)}
+.rowheads .sel{background:var(--xl-head-hov);color:var(--xl-green-dark);font-weight:600;box-shadow:inset 2px 0 0 var(--xl-select)}
+
+/* ===== HERO v5: RENK DERİNLİĞİ (yeşil+camgöbeği wash) ===== */
+.hero{position:relative;display:grid;grid-template-columns:330px minmax(0,1fr) 400px;gap:26px;padding:20px 36px 44px;overflow:hidden;
+  background:
+   radial-gradient(1100px 480px at 88% -12%, rgba(16,124,65,.09), transparent 62%),
+   radial-gradient(820px 420px at -8% 112%, rgba(15,108,189,.07), transparent 60%),
+   linear-gradient(to right,var(--xl-grid) 1px,transparent 1px),
+   linear-gradient(to bottom,var(--xl-grid) 1px,transparent 1px);
+  background-size:auto,auto,96px 42px,96px 42px}
+.hero::before{content:"fx";position:absolute;right:-30px;bottom:-90px;font:italic 700 280px Georgia,serif;color:rgba(16,124,65,.05);pointer-events:none}
+.names{grid-column:1/-1;display:flex;gap:8px;align-items:center;padding:6px 0 2px}
+.names small{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--xl-ink-3)}
+.names b{font-family:var(--font-mono);font-size:10.5px;font-weight:600;color:var(--xl-blue);background:var(--xl-paper);border:1px dashed var(--xl-border);border-radius:3px;padding:3px 8px;transition:transform .15s var(--ease-out)}
+.names b:hover{transform:translateY(-2px)}
+.roam{position:absolute;left:36px;bottom:44px;width:96px;height:42px;border:2px solid var(--xl-select);pointer-events:none;animation:roam 16s steps(1,end) infinite;z-index:0}
+.roam::after{content:"";position:absolute;right:-5px;bottom:-5px;width:8px;height:8px;background:var(--xl-select);border:2px solid #fff}
+@keyframes roam{0%{transform:translate(0,0)}14%{transform:translate(192px,0)}28%{transform:translate(384px,0)}42%{transform:translate(576px,0)}56%{transform:translate(768px,0)}70%{transform:translate(576px,0)}84%{transform:translate(192px,0)}100%{transform:translate(0,0)}}
+
+/* BÖLGE A */
+.zone-a{position:relative;z-index:1;align-self:start;background:#fff;border:1px solid var(--xl-border);border-radius:6px;box-shadow:0 14px 36px rgba(27,27,31,.08);overflow:hidden}
+.za-head{display:flex;justify-content:space-between;align-items:center;background:var(--xl-header);border-bottom:1px solid var(--xl-border);padding:8px 12px;font-size:10.5px;color:var(--xl-ink-2)}
+table.za{width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:12.5px}
+.za th,.za td{border:1px solid var(--xl-grid);padding:9px 10px;text-align:right;color:var(--xl-ink-2)}
+.za th{background:var(--xl-header);text-align:center;color:var(--xl-ink-3);font-weight:400}
+.za td:first-child,.za th:first-child{background:var(--xl-header);text-align:center;width:28px;color:var(--xl-ink-3);font-weight:600}
+.type{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:bottom;width:0}
+.t1{animation:typ8 1s steps(8) .9s forwards}
+.t2{animation:typ8 1s steps(8) 2.1s forwards}
+@keyframes typ8{to{width:8ch}}
+/* YENİ: düzen modu hücresi + yanıp sönen imleç (F2 hissi) */
+.editcell{text-align:left!important;outline:1.5px solid var(--xl-select);outline-offset:-1.5px;background:#fff}
+.cursor{display:inline-block;width:1.5px;height:15px;background:var(--xl-ink);vertical-align:-2px;animation:caret 1.1s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+.netcell{position:relative}
+.calcfx{position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,var(--xl-green-tint) 50%,transparent 70%);background-size:250% 100%;opacity:0;animation:shm 1.1s 3.3s linear forwards}
+@keyframes shm{0%{opacity:1;background-position:120% 0}99%{opacity:1;background-position:-120% 0}100%{opacity:0}}
+.netv{display:inline-block;opacity:0;transform:scale(.7);animation:netpop .5s 4.4s var(--ease-out) forwards;font-weight:600;color:var(--cf-good-tx)}
+@keyframes netpop{to{opacity:1;transform:scale(1)}}
+.cmnt{position:absolute;top:0;right:0;width:0;height:0;border-top:7px solid #E5484D;border-left:7px solid transparent;opacity:0;animation:fadein .3s 4.8s forwards}
+.za-link{display:flex;gap:8px;align-items:center;padding:9px 12px;background:var(--xl-paper);border-top:1px solid var(--xl-grid);font-size:11px;color:var(--xl-ink-2);opacity:0;animation:fadein .5s 5s forwards}
+.za-link b{color:var(--xl-green-dark)}
+@keyframes fadein{to{opacity:1}}
+.balloon{position:absolute;background:#fff;border:1px solid var(--xl-border);border-radius:6px;box-shadow:0 8px 20px rgba(27,27,31,.14);padding:6px 10px;font-family:var(--font-mono);font-size:12px;z-index:2}
+.balloon::after{content:"";position:absolute;left:22px;bottom:-5px;width:8px;height:8px;background:#fff;border-right:1px solid var(--xl-border);border-bottom:1px solid var(--xl-border);transform:rotate(45deg)}
+
+/* BÖLGE B + CANLI BUTONLAR */
+.hero-center{position:relative;z-index:1;align-self:center;padding:8px 4px}
+.kicker{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;color:var(--xl-ink-3)}
+.display{font-family:var(--font-display);font-weight:800;font-size:clamp(2.2rem,3.8vw,3.6rem);letter-spacing:-.03em;line-height:1.04;margin:14px 0 16px}
+.display em{font-style:normal;color:var(--xl-green)}
+.lead{font-size:1.02rem;line-height:1.65;color:var(--xl-ink-2);max-width:46ch}
+.cta-row{display:flex;gap:12px;margin-top:26px}
+.btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;padding:12px 22px;border-radius:4px;border:1px solid var(--xl-border);background:#fff;transition:transform 150ms var(--ease-out),background 150ms,border-color 150ms,box-shadow 150ms}
+.btn:hover{background:var(--xl-paper);border-color:var(--xl-select);box-shadow:0 4px 14px rgba(33,115,70,.15)}
+.btn:active{transform:translateY(1px)}
+.btn .ar,.btn .dn{display:inline-block;transition:transform .15s var(--ease-out)}
+.btn:hover .ar{transform:translateX(4px)}
+.btn:hover .dn{transform:translateY(3px)}
+.btn .dn{animation:floaty 3s ease-in-out infinite}
+.btn.primary{background:var(--xl-green);border-color:var(--xl-green);color:#fff}
+.btn.primary:hover{background:var(--xl-green-dark)}
+/* parlaklık süpürmesi */
+.btn.primary::before{content:"";position:absolute;top:0;bottom:0;left:-70%;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.38),transparent);animation:shine 4s 2s var(--ease-out) infinite}
+@keyframes shine{0%{left:-70%}55%{left:130%}100%{left:130%}}
+/* hover'da fill handle imzası */
+.btn.primary::after{content:"";position:absolute;right:3px;bottom:3px;width:7px;height:7px;background:var(--xl-select);border:1.5px solid #fff;opacity:0;transition:opacity .15s}
+.btn.primary:hover::after{opacity:1}
+.trust{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
+
+/* BÖLGE C */
+.dash{position:relative;z-index:1;background:#fff;border:1px solid var(--xl-border);border-radius:6px;box-shadow:0 16px 40px rgba(27,27,31,.10);overflow:hidden;align-self:start;transition:transform .3s var(--ease-out)}
+.dash-tabs{display:flex;gap:2px;background:var(--xl-header);border-bottom:1px solid var(--xl-border);padding:6px 10px 0}
+.dash-tabs a{font-size:11.5px;font-family:var(--font-mono);color:var(--xl-ink-2);background:var(--xl-paper);border:1px solid var(--xl-border);border-bottom:0;border-radius:5px 5px 0 0;padding:5px 12px}
+.dash-tabs a.active{background:#fff;color:var(--xl-green-dark);font-weight:600;box-shadow:inset 0 2px 0 var(--xl-green)}
+.dash-body{padding:14px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.kpi{background:var(--xl-paper);border:1px solid var(--xl-grid);border-radius:4px;padding:10px 10px 8px;transition:border-color .15s}
+.kpi:hover{border-color:var(--xl-select)}
+.kpi small{display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;color:var(--xl-ink-3);margin-bottom:6px}
+.kpi .row{display:flex;align-items:baseline;gap:2px}
+.kpi i{font-style:normal;font-family:var(--font-mono);font-size:12px;color:var(--xl-ink-3)}
+.odo{display:inline-flex;font:600 20px/1em var(--font-mono);color:var(--xl-ink);font-variant-numeric:tabular-nums}
+.odo .d{height:1em;overflow:hidden}
+.odo .d i{display:block;font-style:normal;animation:roll 1.6s var(--ease-out) forwards;animation-delay:var(--dl,.6s)}
+.odo .d i span{display:block;height:1em;line-height:1em}
+@keyframes roll{to{transform:translateY(calc(var(--v) * -1em))}}
+/* YENİ: canlı veri şeridi — değerler dönüşümlü akar */
+.livebar{display:flex;gap:10px;align-items:center;margin-top:10px;padding:8px 10px;background:var(--xl-paper);border:1px dashed var(--xl-border);border-radius:4px;font-size:10.5px;color:var(--xl-ink-2)}
+.live{display:inline-block;position:relative;height:1.3em;overflow:hidden;vertical-align:bottom;min-width:7ch}
+.live span{position:absolute;left:0;opacity:0;transform:translateY(6px);animation:live 9s infinite}
+.live span:nth-child(2){animation-delay:3s}.live span:nth-child(3){animation-delay:6s}
+@keyframes live{0%{opacity:0;transform:translateY(6px)}4%{opacity:1;transform:none}33%{opacity:1}37%{opacity:0;transform:translateY(-6px)}100%{opacity:0}}
+.charts{display:grid;grid-template-columns:1.55fr 1fr;gap:10px;margin-top:10px}
+.panel{border:1px solid var(--xl-grid);border-radius:4px;padding:12px;background:#fff}
+.panel .cap{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.08em;color:var(--xl-ink-3);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.lc{width:100%;height:110px;display:block}
+.lc .gridl line{stroke:var(--xl-grid);stroke-width:1}
+.lc .ln{fill:none;stroke:var(--xl-green);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:760;stroke-dashoffset:760;animation:draw 2.4s .6s var(--ease-out) forwards}
+.lc .ln2{fill:none;stroke:var(--ch-1);stroke-width:2;stroke-dasharray:760;stroke-dashoffset:760;animation:draw 2.4s .9s var(--ease-out) forwards}
+.lc .area{fill:var(--xl-green-tint);opacity:0;animation:fadein .8s 2.4s forwards}
+.lc .dots circle{fill:#fff;stroke:var(--xl-green);stroke-width:2;transform-box:fill-box;transform-origin:center;opacity:0;animation:pop .35s var(--ease-out) forwards}
+.lc .dots circle:nth-child(1){animation-delay:1s}.lc .dots circle:nth-child(2){animation-delay:1.25s}.lc .dots circle:nth-child(3){animation-delay:1.5s}.lc .dots circle:nth-child(4){animation-delay:1.75s}.lc .dots circle:nth-child(5){animation-delay:2s}.lc .dots circle:nth-child(6){animation-delay:2.25s}.lc .dots circle:nth-child(7){animation-delay:2.5s}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+.donut{--p:0%;width:100px;height:100px;margin:4px auto 0;border-radius:50%;background:conic-gradient(var(--xl-green) var(--p),var(--xl-grid) 0);animation:pie 1.8s 1s var(--ease-out) forwards;position:relative}
+@keyframes pie{to{--p:72%}}
+.donut::before{content:"";position:absolute;inset:13px;background:#fff;border-radius:50%}
+.donut::after{content:"%72";position:absolute;inset:0;display:grid;place-items:center;font-family:var(--font-mono);font-size:15px;font-weight:600;color:var(--xl-green-dark)}
+/* barlar: büyü + sonsuz nefes (canlı grafik) */
+.bars{display:flex;align-items:flex-end;gap:7px;height:84px;margin-top:10px}
+.bars i{flex:1;border-radius:2px 2px 0 0;transform:scaleY(0);transform-origin:bottom;background:linear-gradient(180deg,var(--ch-1),#2F5596);
+  animation:grow .9s var(--ease-out) forwards,breathe 5s 2.5s ease-in-out infinite alternate}
+.bars i:nth-child(even){background:linear-gradient(180deg,var(--ch-6),#4C8A3A)}
+.bars i:nth-child(1){animation-delay:.7s,2.5s;height:44%}.bars i:nth-child(2){animation-delay:.8s,2.8s;height:62%}.bars i:nth-child(3){animation-delay:.9s,3.1s;height:51%}.bars i:nth-child(4){animation-delay:1s,3.4s;height:78%}.bars i:nth-child(5){animation-delay:1.1s,3.7s;height:66%}.bars i:nth-child(6){animation-delay:1.2s,4s;height:92%}
+@keyframes grow{to{transform:scaleY(1)}}
+@keyframes breathe{from{transform:scaleY(1)}to{transform:scaleY(1.07)}}
+.legend{display:flex;gap:14px;margin-top:8px;font-family:var(--font-mono);font-size:10px;color:var(--xl-ink-3)}
+.legend i{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:5px}
+
+/* ALT BÖLÜMLER (v4) */
+.sheet-tabs{display:flex;align-items:flex-end;gap:2px;background:var(--xl-header);border-top:1px solid var(--xl-grid);padding:8px 12px 0}
+.sheet-tabs a{font-size:12.5px;color:var(--xl-ink-2);background:var(--xl-paper);border:1px solid var(--xl-border);border-bottom:0;border-radius:6px 6px 0 0;padding:7px 14px;transition:background .15s}
+.sheet-tabs a:hover{background:var(--xl-head-hov)}
+.sheet-tabs a.active{background:#fff;color:var(--xl-green-dark);font-weight:600;box-shadow:inset 0 2px 0 var(--xl-green)}
+.sheet-tabs .plus{margin:0 0 4px 8px;padding:3px 10px;border:1px dashed var(--xl-border);border-radius:4px;color:var(--xl-ink-3);font-family:var(--font-mono);font-size:12px}
+.showcase{background:var(--xl-paper);padding:52px 44px;border-top:1px solid var(--xl-grid)}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:26px}
+.h2{font-family:var(--font-display);font-weight:800;font-size:1.55rem;letter-spacing:-.02em}
+.all{margin-left:auto;font-size:13px;color:var(--xl-blue);font-weight:600}
+.all .ar{display:inline-block;transition:transform .15s var(--ease-out)}
+.all:hover .ar{transform:translateX(4px)}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.tile{background:#fff;border:1px solid var(--xl-border);border-radius:6px;padding:16px;transition:transform 150ms var(--ease-out)}
+.tile:hover{transform:translateY(-2px);outline:2px solid var(--xl-select);outline-offset:-2px}
+.tile .tag{font-family:var(--font-mono);font-size:10px;color:var(--xl-ink-3);letter-spacing:.1em}
+.tile h3{font-size:14px;font-weight:600;margin:6px 0 14px}
+.dbrow{display:grid;grid-template-columns:44px 1fr 34px;gap:8px;align-items:center;font-family:var(--font-mono);font-size:11px;color:var(--xl-ink-2);margin-bottom:7px}
+.db{position:relative;height:15px;background:var(--xl-paper);border:1px solid var(--xl-grid)}
+.db i{position:absolute;top:0;bottom:0;left:0;width:0;background:linear-gradient(90deg,#7CC096,var(--xl-green));animation:db 1.5s var(--ease-out) forwards}
+@keyframes db{to{width:var(--w)}}
+.sp{width:100%;height:44px}
+.sp polyline{fill:none;stroke:var(--ch-1);stroke-width:2;stroke-dasharray:300;stroke-dashoffset:300;animation:draw 1.8s .4s var(--ease-out) forwards}
+.sp .last{fill:var(--ch-2);opacity:0;animation:fadein .3s 2s forwards}
+.iset{font-family:var(--font-mono);font-size:12px}
+.iset div{display:flex;justify-content:space-between;padding:5px 2px;border-bottom:1px solid var(--xl-grid)}
+.iset .up{color:var(--cf-good-tx)}.iset .dn2{color:var(--cf-bad-tx)}.iset .fl{color:var(--cf-warn-tx)}
+.hm{display:grid;grid-template-columns:repeat(6,1fr);gap:3px}
+.hm i{height:20px;border-radius:2px;background:rgba(16,124,65,var(--a));opacity:0;animation:fadein .5s forwards;animation-delay:var(--d)}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:26px}
+.wb{position:relative;background:#fff;border:1px solid var(--xl-border);border-radius:6px;overflow:hidden;transition:transform 150ms var(--ease-out)}
+.wb:hover{transform:translateY(-3px);outline:2px solid var(--xl-select);outline-offset:-2px;box-shadow:0 20px 48px rgba(27,27,31,.14)}
+.wb:hover::after{content:"";position:absolute;right:-2px;bottom:-2px;width:8px;height:8px;background:var(--xl-select);border:2px solid #fff;z-index:3}
+.wb-title{display:flex;align-items:center;gap:8px;background:var(--xl-header);border-bottom:1px solid var(--xl-border);padding:9px 12px;font-family:var(--font-mono);font-size:12px;color:var(--xl-ink-2)}
+.xic{width:16px;height:16px;background:var(--xl-green);border-radius:3px;color:#fff;display:grid;place-items:center;font-size:10px;font-weight:600}
+.wb-body{padding:14px}
+.wb table{width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:11.5px;margin-top:10px}
+.wb th,.wb td{border:1px solid var(--xl-grid);padding:6px 8px;text-align:right;color:var(--xl-ink-2)}
+.wb th{background:var(--xl-header);text-align:center;color:var(--xl-ink-3);font-weight:400}
+.wb td:first-child,.wb th:first-child{background:var(--xl-header);text-align:center;width:26px;color:var(--xl-ink-3)}
+.wb td.sel{background:var(--xl-green-tint);color:var(--xl-green-dark);font-weight:600;outline:2px solid var(--xl-select);outline-offset:-2px}
+.wb-foot{display:flex;align-items:center;justify-content:space-between;background:var(--xl-header);border-top:1px solid var(--xl-border);padding:8px 12px}
+.wb-tab{font-size:11.5px;background:#fff;border:1px solid var(--xl-border);border-radius:5px 5px 0 0;padding:4px 10px;color:var(--xl-green-dark);font-weight:600}
+.price{font-size:13px}
+/* STATUS BAR: Hazır ↔ Hesaplanıyor döngüsü */
+.statusbar{display:flex;align-items:center;justify-content:space-between;background:var(--xl-select);color:#fff;font-family:var(--font-mono);font-size:11.5px;padding:7px 16px}
+.ststack{position:relative;display:inline-block;height:1.3em;vertical-align:bottom;min-width:180px}
+.ststack span{position:absolute;left:0;opacity:0;animation:st 9s infinite}
+.ststack span:nth-child(2){animation-delay:3s}.ststack span:nth-child(3){animation-delay:6s}
+@keyframes st{0%{opacity:0;transform:translateY(5px)}4%{opacity:1;transform:none}33%{opacity:1}37%{opacity:0;transform:translateY(-5px)}100%{opacity:0}}
+.zoom{display:flex;align-items:center;gap:8px}
+.zoom .bar{width:110px;height:2px;background:rgba(255,255,255,.4);position:relative}
+.zoom .bar::after{content:"";position:absolute;left:60%;top:-3px;width:8px;height:8px;background:#fff;border-radius:50%}
+/* Scroll-reveal: Chromium CSS, diğerleri Motion One'a düşer */
+@supports (animation-timeline: view()){
+  .tile,.wb{animation:rise both;animation-timeline:view();animation-range:entry 0% entry 45%}
+  @keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+}
+@media (max-width:1200px){.hero{grid-template-columns:1fr 1fr}.hero-center{grid-column:1/-1;order:-1}}
+@media (max-width:840px){.hero{grid-template-columns:1fr}.tiles{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.file{display:none}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important}
+  .fstack span:first-child,.ststack span:first-child,.live span:first-child{opacity:1;transform:none}
+  .type{width:8ch}.netv{opacity:1;transform:none}.za-link{opacity:1}.cursor{opacity:1}
+}
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="titlebar">
+    <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="file">excelarsiv.com — Kurumsal_Şablonlar.xlsx</span>
+    <span class="cf good"><span class="pulse"></span>Otomatik Kaydet: Açık</span>
+  </div>
+  <nav class="ribbon" aria-label="Ana menü">
+    <a class="tab active" aria-current="page">Ana Sayfa</a>
+    <a class="tab" href="/sablonlar">Şablonlar</a>
+    <a class="tab" href="/nasil-calisir">Nasıl Çalışır</a>
+    <a class="tab" href="/sss">SSS</a>
+  </nav>
+  <div class="formulabar">
+    <span class="namebox">A1</span><span class="fx" aria-hidden="true">fx</span>
+    <div class="fstack" aria-hidden="true">
+      <span>=EĞER(ziyaretçi="usta";"hoş_geldin";"zanaatı_gör")</span>
+      <span>=XLOOKUP(kategori;A:A;B:B)</span>
+      <span>=ETOPLA(Stok!D:D;">"&MinEşik)</span>
+    </div>
+  </div>
+  <div class="colheads" aria-hidden="true"><span class="corner"></span><span>A</span><span class="sel">B</span><span>C</span><span>D</span><span>E</span><span>F</span><span>G</span><span>H</span><span>I</span></div>
+  <div class="sheet-body">
+    <div class="rowheads" aria-hidden="true"><span>1</span><span class="sel">2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span></div>
+    <header class="hero">
+      <div class="names" aria-hidden="true"><small>TANIMLI ADLAR:</small><b>KASA_TOTAL</b><b>STOK_MIN</b><b>KDV_ORAN</b><b>NET_KAR</b></div>
+
+      <div class="zone-a" aria-label="Canlı girdi önizlemesi">
+        <div class="za-head mono"><span>GİRDİ · Sayfa1!A1:B5</span><span class="cf good">canlı</span></div>
+        <table class="za">
+          <tr><th></th><th>A</th><th>B</th></tr>
+          <tr><td>1</td><td style="text-align:left">Gelir</td><td><span class="type t1">₺128.400</span></td></tr>
+          <tr><td>2</td><td style="text-align:left">Gider</td><td><span class="type t2">₺86.150</span></td></tr>
+          <tr><td>3</td><td style="text-align:left">Net</td><td class="netcell"><span class="calcfx"></span><span class="netv">₺42.250</span><i class="cmnt"></i></td></tr>
+          <tr><td>4</td><td style="text-align:left">KDV</td><td class="editcell"><span class="cursor"></span></td></tr>
+        </table>
+        <div class="za-link mono">→ B3 = <b>B1-B2</b> · Dashboard'a bağlandı <span class="cf good">✓</span></div>
+      </div>
+
+      <div class="hero-center">
+        <p class="kicker">HÜCRE B2 · BİRLEŞTİRİLMİŞ</p>
+        <h1 class="display">Rakam sizden,<br><em>mühendislik</em> bizden.</h1>
+        <p class="lead">Formülleri test edilmiş, yapısı denetlenmiş, indirildiği anda çalışan kurumsal Excel şablonları. Soldaki hücreler gibi: yaz, hesaplasın, dashboard'a aksın.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="/sablonlar">Şablonları İncele <span class="ar">→</span></a>
+          <a class="btn" href="/demo">Ücretsiz Demo <span class="dn">↓</span></a>
+        </div>
+        <div class="trust"><span class="cf good">KDV Dahil</span><span class="cf good">VUK Uyumlu</span><span class="cf warn">v3.2 · 47 Test</span></div>
+      </div>
+
+      <aside class="dash" aria-label="Örnek dashboard">
+        <span class="balloon" style="top:-14px;right:14px">=B4*KDV_ORAN</span>
+        <div class="dash-tabs"><a class="active">Dashboard</a><a>Veri</a><a>Grafik</a></div>
+        <div class="dash-body">
+          <div class="kpis">
+            <div class="kpi"><small>ŞABLON</small><span class="row"><b class="odo" role="img" aria-label="12"><span class="d" style="--v:1;--dl:.5s"><i><span>0</span><span>1</span></i></span><span class="d" style="--v:2;--dl:.6s"><i><span>0</span><span>1</span><span>2</span></i></span></b></span></div>
+            <div class="kpi"><small>TEST CASE</small><span class="row"><b class="odo" role="img" aria-label="47"><span class="d" style="--v:4;--dl:.7s"><i><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span></i></span><span class="d" style="--v:7;--dl:.8s"><i><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span></i></span></b></span></div>
+            <div class="kpi"><small>DOĞRULUK</small><span class="row"><i>%</i><b class="odo" role="img" aria-label="98"><span class="d" style="--v:9;--dl:.9s"><i><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></i></span><span class="d" style="--v:8;--dl:1s"><i><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></i></span></b></span></div>
+            <div class="kpi"><small>İNDİRME</small><span class="row"><b class="odo" role="img" aria-label="2400"><span class="d" style="--v:2;--dl:1.1s"><i><span>0</span><span>1</span><span>2</span></i></span><span class="d" style="--v:4;--dl:1.2s"><i><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span></i></span><span class="d" style="--v:0;--dl:1.3s"><i><span>0</span></i></span><span class="d" style="--v:0;--dl:1.4s"><i><span>0</span></i></span></b><i>+</i></span></div>
+          </div>
+          <div class="livebar mono"><span class="pulse"></span>KASA
+            <span class="live"><span>₺48.200</span><span>₺49.140</span><span>₺48.750</span></span>
+            <span class="cf good"><b class="upar">▲</b> canlı</span>
+          </div>
+          <div class="charts">
+            <div class="panel">
+              <div class="cap"><span>NAKİT AKIŞI · 7 AY</span><span class="cf good"><b class="upar">▲</b> %18</span></div>
+              <svg class="lc" viewBox="0 0 320 130" preserveAspectRatio="none" aria-hidden="true">
+                <g class="gridl"><line x1="0" y1="32" x2="320" y2="32"/><line x1="0" y1="65" x2="320" y2="65"/><line x1="0" y1="98" x2="320" y2="98"/></g>
+                <path class="area" d="M0,104 L53,88 L106,94 L160,62 L213,70 L266,40 L320,30 L320,130 L0,130 Z"/>
+                <polyline class="ln2" points="0,112 53,102 106,106 160,86 213,90 266,70 320,62"/>
+                <polyline class="ln" points="0,104 53,88 106,94 160,62 213,70 266,40 320,30"/>
+                <g class="dots"><circle cx="0" cy="104" r="3.5"/><circle cx="53" cy="88" r="3.5"/><circle cx="106" cy="94" r="3.5"/><circle cx="160" cy="62" r="3.5"/><circle cx="213" cy="70" r="3.5"/><circle cx="266" cy="40" r="3.5"/><circle cx="320" cy="30" r="3.5"/></g>
+              </svg>
+              <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="legend"><span><i style="background:var(--ch-1)"></i>Gider</span><span><i style="background:var(--ch-6)"></i>Gelir</span></div>
+            </div>
+            <div class="panel">
+              <div class="cap"><span>TAHSİLAT</span></div>
+              <div class="donut" aria-hidden="true"></div>
+              <div class="legend" style="justify-content:center;margin-top:12px"><span><i style="background:var(--xl-green)"></i>Tahsil</span><span><i style="background:var(--xl-grid)"></i>Bekleyen</span></div>
+            </div>
+          </div>
+        </div>
+      </aside>
+      <div class="roam" aria-hidden="true"></div>
+    </header>
+  </div>
+  <nav class="sheet-tabs" aria-label="Kategoriler">
+    <a class="active">Finansal Analiz</a><a>Nakit Akışı</a><a>Muhasebe &amp; Vergi</a><a>Bütçe</a><a>Stok</a><a>Satış</a><a>Bordro</a>
+    <span class="plus" title="Yeni şablon yakında">+</span>
+  </nav>
+  <section class="showcase">
+    <div class="sec-head"><span class="namebox">C4</span><h2 class="h2">Excel'in Görsel Silahları — Şablonların İçinde</h2></div>
+    <div class="tiles">
+      <div class="tile"><span class="tag">CF-01 · KOŞULLU BİÇİM</span><h3>Veri Çubukları</h3>
+        <div class="dbrow"><span>OCA</span><span class="db"><i style="--w:64%;animation-delay:.5s"></i></span><span>64</span></div>
+        <div class="dbrow"><span>ŞUB</span><span class="db"><i style="--w:82%;animation-delay:.7s"></i></span><span>82</span></div>
+        <div class="dbrow"><span>MAR</span><span class="db"><i style="--w:47%;animation-delay:.9s"></i></span><span>47</span></div>
+        <div class="dbrow"><span>NİS</span><span class="db"><i style="--w:91%;animation-delay:1.1s"></i></span><span>91</span></div>
+      </div>
+      <div class="tile"><span class="tag">CF-02 · SPARKLINE</span><h3>Eğilim Çizgisi</h3>
+        <svg class="sp" viewBox="0 0 200 44" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,34 25,28 50,31 75,20 100,24 125,14 150,18 175,8 200,10"/><circle class="last" cx="200" cy="10" r="3"/></svg>
+        <div class="dbrow" style="margin-top:10px"><span>NET</span><span class="db"><i style="--w:76%;animation-delay:1.3s"></i></span><span class="cf good">▲</span></div>
+      </div>
+      <div class="tile"><span class="tag">CF-03 · ICON SETS</span><h3>Yön Göstergeleri</h3>
+        <div class="iset"><div><span>Brüt Kâr</span><b class="up">▲ %24</b></div><div><span>Stok Devri</span><b class="fl">→ 4,2</b></div><div><span>Fire</span><b class="dn2">▼ %1,8</b></div><div><span>Tahsilat</span><b class="up">▲ %96</b></div></div>
+      </div>
+      <div class="tile"><span class="tag">CF-04 · COLOR SCALE</span><h3>Isı Haritası</h3>
+        <div class="hm" aria-hidden="true"><i style="--a:.15;--d:.4s"></i><i style="--a:.35;--d:.5s"></i><i style="--a:.55;--d:.6s"></i><i style="--a:.8;--d:.7s"></i><i style="--a:.95;--d:.8s"></i><i style="--a:.6;--d:.9s"></i><i style="--a:.25;--d:.5s"></i><i style="--a:.45;--d:.6s"></i><i style="--a:.7;--d:.7s"></i><i style="--a:.9;--d:.8s"></i><i style="--a:.5;--d:.9s"></i><i style="--a:.3;--d:1s"></i><i style="--a:.1;--d:.6s"></i><i style="--a:.3;--d:.7s"></i><i style="--a:.5;--d:.8s"></i><i style="--a:.65;--d:.9s"></i><i style="--a:.85;--d:1s"></i><i style="--a:.4;--d:1.1s"></i></div>
+      </div>
+    </div>
+    <div class="sec-head" style="margin-top:44px"><span class="namebox">B14</span><h2 class="h2">Öne Çıkan Şablonlar</h2><a class="all" href="/sablonlar">Tümünü Gör <span class="ar">→</span></a></div>
+    <div class="cards">
+      <article class="wb"><div class="wb-title"><span class="xic">X</span>nakit-akisi.xlsx<span class="cf good" style="margin-left:auto">v3.2</span></div>
+        <div class="wb-body"><svg class="sp" viewBox="0 0 200 44" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,36 28,30 56,33 84,22 112,26 140,15 168,19 200,8"/><circle class="last" cx="200" cy="8" r="3"/></svg>
+        <table><tr><th></th><th>A</th><th>B</th><th>C</th></tr><tr><td>1</td><td>Dönem</td><td>Akış</td><td>Durum</td></tr><tr><td>2</td><td>Q1</td><td class="sel">₺48.200</td><td class="cf good">▲</td></tr><tr><td>3</td><td>Q2</td><td>₺61.750</td><td class="cf good">▲</td></tr></table></div>
+        <div class="wb-foot"><span class="wb-tab">Nakit Akışı</span><span class="cf good price">₺1.290</span></div></article>
+      <article class="wb"><div class="wb-title"><span class="xic">X</span>kdv-hesap.xlsx<span class="cf good" style="margin-left:auto">v2.8</span></div>
+        <div class="wb-body"><div class="hm" aria-hidden="true" style="margin-bottom:10px"><i style="--a:.2;--d:.4s"></i><i style="--a:.5;--d:.5s"></i><i style="--a:.85;--d:.6s"></i><i style="--a:.35;--d:.7s"></i><i style="--a:.65;--d:.8s"></i><i style="--a:.95;--d:.9s"></i></div>
+        <table><tr><th></th><th>A</th><th>B</th><th>C</th></tr><tr><td>1</td><td>Matrah</td><td>KDV</td><td>Oran</td></tr><tr><td>2</td><td>8.200</td><td class="sel">1.640</td><td>%20</td></tr><tr><td>3</td><td>4.500</td><td>450</td><td>%10</td></tr></table></div>
+        <div class="wb-foot"><span class="wb-tab">Muhasebe &amp; Vergi</span><span class="cf good price">₺890</span></div></article>
+      <article class="wb"><div class="wb-title"><span class="xic">X</span>stok-takip.xlsx<span class="cf warn" style="margin-left:auto">v4.0</span></div>
+        <div class="wb-body"><div class="bars" style="height:64px;margin-top:0" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <table><tr><th></th><th>A</th><th>B</th><th>C</th></tr><tr><td>1</td><td>SKU</td><td>Mevcut</td><td>Sinyal</td></tr><tr><td>2</td><td>ST-01</td><td class="sel">180</td><td class="cf good">▲</td></tr><tr><td>3</td><td>ST-02</td><td>4</td><td class="cf warn">→</td></tr></table></div>
+        <div class="wb-foot"><span class="wb-tab">Stok &amp; Üretim</span><span class="cf good price">₺1.490</span></div></article>
+    </div>
+  </section>
+  <footer class="statusbar">
+    <span><span class="pulse" style="background:#fff"></span>
+      <span class="ststack" aria-hidden="true"><span>Hazır</span><span>Hesaplanıyor: %47…</span><span>Hazır · 12 şablon güncel</span></span>
+      &nbsp;· Şablon: 12 · JS: 0 KB
+    </span>
+    <span class="zoom">− <span class="bar"></span> + &nbsp;%100</span>
+  </footer>
+</div>
+</body>
+</html>

@@ -5,38 +5,86 @@ interface Props {
   summary: string;
   sheetCount: number;
   priceTL: number;
+  /* v5 (opsiyonel) — mevcut çağrıları kırmadan zenginleştirir (I9) */
+  category?: string;
+  version?: string;
+  variant?: 'sparkline' | 'hm' | 'bars';
+  sheetMap?: { name: string; kind: 'input' | 'calculation' | 'output' }[];
 }
 
-import Icon from '../components/Icon.astro';
-
-const { slug, name, summary, sheetCount, priceTL } = Astro.props;
+const { slug, name, summary, sheetCount, priceTL, category, version, variant = 'sparkline', sheetMap } =
+  Astro.props;
 
 const price = priceTL.toLocaleString('tr-TR');
+
+const kindLabel: Record<string, string> = {
+  input: 'Girdi',
+  calculation: 'Hesap',
+  output: 'Çıktı',
+};
+
+const rows = (sheetMap ?? []).slice(0, 3);
 ---
 
-<article class="group flex flex-col border border-rule-hairline bg-surface-elevated transition-[transform,box-shadow] duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[0_2px_10px_rgba(11,15,25,0.08)]">
-  <p class="mono-xs flex items-center gap-1.5 px-6 pt-6">
-    <Icon name="excel-sheet" size={12} />
-    {sheetCount} sheet
-  </p>
-  <h3 class="h3 mt-2 px-6">
-    <a href={`/sablon/${slug}`} class="hover:text-accent-primary">
-      {name}
-    </a>
-  </h3>
-  <p class="body-sm mt-2 flex-1 px-6 pb-6">{summary}</p>
-  <!-- Excel Sheet Tabs UI — kartın altında çalışma kitabı sekmeleri -->
-  <div class="excel-sheet-tabs">
-    <span class="excel-sheet-tab is-active">Girdi</span>
-    <span class="excel-sheet-tab">Hesap</span>
-    <span class="excel-sheet-tab">Çıktı</span>
+<article class="wb" aria-label={name}>
+  <div class="wb-title">
+    <span class="xic" aria-hidden="true">X</span>
+    <span class="truncate">{slug}.xlsx</span>
+    {version && <span class="cf good" style="margin-left:auto">v{version}</span>}
   </div>
-  <div class="mt-6 flex items-center justify-between border-t border-rule-hairline px-6 py-4">
-    <p class="price-numeric font-mono text-sm text-ink-700">
-      {price} <span class="acronym">TL</span>
-    </p>
-    <a href={`/sablon/${slug}`} class="font-mono text-sm text-accent-primary hover:text-accent-hover">
-      Önizle →
-    </a>
+  <div class="wb-body">
+    {
+      variant === 'sparkline' && (
+        <svg class="sp" viewBox="0 0 200 44" preserveAspectRatio="none" aria-hidden="true">
+          <polyline points="0,36 28,30 56,33 84,22 112,26 140,15 168,19 200,8" />
+          <circle class="last" cx="200" cy="8" r="3" />
+        </svg>
+      )
+    }
+    {
+      variant === 'hm' && (
+        <div class="hm" aria-hidden="true" style="margin-bottom:10px">
+          <i style="--a:.2;--d:.4s"></i><i style="--a:.5;--d:.5s"></i><i style="--a:.85;--d:.6s"></i
+          ><i style="--a:.35;--d:.7s"></i><i style="--a:.65;--d:.8s"></i><i style="--a:.95;--d:.9s"></i>
+        </div>
+      )
+    }
+    {
+      variant === 'bars' && (
+        <div class="bars" style="height:64px;margin-top:0" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+      )
+    }
+    <p class="mt-2 font-mono text-[10.5px] leading-relaxed text-xl-ink-300 line-clamp-2">{summary}</p>
+    {
+      rows.length > 0 && (
+        <>
+          <span class="balloon" style="top:10px;right:10px">=B2*C2</span>
+          <table>
+            <tr>
+              <th></th>
+              <th>A</th>
+              <th>B</th>
+              <th>C</th>
+            </tr>
+            {
+              rows.map((row, index) => (
+                <tr>
+                  <td>{index + 1}</td>
+                  <td style="text-align:left">{row.name}</td>
+                  <td class={index === 1 ? 'sel' : undefined}>{kindLabel[row.kind]}</td>
+                  <td class="cf good">✓</td>
+                </tr>
+              ))
+            }
+          </table>
+        </>
+      )
+    }
+  </div>
+  <div class="wb-foot">
+    <span class="wb-tab">{category ?? `${sheetCount} sayfa`}</span>
+    <span class="cf good price">{price} TL</span>
   </div>
 </article>
