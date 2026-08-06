@@ -1646,6 +1646,7 @@ body::after {
     background: var(--xl-header);
     border-bottom: 1px solid var(--xl-border);
     padding: 10px 16px;
+    color: var(--xl-ink-2);
   }
 
   .dots {
@@ -1682,6 +1683,7 @@ body::after {
     font-family: var(--font-mono);
     font-size: 11px;
     font-weight: 600;
+    color: inherit;
   }
   .cf.good {
     background: var(--cf-good-bg);
@@ -1689,6 +1691,12 @@ body::after {
   }
   .cf.warn {
     background: var(--cf-warn-bg);
+    color: var(--cf-warn-tx);
+  }
+  .titlebar .cf.good {
+    color: var(--cf-good-tx);
+  }
+  .titlebar .cf.warn {
     color: var(--cf-warn-tx);
   }
 
