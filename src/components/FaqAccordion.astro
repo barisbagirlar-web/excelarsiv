@@ -1,0 +1,38 @@
+---
+interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FaqItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="border-b border-rule-hairline">
+  {
+    items.map((item, index) => (
+      <details class="group border-t border-rule-hairline">
+        <summary class="flex min-h-12 cursor-pointer items-center gap-4 px-4 py-3 text-sm font-medium text-ink-700 hover:text-accent-primary">
+          <span class="mono-xs shrink-0 text-ink-400">§FAQ.{String(index + 1).padStart(2, '0')}</span>
+          <span class="flex-1">{item.question}</span>
+          <svg
+            aria-hidden="true"
+            width="14"
+            height="14"
+            viewBox="0 0 14 14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            class="shrink-0 text-ink-400 transition-transform duration-150 ease-out group-open:rotate-180"
+          >
+            <path d="M3 5.5 7 9.5l4-4" />
+          </svg>
+        </summary>
+        <p class="px-4 pb-4 pl-[2.75rem] text-sm leading-relaxed text-ink-500">{item.answer}</p>
+      </details>
+    ))
+  }
+</div>

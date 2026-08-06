@@ -1,0 +1,17 @@
+---
+interface Props {
+  type?: 'warning' | 'error' | 'success';
+}
+
+const { type = 'warning' } = Astro.props;
+
+const color = {
+  warning: 'border-signal-warn text-signal-warn',
+  error: 'border-signal-down text-signal-down',
+  success: 'border-signal-up text-signal-up',
+}[type];
+---
+
+<aside class={`border ${color} bg-surface-elevated px-4 py-3 text-sm leading-relaxed`}>
+  <slot />
+</aside>

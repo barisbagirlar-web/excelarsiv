@@ -1,0 +1,38 @@
+---
+interface Props {
+  active: string;
+}
+
+const { active } = Astro.props;
+
+const categories = [
+  ['finansal-analiz', 'Finansal Analiz'],
+  ['nakit-akisi', 'Nakit Akışı'],
+  ['muhasebe-ve-vergi', 'Muhasebe ve Vergi'],
+  ['butce-ve-planlama', 'Bütçe ve Planlama'],
+  ['stok-ve-uretim', 'Stok ve Üretim'],
+  ['satis-ve-fiyatlama', 'Satış ve Fiyatlama'],
+  ['personel-ve-bordro', 'Personel ve Bordro'],
+] as const;
+---
+
+<nav aria-label="Kategoriler" class="excel-sheet-tabs">
+  <a
+    href="/sablonlar"
+    class={`excel-sheet-tab${active === '' ? ' is-active' : ''}`}
+    aria-current={active === '' ? 'page' : undefined}
+  >
+    Tümü
+  </a>
+  {
+    categories.map(([slug, label]) => (
+      <a
+        href={`/sablonlar/${slug}`}
+        class={`excel-sheet-tab${active === slug ? ' is-active' : ''}`}
+        aria-current={active === slug ? 'page' : undefined}
+      >
+        {label}
+      </a>
+    ))
+  }
+</nav>

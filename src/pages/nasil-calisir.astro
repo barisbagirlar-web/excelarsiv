@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import Button from '../components/Button.astro';
+
+const steps = [
+  {
+    title: 'Satın alma',
+    description: 'Ürün sayfasındaki "Satın Al — Shopier ile öde" düğmesi sizi Shopier güvenli ödeme sayfasına götürür. Sitede sepet ve hesap yoktur; ödeme Shopier altyapısında tamamlanır.',
+  },
+  {
+    title: 'Teslimat',
+    description: 'Ödeme onaylandığında indirme bağlantısı satın alma e-postanıza gönderilir. Kesin teslim süresi Shopier dijital teslimat ayarına bağlıdır ve yayın öncesi test siparişiyle doğrulanır.',
+  },
+  {
+    title: 'Lisans',
+    description: 'Tek lisans tek kullanıcı içindir. Aynı kullanıcının makul sayıdaki cihazında kullanılabilir; yeniden satış ve şirket dışı paylaşım yasaktır.',
+  },
+  {
+    title: 'Güncelleme',
+    description: 'Mevzuata bağlı ürünlerde oran veya kural değişince güncel sürüm, ürünün güncelleme politikasında yazılı süre boyunca ücretsiz sunulur.',
+  },
+];
+
+const howToLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'Excel Arşiv şablonu satın alma ve teslim alma',
+  step: steps.map((step, index) => ({
+    '@type': 'HowToStep',
+    position: index + 1,
+    name: step.title,
+    text: step.description,
+  })),
+});
+---
+
+<Layout
+  title="Nasıl Çalışır — Excel Arşiv"
+  description="Satın alma, teslimat, lisans ve güncelleme adımları — Excel şablonlarını nasıl satın alır ve alırsınız."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={howToLd} />
+  </Fragment>
+  <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
+    <SectionLabel address="A1" label="Akış" />
+    <h1 class="display mt-6">Nasıl çalışır</h1>
+    <p class="lead mt-6 max-w-xl">
+      Satın alma, teslimat, lisans ve güncelleme sürecinin tamamı dört adımda.
+    </p>
+    <ol class="mt-10 space-y-8">
+      {
+        steps.map((step, index) => (
+          <li class="border-l border-rule-strong pl-6">
+            <p class="font-mono text-sm text-accent-primary">ADIM {String(index + 1).padStart(2, '0')}</p>
+            <h2 class="h3 mt-2">{step.title}</h2>
+            <p class="body-sm mt-2">{step.description}</p>
+          </li>
+        ))
+      }
+    </ol>
+    <div class="mt-12 border-t border-rule-hairline pt-8">
+      <Button href="/sablonlar">Şablonları İncele</Button>
+    </div>
+  </section>
+</Layout>

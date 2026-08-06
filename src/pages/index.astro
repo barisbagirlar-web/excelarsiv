@@ -1,17 +1,373 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import SectionLabel from '../components/SectionLabel.astro';
+import Button from '../components/Button.astro';
+import CellGrid from '../components/CellGrid.astro';
+import TemplateCard from '../components/TemplateCard.astro';
+import ExcelFrame from '../components/ExcelFrame.astro';
+import { slugify } from '../utils/slug';
 
+const templates = await getCollection('templates');
+const featured = templates.slice(0, 3);
+
+const trustStats = [
+  { value: '12', label: 'Holding' },
+  { value: '500+', label: 'Şirket' },
+  { value: '10,000+', label: 'İndirme' },
+  { value: '47', label: 'Test Case' },
+];
+
+const categories = [
+  {
+    slug: 'nakit-akisi',
+    name: 'Nakit Akışı',
+    description: '13 haftalık nakit akışı ve ödeme planı kurmak.',
+  },
+  {
+    slug: 'muhasebe-ve-vergi',
+    name: 'Muhasebe ve Vergi',
+    description: 'KDV mutabakatı ve karşılık ayırma işleri.',
+  },
+  {
+    slug: 'satis-ve-fiyatlama',
+    name: 'Satış ve Fiyatlama',
+    description: 'Ürün ve iş bazında gerçek kârlılık çıkarmak.',
+  },
+  {
+    slug: 'butce-ve-planlama',
+    name: 'Bütçe ve Planlama',
+    description: 'Yıllık bütçe ve patron finans paneli kurmak.',
+  },
+  {
+    slug: 'stok-ve-uretim',
+    name: 'Stok ve Üretim',
+    description: 'Stok maliyeti, devir hızı ve nakit bağlanması.',
+  },
+  {
+    slug: 'personel-ve-bordro',
+    name: 'Personel ve Bordro',
+    description: 'Maaş, SGK ve izin takibi yapılarını kurmak.',
+  },
+  {
+    slug: 'finansal-analiz',
+    name: 'Finansal Analiz',
+    description: 'Oran analizi ve aylık yönetim raporu üretmek.',
+  },
+];
+
+const categoryIcons: Record<string, string> = {
+  'nakit-akisi':
+    '<path d="M2 8h12M9 3l5 5-5 5M4 5l4 3-4 3"/>',
+  'muhasebe-ve-vergi':
+    '<path d="M4 2h5l3 3v9H4V2ZM9 2v3h3M6 9h4M6 12h4"/>',
+  'satis-ve-fiyatlama':
+    '<path d="M2 2h5l7 7-5 5-7-7V2ZM6.5 5.5h.01"/>',
+  'butce-ve-planlama':
+    '<rect x="2" y="4" width="12" height="10" rx="1"/><path d="M2 7h12M5 2v3M9 2v3M5 11h.01M8 11h.01M11 11h.01"/>',
+  'stok-ve-uretim':
+    '<path d="M2 5l6-3 6 3v6l-6 3-6-3V5ZM2 5l6 3 6-3M8 8v6"/>',
+  'personel-ve-bordro':
+    '<circle cx="8" cy="5" r="3"/><path d="M2 14a6 6 0 0 1 12 0"/>',
+  'finansal-analiz':
+    '<path d="M2 14h12M4 12V8h2v4M8 12V5h2v7M12 12V9h1"/>',
+};
+
+const roiRows = [
+  ['Banka ve cari mutabakat', '4 saat / ay', '30 dk / ay'],
+  ['Rapor hazırlama', '8 saat / ay', '1 saat / ay'],
+  ['Hata riski', 'Yüksek', 'Düşük'],
+  ['Aylık toplam', '12 saat / ay', '1,5 saat / ay'],
+];
+
+const methodology = [
+  {
+    title: 'İhtiyaç analizi',
+    description: 'Dosyanın çözeceği iş problemini, çıktı biçimini ve raporlama dönemini tanımlıyoruz.',
+  },
+  {
+    title: 'Model kurulumu',
+    description: 'Formüller, adlandırılmış aralıklar, veri doğrulama ve sayfa korumalarıyla yapıyı kuruyoruz.',
+  },
+  {
+    title: 'Gerçek veriyle test',
+    description: 'Farklı Excel sürümlerinde ve gerçek iş senaryolarıyla sonuçları doğruluyoruz.',
+  },
+  {
+    title: 'Belgeleme',
+    description: 'Girdi alanlarını, hesaplama mantığını ve uyarıları dosyanın içinde açıklıyoruz.',
+  },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout
+  title="Excel Arşiv — İşletmeniz için Hazır Excel Çalışma Tabloları"
+  description="Kasa, nakit akışı, cari hesap, stok ve kârlılık işleriniz için hazır Excel dosyaları. Demo dosyayla inceleyin, Shopier ile ödeyin, e-postayla alın."
+>
+  <!-- §00 · Hero -->
+  <section class="border-b border-rule-hairline bg-surface-1">
+    <div class="container-site grid-12 section-enter items-center">
+      <div class="col-span-12 lg:col-span-7">
+        <SectionLabel number={0} label="Künye" />
+        <h1 class="display mt-6">
+          İşletmenizin <em class="serif-em">finans</em> işleri için hazır Excel dosyaları
+        </h1>
+        <p class="lead mt-6 max-w-xl font-medium">
+          Kasa, nakit akışı, cari hesap, stok ve kârlılık modelleri. Satın almadan önce ücretsiz
+          demo dosyasıyla inceleyin — ödeme Shopier'de, teslimat e-postayla.
+        </p>
+        <div class="mt-10 flex flex-wrap items-center gap-4">
+          <Button href="/sablonlar">Şablonları İncele</Button>
+          <Button href="/nasil-calisir" variant="secondary">Nasıl çalışır</Button>
+        </div>
+        <p class="mono-xs mt-8 flex flex-wrap items-center gap-x-3 gap-y-2">
+          <span>Ödeme · Shopier</span>
+          <span aria-hidden="true" class="text-rule-divider">/</span>
+          <span>Teslimat · E-posta</span>
+          <span aria-hidden="true" class="text-rule-divider">/</span>
+          <span>Demo · Ücretsiz</span>
+        </p>
+      </div>
+
+      <div class="col-span-12 lg:col-span-5 lg:pl-4">
+        <ExcelFrame
+          fileName="workbook.xlsx"
+          formula="=TOPLA(Girdi!C2:C30)"
+          tabs={['Künye', 'Girdi', 'Hesap', 'Çıktı']}
+          activeTab="Künye"
+          caption="Örnek çalışma kitabı — Excel UI diliyle künye"
+        >
+          <dl class="m-0">
+            <div class="excel-row">
+              <dt class="excel-row-label">Biçim</dt>
+              <dd class="excel-row-value">XLSX / XLSM</dd>
+            </div>
+            <div class="excel-row">
+              <dt class="excel-row-label">Sheet yapısı</dt>
+              <dd class="excel-row-value">Girdi · Hesap · Çıktı</dd>
+            </div>
+            <div class="excel-row">
+              <dt class="excel-row-label">Ödeme</dt>
+              <dd class="excel-row-value">Shopier</dd>
+            </div>
+            <div class="excel-row">
+              <dt class="excel-row-label">Teslim</dt>
+              <dd class="excel-row-value">E-posta</dd>
+            </div>
+            <div class="excel-row">
+              <dt class="excel-row-label">Demo</dt>
+              <dd class="excel-row-value">Ücretsiz</dd>
+            </div>
+          </dl>
+          <p class="mono-xs border-t border-rule-hairline px-3 py-2.5">
+            Dosya içeriği şeffaf — demo ücretsiz, kredi kartı istemez.
+          </p>
+        </ExcelFrame>
+      </div>
+    </div>
+  </section>
+
+  <!-- §01 · Güven Göstergeleri -->
+  <section class="border-b border-rule-hairline">
+    <div class="container-site section-enter">
+      <SectionLabel number={1} label="Güven Göstergeleri" />
+      <dl class="mt-10 grid grid-cols-2 gap-y-10 lg:grid-cols-4">
+        {
+          trustStats.map((stat) => (
+            <div class="border-t border-rule-hairline pt-5">
+              <dt class="order-2 mt-2 acronym text-ink-400">{stat.label}</dt>
+              <dd class="order-1 font-mono text-3xl tabular text-ink-900">{stat.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <!-- §02 · Kategoriler -->
+  <section class="border-b border-rule-hairline bg-surface-1">
+    <div class="container-site section-enter">
+      <div class="grid-12 items-start">
+        <div class="col-span-12 lg:col-span-4">
+          <SectionLabel number={2} label="Kategoriler" />
+          <h2 class="h1 mt-4">Ne yapmaya çalışıyorsunuz?</h2>
+          <p class="lead mt-4">
+            Yapmak istediğiniz işi seçin, ilgili kategoriye gidin. Aradığınız yoksa kataloğun
+            tamamına bakın.
+          </p>
+          <a href="/sablonlar" class="btn-secondary mt-8">Tüm şablonları gör</a>
+        </div>
+        <ul class="col-span-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-8 lg:grid-cols-3">
+          {
+            categories.map((cat) => (
+              <li>
+                <a
+                  href={`/sablonlar/${cat.slug}`}
+                  class="group flex h-full flex-col overflow-hidden border border-rule-hairline bg-surface-elevated p-6 transition-[transform,box-shadow,border-color] duration-150 ease-out hover:-translate-y-0.5 hover:border-accent-primary hover:shadow-[0_2px_10px_rgba(11,15,25,0.08)]"
+                >
+                  <svg
+                    aria-hidden="true"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.2"
+                    class="text-accent-primary"
+                    set:html={categoryIcons[cat.slug]}
+                  />
+                  <h3 class="h3 mt-5">{cat.name}</h3>
+                  <p class="body-sm mt-2 flex-1 text-ink-500">{cat.description}</p>
+                  <div
+                    aria-hidden="true"
+                    class="mt-6 flex items-center gap-1.5"
+                  >
+                    <span class="excel-sheet-tab is-active">Girdi</span>
+                    <span class="excel-sheet-tab">Hesap</span>
+                    <span class="excel-sheet-tab">Çıktı</span>
+                    <span class="ml-auto font-mono text-xs text-ink-400">→</span>
+                  </div>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {
+    featured.length > 0 && (
+      <section class="border-b border-rule-hairline">
+        <div class="container-site section-enter">
+          <div class="flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <SectionLabel number={3} label="Öne Çıkanlar" />
+              <h2 class="h1 mt-4">Katalogdan seçilmiş dosyalar</h2>
+            </div>
+            <a
+              href="/sablonlar"
+              class="font-mono text-sm text-accent-primary underline underline-offset-4 transition-colors duration-150 ease-out hover:text-accent-hover"
+            >
+              Tümünü gör →
+            </a>
+          </div>
+          <div class="mt-10 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4">
+            {
+              featured.map((template) => (
+                <div class="w-80 shrink-0 snap-start">
+                  <TemplateCard
+                    slug={slugify(template.data.name)}
+                    name={template.data.name}
+                    summary={template.data.summary}
+                    sheetCount={template.data.sheetCount}
+                    priceTL={template.data.priceTL}
+                  />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- §04 · ROI -->
+  <section class="border-b border-rule-hairline bg-surface-1">
+    <div class="container-site section-enter">
+      <div class="grid-12 items-start">
+        <div class="col-span-12 lg:col-span-4">
+          <SectionLabel number={4} label="ROI" />
+          <h2 class="h1 mt-4">Mutabakat ve raporlama süresi neye gidiyor?</h2>
+          <p class="lead mt-4">
+            Örnek senaryo: Aylık banka/cari mutabakatı ve yönetim raporu hazırlayan bir
+            işletmede, hazır yapılı dosyalarla geçen sürenin değişimi.
+          </p>
+          <a href="/iletisim" class="btn-secondary mt-8">Şirketinize özel hesaplama için →</a>
+        </div>
+        <div class="col-span-12 mt-8 lg:col-span-8 lg:mt-0">
+          <table class="exhibit-table w-full">
+            <thead>
+              <tr>
+                <th scope="col" class="w-1/2 text-left font-normal">Metrik</th>
+                <th scope="col" class="text-left font-normal">Mevcut durum</th>
+                <th scope="col" class="text-left font-normal">Excel Arşiv ile</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                roiRows.map(([metric, before, after], index) => (
+                  <tr class={index === roiRows.length - 1 ? 'font-medium' : ''}>
+                    <th scope="row" class="text-left font-normal">{metric}</th>
+                    <td class="tabular">{before}</td>
+                    <td class={`tabular ${index === roiRows.length - 1 ? 'text-signal-up' : ''}`}>
+                      {after}
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- §05 · Üretim Süreci -->
+  <section class="border-b border-rule-hairline">
+    <div class="container-site section-enter">
+      <div class="grid-12 items-start">
+        <div class="col-span-12 lg:col-span-4">
+          <SectionLabel number={5} label="Üretim Süreci" />
+          <h2 class="h1 mt-4">Bu dosyalar nasıl hazırlanıyor?</h2>
+          <p class="lead mt-4">
+            Her şablon aynı dört adımla üretilir; çıktısı gerçek iş verisiyle test edilmiş
+            dosyadır.
+          </p>
+        </div>
+        <ol class="col-span-12 mt-10 grid grid-cols-1 gap-px bg-rule-hairline sm:grid-cols-2 lg:col-span-8 lg:grid-cols-4">
+          {
+            methodology.map((item, index) => (
+              <li class="relative flex flex-col bg-surface-0 p-6">
+                <span aria-hidden="true" class="font-mono text-2xl tabular text-ink-300">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <h3 class="h3 mt-6">{item.title}</h3>
+                <p class="body-sm mt-3 text-ink-500">{item.description}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- §06 · Final CTA -->
+  <section class="border-t border-rule-hairline bg-surface-1">
+    <div class="container-site section-enter flex flex-col items-center text-center">
+      <SectionLabel number={6} label="Başlangıç" />
+      <h2 class="display mt-6">
+        Bugün <em class="serif-em">başlayın</em>
+      </h2>
+      <p class="lead mt-4 max-w-xl font-medium">
+        Demo dosyayla inceleyin, beğenin, ödeyin — teslimat e-postayla. Kredi kartı bilginiz
+        yalnızca Shopier'de işlenir.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <Button href="/sablonlar">Şablonları incele</Button>
+        <Button href="/nasil-calisir" variant="secondary">Nasıl çalışır</Button>
+      </div>
+      <p class="mono-xs mt-8 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-ink-400">
+        <span>
+          <span class="acronym">VUK</span> uyumlu şablonlar
+        </span>
+        <span aria-hidden="true" class="text-rule-divider">/</span>
+        <span>
+          <span class="acronym">TFRS</span> uyumlu yapılar
+        </span>
+        <span aria-hidden="true" class="text-rule-divider">/</span>
+        <span>Shopier · Güvenli Ödeme</span>
+      </p>
+    </div>
+  </section>
+</Layout>

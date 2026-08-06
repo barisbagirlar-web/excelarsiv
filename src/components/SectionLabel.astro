@@ -1,0 +1,17 @@
+---
+interface Props {
+  address?: string;
+  label: string;
+  number?: number;
+}
+
+const { address, label, number } = Astro.props;
+
+const marker = number !== undefined ? `§${String(number).padStart(2, '0')}` : (address ?? '');
+---
+
+<p class="kicker flex items-center gap-3">
+  <span class="text-accent-primary">{marker}</span>
+  <span aria-hidden="true" class="h-px w-10 bg-rule-strong" />
+  {label}
+</p>

@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import FaqAccordion from '../components/FaqAccordion.astro';
+
+const questions = [
+  {
+    question: 'Dosya kilitli mi, formülleri görebilir ve değiştirebilir miyim?',
+    answer: 'Girdi alanları serbesttir. Formül ve çıktı sayfaları koruma ile kilitlidir; koruma şifresizdir, kaldırıp formülleri inceleyebilir veya mantığı kendi dosyanıza taşıyabilirsiniz.',
+  },
+  {
+    question: 'Kendi firmamın hesap planına / kalem yapısına uyarlayabilir miyim?',
+    answer: 'Evet. Kalem adlarını, hesap planını ve aralık tanımlarını kendi yapınıza göre düzenleyebilirsiniz; formül mantığını korumanız önerilir.',
+  },
+  {
+    question: 'Ödeme sonrası dosyayı nasıl ve ne kadar sürede alıyorum?',
+    answer: 'Ödeme Shopier onayından sonra indirme bağlantısı satın alma e-postanıza gönderilir. Kesin teslim süresi Shopier dijital teslimat ayarına bağlıdır; yayın öncesi test siparişiyle doğrulanır.',
+  },
+  {
+    question: 'Fatura kesiliyor mu, e-arşiv fatura alabilir miyim?',
+    answer: 'Dijital ürün satışlarında fatura satıcı tarafından kesilir. e-arşiv altyapısı aktifleştirildiğinde e-arşiv fatura e-postanıza iletilir.',
+  },
+  {
+    question: 'Dijital üründe iade var mı?',
+    answer: 'Dijital içerikte cayma hakkı Mesafeli Sözleşmeler Yönetmeliği gereği sınırlıdır. Vaat edilen çıktıyı üretmeyen dosyada telafi koşulları Teslimat ve İade sayfasında açıklanır.',
+  },
+  {
+    question: 'Excel sürümüm eski, çalışır mı? Mac\u2019te çalışır mı?',
+    answer: 'Her ürünün teknik künyesinde gereken minimum Excel sürümü belirtilir. XLOOKUP gibi yeni fonksiyonlar kullanan dosyalar Excel 2021 ve üzeri ister; Mac ve Google Sheets uyumu da künyede yer alır.',
+  },
+  {
+    question: 'Bir dosyayı kaç bilgisayarda kullanabilirim, şirket içinde paylaşabilir miyim?',
+    answer: 'Tek lisans tek kullanıcı içindir ve aynı kullanıcının makul sayıdaki cihazında kullanılabilir. Dosyanın yeniden satılması ve şirket dışı paylaşımı yasaktır; detay Lisans sayfasındadır.',
+  },
+  {
+    question: 'Mevzuat değişirse güncel sürümü alacak mıyım?',
+    answer: 'Mevzuata bağlı ürünlerde oran veya kural değişince güncel sürüm, ürünün güncelleme politikasında yazılı süre boyunca ücretsiz sunulur.',
+  },
+];
+
+const faqLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: questions.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+});
+---
+
+<Layout
+  title="Sık Sorulan Sorular — Excel Arşiv"
+  description="Dosya kilidi, uyarlama, teslimat süresi, fatura, iade, uyumluluk ve güncelleme — gerçek itirazların net cevapları."
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={faqLd} />
+  </Fragment>
+  <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
+    <SectionLabel address="A1" label="SSS" />
+    <h1 class="display mt-6">Sık sorulan sorular</h1>
+    <div class="mt-8">
+      <FaqAccordion items={questions} />
+    </div>
+  </section>
+</Layout>

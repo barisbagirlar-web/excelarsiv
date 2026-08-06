@@ -1,0 +1,27 @@
+---
+interface Image {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  images: Image[];
+}
+
+const { images } = Astro.props;
+---
+
+<div class="grid gap-4 sm:grid-cols-2">
+  {
+    images.map((image) => (
+      <a
+        href={image.src}
+        target="_blank"
+        rel="noopener"
+        class="block border border-rule-hairline bg-surface-elevated transition-[border-color] duration-150 ease-out hover:border-accent-primary"
+      >
+        <img src={image.src} alt={image.alt} loading="lazy" width="1200" height="750" class="h-auto w-full" />
+      </a>
+    ))
+  }
+</div>

@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+---
+
+<Layout
+  title="Çerez Politikası — Excel Arşiv"
+  description="excelarsiv.com sitesinde kullanılan çerezlerin türleri, amaçları ve yönetim biçimi."
+>
+  <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
+    <SectionLabel number={5} label="Çerezler" />
+    <h1 class="display mt-6">Çerez Politikası</h1>
+    <p class="lead mt-6">
+      Bu politika, excelarsiv.com sitesini ziyaret ettiğinizde kullanılan çerezleri ve bunları
+      nasıl yönetebileceğinizi açıklar.
+    </p>
+
+    <div class="mt-12 space-y-10">
+      <section>
+        <h2 class="h3">1 · Çerez nedir?</h2>
+        <p class="body-sm mt-3">
+          Çerezler, bir web sitesini ziyaret ettiğinizde tarayıcınıza kaydedilen küçük metin
+          dosyalarıdır. Site bu dosyalar aracılığıyla oturum ve tercih bilgilerini hatırlar.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">2 · Kullanılan çerezler</h2>
+        <p class="body-sm mt-3">
+          Site statik bir yapıdadır; oturum, reklam ve analitik çerezi kullanılmaz.
+          Yalnızca, hosting ve dağıtım altyapısının teknik olarak gerekli kıldığı zorunlu
+          çerezler oluşabilir. Sitemizi ziyaretinizde kişisel verileriniz çerezler
+          aracılığıyla işlenmez.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">3 · Üçüncü taraf yönlendirmeleri</h2>
+        <p class="body-sm mt-3">
+          Ödeme aşamasında Shopier ödeme sayfasına yönlendirilirsiniz. Shopier'in kendi
+          çerez politikası, ödeme sayfasında ayrıca düzenlenir ve bu politikanın kapsamı
+          dışındadır.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">4 · Çerez yönetimi</h2>
+        <p class="body-sm mt-3">
+          Tarayıcınızın ayarlarından çerezleri silebilir veya engelleyebilirsiniz. Zorunlu
+          çerezlerin engellenmesi sitenin çalışmasını etkileyebilir.
+        </p>
+      </section>
+    </div>
+  </section>
+</Layout>

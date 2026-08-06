@@ -1,43 +1,50 @@
-# Astro Starter Kit: Minimal
+# Excel Arşiv — excelarsiv.com
+
+Türkiye'deki ticari işletmelere finans, muhasebe ve operasyon amaçlı Excel çalışma tabloları satan dijital ürün mağazası. Ödeme Shopier, barındırma Firebase Hosting (statik).
+
+## Teknoloji
+
+- **Astro** — statik çıktı, sıfır JS, Core Web Vitals hedefi
+- **Tailwind v4 + token katmanı** — renk/tipografi token'ları `src/styles/global.css` içinde, ham renk kodu yalnızca orada
+- **Content Collections + zod** — `src/content.config.ts`; eksik ürün alanı build'i patlatır
+- **MDX** — her ürün 1 dosya (`src/icerik/sablonlar/`)
+- **Sitemap** — `@astrojs/sitemap` ile otomatik `sitemap-index.xml`
+
+## Yerel geliştirme
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Ürün ekleme
 
-## 🚀 Project Structure
+`src/content/templates/` altına bir `.mdx` dosyası ekle. Frontmatter'daki **tüm alanlar zorunludur** (`src/content.config.ts` şeması); eksik alanla build başarısız olur — yarım ürün sayfası yayına çıkamaz. Ürün sayfası 10 bloktan oluşur: künye, önizleme, demo indirme, sayfa haritası, girdi–çıktı sözleşmesi, uygunluk, gereksinimler, güncelleme, SSS, ilgili şablonlar.
 
-Inside of your Astro project, you'll see the following folders and files:
+**URL kuralı:** Ürünün sayfa adresi, ürün adından otomatik türetilir ve ürün adını TAM olarak içerir (örn. adı "Akıllı Kasa Defteri ve Nakit Kontrol Sistemi" olan ürün → `/sablon/akilli-kasa-defteri-ve-nakit-kontrol-sistemi`). Ayrı bir `slug` alanı yoktur; adı değiştirirsen URL de değişir.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+Satın alma düğmesi ürünün `shopierUrl` alanına yeni sekmede gider; sitede sepet ve ödeme formu yoktur.
+
+## Yayınlama (Firebase Hosting)
+
+```sh
+npm run build
+firebase login
+firebase deploy --only hosting
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+`firebase.json` zaten `dist/` klasörünü yayınlar, cleanUrls açıktır, statik varlıklar için cache başlıkları tanımlıdır. Gizli değer (Shopier API anahtarı) bu projede kullanılmaz çünkü ödeme Shopier paneli üzerinden `shopierUrl` ile yapılır.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Yapı
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+```
+src/
+├── content.config.ts        # ürün şeması (zod)
+├── components/              # 16 bileşen
+├── layouts/Layout.astro     # canonical, OG meta, erişilebilirlik
+├── pages/                   # rotalar
+├── content/templates/       # ürün MDX dosyaları
+├── data/productList.ts      # ürün adları (bekleyen ürün aşaması)
+├── utils/slug.ts            # Türkçe'den URL slug türetme
+└── styles/global.css        # token'lar + font yüzleri
+```

@@ -1,0 +1,70 @@
+---
+name: 'POS, Komisyon ve Net Tahsilat Kontrol Sistemi'
+summary: 'POS kanallarının brüt satışını, komisyon ve iade düşüldükten sonraki net tahsilatını karşılaştırın; kanal maliyetini görün.'
+category: 'satis-ve-fiyatlama'
+priceTL: 399
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.1
+sheetCount: 3
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-06'
+sheetMap: 
+  - name: 'Girdi'
+    purpose: 'POS kanal hareketleri'
+    kind: 'input'
+  - name: 'Hesap'
+    purpose: 'Kanal bazlı net tahsilat'
+    kind: 'calculation'
+  - name: 'Çıktı'
+    purpose: 'Kanal maliyet raporu'
+    kind: 'output'
+inputs: 
+  - 'Kanal adı ve brüt satış'
+  - 'İade tutarı ve komisyon oranı'
+  - 'İşlem tarihi'
+outputs: 
+  - 'Kanal bazlı net tahsilat'
+  - 'Komisyon maliyeti'
+  - 'İade oranı ve en pahalı kanal'
+suitableFor: 
+  - 'Çoklu POS kullanan perakendeciler'
+  - 'Online satış yapanlar'
+  - 'Kanal maliyetini karşılaştırmak isteyenler'
+notSuitableFor: 
+  - 'Kasa defteri'
+  - 'Stok takibi'
+requirements: 
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Mevzuattan bağımsız yapıdır; iyileştirme sürümleri satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq: 
+  - question: 'Komisyon oranlarını nereden güncellerim?'
+    answer: 'Girdi sayfasındaki komisyon oranı kolonundan her işlem için ayrı ayrı girebilirsiniz.'
+  - question: 'İade nasıl etki eder?'
+    answer: 'İade tutarı brüt satıştan düşülür; komisyon net tutar üzerinden hesaplanır.'
+  - question: 'Kanal sayısını artırabilir miyim?'
+    answer: 'Evet, Girdi sayfasına satır ekleyip Hesap sayfasındaki formül aralıklarını genişletmeniz yeterlidir.'
+  - question: 'Excel sürümüm eski, çalışır mı?'
+    answer: 'Excel 2016 ve üzeri gerekir; kullanılan işlevler standarttır.'
+  - question: 'Kilitli mi? Değiştirebilir miyim?'
+    answer: 'Girdi alanları serbesttir; formül sayfaları şifresiz korumadadır, kaldırıp inceleyebilirsiniz.'
+  - question: 'Lisans tek kullanıcılık mı?'
+    answer: 'Evet, tek lisans tek kullanıcıdır; aynı kullanıcının makul sayıdaki cihazında kullanılabilir.'
+demoFile: /demo/pos-komisyon-ve-net-tahsilat-kontrol-sistemi.xlsx
+screenshots: 
+  - src: '/screenshots/pos-komisyon-ve-net-tahsilat-kontrol-sistemi-1.png'
+    alt: 'POS, Komisyon ve Net Tahsilat Kontrol Sistemi dosyasının Girdi sayfası — POS kanal hareketleri'
+  - src: '/screenshots/pos-komisyon-ve-net-tahsilat-kontrol-sistemi-2.png'
+    alt: 'POS, Komisyon ve Net Tahsilat Kontrol Sistemi dosyasının Hesap sayfası — Kanal bazlı net tahsilat'
+  - src: '/screenshots/pos-komisyon-ve-net-tahsilat-kontrol-sistemi-3.png'
+    alt: 'POS, Komisyon ve Net Tahsilat Kontrol Sistemi dosyasının Çıktı sayfası — Kanal maliyet raporu'
+related: 
+  - 'gunluk-gelir-gider-ve-gercek-karlilik-sistemi'
+  - 'akilli-kasa-defteri-ve-nakit-kontrol-sistemi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

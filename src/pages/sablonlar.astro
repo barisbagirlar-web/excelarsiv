@@ -1,0 +1,46 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import SectionLabel from '../components/SectionLabel.astro';
+import CellGrid from '../components/CellGrid.astro';
+import TemplateCard from '../components/TemplateCard.astro';
+import CategoryNav from '../components/CategoryNav.astro';
+import { slugify } from '../utils/slug';
+
+const templates = await getCollection('templates');
+---
+
+<Layout
+  title="Şablonlar — Excel Arşiv"
+  description="Finans, muhasebe ve operasyon için Excel çalışma tabloları. Kategoriye göre filtreleyin, demo dosyayla inceleyin."
+>
+  <section class="mx-auto max-w-6xl px-4 pb-24 pt-8">
+    <SectionLabel address="A1" label="Katalog" />
+    <h1 class="display mt-6">Şablonlar</h1>
+
+    <div class="mt-8">
+      <CategoryNav active="" />
+    </div>
+
+    <div class="mt-8">
+      <CellGrid>
+        {
+          templates.map((template) => (
+            <TemplateCard
+              slug={slugify(template.data.name)}
+              name={template.data.name}
+              summary={template.data.summary}
+              sheetCount={template.data.sheetCount}
+              priceTL={template.data.priceTL}
+            />
+          ))
+        }
+      </CellGrid>
+    </div>
+
+    <p class="mt-8 max-w-xl leading-relaxed text-ink-500">
+      Finans, muhasebe ve operasyon için hazır Excel çalışma tabloları. Her ürünün demo dosyasını
+      satın almadan inceleyebilirsiniz.
+    </p>
+  </section>
+</Layout>

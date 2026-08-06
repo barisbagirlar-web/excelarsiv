@@ -1,0 +1,18 @@
+---
+interface Props {
+  columns?: string;
+}
+
+const { columns = 'sm:grid-cols-2 lg:grid-cols-3' } = Astro.props;
+---
+
+<div class={`cell-grid grid ${columns}`}>
+  <slot />
+</div>
+
+<style>
+  :global(.cell-grid > *) {
+    margin-top: -1px;
+    margin-left: -1px;
+  }
+</style>

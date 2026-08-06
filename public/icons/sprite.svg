@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none" aria-hidden="true">
+  <!-- excel -->
+  <symbol id="excel-cell" viewBox="0 0 16 16">
+    <path d="M2.5 2.5h11v11h-11z" />
+    <path d="M2.5 6h11M6 2.5v11" />
+    <path d="M11.5 13.5H13.5V11.5" />
+  </symbol>
+  <symbol id="excel-formula" viewBox="0 0 16 16">
+    <path d="M4.5 2.5h7" />
+    <path d="M4.5 2.5l4.5 5.5-4.5 5.5" />
+    <path d="M4.5 13.5h7" />
+  </symbol>
+  <symbol id="excel-sheet" viewBox="0 0 16 16">
+    <path d="M2.5 2.5h8l3 3v8h-11v-11z" />
+    <path d="M2.5 5.5h11" />
+    <path d="M5 8.5h6M5 11h6" />
+  </symbol>
+  <symbol id="excel-table" viewBox="0 0 16 16">
+    <rect x="2" y="2" width="12" height="12" />
+    <path d="M2 6h12M2 10h12M6 2v12M10 2v12" />
+  </symbol>
+  <symbol id="excel-filter" viewBox="0 0 16 16">
+    <path d="M2.5 2.5h11l-4.5 5v4.5l-2 1.5V7.5z" />
+  </symbol>
+  <symbol id="excel-lock" viewBox="0 0 16 16">
+    <rect x="3.5" y="7" width="9" height="6.5" />
+    <path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" />
+    <path d="M8 9.5v1.5" />
+  </symbol>
+  <!-- finance -->
+  <symbol id="finance-cash" viewBox="0 0 16 16">
+    <rect x="1.5" y="4.5" width="13" height="7" rx="1" />
+    <circle cx="8" cy="8" r="1.8" />
+  </symbol>
+  <symbol id="finance-chart" viewBox="0 0 16 16">
+    <path d="M2 13.5h12" />
+    <path d="M4.5 13.5V9.5M8 13.5V5.5M11.5 13.5V7.5" />
+  </symbol>
+  <symbol id="finance-calc" viewBox="0 0 16 16">
+    <rect x="3" y="2" width="10" height="12" rx="1" />
+    <path d="M5.5 4.5h5" />
+    <path d="M5.2 8.3h1.5M8.5 8.3h1.5M5.2 11h1.5M8.5 11h1.5" />
+  </symbol>
+  <symbol id="finance-coins" viewBox="0 0 16 16">
+    <circle cx="6" cy="6" r="4" />
+    <circle cx="10" cy="10" r="4" />
+  </symbol>
+  <symbol id="finance-pie" viewBox="0 0 16 16">
+    <circle cx="8" cy="8" r="6" />
+    <path d="M8 8V2A6 6 0 0 1 14 8z" />
+  </symbol>
+  <symbol id="finance-trend" viewBox="0 0 16 16">
+    <path d="M2 12.5l3.5-3.5 2.5 2L14 4.5" />
+    <path d="M11 4.5H14V7.5" />
+  </symbol>
+  <!-- action -->
+  <symbol id="action-download" viewBox="0 0 16 16">
+    <path d="M8 2v7.5" />
+    <path d="M4.5 6.5L8 10l3.5-3.5" />
+    <path d="M2.5 13.5h11" />
+  </symbol>
+  <symbol id="action-view" viewBox="0 0 16 16">
+    <path d="M1.5 8S4 3.5 8 3.5 14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z" />
+    <circle cx="8" cy="8" r="1.8" />
+  </symbol>
+  <symbol id="action-buy" viewBox="0 0 16 16">
+    <rect x="1.5" y="4" width="13" height="8" rx="1" />
+    <path d="M1.5 7h13" />
+    <path d="M9.5 9.5l1.5 1.5 3-3.5" />
+  </symbol>
+  <symbol id="action-cart" viewBox="0 0 16 16">
+    <path d="M2 2.5h1.5l2 8h7l1.5-5.5H4.5" />
+    <circle cx="6.5" cy="12.5" r="1" />
+    <circle cx="11" cy="12.5" r="1" />
+  </symbol>
+  <symbol id="action-search" viewBox="0 0 16 16">
+    <circle cx="6.5" cy="6.5" r="4" />
+    <path d="m9.5 9.5 4 4" />
+  </symbol>
+  <!-- status -->
+  <symbol id="status-success" viewBox="0 0 16 16">
+    <circle cx="8" cy="8" r="6" />
+    <path d="M5 8.5l2 2 4-4.5" />
+  </symbol>
+  <symbol id="status-warning" viewBox="0 0 16 16">
+    <path d="M8 2.5l6 11H2z" />
+    <path d="M8 7v3.5" />
+    <path d="M8 12.4v.6" />
+  </symbol>
+  <symbol id="status-error" viewBox="0 0 16 16">
+    <circle cx="8" cy="8" r="6" />
+    <path d="M5.5 5.5l5 5M10.5 5.5l-5 5" />
+  </symbol>
+  <symbol id="status-info" viewBox="0 0 16 16">
+    <circle cx="8" cy="8" r="6" />
+    <path d="M8 7.2V11.5" />
+    <path d="M8 4.5v.6" />
+  </symbol>
+  <!-- navigation -->
+  <symbol id="nav-home" viewBox="0 0 16 16">
+    <path d="M2.5 7.5L8 2.5l5.5 5" />
+    <path d="M4 6.5V13.5h8V6.5" />
+    <path d="M7 13.5v-3.5h2v3.5" />
+  </symbol>
+  <symbol id="nav-templates" viewBox="0 0 16 16">
+    <rect x="2" y="2" width="5" height="5" />
+    <rect x="9" y="2" width="5" height="5" />
+    <rect x="2" y="9" width="5" height="5" />
+    <rect x="9" y="9" width="5" height="5" />
+  </symbol>
+  <symbol id="nav-faq" viewBox="0 0 16 16">
+    <circle cx="8" cy="8" r="6" />
+    <path d="M6.3 6.2a1.8 1.8 0 1 1 2.3 1.7c-.8.3-1.1.9-1.1 1.8" />
+    <path d="M7.4 12.3v.4" />
+  </symbol>
+</svg>

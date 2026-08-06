@@ -1,0 +1,62 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+---
+
+<Layout
+  title="Teslimat ve İade — Excel Arşiv"
+  description="Dijital ürün teslimat süreci, süresi ve hatalı dosyaya ilişkin telafi koşulları."
+>
+  <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
+    <SectionLabel number={3} label="Teslimat · İade" />
+    <h1 class="display mt-6">Teslimat ve İade</h1>
+    <p class="lead mt-6">
+      Dijital ürünlerin teslimat biçimi, süresi ve hatalı dosyaya ilişkin telafi koşulları.
+    </p>
+
+    <div class="mt-12 space-y-10">
+      <section>
+        <h2 class="h3">1 · Teslimat biçimi</h2>
+        <p class="body-sm mt-3">
+          Teslimat, satın alınan dosyanın indirme bağlantısının alıcının satın alma
+          e-postasına gönderilmesiyle yapılır. Teslimatta ayrıca dosyanın kısa kullanım
+          notu ve lisans özeti yer alır.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">2 · Teslimat süresi</h2>
+        <p class="body-sm mt-3">
+          İndirme bağlantısı, Shopier ödeme onayının ardından otomatik olarak gönderilir.
+          Kesin teslim süresi Shopier dijital teslimat ayarına bağlıdır; yayın öncesi test
+          siparişiyle doğrulanır ve ürün sayfasında belirtilir.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">3 · İade ve cayma hakkı</h2>
+        <p class="body-sm mt-3">
+          Mesafeli Sözleşmeler Yönetmeliği gereği, dijital içerik teslimlerinde cayma hakkı
+          kullanılamaz. İndirme bağlantısının gönderildiği an teslimatın ifası başlamış
+          sayılır ve iade talebi bu aşamadan sonra kabul edilmez.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">4 · Hatalı veya eksik dosya telafisi</h2>
+        <p class="body-sm mt-3">
+          Dosyanın ürün sayfasında vaat edilen işlevi yerine getirmediği tespit edilirse,
+          alıcı teslimat tarihinden itibaren 7 gün içinde satıcıya yazmalıdır. Telafi kapsamı:
+          hatanın düzeltilmiş sürümünün gönderilmesi; hatanın giderilememesi durumunda bedelin
+          iadesi. Bu koşul, dijital içerikte cayma hakkı istisnasının alıcı lehine
+          genişletilmiş hâlidir.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">5 · Talep kanalı</h2>
+        <p class="body-sm mt-3">
+          Hatalı dosya ve teslimat talepleri, sipariş numarasıyla birlikte
+          info@excelarsiv.com adresine iletilir. Talepler iş günlerinde 48 saat içinde
+          yanıtlanır.
+        </p>
+      </section>
+    </div>
+  </section>
+</Layout>

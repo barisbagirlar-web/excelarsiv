@@ -1,0 +1,51 @@
+---
+const year = new Date().getFullYear();
+const legalLinks = [
+  { label: 'Lisans', href: '/lisans' },
+  { label: 'Mesafeli Satış Sözleşmesi', href: '/mesafeli-satis-sozlesmesi' },
+  { label: 'Teslimat ve İade', href: '/teslimat-ve-iade' },
+  { label: 'KVKK Aydınlatma', href: '/kvkk-aydinlatma' },
+  { label: 'Çerez Politikası', href: '/cerez-politikasi' },
+];
+---
+
+<footer class="border-t border-rule-strong bg-surface-0">
+  <div class="container-site section-pad">
+    <div class="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
+      <div class="max-w-sm">
+        <p class="font-display text-lg tracking-tight text-ink-900">Excel Arşiv</p>
+        <p class="mono-xs mt-4">
+          Türkiye'deki ticari işletmelere finans, muhasebe ve operasyon amaçlı Excel çalışma
+          tabloları.
+        </p>
+      </div>
+      <ul class="grid grid-cols-2 gap-x-10 gap-y-3 sm:grid-cols-1">
+        {
+          legalLinks.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="font-mono text-sm text-ink-500 transition-colors duration-150 ease-out hover:text-accent-primary"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+  <!-- Status Bar — Excel sistem durumu dili -->
+  <div class="status-bar">
+    <div class="container-site flex min-h-9 flex-wrap items-center gap-x-6 gap-y-1">
+      <span class="status-bar-item">
+        <span aria-hidden="true" class="inline-block size-1.5 bg-signal-up"></span>
+        Hazır
+      </span>
+      <span class="status-bar-item">Sürüm · 0.1.0</span>
+      <span class="status-bar-item">Biçim · XLSX</span>
+      <span class="status-bar-item">Ödeme · Shopier</span>
+      <span class="status-bar-item">© {year} Excel Arşiv · Tüm hakları saklıdır</span>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,88 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<Layout
+  title="Paketler — Excel Arşiv"
+  description="KOBİ Finans Yönetim Paketi ve bireysel sistemler. Tüm dosyalar birlikte alındığında avantajlı fiyatla sunulur."
+>
+  <section class="border-b border-rule-hairline bg-surface-1">
+    <div class="container-site section-enter">
+      <SectionLabel number={1} label="Paketler" />
+      <h1 class="display mt-6">İhtiyacınıza göre seçin</h1>
+      <p class="lead mt-6 max-w-xl">
+        Finans süreçlerinizin tamamını tek pakette toplamak istiyorsanız KOBİ Finans Yönetim
+        Paketi'ni; yalnızca bir işi çözmek istiyorsanız bireysel sistemleri tercih edin.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container-site section-enter">
+      <div class="grid-12 items-start">
+        <div class="col-span-12 lg:col-span-5">
+          <article class="cell-highlight p-8">
+            <p class="mono-xs flex items-center gap-2 text-ink-400">
+              <Icon name="excel-sheet" size={14} />
+              KOBİ Finans Yönetim Paketi
+            </p>
+            <h2 class="h1 mt-4">Tüm sistemler, tek çalışma kitabı ailesi</h2>
+            <ul class="mt-8 space-y-3">
+              <li class="flex items-start gap-3 text-sm leading-relaxed text-ink-700">
+                <Icon name="status-success" size={16} className="mt-0.5 shrink-0 text-signal-up" />
+                Kasa, nakit akışı, cari hesap, banka ve çek–senet takibi tek pakette
+              </li>
+              <li class="flex items-start gap-3 text-sm leading-relaxed text-ink-700">
+                <Icon name="status-success" size={16} className="mt-0.5 shrink-0 text-signal-up" />
+                Dönem sonu karşılık ayırma ve patron finans paneli dahil
+              </li>
+              <li class="flex items-start gap-3 text-sm leading-relaxed text-ink-700">
+                <Icon name="status-success" size={16} className="mt-0.5 shrink-0 text-signal-up" />
+                Güncelleme dönemlerinde paket sürümü yenilenir
+              </li>
+            </ul>
+            <div class="mt-8">
+              <Button href="/sablonlar">Katalogda incele</Button>
+            </div>
+          </article>
+        </div>
+        <div class="col-span-12 mt-8 lg:col-span-6 lg:col-start-7 lg:mt-0">
+          <h2 class="h3">Nasıl çalışır?</h2>
+          <ol class="mt-6 space-y-6">
+            <li class="flex gap-4">
+              <span class="mono-xs mt-0.5 text-ink-400">01</span>
+              <div>
+                <h3 class="h4">Demo dosyayla inceleyin</h3>
+                <p class="body-sm mt-2">
+                  Her sistemin sınırlı verili demo dosyası ücretsizdir; yapıyı satın almadan
+                  görün.
+                </p>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <span class="mono-xs mt-0.5 text-ink-400">02</span>
+              <div>
+                <h3 class="h4">Paketi Shopier'den satın alın</h3>
+                <p class="body-sm mt-2">
+                  Ödeme Shopier altyapısıyla işlenir; kredi kartı bilgileriniz siteye kaydedilmez.
+                </p>
+              </div>
+            </li>
+            <li class="flex gap-4">
+              <span class="mono-xs mt-0.5 text-ink-400">03</span>
+              <div>
+                <h3 class="h4">Dosyaları e-postayla teslim alın</h3>
+                <p class="body-sm mt-2">
+                  Teslimat e-postayla yapılır; satın alınan lisans, dosyaların tamamını kapsar.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

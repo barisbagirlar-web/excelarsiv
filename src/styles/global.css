@@ -1,0 +1,1569 @@
+@import "tailwindcss";
+
+/* Inter Tight 800 — v5 display fontu (I4: self-host latin-ext; display = Inter Tight 800, I7) */
+@font-face {
+  font-family: "Inter Tight";
+  font-style: normal;
+  font-weight: 800;
+  font-display: optional;
+  src: url("/fonts/inter-tight-800-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter Tight";
+  font-style: normal;
+  font-weight: 800;
+  font-display: optional;
+  src: url("/fonts/inter-tight-800-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Instrument Serif — @deprecated (I7: serif display kaldırıldı; geri uyumluluk için korunur) */
+
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: normal;
+  font-weight: 400;
+  font-display: optional;
+  src: url("/fonts/instrument-serif-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: normal;
+  font-weight: 400;
+  font-display: optional;
+  src: url("/fonts/instrument-serif-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Instrument Serif 400 italic — editoryal vurgu */
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: italic;
+  font-weight: 400;
+  font-display: optional;
+  src: url("/fonts/instrument-serif-italic-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Instrument Serif";
+  font-style: italic;
+  font-weight: 400;
+  font-display: optional;
+  src: url("/fonts/instrument-serif-italic-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Inter 400 — latin-ext + latin (statik, fontsource) */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: optional;
+  src: url("/fonts/inter-400-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: optional;
+  src: url("/fonts/inter-400-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Inter 500 — latin-ext + latin */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: optional;
+  src: url("/fonts/inter-500-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-display: optional;
+  src: url("/fonts/inter-500-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Inter 600 — latin-ext + latin */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: optional;
+  src: url("/fonts/inter-600-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: optional;
+  src: url("/fonts/inter-600-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* Inter 700 — latin-ext + latin */
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: optional;
+  src: url("/fonts/inter-700-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: optional;
+  src: url("/fonts/inter-700-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* JetBrains Mono 400 — latin-ext + latin */
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: optional;
+  src: url("/fonts/jbmono-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: optional;
+  src: url("/fonts/jbmono-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* ===== v5 "LIVING WORKBOOK" — token ailesi (I6) =====
+     Excel yeşili #107C41 ailesi + CF (koşullu biçimlendirme) paleti.
+     Eski lacivert/tuğla aksanlar @deprecated: --accent-primary eski değeri, --accent-gold* */
+  --xl-canvas: #F7F7F3;
+  --xl-paper: #ffffff;
+  --xl-grid: #d9d9d3;
+  --xl-grid-strong: #bebeb6;
+  --xl-ink-900: #16251c;
+  --xl-ink-700: #33413b;
+  --xl-ink-500: #55615b;
+  --xl-ink-400: #68746d;
+  --xl-ink-300: #6a756e; /* AA ≥4.5: #F8F8F7 zeminde 4.51:1 (TASK-5) */
+  --xl-accent: #107c41;
+  --xl-accent-dark: #0b5d30;
+  --xl-accent-soft: #e6f4ec;
+  --xl-accent-border: #8cc9a6;
+  --xl-select: #107c41; /* Excel seçim çerçevesi — focus-visible rengi (TASK-5) */
+  --xl-cf-red: #f8696b;
+  --xl-cf-amber: #ffeb84;
+  --xl-cf-green: #63be7b;
+  --xl-cf-red-soft: #ffc7ce;
+  --xl-cf-amber-soft: #ffeb9c;
+  --xl-cf-green-soft: #c6efce;
+  --xl-cf-red-ink: #9c0006;
+  --xl-cf-amber-ink: #9c6500;
+  --xl-cf-green-ink: #006100;
+
+  /* Zemin — v5 canvas (I6) */
+  --surface-0: var(--xl-canvas);
+  --surface-1: #eff0ea;
+  --surface-2: #e4e6de;
+  --surface-elevated: var(--xl-paper);
+
+  /* Mürekkep — v5 xl-ink ailesi (I6) */
+  --ink-900: var(--xl-ink-900);
+  --ink-700: var(--xl-ink-700);
+  --ink-500: var(--xl-ink-500);
+  --ink-400: var(--xl-ink-400);
+  --ink-300: var(--xl-ink-300);
+
+  /* Aksan — Excel yeşili (I6); eski Oxford Navy @deprecated */
+  --accent-primary: var(--xl-accent);
+  --accent-hover: var(--xl-accent-dark);
+  --accent-subtle: var(--xl-accent-soft);
+  --accent-gold: #a67c3d; /* @deprecated — v5'te kullanılmaz (I6) */
+  --accent-gold-tint: #f5efe3; /* @deprecated — v5'te kullanılmaz (I6) */
+
+  /* Durum renkleri — CF paleti tonları (I6), metin kontrastı güvenli */
+  --signal-up: #0f7b43; /* CF yeşil-ink tonu */
+  --signal-down: #b02a37; /* CF kırmızı tonu */
+  --signal-neutral: var(--xl-ink-400);
+  --signal-warn: #9c6500; /* CF amber-ink tonu */
+
+  /* Çizgiler — v5 grid (I6) */
+  --rule-hairline: var(--xl-grid);
+  --rule-strong: var(--xl-grid-strong);
+  --rule-divider: #cfcfc7;
+
+  /* Tipografi — v5: display = Inter Tight 800 (I7); serif @deprecated */
+  --font-display: "Inter Tight", "Inter", sans-serif;
+  --font-body: "Inter", -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", Consolas, monospace;
+
+  /* Ölçek — Modular scale 1.25 (major third) */
+  --t-display: clamp(3rem, 7vw, 5.5rem); /* hero başlık */
+  --t-h1: clamp(2.25rem, 4.5vw, 3.5rem);
+  --t-h2: clamp(1.75rem, 3vw, 2.5rem);
+  --t-h3: 1.5rem;
+  --t-h4: 1.25rem;
+  --t-body: 1rem;
+  --t-small: 0.875rem;
+  --t-xs: 0.75rem;
+  --t-micro: 0.6875rem;
+
+  /* Letter-spacing — micro-typography discipline */
+  --ls-display: -0.025em; /* büyük başlıklar tight */
+  --ls-h1: -0.02em;
+  --ls-h2: -0.015em;
+  --ls-kicker: 0.12em; /* uppercase etiketler */
+  --ls-mono: 0em; /* monospace değişmez */
+
+  /* Ligatürler — premium detay */
+  font-feature-settings: "liga", "calt", "ss01";
+
+  /* I5 — yalnız 2/4/6px (Excel-otantik) */
+  --r-none: 0;
+  --r-sm: 2px;
+  --r-base: 4px;
+  --r-lg: 6px;
+  --r-xl: 6px; /* eski 8px @deprecated (I5) */
+
+  /* 3.4 HAREKET — momentum physics */
+  --ease-enter: cubic-bezier(0.22, 1, 0.36, 1); /* deceleration */
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1); /* acceleration */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* overshoot */
+
+  --duration-instant: 80ms;
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+}
+
+/* Geçiş alias'ları — mevcut bileşenlerdeki eski token adları yeni renklere
+   işaret eder; sınıf isim çevirisi kademeli turda yapılacak. */
+:root {
+  --paper: var(--surface-0);
+  --card: var(--surface-elevated);
+  --tint: var(--surface-1);
+  --ink: var(--ink-900);
+  --ink-2: var(--ink-500);
+  --ink-3: var(--ink-400);
+  --line: var(--rule-hairline);
+  --line-dark: var(--rule-strong);
+  --accent: var(--accent-primary);
+  --accent-dark: var(--accent-hover);
+  --accent-tint: var(--accent-subtle);
+  --navy: var(--accent-primary);
+  --success: var(--signal-up);
+  --warning: var(--signal-warn);
+  --error: var(--signal-down);
+  /* v5 referans alias'ları (TASK-5) — design-reference adlarıyla uyum */
+  --xl-ink-3: var(--xl-ink-300);
+  --cf-good-tx: var(--xl-cf-green-ink);
+  --font-heading: var(--font-display);
+  --type-display: var(--t-display);
+  --type-h1: var(--t-h1);
+  --type-h2: var(--t-h2);
+  --type-h3: var(--t-h3);
+  --type-lead: clamp(1.125rem, 1.75vw, 1.375rem);
+  /* §3.4 geri uyumluluk: eski ease-out token'ı yeni eğriye işaret eder */
+  --ease-out: var(--ease-enter);
+
+  /* 3.3 GRID SİSTEMİ — 12-column strict grid */
+  --grid-columns: 12;
+  --grid-gutter: 1.5rem;
+  --grid-max-width: 80rem;
+
+  /* VERTICAL RHYTHM — 8px baseline */
+  --rhythm-unit: 0.5rem;
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-12: 3rem; /* 48px */
+  --space-16: 4rem; /* 64px */
+  --space-24: 6rem; /* 96px */
+  --space-32: 8rem; /* 128px */
+  --space-40: 10rem; /* 160px */
+}
+
+@theme inline {
+  /* Yeni token sınıfları — blueprint §3.1 */
+  --color-surface-0: var(--surface-0);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-ink-900: var(--ink-900);
+  --color-ink-700: var(--ink-700);
+  --color-ink-500: var(--ink-500);
+  --color-ink-400: var(--ink-400);
+  --color-ink-300: var(--ink-300);
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-accent-gold: var(--accent-gold);
+  --color-accent-gold-tint: var(--accent-gold-tint);
+  --color-signal-up: var(--signal-up);
+  --color-signal-down: var(--signal-down);
+  --color-signal-neutral: var(--signal-neutral);
+  --color-signal-warn: var(--signal-warn);
+  --color-rule-hairline: var(--rule-hairline);
+  --color-rule-strong: var(--rule-strong);
+  --color-rule-divider: var(--rule-divider);
+
+  /* Geçiş alias'ları — mevcut sınıflar yeni renklere map edilir */
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-tint: var(--tint);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-dark: var(--line-dark);
+  --color-accent: var(--accent);
+  --color-accent-dark: var(--accent-dark);
+  --color-accent-tint: var(--accent-tint);
+  --color-navy: var(--navy);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+
+  --font-heading: var(--font-heading);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+
+  /* §3.4 micro-radius — rounded-* util'leri enterprise değerlere map edilir */
+  --radius-none: var(--r-none);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-base);
+  --radius-lg: var(--r-lg);
+  --radius-xl: var(--r-xl);
+
+  /* v5 xl token sınıfları (I6) — bg-xl-canvas, text-xl-ink-*, border-xl-grid vb. */
+  --color-xl-canvas: var(--xl-canvas);
+  --color-xl-paper: var(--xl-paper);
+  --color-xl-grid: var(--xl-grid);
+  --color-xl-grid-strong: var(--xl-grid-strong);
+  --color-xl-ink-900: var(--xl-ink-900);
+  --color-xl-ink-700: var(--xl-ink-700);
+  --color-xl-ink-500: var(--xl-ink-500);
+  --color-xl-ink-400: var(--xl-ink-400);
+  --color-xl-ink-300: var(--xl-ink-300);
+  --color-xl-accent: var(--xl-accent);
+  --color-xl-accent-dark: var(--xl-accent-dark);
+  --color-xl-accent-soft: var(--xl-accent-soft);
+  --color-xl-accent-border: var(--xl-accent-border);
+  --color-xl-cf-red: var(--xl-cf-red);
+  --color-xl-cf-amber: var(--xl-cf-amber);
+  --color-xl-cf-green: var(--xl-cf-green);
+  --color-xl-cf-red-soft: var(--xl-cf-red-soft);
+  --color-xl-cf-amber-soft: var(--xl-cf-amber-soft);
+  --color-xl-cf-green-soft: var(--xl-cf-green-soft);
+  --color-xl-cf-red-ink: var(--xl-cf-red-ink);
+  --color-xl-cf-amber-ink: var(--xl-cf-amber-ink);
+  --color-xl-cf-green-ink: var(--xl-cf-green-ink);
+}
+
+/* Köşe — enterprise micro-radius sistemi (§3.4).
+   Reset @layer base'de: komponent sınıfları (components katmanı) bunu override edebilir. */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-radius: var(--r-none);
+  }
+}
+
+/* Motion — opacity/transform only, kısa süreler; reduce'da tamamen kapatılır.
+   §3.4 momentum eğrileri + süreleriyle. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  html {
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
+/* §3.4 View Transitions (Astro built-in) — tarayıcı yerel sayfa geçişi, JS'siz */
+@view-transition {
+  navigation: auto;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+::view-transition-old(root) {
+  animation: fade-out 200ms var(--ease-exit);
+}
+::view-transition-new(root) {
+  animation: fade-in 200ms var(--ease-enter);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* TALEP 7 — sayfa geçişleri View Transitions API ile; giriş fade-in'i
+   LCP/FCP'ye 200ms maliyet eklediği için kaldırıldı (GATE-8 Perf>=95).
+   Bölüm reveal'ları ve view-transition animasyonları momentum hissini korur. */
+
+/* TALEP 7 — scroll-linked section reveal (CSS only, IntersectionObserver'sız).
+   Scroll-driven animations destekleyen tarayıcıda bölümler viewport'a
+   girerken hafif yukarı fade yapar; desteklemeyenlerde statik kalır. */
+@keyframes section-reveal {
+  /* Opacity animasyonu Lighthouse erişilebilirlik ölçümünü bozuyordu;
+     yalnızca transform kayması momentum hissini korur, metni daima tam opak tutar. */
+  from {
+    transform: translateY(16px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  /* İlk görünen bölüm statik başlar (LCP/CLS'yi korur); kalanlar scroll'da reveal olur. */
+  main > section:not(:first-child) {
+    animation: section-reveal 600ms var(--ease-enter) both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 90%;
+  }
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+::selection {
+  background: var(--accent-subtle);
+  color: var(--ink-900);
+}
+
+/* M8 — subtle grain: surface-0 üzerinde %2 opacity SVG noise.
+   z-index:-1 → içeriğin altında, body arka planının üstünde çizilir;
+   pointer-events:none tıklama/odak davranışını etkilemez. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 120px 120px;
+}
+@media print {
+  body::after {
+    display: none;
+  }
+}
+
+/* Erişilebilirlik: tek global focus-visible — v5 seçim rengi (TASK-5 madde 2) */
+:where(a, button, summary, [tabindex], [role="button"]):focus-visible {
+  outline: 2px solid var(--xl-select);
+  outline-offset: 2px;
+}
+
+/* Çapa hedefleri (ör. /sss#soru-3) üst bilgiden uzak dursun */
+[id] {
+  scroll-margin-top: 1.5rem;
+}
+
+@layer components {
+  /* Layout ritmi — 12-col grid tabanı (§3.3) */
+  .container-site {
+    margin-inline: auto;
+    width: 100%;
+    max-width: var(--grid-max-width);
+    padding-inline: 1rem;
+  }
+  @media (min-width: 640px) {
+    .container-site {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  .grid-12 {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-columns), 1fr);
+    column-gap: var(--grid-gutter);
+  }
+
+  /* Section rhythm — premium white space (96 → 128 → 160px) */
+  .section-pad,
+  .section-enter {
+    padding-block: var(--space-24);
+  }
+  @media (min-width: 768px) {
+    .section-pad,
+    .section-enter {
+      padding-block: var(--space-32);
+    }
+  }
+  @media (min-width: 1280px) {
+    .section-pad,
+    .section-enter {
+      padding-block: var(--space-40);
+    }
+  }
+
+  /* Tipografi ölçeği — blueprint §3.2 */
+  .display {
+    font-family: var(--font-display);
+    font-size: var(--t-display);
+    line-height: 1.02;
+    letter-spacing: var(--ls-display);
+    color: var(--ink-900);
+  }
+  .h1 {
+    font-family: var(--font-display);
+    font-size: var(--t-h1);
+    line-height: 1.1;
+    letter-spacing: var(--ls-h1);
+    color: var(--ink-900);
+  }
+  .h2 {
+    font-family: var(--font-display);
+    font-size: var(--t-h2);
+    line-height: 1.15;
+    letter-spacing: var(--ls-h2);
+    color: var(--ink-900);
+  }
+  .h3 {
+    font-family: var(--font-display);
+    font-size: var(--t-h3);
+    line-height: 1.3;
+    color: var(--ink-900);
+  }
+  .h4 {
+    font-family: var(--font-display);
+    font-size: var(--t-h4);
+    line-height: 1.4;
+    color: var(--ink-900);
+  }
+  .lead {
+    font-size: var(--type-lead);
+    line-height: 1.65;
+    color: var(--ink-500);
+    /* Fallback fontu Inter'e ölçekle: web fontu gelince CLS'yi azaltır */
+    font-size-adjust: 0.52;
+  }
+  .body-sm {
+    font-size: var(--t-small);
+    line-height: 1.7;
+    color: var(--ink-500);
+  }
+  .mono-xs {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    color: var(--ink-400);
+  }
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-kicker);
+    color: var(--ink-400);
+  }
+
+  /* Bloomberg — tabular figures: veri aynı genişlikte hizalanır */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  .mono-xs {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* M1 — fiyat/sayı: tabular figures + tnum + tight tracking */
+  .price-numeric {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+    letter-spacing: -0.01em;
+  }
+
+  /* M2 — kısaltmalar (KDV, SGK, VUK, TL): all-small-caps */
+  .acronym {
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+  }
+
+  /* M3/M6 — asılı noktalama + optik marj.
+     Tarayıcı desteği sınırlıdır [Güçlü]; desteklemeyen tarayıcıda sessizce
+     devre dışı kalır, davranışı bozmaz. */
+  p {
+    hanging-punctuation: first allow-end;
+  }
+  blockquote {
+    hanging-punctuation: first allow-end;
+  }
+
+  /* FT — editoryal serif vurgu (Instrument Serif italic) */
+  .serif-em {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent-primary);
+  }
+
+  /* Stripe Docs — satır içi kod dili */
+  .inline-code {
+    font-family: var(--font-mono);
+    font-size: 0.8125em;
+    background: var(--surface-1);
+    border: 1px solid var(--rule-hairline);
+    border-radius: var(--r-sm);
+    padding: 0.1em 0.35em;
+    color: var(--ink-700);
+  }
+
+  /* Excel UI dili — pencere çerçevesi (T7) */
+  .excel-window {
+    border: 1px solid var(--rule-strong);
+    background: var(--surface-elevated);
+    border-radius: var(--r-xl);
+    box-shadow: 0 1px 2px rgba(11, 15, 25, 0.04);
+  }
+  .excel-titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid var(--rule-hairline);
+    background: var(--surface-1);
+    padding: 0.5rem 0.75rem;
+  }
+  .excel-formula {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid var(--rule-hairline);
+    background: var(--surface-elevated);
+    font-family: var(--font-mono);
+  }
+  .excel-formula-fx {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.375rem 0.625rem;
+    background: var(--accent-primary);
+    color: #ffffff;
+    border-radius: var(--r-sm);
+    font-size: var(--t-xs);
+    font-weight: 600;
+  }
+  .excel-formula-input {
+    flex: 1;
+    padding: 0.375rem 0.75rem;
+    font-size: var(--t-small);
+    color: var(--ink-700);
+    font-variant-numeric: tabular-nums;
+  }
+  .excel-sheet-tabs {
+    display: flex;
+    overflow-x: auto;
+    border-top: 1px solid var(--rule-hairline);
+    background: var(--surface-1);
+  }
+  .excel-sheet-tab {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding: 0 0.875rem;
+    border-right: 1px solid var(--rule-hairline);
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    color: var(--ink-500);
+    white-space: nowrap;
+  }
+  .excel-sheet-tab.is-active {
+    background: var(--surface-elevated);
+    color: var(--accent-primary);
+    box-shadow: inset 0 2px 0 var(--accent-primary);
+    border-radius: var(--r-sm) var(--r-sm) 0 0;
+  }
+
+  /* §4.1 Ribbon Bar — navigation tab'ları (Dosya/Giriş/Ekle dili) */
+  .ribbon-titlebar {
+    border-bottom: 1px solid var(--rule-hairline);
+    background: var(--surface-1);
+  }
+  .ribbon-tabs {
+    border-bottom: 1px solid var(--rule-strong);
+    background: var(--surface-0);
+  }
+  .ribbon-tab {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: 0.875rem;
+    font-family: var(--font-mono);
+    font-size: var(--t-small);
+    color: var(--ink-500);
+    transition:
+      color var(--duration-fast) var(--ease-enter),
+      background-color var(--duration-fast) var(--ease-enter);
+  }
+  .ribbon-tab:hover {
+    color: var(--accent-primary);
+    background: var(--surface-1);
+  }
+  .ribbon-tab.is-active {
+    color: var(--accent-primary);
+    background: var(--surface-1);
+    box-shadow: inset 0 -2px 0 var(--accent-primary);
+  }
+
+  /* §4.1 Cell Selection — seçili hücre tutamacı (fill handle) */
+  .cell-highlight {
+    position: relative;
+    border: 1px solid var(--rule-strong);
+    background: var(--surface-elevated);
+    border-radius: var(--r-base);
+  }
+  .cell-highlight::before {
+    content: "";
+    position: absolute;
+    right: -1px;
+    bottom: -1px;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-right: 2px solid var(--accent-primary);
+    border-bottom: 2px solid var(--accent-primary);
+    border-radius: 0 0 var(--r-base) 0;
+  }
+
+  /* §4.1 Status Bar — footer'da sistem durumu */
+  .status-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem 2rem;
+    min-height: 2.25rem;
+    border-top: 1px solid var(--rule-hairline);
+    background: var(--surface-1);
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    color: var(--ink-400);
+  }
+  .status-bar-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  /* M10 / TALEP 3 — Running header: sticky, hairline üstünde bölüm adı (FT tarzı).
+     Statik başlık gösterir; bölüm izleme JS'siz yapılamaz [Güçlü]. */
+  .running-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    border-bottom: 1px solid var(--rule-hairline);
+    background: var(--surface-0);
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    color: var(--ink-400);
+  }
+  .running-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 1.75rem;
+    padding-block: 0.25rem;
+  }
+  .running-header-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .running-header-path {
+    flex-shrink: 0;
+    color: var(--ink-400);
+    letter-spacing: var(--ls-kicker);
+    text-transform: uppercase;
+  }
+  .excel-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.625rem 0.75rem;
+    border-bottom: 1px solid var(--rule-hairline);
+  }
+  .excel-row:last-of-type {
+    border-bottom: none;
+  }
+  .excel-row-label {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    color: var(--ink-400);
+  }
+  .excel-row-value {
+    font-family: var(--font-mono);
+    font-size: var(--t-small);
+    color: var(--ink-700);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* McKinsey exhibit — hairline rules, bold header, muted zebra */
+  .exhibit-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: var(--t-small);
+    font-variant-numeric: tabular-nums;
+  }
+  .exhibit-table th {
+    background: var(--surface-1);
+    color: var(--ink-900);
+    font-weight: 600;
+    text-align: left;
+    padding: var(--space-2) var(--space-4);
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .exhibit-table td {
+    padding: var(--space-2) var(--space-4);
+    border-bottom: 1px solid var(--rule-hairline);
+    color: var(--ink-700);
+    transition: background-color var(--duration-fast) var(--ease-enter);
+  }
+  .exhibit-table tbody tr:nth-child(even) {
+    background: var(--surface-1);
+  }
+  .exhibit-table tbody tr:hover td {
+    background: var(--accent-subtle);
+  }
+  .exhibit-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* Butonlar — v5: .btn/.btn.primary (I11). Eski sınıflar @deprecated, silinmez. */
+  /* @deprecated — .btn/.btn.primary kullanın (I11) */
+  .btn-primary {
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding-inline: 1.75rem;
+    background: var(--accent-primary);
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-size: var(--t-small);
+    border-radius: var(--r-base);
+    transition:
+      background-color var(--duration-fast) var(--ease-enter),
+      transform var(--duration-instant) var(--ease-enter),
+      box-shadow var(--duration-fast) var(--ease-enter);
+  }
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+  }
+  .btn-primary:active {
+    transform: translateY(0.5px) scale(0.995);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding-inline: 1.75rem;
+    border: 1px solid var(--rule-strong);
+    background: var(--surface-elevated);
+    color: var(--ink-700);
+    font-family: var(--font-mono);
+    font-size: var(--t-small);
+    border-radius: var(--r-base);
+    transition:
+      border-color var(--duration-fast) var(--ease-enter),
+      color var(--duration-fast) var(--ease-enter),
+      transform var(--duration-instant) var(--ease-enter),
+      box-shadow var(--duration-fast) var(--ease-enter);
+  }
+  .btn-secondary:hover {
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+    transform: translateY(-1px);
+  }
+  .btn-secondary:active {
+    transform: translateY(0.5px) scale(0.995);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  /* v5 butonlar (I11) — .btn.primary / .btn.ghost */
+  .btn {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding-inline: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: var(--t-small);
+    font-weight: 500;
+    border-radius: var(--r-base);
+    transition:
+      background-color var(--duration-fast) var(--ease-enter),
+      border-color var(--duration-fast) var(--ease-enter),
+      color var(--duration-fast) var(--ease-enter),
+      transform var(--duration-instant) var(--ease-enter);
+  }
+  .btn.primary {
+    background: var(--xl-accent);
+    color: #ffffff;
+  }
+  .btn.primary:hover {
+    background: var(--xl-accent-dark);
+    transform: translateY(-1px);
+  }
+  .btn.primary:active {
+    transform: translateY(0.5px) scale(0.995);
+  }
+  .btn.ghost {
+    border: 1px solid var(--xl-grid-strong);
+    background: var(--xl-paper);
+    color: var(--xl-ink-700);
+  }
+  .btn.ghost:hover {
+    border-color: var(--xl-accent);
+    color: var(--xl-accent);
+    transform: translateY(-1px);
+  }
+  .btn.ghost:active {
+    transform: translateY(0.5px) scale(0.995);
+  }
+
+  /* ============ v5 "LIVING WORKBOOK" imza sınıfları (TASK-1) ============ */
+
+  /* Pencere kabuğu — Excel penceresi dili */
+  .window {
+    position: relative;
+    border: 1px solid var(--xl-grid-strong);
+    background: var(--xl-paper);
+    border-radius: var(--r-lg);
+    box-shadow: 0 1px 2px rgba(22, 37, 28, 0.05);
+    overflow: hidden;
+  }
+  .titlebar {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 2.5rem;
+    padding-inline: 0.75rem;
+    background: var(--xl-accent);
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+  }
+  .dots {
+    display: inline-flex;
+    gap: 0.25rem;
+  }
+  .dots span {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--r-sm);
+    background: rgba(255, 255, 255, 0.85);
+  }
+  .file {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  .cf {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-left: auto;
+    font-size: var(--t-micro);
+    letter-spacing: var(--ls-kicker);
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .pulse {
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: var(--r-sm);
+    background: var(--xl-cf-green-soft);
+  }
+  .upar {
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    line-height: 1;
+  }
+
+  /* Ribbon + formül çubuğu */
+  .ribbon {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-height: 2.75rem;
+    padding-inline: 0.75rem;
+    border-bottom: 1px solid var(--xl-grid);
+    background: var(--xl-canvas);
+  }
+  .tab {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    padding-inline: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    color: var(--xl-ink-500);
+    border-radius: var(--r-sm);
+  }
+  .tab:hover {
+    background: var(--xl-accent-soft);
+    color: var(--xl-accent-dark);
+  }
+  .tab.is-active {
+    background: var(--xl-paper);
+    color: var(--xl-accent);
+    box-shadow: inset 0 -2px 0 var(--xl-accent);
+  }
+  .formulabar {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid var(--xl-grid);
+    background: var(--xl-paper);
+    font-family: var(--font-mono);
+    font-size: var(--t-small);
+  }
+  .namebox {
+    display: inline-flex;
+    align-items: center;
+    min-width: 5rem;
+    justify-content: center;
+    border-right: 1px solid var(--xl-grid);
+    color: var(--xl-ink-500);
+    font-size: var(--t-xs);
+  }
+  .fx {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    border-right: 1px solid var(--xl-grid);
+    background: var(--xl-accent);
+    color: #ffffff;
+    font-size: var(--t-xs);
+    font-weight: 600;
+  }
+  .fstack {
+    flex: 1;
+    padding: 0.375rem 0.625rem;
+    color: var(--xl-ink-700);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Izgara — 96×42 spreadsheet hücresi ritmi (I8) */
+  .colheads,
+  .rowheads {
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    color: var(--xl-ink-400);
+    background: var(--xl-canvas);
+  }
+  .colheads {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(96px, 1fr);
+    border-bottom: 1px solid var(--xl-grid);
+    text-align: center;
+  }
+  .rowheads {
+    display: grid;
+    grid-template-rows: repeat(auto-fit, 42px);
+    border-right: 1px solid var(--xl-grid);
+    text-align: center;
+  }
+  .sheet-body {
+    display: grid;
+    grid-auto-rows: 42px;
+    background: var(--xl-paper);
+  }
+
+  /* Hero — 3 bölge (TASK-3) */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
+    gap: var(--space-8);
+    align-items: start;
+  }
+  .names {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem 1rem;
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-kicker);
+    color: var(--xl-ink-400);
+  }
+  .roam {
+    position: absolute;
+    pointer-events: none;
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    color: var(--xl-ink-300);
+  }
+  .zone-a {
+    position: relative;
+    border: 1px solid var(--xl-grid);
+    background: var(--xl-paper);
+    border-radius: var(--r-lg);
+  }
+  .za-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--xl-grid);
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    color: var(--xl-ink-400);
+  }
+  .za {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    color: var(--xl-ink-500);
+  }
+  .type,
+  .netv,
+  .live {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+  .type {
+    color: var(--xl-accent-dark);
+  }
+  .editcell {
+    outline: 2px solid var(--xl-accent);
+    outline-offset: -2px;
+  }
+  .cursor {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-right: 2px solid var(--xl-accent);
+    border-bottom: 2px solid var(--xl-accent);
+  }
+  .netcell {
+    background: var(--xl-accent-soft);
+    border-radius: var(--r-sm);
+  }
+  .calcfx {
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    color: var(--xl-ink-400);
+  }
+  .netv {
+    color: var(--xl-accent);
+  }
+  .cmnt {
+    font-size: var(--t-small);
+    line-height: 1.6;
+    color: var(--xl-ink-500);
+  }
+  .za-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    color: var(--xl-accent);
+  }
+  .za-link:hover {
+    color: var(--xl-accent-dark);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .balloon {
+    position: relative;
+    border: 1px solid var(--xl-grid);
+    background: var(--xl-canvas);
+    border-radius: var(--r-base);
+    padding: 0.5rem 0.625rem;
+    font-size: var(--t-small);
+    color: var(--xl-ink-700);
+  }
+  .balloon::before {
+    content: "";
+    position: absolute;
+    top: -0.375rem;
+    left: 1.25rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    transform: rotate(45deg);
+    border-left: 1px solid var(--xl-grid);
+    border-top: 1px solid var(--xl-grid);
+    background: var(--xl-canvas);
+  }
+  .hero-center {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem 1.25rem;
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    letter-spacing: var(--ls-kicker);
+    text-transform: uppercase;
+    color: var(--xl-ink-400);
+  }
+
+  /* Dashboard — canlı gösterge paneli */
+  .dash {
+    border: 1px solid var(--xl-grid);
+    background: var(--xl-paper);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+  }
+  .dash-tabs {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--xl-grid);
+    background: var(--xl-canvas);
+  }
+  .dash-body {
+    padding: var(--space-4);
+  }
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .kpi {
+    border: 1px solid var(--xl-grid);
+    border-radius: var(--r-base);
+    padding: 0.5rem 0.625rem;
+    background: var(--xl-paper);
+  }
+  .kpi-label {
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-kicker);
+    color: var(--xl-ink-400);
+  }
+  .kpi-value {
+    font-family: var(--font-mono);
+    font-size: 1.125rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--xl-ink-900);
+  }
+  .odo {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--xl-accent);
+  }
+  .livebar {
+    height: 0.375rem;
+    border-radius: var(--r-sm);
+    background: var(--xl-cf-green-soft);
+    position: relative;
+    overflow: hidden;
+  }
+  .livebar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    animation: livebar-sweep 1.8s var(--ease-enter) infinite;
+  }
+  .live {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: var(--t-micro);
+    color: var(--xl-accent);
+  }
+  .live::before {
+    content: "";
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: var(--r-sm);
+    background: var(--xl-accent);
+  }
+  .charts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .panel {
+    border: 1px solid var(--xl-grid);
+    border-radius: var(--r-base);
+    padding: 0.625rem;
+    background: var(--xl-paper);
+  }
+  .lc,
+  .donut,
+  .bars {
+    min-height: 5rem;
+  }
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    color: var(--xl-ink-400);
+  }
+
+  /* Vitrin — ürün showcase (TASK-4) */
+  .sec-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .all {
+    font-family: var(--font-mono);
+    font-size: var(--t-xs);
+    color: var(--xl-accent);
+  }
+  .all:hover {
+    color: var(--xl-accent-dark);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+  }
+  /* Vitrin kabuğu — 4 tile'lık CF-01..CF-04 hücresi (TASK-4) */
+  .showcase {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    border: 1px solid var(--xl-grid);
+    border-radius: var(--r-lg);
+    padding: 0.5rem;
+    background: var(--xl-canvas);
+  }
+  .tile {
+    border: 1px solid var(--xl-grid);
+    border-radius: var(--r-base);
+    padding: 0.75rem;
+    background: var(--xl-paper);
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.125rem 0.375rem;
+    border-radius: var(--r-sm);
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    color: var(--xl-accent-dark);
+    background: var(--xl-accent-soft);
+  }
+  .dbrow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .db {
+    font-family: var(--font-mono);
+    font-size: var(--t-small);
+    font-variant-numeric: tabular-nums;
+    color: var(--xl-ink-700);
+  }
+  .sp {
+    height: 2rem;
+  }
+  .iset {
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    color: var(--xl-ink-400);
+  }
+  .hm {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 2px;
+  }
+  .hm span {
+    height: 0.75rem;
+    border-radius: var(--r-sm);
+    background: var(--xl-cf-green-soft);
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+
+  /* Workbook kartı — .wb anatomisi (TASK-4) */
+  .wb {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--xl-grid);
+    background: var(--xl-paper);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    transition:
+      border-color var(--duration-fast) var(--ease-enter),
+      transform var(--duration-fast) var(--ease-enter),
+      box-shadow var(--duration-fast) var(--ease-enter);
+  }
+  .wb:hover {
+    border-color: var(--xl-accent-border);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 10px rgba(22, 37, 28, 0.08);
+  }
+  .wb-title {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--xl-ink-900);
+  }
+  .xic {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--r-base);
+    background: var(--xl-accent);
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    font-weight: 700;
+  }
+  .wb-body {
+    font-size: var(--t-small);
+    line-height: 1.7;
+    color: var(--xl-ink-500);
+  }
+  .wb-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    border-top: 1px solid var(--xl-grid);
+    margin-top: auto;
+  }
+  .price {
+    font-family: var(--font-mono);
+    font-size: var(--t-small);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--xl-ink-900);
+  }
+  .wb-tab {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.75rem;
+    padding-inline: 0.5rem;
+    border-right: 1px solid var(--xl-grid);
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    color: var(--xl-ink-400);
+  }
+  .wb-tab.is-active {
+    color: var(--xl-accent);
+    box-shadow: inset 0 2px 0 var(--xl-accent);
+  }
+  .sheet-tabs {
+    display: flex;
+    overflow-x: auto;
+    border-top: 1px solid var(--xl-grid);
+    background: var(--xl-canvas);
+  }
+  .statusbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem 1.5rem;
+    min-height: 2rem;
+    border-top: 1px solid var(--xl-grid);
+    background: var(--xl-canvas);
+    font-family: var(--font-mono);
+    font-size: var(--t-micro);
+    color: var(--xl-ink-400);
+  }
+  .ststack {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-left: auto;
+  }
+  .zoom {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Hover fill handle — kart sağ alt köşesinde seçim tutamacı (TASK-4) */
+  .wb .fill-handle {
+    position: absolute;
+    right: -1px;
+    bottom: -1px;
+    width: 0.875rem;
+    height: 0.875rem;
+    border-right: 2px solid var(--xl-accent);
+    border-bottom: 2px solid var(--xl-accent);
+    border-radius: 0 0 var(--r-base) 0;
+    opacity: 0;
+    transition: opacity var(--duration-fast) var(--ease-enter);
+  }
+  .wb:hover .fill-handle {
+    opacity: 1;
+  }
+}
+
+/* v5 canlı animasyon — CSS-only (I3); prefers-reduced-motion'da global `*` kuralı sıfırlar (I10) */
+@keyframes livebar-sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}

@@ -1,0 +1,22 @@
+---
+interface Props {
+  file: string;
+  name: string;
+}
+
+const { file, name } = Astro.props;
+---
+
+<div class="flex flex-col gap-4 border border-rule-strong bg-surface-elevated p-6 sm:flex-row sm:items-center sm:justify-between">
+  <div>
+    <p class="mono-xs text-ink-400">Ücretsiz demo</p>
+    <p class="mt-1 text-sm text-ink-700">{name} — sınırlı veri, filigranlı çıktı</p>
+  </div>
+  <a
+    href={file}
+    download
+    class="inline-flex min-h-11 items-center justify-center bg-accent-subtle px-6 font-mono text-sm text-accent-primary transition-colors duration-150 ease-out hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+  >
+    Demo dosyayı indir
+  </a>
+</div>

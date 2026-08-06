@@ -1,0 +1,28 @@
+---
+interface Props {
+  title: string;
+  items: string[];
+  negative?: boolean;
+}
+
+const { title, items, negative = false } = Astro.props;
+---
+
+<div>
+  <h3 class="font-display text-lg text-ink-900">{title}</h3>
+  <ul class="mt-3 space-y-2">
+    {
+      items.map((item) => (
+        <li class={`flex gap-2 text-sm leading-relaxed ${negative ? 'text-ink-500' : 'text-ink-700'}`}>
+          <span
+            aria-hidden="true"
+            class={`font-mono ${negative ? 'text-signal-down' : 'text-signal-up'}`}
+          >
+            {negative ? '×' : '✓'}
+          </span>
+          <span>{item}</span>
+        </li>
+      ))
+    }
+  </ul>
+</div>

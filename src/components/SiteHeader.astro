@@ -1,0 +1,58 @@
+---
+interface Props {
+  pageTitle: string;
+}
+
+const { pageTitle } = Astro.props;
+
+const pathname = Astro.url.pathname;
+
+const menu = [
+  { label: 'Şablonlar', href: '/sablonlar' },
+  { label: 'Paketler', href: '/paketler' },
+  { label: 'Nasıl Çalışır', href: '/nasil-calisir' },
+  { label: 'Rehber', href: '/rehber' },
+  { label: 'İletişim', href: '/iletisim' },
+];
+
+const isActive = (href: string) =>
+  href === '/sablonlar' ? pathname.startsWith('/sablon') : pathname === href;
+---
+
+<header class="border-b border-rule-strong bg-surface-0">
+  <!-- Running header — sticky, hairline üstünde bölüm adı -->
+  <div class="running-header">
+    <div class="container-site running-header-inner">
+      <span class="running-header-title" title={pageTitle}>{pageTitle}</span>
+      <span class="running-header-path" aria-hidden="true">{pathname === '/' ? 'Ana Sayfa' : pathname}</span>
+    </div>
+  </div>
+  <!-- Ribbon ünvan çubuğu -->
+  <div class="ribbon-titlebar">
+    <div class="container-site flex min-h-8 items-center justify-between">
+      <a href="/" class="font-mono text-xs text-ink-700">
+        Excel Arşiv
+      </a>
+      <span class="font-mono text-xs text-ink-400">workbook.xlsx · V1.0</span>
+    </div>
+  </div>
+  <!-- Ribbon sekmeleri -->
+  <div class="ribbon-tabs">
+    <nav class="container-site flex min-h-11 items-center gap-1 overflow-x-auto" aria-label="Ana menü">
+      {
+        menu.map((item) => {
+          const active = isActive(item.href);
+          return (
+            <a
+              href={item.href}
+              aria-current={active ? 'page' : undefined}
+              class={`ribbon-tab${active ? ' is-active' : ''}`}
+            >
+              {item.label}
+            </a>
+          );
+        })
+      }
+    </nav>
+  </div>
+</header>

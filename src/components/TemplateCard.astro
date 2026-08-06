@@ -1,0 +1,42 @@
+---
+interface Props {
+  slug: string;
+  name: string;
+  summary: string;
+  sheetCount: number;
+  priceTL: number;
+}
+
+import Icon from '../components/Icon.astro';
+
+const { slug, name, summary, sheetCount, priceTL } = Astro.props;
+
+const price = priceTL.toLocaleString('tr-TR');
+---
+
+<article class="group flex flex-col border border-rule-hairline bg-surface-elevated transition-[transform,box-shadow] duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[0_2px_10px_rgba(11,15,25,0.08)]">
+  <p class="mono-xs flex items-center gap-1.5 px-6 pt-6">
+    <Icon name="excel-sheet" size={12} />
+    {sheetCount} sheet
+  </p>
+  <h3 class="h3 mt-2 px-6">
+    <a href={`/sablon/${slug}`} class="hover:text-accent-primary">
+      {name}
+    </a>
+  </h3>
+  <p class="body-sm mt-2 flex-1 px-6 pb-6">{summary}</p>
+  <!-- Excel Sheet Tabs UI — kartın altında çalışma kitabı sekmeleri -->
+  <div class="excel-sheet-tabs">
+    <span class="excel-sheet-tab is-active">Girdi</span>
+    <span class="excel-sheet-tab">Hesap</span>
+    <span class="excel-sheet-tab">Çıktı</span>
+  </div>
+  <div class="mt-6 flex items-center justify-between border-t border-rule-hairline px-6 py-4">
+    <p class="price-numeric font-mono text-sm text-ink-700">
+      {price} <span class="acronym">TL</span>
+    </p>
+    <a href={`/sablon/${slug}`} class="font-mono text-sm text-accent-primary hover:text-accent-hover">
+      Önizle →
+    </a>
+  </div>
+</article>

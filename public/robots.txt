@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://excelarsiv.com/sitemap-index.xml

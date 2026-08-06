@@ -1,0 +1,82 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import Button from '../components/Button.astro';
+---
+
+<Layout
+  title="Rehber — Excel Arşiv"
+  description="İşletmeniz için doğru Excel şablonunu seçme rehberi. Hangi sistem hangi iş problemini çözer?"
+>
+  <section class="border-b border-rule-hairline bg-surface-1">
+    <div class="container-site section-enter">
+      <SectionLabel number={1} label="Rehber" />
+      <h1 class="display mt-6">Doğru şablonu seçme rehberi</h1>
+      <p class="lead mt-6 max-w-xl">
+        Hangi Excel Arşiv sistemi hangi iş problemini çözer? Önce işinizi tanımlayın, sonra
+        sistemi seçin.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container-site section-enter">
+      <div class="grid-12 items-start">
+        <div class="col-span-12 lg:col-span-5">
+          <h2 class="h2">Üç adımda seçim</h2>
+          <ol class="mt-8 space-y-8">
+            <li class="border-t border-rule-hairline pt-5">
+              <h3 class="h3">1 · Sorunu tanımlayın</h3>
+              <p class="body-sm mt-3">
+                "Nakit akışı göremiyorum" ile "cari hesapta kimin borçlu olduğunu bilmiyorum"
+                farklı sistemlerdir. Önce sorunu bir cümleyle yazın.
+              </p>
+            </li>
+            <li class="border-t border-rule-hairline pt-5">
+              <h3 class="h3">2 · Kategoride karşılaştırın</h3>
+              <p class="body-sm mt-3">
+                Kategoriler iş akışına göre düzenlenir: kasa ve nakit akışı, cari hesap, banka ve
+                çek–senet, stok, satış kârlılığı, vergi karşılığı, patron raporu.
+              </p>
+            </li>
+            <li class="border-t border-rule-hairline pt-5">
+              <h3 class="h3">3 · Demo dosyayla doğrulayın</h3>
+              <p class="body-sm mt-3">
+                Demo dosyası yapının tamamını gösterir. Sheet haritasına ve formül barına bakarak
+                dosyanın gerçek işinize uyduğunu satın almadan test edin.
+              </p>
+            </li>
+          </ol>
+        </div>
+        <div class="col-span-12 mt-8 lg:col-span-6 lg:col-start-7 lg:mt-0">
+          <h2 class="h2">Hangi kategori neyi çözer?</h2>
+          <dl class="mt-8 border-t border-rule-hairline">
+            <div class="grid grid-cols-1 gap-1 border-b border-rule-hairline py-4 sm:grid-cols-2">
+              <dt class="h3">Nakit Akışı</dt>
+              <dd class="body-sm">13 haftalık ödeme planı, kasa kontrolü, banka takibi.</dd>
+            </div>
+            <div class="grid grid-cols-1 gap-1 border-b border-rule-hairline py-4 sm:grid-cols-2">
+              <dt class="h3">Muhasebe ve Vergi</dt>
+              <dd class="body-sm">KDV mutabakatı, karşılık ayırma, cari risk takibi.</dd>
+            </div>
+            <div class="grid grid-cols-1 gap-1 border-b border-rule-hairline py-4 sm:grid-cols-2">
+              <dt class="h3">Satış ve Fiyatlama</dt>
+              <dd class="body-sm">Ürün, proje ve iş bazında gerçek kârlılık, POS net tahsilat.</dd>
+            </div>
+            <div class="grid grid-cols-1 gap-1 border-b border-rule-hairline py-4 sm:grid-cols-2">
+              <dt class="h3">Stok ve Üretim</dt>
+              <dd class="body-sm">Stok maliyeti, devir hızı, nakit bağlanma kontrolü.</dd>
+            </div>
+            <div class="grid grid-cols-1 gap-1 border-b border-rule-hairline py-4 sm:grid-cols-2">
+              <dt class="h3">Finansal Analiz</dt>
+              <dd class="body-sm">Oran analizi ve aylık patron finans paneli.</dd>
+            </div>
+          </dl>
+          <div class="mt-8">
+            <Button href="/sablonlar">Kataloğa git</Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

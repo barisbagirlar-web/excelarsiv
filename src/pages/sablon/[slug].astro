@@ -1,0 +1,269 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import SectionLabel from '../../components/SectionLabel.astro';
+import Button from '../../components/Button.astro';
+import SpecTable from '../../components/SpecTable.astro';
+import PreviewGallery from '../../components/PreviewGallery.astro';
+import DemoDownloadBox from '../../components/DemoDownloadBox.astro';
+import SheetMapTable from '../../components/SheetMapTable.astro';
+import EligibilityList from '../../components/EligibilityList.astro';
+import FaqAccordion from '../../components/FaqAccordion.astro';
+import TemplateCard from '../../components/TemplateCard.astro';
+import CellGrid from '../../components/CellGrid.astro';
+import PurchaseBar from '../../components/PurchaseBar.astro';
+import Notice from '../../components/Notice.astro';
+import { slugify } from '../../utils/slug';
+
+export async function getStaticPaths() {
+  const templates = await getCollection('templates');
+  return templates.map((template) => ({
+    params: { slug: slugify(template.data.name) },
+    props: { template },
+  }));
+}
+
+interface Props {
+  template: CollectionEntry<'templates'>;
+}
+
+const { template } = Astro.props;
+const t = template.data;
+
+const price = t.priceTL.toLocaleString('tr-TR');
+const categoryLabels: Record<string, string> = {
+  'finansal-analiz': 'Finansal Analiz',
+  'nakit-akisi': 'Nakit Akışı',
+  'muhasebe-ve-vergi': 'Muhasebe ve Vergi',
+  'butce-ve-planlama': 'Bütçe ve Planlama',
+  'stok-ve-uretim': 'Stok ve Üretim',
+  'satis-ve-fiyatlama': 'Satış ve Fiyatlama',
+  'personel-ve-bordro': 'Personel ve Bordro',
+};
+const categoryLabel = categoryLabels[t.category] ?? t.category;
+
+const allTemplates = await getCollection('templates');
+const related = allTemplates.filter((item) => t.related.includes(slugify(item.data.name)));
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Product',
+      name: t.name,
+      description: t.summary,
+      image: t.screenshots.map((image) => new URL(image.src, Astro.site).href),
+      brand: { '@type': 'Brand', name: 'Excel Arşiv' },
+      offers: {
+        '@type': 'Offer',
+        price: t.priceTL,
+        priceCurrency: 'TRY',
+        availability: 'https://schema.org/InStock',
+        ...(t.shopierUrl ? { url: t.shopierUrl } : {}),
+      },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Ana Sayfa', item: new URL('/', Astro.site).href },
+        { '@type': 'ListItem', position: 2, name: 'Şablonlar', item: new URL('/sablonlar', Astro.site).href },
+        { '@type': 'ListItem', position: 3, name: categoryLabel, item: new URL(`/sablonlar/${t.category}`, Astro.site).href },
+        { '@type': 'ListItem', position: 4, name: t.name },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: t.faq.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: { '@type': 'Answer', text: item.answer },
+      })),
+    },
+  ],
+};
+---
+
+<Layout
+  title={`${t.name} — Excel Arşiv`}
+  description={`${t.summary} Demo dosyayı ücretsiz inceleyin; ödeme Shopier ile güvenli, teslimat e-posta ile.`}
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+
+  <section class="mx-auto max-w-6xl px-4 pb-24 pt-8">
+    <Breadcrumbs
+      crumbs={[
+        { label: 'Şablonlar', href: '/sablonlar' },
+        { label: categoryLabel, href: `/sablonlar/${t.category}` },
+        { label: t.name },
+      ]}
+    />
+
+    <div class="mt-8 grid gap-10 lg:grid-cols-[1fr_360px]">
+      <div class="lg:sticky lg:top-8 lg:self-start">
+        <h1 class="font-display text-3xl leading-tight text-ink-700">{t.name}</h1>
+        <p class="mt-3 max-w-xl text-lg leading-relaxed text-ink-500">{t.summary}</p>
+        <p class="price-numeric mt-4 font-mono text-2xl text-ink-900">
+          {price} <span class="acronym">TL</span> <span class="text-sm text-ink-400">(KDV dahil)</span>
+        </p>
+        {
+          t.shopierUrl ? (
+            <>
+              <p class="mt-2 text-xs text-ink-400">Ödeme onaylanınca indirme bağlantısı e-postanıza gider.</p>
+              <div class="mt-6">
+                <Button href={t.shopierUrl} external>Satın Al — Shopier ile öde</Button>
+              </div>
+            </>
+          ) : (
+            <div class="mt-6">
+              <Notice type="warning">
+                Bu ürünün satın alma bağlantısı yayına hazırlanıyor. Talep için iletişim sayfasından yazın.
+              </Notice>
+              <div class="mt-4">
+                <Button href="/iletisim">Satın almak için iletişime geçin</Button>
+              </div>
+            </div>
+          )
+        }
+      </div>
+      <SpecTable
+        fileFormat={t.fileFormat}
+        version={t.version}
+        updatedAt={t.updatedAt}
+        sheetCount={t.sheetCount}
+        sizeMB={t.sizeMB}
+        hasMacros={t.hasMacros}
+        minExcelVersion={t.minExcelVersion}
+        macCompatible={t.macCompatible}
+        sheetsCompatibility={t.sheetsCompatibility}
+      />
+    </div>
+
+    <section class="border-t border-rule-strong py-12">
+      <SectionLabel address="B2" label="Önizleme" />
+      <h2 class="mt-3 font-display text-2xl text-ink-700">Dosyanın içini görün</h2>
+      <p class="mt-2 max-w-2xl text-sm leading-relaxed text-ink-500">
+        Her sheet'in gerçek ekran görüntüsü. Görsele tıklayınca büyür.
+      </p>
+      <div class="mt-6">
+        <PreviewGallery images={t.screenshots} />
+      </div>
+      <div class="mt-8">
+        <DemoDownloadBox file={t.demoFile} name={t.name} />
+      </div>
+    </section>
+
+    <section class="border-t border-rule-strong py-12">
+      <SectionLabel address="B3" label="Sayfa Haritası" />
+      <h2 class="mt-3 font-display text-2xl text-ink-700">Dosyanın iskeleti</h2>
+      <p class="mt-2 max-w-2xl text-sm leading-relaxed text-ink-500">
+        Hangi sheet ne işe yarar, hangisi girdi hangisi çıktı — satın almadan önce.
+      </p>
+      <div class="mt-6">
+        <SheetMapTable sheets={t.sheetMap} />
+      </div>
+    </section>
+
+    <section class="border-t border-rule-strong py-12">
+      <SectionLabel address="B4" label="Girdi – Çıktı Sözleşmesi" />
+      <h2 class="mt-3 font-display text-2xl text-ink-700">Ne girersiniz, ne üretirsiniz</h2>
+      <div class="mt-6 grid gap-10 sm:grid-cols-2">
+        <div>
+          <h3 class="font-display text-lg text-ink-700">Siz şunları girersiniz</h3>
+          <ul class="mt-3 space-y-2">
+            {t.inputs.map((item) => (
+              <li class="flex gap-2 text-sm leading-relaxed text-ink-700">
+                <span aria-hidden="true" class="font-mono text-accent-primary">›</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-display text-lg text-ink-700">Dosya şunları üretir</h3>
+          <ul class="mt-3 space-y-2">
+            {t.outputs.map((item) => (
+              <li class="flex gap-2 text-sm leading-relaxed text-ink-700">
+                <span aria-hidden="true" class="font-mono text-accent-primary">›</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-t border-rule-strong py-12">
+      <div class="grid gap-10 sm:grid-cols-2">
+        <EligibilityList title="Kimler için uygun" items={t.suitableFor} />
+        <EligibilityList title="Kimler için uygun değil" items={t.notSuitableFor} negative />
+      </div>
+    </section>
+
+    <section class="border-t border-rule-strong py-12">
+      <SectionLabel address="B6" label="Teknik Gereksinimler" />
+      <h2 class="mt-3 font-display text-2xl text-ink-700">Çalıştırmak için gerekenler</h2>
+      <ul class="mt-6 space-y-2">
+        {t.requirements.map((item) => (
+          <li class="flex gap-2 text-sm leading-relaxed text-ink-700">
+            <span aria-hidden="true" class="font-mono text-accent-primary">›</span>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+      {
+        t.hasMacros && (
+          <div class="mt-6">
+            <Notice type="warning">
+              Bu dosya makro içerir. İlk açılışta Excel güvenlik uyarısı verir; içeriğe güveniyorsanız
+              "Makroları Etkinleştir" ile açabilirsiniz.
+            </Notice>
+          </div>
+        )
+      }
+    </section>
+
+    <section class="border-t border-rule-strong py-12">
+      <SectionLabel address="B7" label="Güncelleme Politikası" />
+      <h2 class="mt-3 font-display text-2xl text-ink-700">Sürümler ve güncellemeler</h2>
+      <p class="mt-4 max-w-2xl text-sm leading-relaxed text-ink-500">{t.updatePolicy}</p>
+    </section>
+
+    <section class="border-t border-rule-strong py-12">
+      <SectionLabel address="B8" label="Sık Sorulan Sorular" />
+      <h2 class="mt-3 font-display text-2xl text-ink-700">Bu dosyaya özel sorular</h2>
+      <div class="mt-6">
+        <FaqAccordion items={t.faq} />
+      </div>
+    </section>
+
+    {
+      related.length > 0 && (
+        <section class="border-t border-rule-strong py-12">
+          <SectionLabel address="B9" label="İlgili Şablonlar" />
+          <h2 class="mt-3 font-display text-2xl text-ink-700">Bunlar da işinize yarayabilir</h2>
+          <div class="mt-6">
+            <CellGrid>
+              {
+                related.map((item) => (
+                  <TemplateCard
+                    slug={slugify(item.data.name)}
+                    name={item.data.name}
+                    summary={item.data.summary}
+                    sheetCount={item.data.sheetCount}
+                    priceTL={item.data.priceTL}
+                  />
+                ))
+              }
+            </CellGrid>
+          </div>
+        </section>
+      )
+    }
+  </section>
+
+  {t.shopierUrl && <PurchaseBar name={t.name} priceTL={t.priceTL} shopierUrl={t.shopierUrl} />}
+  <div class="h-20 sm:hidden" aria-hidden="true" />
+</Layout>

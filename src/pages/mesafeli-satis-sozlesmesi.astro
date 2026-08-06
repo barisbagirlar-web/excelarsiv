@@ -1,0 +1,76 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+---
+
+<Layout
+  title="Mesafeli Satış Sözleşmesi — Excel Arşiv"
+  description="Excel Arşiv dijital ürün satışlarına ilişkin Mesafeli Satış Sözleşmesi: taraflar, ürün, ödeme, teslimat ve cayma hakkı."
+>
+  <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
+    <SectionLabel number={2} label="Sözleşme" />
+    <h1 class="display mt-6">Mesafeli Satış Sözleşmesi</h1>
+    <p class="lead mt-6">
+      Bu sözleşme, excelarsiv.com üzerinden satışa sunulan dijital ürünlerin satışına
+      uygulanır. Satın alma işleminin tamamlanmasıyla sözleşme kurulmuş sayılır.
+    </p>
+
+    <div class="mt-12 space-y-10">
+      <section>
+        <h2 class="h3">1 · Taraflar</h2>
+        <p class="body-sm mt-3">
+          Satıcı: Excel Arşiv (excelarsiv.com). Alıcı: Satın alma işlemini gerçekleştiren
+          gerçek veya tüzel kişi.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">2 · Sözleşmenin konusu ve ürün</h2>
+        <p class="body-sm mt-3">
+          Sözleşmenin konusu, satın alınan dijital Excel şablonudur. Ürünün özellikleri,
+          teknik künyesi ve demo içeriği ürün sayfasında belirtilir. Ürün, dijital içerik
+          olduğundan fiziki teslimatı yoktur.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">3 · Fiyat ve ödeme</h2>
+        <p class="body-sm mt-3">
+          Ürün fiyatı, ürün sayfasında KDV dahil olarak gösterilir. Ödeme, Shopier ödeme
+          altyapısı üzerinden kredi kartı ile yapılır. Ödeme anında alıcının kredi kartı
+          bilgileri satıcıya iletilmez; kart bilgileri yalnızca Shopier tarafından işlenir.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">4 · Teslimat</h2>
+        <p class="body-sm mt-3">
+          Dijital ürün teslimatı, ödemenin Shopier tarafından onaylanmasının ardından
+          indirme bağlantısının alıcının satın alma e-postasına iletilmesiyle gerçekleşir.
+          Teslimat süresi ve koşulları Teslimat ve İade sayfasında açıklanır.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">5 · Cayma hakkı</h2>
+        <p class="body-sm mt-3">
+          Mesafeli Sözleşmeler Yönetmeliği uyarınca, tüketicinin onayıyla ifasına başlanan
+          dijital içerik teslimlerinde cayma hakkı kullanılamaz. Bu kapsamda indirme
+          bağlantısı, teslimatı takiben alıcıya gönderildiği andan itibaren cayma hakkı
+          kullanılamaz. Teslimat sonrası hatalı dosya durumunda telafi koşulları Teslimat ve
+          İade sayfasında düzenlenmiştir.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">6 · Fatura</h2>
+        <p class="body-sm mt-3">
+          Satışa ilişkin fatura satıcı tarafından düzenlenir ve alıcının e-postasına iletilir.
+          e-arşiv altyapısı aktif olduğunda fatura e-arşiv formatında kesilir.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">7 · Uygulanacak hukuk</h2>
+        <p class="body-sm mt-3">
+          Bu sözleşmeden doğan uyuşmazlıklarda Türkiye Cumhuriyeti mevzuatı uygulanır;
+          yetkili merci tüketici mahkemeleri ile tüketici hakem heyetleridir.
+        </p>
+      </section>
+    </div>
+  </section>
+</Layout>

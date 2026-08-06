@@ -1,0 +1,63 @@
+---
+interface Props {
+  fileFormat: string;
+  version: string;
+  updatedAt: string;
+  sheetCount: number;
+  sizeMB: number;
+  hasMacros: boolean;
+  minExcelVersion: string;
+  macCompatible: boolean;
+  sheetsCompatibility: 'full' | 'partial' | 'none';
+}
+
+const {
+  fileFormat,
+  version,
+  updatedAt,
+  sheetCount,
+  sizeMB,
+  hasMacros,
+  minExcelVersion,
+  macCompatible,
+  sheetsCompatibility,
+} = Astro.props;
+
+const sheetsCompatLabel = {
+  full: 'Tam',
+  partial: 'Kısmi',
+  none: 'Yok',
+}[sheetsCompatibility];
+
+const rows = [
+  ['Biçim', fileFormat.toUpperCase()],
+  ['Sürüm', version],
+  ['Son güncelleme', updatedAt],
+  ['Sheet sayısı', String(sheetCount)],
+  ['Dosya boyutu', `${sizeMB} MB`],
+  ['Makro', hasMacros ? 'Var' : 'Yok'],
+  ['Excel uyumu', `${minExcelVersion} ve üzeri`],
+  ['Mac uyumu', macCompatible ? 'Evet' : 'Hayır'],
+  ['Google Sheets uyumu', sheetsCompatLabel],
+];
+
+const acronymKeys = new Set(['Biçim', 'Dosya boyutu']);
+---
+
+<!-- McKinsey exhibit style: hairline rules, bold header, muted zebra -->
+<table class="exhibit-table">
+  <tbody>
+    {
+      rows.map(([key, value]) => (
+        <tr>
+          <th scope="row" class="w-1/2 text-left font-normal">
+            {key}
+          </th>
+          <td class="text-right">
+            {acronymKeys.has(key) ? <span class="acronym">{value}</span> : value}
+          </td>
+        </tr>
+      ))
+    }
+  </tbody>
+</table>

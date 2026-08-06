@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import Button from '../components/Button.astro';
+---
+
+<Layout
+  title="İletişim — Excel Arşiv"
+  description="Excel Arşiv ile iletişime geçin. Satış, lisans, fatura ve uyarlama sorularınız için e-posta gönderin veya SSS'ye bakın."
+>
+  <section class="border-b border-rule-hairline bg-surface-1">
+    <div class="container-site section-enter">
+      <SectionLabel number={1} label="İletişim" />
+      <h1 class="display mt-6">Size nasıl yardımcı olabiliriz?</h1>
+      <p class="lead mt-6 max-w-xl">
+        Satış öncesi sorular, lisans ve fatura talepleri ya da bir dosyanın kendi hesap planınıza
+        uyarlanması hakkında yazın. İş günlerinde aynı gün yanıt veririz.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container-site section-enter">
+      <div class="grid-12 gap-y-10">
+        <div class="col-span-12 border-t border-rule-hairline pt-6 lg:col-span-4">
+          <h2 class="h3">E-posta</h2>
+          <p class="body-sm mt-3">
+            <a href="mailto:info@excelarsiv.com" class="font-mono text-sm text-accent-primary underline underline-offset-4 hover:text-accent-hover">
+              info@excelarsiv.com
+            </a>
+          </p>
+          <p class="body-sm mt-2">Fatura ve ödeme belgeleri için sipariş numaranızı ekleyin.</p>
+        </div>
+        <div class="col-span-12 border-t border-rule-hairline pt-6 lg:col-span-4">
+          <h2 class="h3">Çalışma saatleri</h2>
+          <p class="body-sm mt-3">Hafta içi 09.00–18.00 (Türkiye saati).</p>
+          <p class="body-sm mt-2">Hafta sonu gelen talepler pazartesi işlenir.</p>
+        </div>
+        <div class="col-span-12 border-t border-rule-hairline pt-6 lg:col-span-4">
+          <h2 class="h3">Sık sorulanlar</h2>
+          <p class="body-sm mt-3">
+            Teslimat, iade, fatura ve lisans sorularının büyük bölümü SSS'de yanıtlıdır.
+          </p>
+          <div class="mt-6">
+            <Button href="/sss" variant="secondary">SSS'yi incele</Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

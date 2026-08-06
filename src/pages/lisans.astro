@@ -1,0 +1,65 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+---
+
+<Layout
+  title="Lisans — Excel Arşiv"
+  description="Excel Arşiv şablon lisansı: kapsam, kullanım sınırları ve güncelleme hükümleri."
+>
+  <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
+    <SectionLabel number={1} label="Lisans" />
+    <h1 class="display mt-6">Tek Kullanıcı Lisansı</h1>
+    <p class="lead mt-6">
+      Satın alınan her Excel şablonu, bu lisans hükümlerine tabi olarak tek bir kullanıcıya
+      kullanım hakkı verir.
+    </p>
+
+    <div class="mt-12 space-y-10">
+      <section>
+        <h2 class="h3">1 · Lisansın kapsamı</h2>
+        <p class="body-sm mt-3">
+          Lisans, satın alınan dosyanın süresiz kullanımını kapsar. Dosya, aynı kullanıcının
+          makul sayıdaki cihazında (iş bilgisayarı, ev bilgisayarı, dizüstü) kurulabilir ve
+          kullanılabilir. Güncelleme hükümleri ürünün güncelleme politikasında ayrıca
+          belirtilir.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">2 · Kullanım sınırları</h2>
+        <p class="body-sm mt-3">
+          Dosyanın bütününün veya içindeki yapının (formül mantığı, şablon tasarımı, sayfa
+          düzeni) yeniden satılması, kiraya verilmesi, başka bir ürüne gömülerek dağıtılması
+          ve şirket dışına aktarılması yasaktır. Kullanıcı, dosyayı kendi işletmesinde
+          serbestçe kullanabilir; kendi işletmesinin çalışanlarına dosyayı iş amaçlı
+          kullandırabilir.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">3 · Fikri mülkiyet</h2>
+        <p class="body-sm mt-3">
+          Dosyanın ve içindeki yapının tüm fikri mülkiyet hakları Excel Arşiv'e aittir. Lisans,
+          mülkiyet devri değildir. Kullanıcı, dosyayı değiştirme ve kendi verilerini işleme
+          hakkına sahiptir; bu değişiklikler dosyanın özgün yapısı üzerindeki hakları
+          değiştirmez.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">4 · Garanti ve sorumluluk</h2>
+        <p class="body-sm mt-3">
+          Dosyalar, tanımlandıkları işlevi yerine getirmek üzere özenle hazırlanır ve farklı
+          senaryolarla test edilir. Ancak hiçbir yazılımın hatasız olduğu garanti edilemez.
+          Excel Arşiv, dosyanın kullanımından doğan dolaylı zararlardan sorumlu değildir;
+          hatalı dosya durumunda telafi koşulları Teslimat ve İade sayfasında düzenlenmiştir.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">5 · Fesih</h2>
+        <p class="body-sm mt-3">
+          Kullanıcının bu lisans hükümlerini ihlal etmesi hâlinde lisans kendiliğinden sona
+          erer. Sona erme, ödenmiş bedelin iadesini gerektirmez.
+        </p>
+      </section>
+    </div>
+  </section>
+</Layout>

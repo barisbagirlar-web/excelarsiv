@@ -1,0 +1,33 @@
+---
+interface Props {
+  fileName: string;
+  formula: string;
+  tabs: string[];
+  activeTab: string;
+  caption?: string;
+}
+
+const { fileName, formula, tabs, activeTab, caption } = Astro.props;
+---
+
+<figure class="excel-window">
+  <figcaption class="sr-only">{caption ?? fileName}</figcaption>
+  <div class="excel-titlebar">
+    <span class="font-mono text-xs text-ink-400">{fileName}</span>
+    <span class="font-mono text-xs text-ink-400">Excel Arşiv</span>
+  </div>
+  <div class="excel-formula">
+    <span class="excel-formula-fx" aria-hidden="true">fx</span>
+    <span class="excel-formula-input">{formula}</span>
+  </div>
+  <div>
+    <slot />
+  </div>
+  <div class="excel-sheet-tabs" aria-hidden="true">
+    {
+      tabs.map((tab) => (
+        <span class={`excel-sheet-tab${tab === activeTab ? ' is-active' : ''}`}>{tab}</span>
+      ))
+    }
+  </div>
+</figure>

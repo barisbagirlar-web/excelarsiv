@@ -1,0 +1,70 @@
+---
+name: 'Banka, Kredi ve Taksit Takip Sistemi'
+summary: 'Tüm banka hesaplarını, kredi taksitlerini ve ödeme tarihlerini tek sayfada izleyin; yaklaşan taksitleri önceden görün.'
+category: 'nakit-akisi'
+priceTL: 449
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.1
+sheetCount: 3
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-06'
+sheetMap: 
+  - name: 'Girdi'
+    purpose: 'Banka hareketi ve kredi tanımları'
+    kind: 'input'
+  - name: 'Hesap'
+    purpose: 'Kredi modeli ve taksit takvimi'
+    kind: 'calculation'
+  - name: 'Çıktı'
+    purpose: 'Hesap bakiyeleri ve yaklaşan taksitler'
+    kind: 'output'
+inputs: 
+  - 'Banka hesabı ve hareket tutarları'
+  - 'Kredi anapara, faiz ve vade bilgisi'
+  - 'İşlem açıklaması'
+outputs: 
+  - 'Hesap bazlı bakiye takibi'
+  - 'Kalan kredi anaparası'
+  - 'Yaklaşan taksit tutarı ve tarihi'
+suitableFor: 
+  - 'Birden fazla banka hesabı olanlar'
+  - 'Kredi ve taksit ödeyen KOBİ''ler'
+  - 'Vadesiz hesapları konsolide izlemek isteyenler'
+notSuitableFor: 
+  - 'Kasa defteri'
+  - 'Çek–senet takibi'
+requirements: 
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Mevzuattan bağımsız yapıdır; iyileştirme sürümleri satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq: 
+  - question: 'Birden fazla kredi girilebilir mi?'
+    answer: 'Evet, kredi tanımı için satırlar açıp her krediyi ayrı blok olarak girebilirsiniz; özet sayfasına ek formül eklerseniz otomatik toplanır.'
+  - question: 'Taksit tarihi uyarısı var mı?'
+    answer: 'Yaklaşan taksitler Hesap sayfasındaki vade kolonunda görünür; kendi koşullu biçimlendirmenizi ekleyerek renklendirebilirsiniz.'
+  - question: 'Döviz hesaplarını destekliyor mu?'
+    answer: 'Yapı TL bazlıdır. Döviz hesabı için TL karşılığını girmeniz veya ayrı kolon eklemeniz önerilir.'
+  - question: 'Excel sürümüm eski, çalışır mı?'
+    answer: 'Excel 2016 ve üzeri gerekir; kullanılan işlevler standarttır.'
+  - question: 'Kilitli mi? Değiştirebilir miyim?'
+    answer: 'Girdi alanları serbesttir; formül sayfaları şifresiz korumadadır, kaldırıp inceleyebilirsiniz.'
+  - question: 'Lisans tek kullanıcılık mı?'
+    answer: 'Evet, tek lisans tek kullanıcıdır; aynı kullanıcının makul sayıdaki cihazında kullanılabilir.'
+demoFile: /demo/banka-kredi-ve-taksit-takip-sistemi.xlsx
+screenshots: 
+  - src: '/screenshots/banka-kredi-ve-taksit-takip-sistemi-1.png'
+    alt: 'Banka, Kredi ve Taksit Takip Sistemi dosyasının Girdi sayfası — Banka hareketi ve kredi tanımları'
+  - src: '/screenshots/banka-kredi-ve-taksit-takip-sistemi-2.png'
+    alt: 'Banka, Kredi ve Taksit Takip Sistemi dosyasının Hesap sayfası — Kredi modeli ve taksit takvimi'
+  - src: '/screenshots/banka-kredi-ve-taksit-takip-sistemi-3.png'
+    alt: 'Banka, Kredi ve Taksit Takip Sistemi dosyasının Çıktı sayfası — Hesap bakiyeleri ve yaklaşan taksitler'
+related: 
+  - 'akilli-kasa-defteri-ve-nakit-kontrol-sistemi'
+  - 'kobi-finans-yonetim-paketi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

@@ -1,0 +1,43 @@
+---
+interface Props {
+  name: string;
+  size?: number;
+  className?: string;
+  label?: string;
+}
+
+const { name, size = 24, className, label } = Astro.props;
+
+const common = 'fill-none stroke-current';
+---
+
+{
+  label ? (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 16 16"
+      stroke-width="1.2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class={`${common} ${className ?? ''}`}
+      role="img"
+      aria-label={label}
+    >
+      <use href={`#${name}`} />
+    </svg>
+  ) : (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 16 16"
+      stroke-width="1.2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class={`${common} ${className ?? ''}`}
+      aria-hidden="true"
+    >
+      <use href={`#${name}`} />
+    </svg>
+  )
+}

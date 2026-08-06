@@ -1,0 +1,71 @@
+---
+name: '13 Haftalık Nakit Akışı ve Ödeme Planlama Sistemi'
+summary: '13 haftalık nakit modeliyle giriş-çıkış tahminlerini planlayın; kritik haftaları önceden görüp ödeme önceliği verin.'
+category: 'nakit-akisi'
+priceTL: 449
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.1
+sheetCount: 3
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-06'
+sheetMap: 
+  - name: 'Girdi'
+    purpose: 'Haftalık tahmin girişleri'
+    kind: 'input'
+  - name: 'Hesap'
+    purpose: '13 haftalık kümülatif model'
+    kind: 'calculation'
+  - name: 'Çıktı'
+    purpose: 'Kritik hafta uyarıları ve ödeme planı'
+    kind: 'output'
+inputs: 
+  - 'Haftalık nakit girişi tahmini'
+  - 'Haftalık nakit çıkışı tahmini'
+  - 'Ödeme takvimi notları'
+outputs: 
+  - '13 haftalık kümülatif bakiye eğrisi'
+  - 'Kritik (eksi) hafta uyarısı'
+  - 'Dönem net nakit değişimi'
+suitableFor: 
+  - 'Mevsimselliği olan işletmeler'
+  - 'Ödeme tarihleri kesişen KOBİ''ler'
+  - 'Yatırım veya alım öncesi nakit planlaması'
+notSuitableFor: 
+  - 'Kasa defteri işleme'
+  - 'Yıllık bütçe detayı'
+requirements: 
+  - 'Excel 2016 veya üzeri'
+  - 'DİZİ formülleri çalıştıran sürüm'
+updatePolicy: 'Mevzuat değişikliği bu yapıyı etkilemediği için sürüm güncellemeleri iyileştirme kapsamında sunulur; kullanıcıya 12 ay ücretsizdir.'
+faq: 
+  - question: '13 hafta neden seçildi?'
+    answer: '13 haftalık dönem, bir çeyreği karşılar ve nakit krizlerinin çoğu bu pencerede öngörülebilir. Daha uzun dönemler tahmin güvenilirliğini düşürür.'
+  - question: 'Tahminleri ne sıklıkla güncellemeliyim?'
+    answer: 'Haftalık güncelleme önerilir. Gerçekleşen hafta verisini girerken sonraki haftaların tahminini de düzeltmeniz modeli canlı tutar.'
+  - question: 'Kritik hafta uyarısı nasıl çalışır?'
+    answer: 'Hesap sayfasındaki kümülatif bakiye eksiye düşen hafta, Çıktı sayfasında en düşük hafta olarak gösterilir; böylece ödeme önceliklendirmesini o haftaya göre yaparsınız.'
+  - question: 'Dövizli giriş-çıkış girebilir miyim?'
+    answer: 'Yapı TL bazlıdır; döviz hareketlerini TL karşılığıyla girmeniz önerilir.'
+  - question: 'Excel sürümüm eski, çalışır mı?'
+    answer: 'Excel 2016 ve üzeri gerekir. INDEX/MATCH yapısı modern sürümlerde sorunsuz çalışır.'
+  - question: 'Lisans tek kullanıcılık mı?'
+    answer: 'Evet, tek lisans tek kullanıcıdır; aynı kullanıcının makul sayıdaki cihazında kullanılabilir.'
+demoFile: /demo/13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi.xlsx
+screenshots: 
+  - src: '/screenshots/13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi-1.png'
+    alt: '13 Haftalık Nakit Akışı ve Ödeme Planlama Sistemi dosyasının Girdi sayfası — Haftalık tahmin girişleri'
+  - src: '/screenshots/13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi-2.png'
+    alt: '13 Haftalık Nakit Akışı ve Ödeme Planlama Sistemi dosyasının Hesap sayfası — 13 haftalık kümülatif model'
+  - src: '/screenshots/13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi-3.png'
+    alt: '13 Haftalık Nakit Akışı ve Ödeme Planlama Sistemi dosyasının Çıktı sayfası — Kritik hafta uyarıları ve ödeme planı'
+related: 
+  - 'akilli-kasa-defteri-ve-nakit-kontrol-sistemi'
+  - 'kobi-finans-yonetim-paketi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

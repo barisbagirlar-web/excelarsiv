@@ -1,0 +1,53 @@
+---
+interface SheetRow {
+  name: string;
+  purpose: string;
+  kind: 'input' | 'calculation' | 'output';
+}
+
+interface Props {
+  sheets: SheetRow[];
+}
+
+const { sheets } = Astro.props;
+
+const kindLabel = {
+  input: 'Girdi',
+  calculation: 'Hesap',
+  output: 'Çıktı',
+};
+
+// Excel renk dili: giriş hücresi mavi, formül koyu, sonuç yeşil.
+const kindStyle = {
+  input: 'text-accent-primary',
+  calculation: 'font-medium text-ink-900',
+  output: 'text-signal-up',
+};
+---
+
+<div class="overflow-x-auto">
+  <table class="w-full border-collapse font-mono text-sm">
+    <thead>
+      <tr class="border-b border-rule-strong bg-surface-1 text-ink-500">
+        <th scope="col" class="w-8 border-r border-rule-hairline px-2 py-2 text-center text-ink-400" aria-label="Satır numarası" />
+        <th scope="col" class="px-3 py-2 text-left">A · Sheet</th>
+        <th scope="col" class="px-3 py-2 text-left">B · Ne işe yarar</th>
+        <th scope="col" class="px-3 py-2 text-left">C · Tür</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        sheets.map((sheet, i) => (
+          <tr class="border-b border-rule-hairline">
+            <td class="border-r border-rule-hairline px-2 py-2 text-center text-ink-400">{i + 1}</td>
+            <th scope="row" class="px-3 py-2 font-normal text-ink-700">
+              <span class="acronym">{sheet.name}</span>
+            </th>
+            <td class="px-3 py-2 text-ink-500">{sheet.purpose}</td>
+            <td class={`px-3 py-2 ${kindStyle[sheet.kind]}`}>{kindLabel[sheet.kind]}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,70 @@
+---
+name: 'Çek–Senet ve Vade Risk Sistemi'
+summary: 'Çek ve senet portföyünü vade aralıklarıyla izleyin; tahsilat beklentisini ve riskli kalemleri tek bakışta görün.'
+category: 'nakit-akisi'
+priceTL: 449
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.1
+sheetCount: 3
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-06'
+sheetMap: 
+  - name: 'Girdi'
+    purpose: 'Çek–senet portföy girişleri'
+    kind: 'input'
+  - name: 'Hesap'
+    purpose: 'Vade aralığı ve risk analizi'
+    kind: 'calculation'
+  - name: 'Çıktı'
+    purpose: 'Tahsilat beklentisi ve risk özeti'
+    kind: 'output'
+inputs: 
+  - 'Çek veya senet türü ve numarası'
+  - 'Keşideci ve vade tarihi'
+  - 'Tutar ve durum bilgisi'
+outputs: 
+  - 'Vade aralığına göre tutar dağılımı'
+  - 'Riskli kalemlerin toplamı'
+  - 'Portföy toplam tutarı'
+suitableFor: 
+  - 'Vadeli tahsilat yapan üreticiler'
+  - 'Çek–senet kabul eden toptancılar'
+  - 'Vade riskini ölçmek isteyen finans yöneticileri'
+notSuitableFor: 
+  - 'Cari hesap takibi'
+  - 'Banka kredi takibi'
+requirements: 
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Mevzuattan bağımsız yapıdır; iyileştirme sürümleri satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq: 
+  - question: 'Ciro edilen kalemler nasıl izlenir?'
+    answer: 'Durum kolonuna "Ciro" yazmanız yeterlidir; dilerseniz kendi koşullu biçimlendirmenizle renklendirebilirsiniz.'
+  - question: 'Karşılıksız çek uyarısı var mı?'
+    answer: 'Durum kolonuna "Karşılıksız" yazıp kendi formülünüzle risk toplamına ekleyebilirsiniz; yapı önceden hazır tanım içermez.'
+  - question: 'Vade aralıkları otomatik mi?'
+    answer: 'Demo modelde örnek aralıklar vardır; kendi aralıklarınızı Hesap sayfasındaki formülleri düzenleyerek ayarlayabilirsiniz.'
+  - question: 'Excel sürümüm eski, çalışır mı?'
+    answer: 'Excel 2016 ve üzeri gerekir; kullanılan işlevler standarttır.'
+  - question: 'Kilitli mi? Değiştirebilir miyim?'
+    answer: 'Girdi alanları serbesttir; formül sayfaları şifresiz korumadadır, kaldırıp inceleyebilirsiniz.'
+  - question: 'Lisans tek kullanıcılık mı?'
+    answer: 'Evet, tek lisans tek kullanıcıdır; aynı kullanıcının makul sayıdaki cihazında kullanılabilir.'
+demoFile: /demo/cek-senet-ve-vade-risk-sistemi.xlsx
+screenshots: 
+  - src: '/screenshots/cek-senet-ve-vade-risk-sistemi-1.png'
+    alt: 'Çek–Senet ve Vade Risk Sistemi dosyasının Girdi sayfası — Çek–senet portföy girişleri'
+  - src: '/screenshots/cek-senet-ve-vade-risk-sistemi-2.png'
+    alt: 'Çek–Senet ve Vade Risk Sistemi dosyasının Hesap sayfası — Vade aralığı ve risk analizi'
+  - src: '/screenshots/cek-senet-ve-vade-risk-sistemi-3.png'
+    alt: 'Çek–Senet ve Vade Risk Sistemi dosyasının Çıktı sayfası — Tahsilat beklentisi ve risk özeti'
+related: 
+  - 'cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi'
+  - 'kobi-finans-yonetim-paketi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

@@ -1,0 +1,477 @@
+================================================================================
+ EXCEL ARŞİV — SİSTEM DNA'SI
+ excelarsiv.com · Tam altyapı, kodlama ve tasarım kodu dokümanı
+ Tarih: 2026-08-06 · Belge türü: TXT (kullanıcı isteği)
+================================================================================
+
+Bu belge, projenin tam "DNA"sını döküm eder: kullanılan sistem bilgileri,
+kodlama konvansiyonları, tasarım kodu (token'lar, tipografi, komponentler),
+veri katmanı, mimari ve operasyon kararları. Amaç: projeyi sıfırdan anlamak
+isteyen bir geliştiriciye veya sistemi belgelemek isteyen sahibe tek kaynak
+sağlamak.
+
+
+
+================================================================================
+1. KÜNYE — SİSTEM BİLGİLERİ
+================================================================================
+
+Proje adı        : excel-arsiv (npm) / Excel Arşiv (marka)
+Alan adı         : excelarsiv.com (hedef yayın adresi)
+İş modeli        : Türkiye'deki ticari işletmelere finans, muhasebe ve
+                   operasyon amaçlı hazır Excel çalışma tabloları (dijital ürün)
+Ödeme altyapısı  : Shopier (dijital ürün teslimatı Shopier panelinden)
+Barındırma       : Firebase Hosting (statik, sunucusuz)
+Ürün aşaması     : ALTYAPI TAMAM; ürün içerikleri bekliyor (kullanıcı kararı)
+
+Teknoloji özeti:
+- Astro 7.x (statik çıktı, sıfır istemci JavaScript hedefi)
+- Tailwind CSS v4 (@tailwindcss/vite) + özel token katmanı
+- MDX (@astrojs/mdx) — her ürün bir .mdx dosyası
+- Content Collections (astro:content) + Zod şema doğrulaması
+- Sitemap (@astrojs/sitemap) — otomatik sitemap-index.xml
+- Self-host fontlar: Inter 400/600 + JetBrains Mono 400 (woff2, latin-ext)
+
+Sürümler (package.json, [Kesin]):
+  astro              ^7.1.6        (build çıktısı: astro v7.1.6)
+  @astrojs/mdx       ^7.0.5
+  @astrojs/sitemap   ^3.7.3
+  @tailwindcss/vite  ^4.3.3
+  tailwindcss        ^4.3.3
+  node engine        >=22.12.0
+  type               module (ESM)
+
+Yapılandırma dosyaları:
+  astro.config.mjs : site https://excelarsiv.com, trailingSlash 'never',
+                     tailwindcss vite plugin, mdx + sitemap entegrasyonları
+  tsconfig.json    : astro/tsconfigs/strict
+  firebase.json    : hosting dist/, cleanUrls, cache başlıkları
+  .gitignore       : kök, node_modules/dist/.astro dışlanır
+
+Scriptler:
+  npm run dev      → astro dev
+  npm run build    → astro build (dist/ çıktısı)
+  npm run preview  → astro preview (yerel yayın önizlemesi, 4321)
+
+
+
+================================================================================
+2. MİMARİ VE DOSYA ENVANTERİ
+================================================================================
+
+Klasör ağacı (kök):
+
+  astro.config.mjs        Astro yapılandırması
+  firebase.json           Firebase Hosting yapılandırması
+  package.json            Bağımlılıklar ve scriptler
+  tsconfig.json           Strict TS yapılandırması
+  README.md               Geliştirici dokümantasyonu
+  AGENTS.md / CLAUDE.md   Yapay zekâ ajanı kuralları (proje yönergeleri)
+  public/                 Statik varlıklar (kökten servis edilir)
+  dist/                   Build çıktısı (yayınlanan klasör)
+  src/                    Kaynak kod
+
+src/ klasörü:
+
+  src/content.config.ts           Ürün şeması (Zod) — zorunlu alan denetimi
+  src/layouts/Layout.astro        Genel düzen: head meta, canonical, OG,
+                                  erişilebilirlik, header/main/footer
+  src/styles/global.css           Tasarım token'ları + font yüzleri +
+                                  tipografi ölçeği + komponent sınıfları
+  src/utils/slug.ts               Türkçe ürün adı → URL slug çevirici
+  src/data/productList.ts         Bekleyen 12 ürün adı (liste kaydı)
+  src/components/                 16 bileşen (İngilizce tanımlayıcılar):
+      Badge.astro
+      Breadcrumbs.astro
+      Button.astro
+      CellGrid.astro
+      DemoDownloadBox.astro
+      EligibilityList.astro
+      FaqAccordion.astro
+      Notice.astro
+      PreviewGallery.astro
+      PurchaseBar.astro
+      SectionLabel.astro
+      SheetMapTable.astro
+      SiteFooter.astro
+      SiteHeader.astro
+      SpecTable.astro
+      TemplateCard.astro
+  src/pages/                      Rotalar (statik üretim):
+      index.astro                 Ana sayfa (A1-A6 editoryal düzen)
+      404.astro                   #REF! konseptli hata sayfası
+      sablonlar.astro             Ürün kataloğu (kategori filtreleri)
+      sablonlar/[kategori].astro  Kategori sayfaları (7 kategori)
+      sablon/[slug].astro         Ürün sayfası şablonu (10 blok + JSON-LD)
+      sss.astro                   Sık sorulan sorular (8 madde)
+      nasil-calisir.astro         Nasıl çalışır (4 adım)
+  src/content/templates/          Ürün MDX dosyaları (şu an yalnızca .gitkeep)
+
+public/ envanteri:
+  favicon.svg             Marka simgesi (A1 hücre motifi)
+  og.png                  1200x1200 Open Graph görseli
+  robots.txt              robots + sitemap referansı
+  fonts/inter-latin-ext.woff2, inter-latin.woff2
+  fonts/jbmono-latin-ext.woff2, jbmono-latin.woff2
+    (latin-ext altkümeleri Türkçe karakterler için)
+
+Ürün dosyası kuralı:
+  Her ürün = 1 .mdx dosyası → src/content/templates/<ad>.mdx
+  Dosya adı serbest; URL ürün adından türetilir.
+
+
+
+================================================================================
+3. VERİ KATMANI — ŞEMA VE SLUG KURALI
+================================================================================
+
+Collection: "templates"
+Yükleme   : glob('**/*.mdx', base: './src/content/templates')
+
+Zorunlu alanlar (tamamı build'i patlatır, eksik olamaz):
+  name              string  (max 70)
+  summary           string  (min 40, max 160)
+  category          enum: finansal-analiz | nakit-akisi | muhasebe-ve-vergi
+                     | butce-ve-planlama | stok-ve-uretim
+                     | satis-ve-fiyatlama | personel-ve-bordro
+  priceTL           number  (pozitif)
+  vatIncluded       literal true
+  fileFormat        enum: xlsx | xlsm
+  sizeMB            number
+  sheetCount        number  (int, pozitif)
+  hasMacros         boolean
+  minExcelVersion   string
+  macCompatible     boolean
+  sheetsCompatibility enum: full | partial | none
+  version           string
+  updatedAt         string  (ISO tarih)
+  sheetMap          dizi, en az 1: { name, purpose, kind: input|calculation|output }
+  inputs            string[], en az 3
+  outputs           string[], en az 3
+  suitableFor       string[], en az 3
+  notSuitableFor    string[], en az 2
+  requirements      string[], en az 1
+  updatePolicy      string
+  faq               dizi, en az 6: { question, answer }
+  demoFile          string
+  screenshots       dizi, en az 3: { src, alt(min 25) }
+  shopierUrl        string (geçerli URL)
+  related           string[], en fazla 3 (slug referansları)
+
+SLUG KURALI (KIRICI karar, kullanıcı onaylı):
+  - Şemada ayrı slug alanı YOKTUR.
+  - URL, ürün adından otomatik türetilir ve ürün adını TAM içerir.
+  - src/utils/slug.ts: Türkçe harfler → ascii (ç→c, ğ→g, ı→i, ö→o, ş→s, ü→u),
+    boşluk/noktalama → tire, fazla tire temizlenir.
+  - Örnek: "Akıllı Kasa Defteri ve Nakit Kontrol Sistemi"
+        → /sablon/akilli-kasa-defteri-ve-nakit-kontrol-sistemi
+  - Ürün adı değişirse URL de değişir (301/redirect yönetimi GATE 4 sonrası).
+  - Kategori ve üst sayfa slug'ları TÜRKÇEDİR (SEO kararı):
+      /sablonlar, /sablonlar/nakit-akisi, /nasil-calisir, /sss
+
+Rota listesi (build çıktısı, statik):
+  /                                   index
+  /404.html                           404
+  /sablonlar                          katalog
+  /sablonlar/{7 kategori}             kategori
+  /sablon/{slug}                      ürün (slug ürün adından)
+  /sss                                SSS
+  /nasil-calisir                      Nasıl çalışır
+  /sitemap-index.xml                  otomatik sitemap
+
+Bekleyen rotalar (mandate §3, GATE 4):
+  /iletisim, /hakkinda, /lisans, /mesafeli-satis-sozlesmesi,
+  /teslimat-ve-iade, /kvkk-aydinlatma, /cerez-politikasi,
+  /paketler, /paket/[slug], /rehber, /rehber/[slug]
+
+
+
+================================================================================
+4. KODLAMA DNA'SI — KONVANSİYONLAR VE KURALLAR
+================================================================================
+
+4.1 Dil disiplini (kullanıcı kararı):
+  - Kod tanımlayıcıları, dosya adları, prop adları, şema alanları,
+    CSS sınıf/token adları: %100 İNGİLİZCE.
+  - Kullanıcıya görünen metin (arayüz, ürün adları, SSS içerikleri): TÜRKÇE.
+  - URL slug'ları: TÜRKÇE (SEO kararı, yukarıda).
+  - Bu ayrım bilinçlidir ve dokunulmaz.
+
+4.2 Release Mandate kuralları (excelarsiv-release-mandate.md):
+  - Yalnızca açık tema; renk token'ları :root'da tek kaynak.
+  - Köşe yarıçapı istisnasız 0.
+  - Hareket yalnızca opacity/transform; 120–180ms; ease-out;
+    prefers-reduced-motion'da sıfırlanır.
+  - Self-host fontlar (Inter + JetBrains Mono), latin-ext alt küme.
+  - Statik üretim, sıfır istemci JS.
+  - Görünen metin Türkçe; ticari kısaltmalar korunur (KDV, SGK, VUK vb.).
+
+4.3 Genel kod standardı:
+  - TypeScript strict (astro/tsconfigs/strict).
+  - Bileşen arayüzleri: interface Props { ... }, Astro.props destructuring.
+  - Astro dışı mantık yardımcılarda: src/utils/.
+  - Veri alanı adları şemayla birebir; sayfalar t.data üzerinden okur.
+  - HTML semantik: dl/dt/dd (künye), ol/li (indeks), figure/figcaption,
+    table (spec), details/summary (SSS), nav/header/footer/main landmark.
+  - Tekrar eden stiller global.css @layer components altında
+    (btn-primary, btn-secondary, h1, h2, h3, lead, kicker, container-site,
+    section-pad, display, mono-xs, body-sm).
+  - Erişilebilirlik: global :focus-visible, aria-current, aria-hidden
+    dekoratif öğelerde, scroll-margin-top çapa hedefleri için.
+  - Kod İngilizce; yorum varsa İngilizce ve gerekçeli (ihtiyaç/trade-off).
+
+4.4 Proje invaryantları (değişmez kurallar):
+  - Şema değişikliği = KIRICI, onay ister.
+  - Ham hex renk yalnızca global.css'te; bileşenlerde token sınıfı kullanılır.
+  - Rota değişikliği URL yapısını bozar, onay ister.
+  - Görünen Türkçe metinler İngilizceye çevrilmez.
+  - Ürün eklerken demo .xlsx + en az 3 ekran görüntüsü zorunlu (build patlar).
+  - Sitede sepet/form yok; ödeme shopierUrl ile yeni sekmede.
+
+
+
+================================================================================
+5. TASARIM DNA'SI — TOKEN'LAR VE KOMPONENT SİSTEMİ
+================================================================================
+
+5.1 Renk token'ları (global.css :root, yalnızca açık tema):
+
+  --paper        #FAF8F3   sayfa zemini (kâğıt tonu)
+  --card         #FFFFFF   kart zemini
+  --tint         #F2EDE2   vurgu zemini / seçili blok
+  --ink          #17140F   ana metin (koyu)
+  --ink-2        #574F44   ikincil metin
+  --ink-3        #6E6355   üçüncül/küçük metin (AA kontrast için koyulaştırıldı)
+  --line         #E4DED2   ince çizgi
+  --line-dark    #C9C0AE   belirgin çizgi
+  --accent       #A2452A   birincil aksiyon / vurgu (tuğla kırmızısı)
+  --accent-dark  #7E3520   hover durumu
+  --accent-tint  #F6EDE8   aksiyon zemini (hover/seçim)
+  --navy         #1E3A5C   bağlantı / indeks vurgusu
+  --success      #2C6047   olumlu durum
+  --warning      #8A6413   uyarı durumu
+  --error        #94291F   hata durumu
+
+  Tailwind eşlemesi: @theme inline → bg-paper, text-ink, text-ink-2,
+  text-ink-3, border-line, border-line-dark, bg-card, bg-tint, bg-accent,
+  text-accent, bg-accent-tint, text-navy, text-success, text-warning,
+  text-error vb.
+
+5.2 Tipografi:
+
+  Aileler:
+    --font-heading : Georgia, "Times New Roman", serif  (başlıklar)
+    --font-body    : "Inter", ...  (gövde)
+    --font-mono    : "JetBrains Mono", ... (künye/veri/etiket)
+
+  Ölçek (tek kaynak, clamp tabanlı):
+    --type-display : clamp(2.5rem, 6vw, 4.25rem)   hero / büyük başlık
+    --type-h1      : clamp(1.75rem, 3.5vw, 2.75rem)
+    --type-h2      : clamp(1.375rem, 2.5vw, 2rem)
+    --type-h3      : 1.125rem
+    --type-lead    : clamp(1.0625rem, 1.75vw, 1.25rem)
+
+  Aralık token'ları:
+    --ls-kicker    : 0.14em   (küçük etiketler, uppercase)
+    --ls-caption   : 0.08em
+
+  Sınıflar (global.css @layer components):
+    .display, .h1, .h2, .h3, .lead, .body-sm, .mono-xs, .kicker
+    h1/h2/h3 text-wrap: balance
+
+5.3 Boşluk (spacing) ritmi:
+  - container-site : max-w 72rem, padding-inline 1rem (sm: 1.5rem)
+  - section-pad    : 4rem → 5rem (sm) → 6rem (lg) dikey dolgu
+  - Bölüm içi akış : mt-3/4/6/8/10/12 üzerinden; satır içi ritim 4px tabanlı
+  - Satır yükseklikleri: display 1.05, h1 1.15, h2 1.2, h3 1.35,
+    lead 1.65, body-sm 1.7
+
+5.4 Köşe ve hareket:
+  - border-radius: 0 (istisnasız, mandate §2.3)
+  - Yalnızca opacity/transform geçişleri, 150ms, --ease-out
+    (cubic-bezier(0.33,1,0.68,1)); buton basılı hali translateY(1px)
+  - prefers-reduced-motion'da tümü 0ms
+  - ::selection → bg accent-tint / text ink
+
+5.5 Komponent sistemi (16 bileşen):
+  - SiteHeader : menü (5 öğe), aria-current, aktif durum accent-tint
+  - SiteFooter : yasal bağlantılar + copyright + "Statik · Sıfır JS" notu
+  - Button     : primary (btn-primary), secondary (btn-secondary),
+                 link varyantı; isteğe bağlı dış link + "→" mikro etkileşim
+  - SectionLabel : address + label (örn. "A1 · Künye"), kısa çizgi ayrımı
+  - Breadcrumbs : kırıntı navigasyonu
+  - CellGrid    : negatif kenar boşluklu ızgara (kesişen hücre çizgileri)
+  - TemplateCard: ürün kartı (sheet sayısı, ad, özet, fiyat, önizleme)
+  - SpecTable   : teknik künye tablosu (biçim, sürüm, boyut, uyumluluk)
+  - SheetMapTable : sheet haritası tablosu (ad, amaç, tür)
+  - PreviewGallery : ekran görüntüsü galerisi (lazy img)
+  - DemoDownloadBox : ücretsiz demo indirme kutusu
+  - EligibilityList : uygun/uygun değil listesi (✓ / ×)
+  - FaqAccordion : details/summary akordeon
+  - PurchaseBar  : mobil satın alma çubuğu (yapışkan, sm altı)
+  - Notice       : uyarı/başarı bildirimi
+  - Badge        : etiket rozeti
+
+5.6 Editoryal kompozisyon (premium çeviri kararları):
+  - Bölümler sabit kart ızgarası değil; asimetrik iki kolon
+    (0.72fr / 1.28fr gibi), yapışkan başlık kolonu (lg:sticky).
+  - İndeks listeleri: sayılı satırlar (01, 02, ...), hover'da "→".
+  - Süreç blokları: hayalet numaralar (00-04) serif ile.
+  - Hero: sağda "workbook.xlsx" künye kutusu (dl/dt/dd), kanıt taşıyan
+    içerik; jenerik vaat yok.
+  - 404: "#REF!" konsepti — "Bu hücre boş." marka sesi.
+  - Uydurulmuş sosyal kanıt/metrik/fotoğraf YOK (gerçek veri gelince eklenecek).
+
+
+
+================================================================================
+6. SEO KATMANI
+================================================================================
+
+  - Her sayfada unique <title> + meta description (Layout prop'ları).
+  - canonical: new URL(Astro.url.pathname, Astro.site).
+  - Open Graph: og:type/og:site_name/og:title/og:description/og:url/
+    og:locale(tr_TR)/og:image(/og.png).
+  - favicon.svg + og.png (1200x1200) marka uyumlu.
+  - robots.txt + otomatik sitemap-index.xml (@astrojs/sitemap).
+  - JSON-LD (ürün sayfası, dinamik): Product + Offer (TRY, fiyat, URL,
+    InStock) + BreadcrumbList + FAQPage.
+  - trailingSlash 'never'; Firebase cleanUrls.
+
+Kullanıcıya açık not: SEO teknik tabanı hazır; rich result testi ve
+Lighthouse SEO=100 doğrulaması GATE 5'te (ürün içeriğiyle birlikte).
+
+
+
+================================================================================
+7. ERİŞİLEBİLİRLİK KATMANI
+================================================================================
+
+  - Skip link ("İçeriğe geç") → #icerik.
+  - Global :focus-visible → 2px accent outline, offset 2px.
+  - Semantik landmark'lar: header/nav/main/footer.
+  - dl/dt/dd, ol/li, table/th scope, figure/figcaption, details/summary.
+  - aria-current="page" (menü), aria-hidden (dekoratif).
+  - Görsellerde zorunlu alt (şemada min 25 karakter).
+  - prefers-reduced-motion uyumu.
+  - Kontrast: ink-3 AA için koyulaştırıldı; butonlarda beyaz/accent.
+  - scroll-margin-top çapa hedefleri için (üst bilgi çakışması).
+
+  GATE 5'te: axe-core taraması, klavye senaryoları, WCAG 2.2 AA denetimi.
+
+
+
+================================================================================
+8. DEPLOY VE OPS
+================================================================================
+
+Yerel:
+  npm install
+  npm run dev          → http://localhost:4321 (astro dev)
+  npm run build        → dist/ üretir
+  npm run preview      → dist/'i yerelde yayınlar (4321)
+
+Yayın (Firebase Hosting):
+  npm run build
+  firebase login
+  firebase deploy --only hosting
+
+firebase.json davranışı:
+  - public: dist
+  - cleanUrls: true, trailingSlash: false
+  - Cache-Control: public, max-age=31536000, immutable
+    → *.webp, *.woff2, *.css, *.js
+  - Gizli değer kullanılmaz: ödeme Shopier paneli üzerinden shopierUrl ile
+    yapıldığından API anahtarı projeye girmez.
+
+Performans hedefi (mandate):
+  - Statik çıktı, sıfır istemci JS, self-host subset fontlar, lazy img.
+  - GATE 5: Lighthouse Perf >= 95, Erişilebilirlik 100, SEO 100; axe-core.
+
+
+
+================================================================================
+9. SHOPIER ENTEGRASYONU — KARAR NOTU
+================================================================================
+
+  - Satın alma akışı: ürün sayfasındaki shopierUrl → yeni sekmede Shopier
+    güvenli ödeme sayfası. Sitede sepet ve ödeme formu YOKTUR.
+  - Dijital ürün teslimatı: Shopier panelindeki dijital teslimat ayarına
+    bağlı; indirme bağlantısı alıcının e-postasına gider.
+  - IPN / post_sale_callback: doğrulama imzası 4 parçalıdır —
+    random_nr + platform_order_id + total_order_value + currency,
+    HMAC-SHA256. Şu an işlenmiyor (ürünler statik, satış sonrası yok);
+    gerekirse ayrı sunucusuz uç ile kurulur. JS SDK imza hesabı (2 parçalı)
+    referans alınmaz; 4 parçalı doğrulama esastır [Güçlü].
+  - Teslim süresi metni şu an "Shopier ayarına bağlıdır, yayın öncesi test
+    siparişiyle doğrulanır" — GATE 6: canlı test siparişi (kullanıcı hesabı).
+
+
+
+================================================================================
+10. KARARLAR, KISITLAR VE GATE DURUMU
+================================================================================
+
+Kritik kararlar (onaylı):
+  K1. Astro (Next.js değil) — mandate statik/sıfır JS istiyordu; onaylandı.
+  K2. Firebase Hosting — kullanıcı seçimi ("a yı sec firebase").
+  K3. Kod yapısı İngilizce; görünen metin Türkçe; URL slug'ları Türkçe
+      (kullanıcı: "safkan türkçe ... uzun url ürün adını tam içermeli").
+  K4. Slug şemada yok; ürün adından türetilir (K3'ün sonucu).
+  K5. Premium editoryal tasarım çevirisi (P0 tamamlandı; P1-P3 bekliyor).
+
+Değişmez kurallar (invariant):
+  - Talep edilmeyen dosya değiştirilmez/silinmez.
+  - Mevcut public API/route/şema sessizce değiştirilmez (KIRICI onayı).
+  - Bağımlılık eklenmez (gerekçe + onay).
+  - Sır/anahtar/gerçek müşteri verisi koda girmez.
+  - try/catch ile hata yutulmaz.
+  - TODO/FIXME bırakılmaz.
+  - Placeholder/sahte veri üretilmez (I8).
+
+GATE durumu:
+  GATE 1 (Altyapı + tasarım)        : BÜYÜK ÖLÇÜDE TAMAM
+      Astro, token'lar, 16 bileşen, sayfalar, şema, slug, SEO tabanı,
+      Firebase config, premium P0 tasarım. Kalan: P1-P3 tasarım tutarlılığı.
+  GATE 2 (Ürün içerikleri)          : BEKLİYOR (kullanıcı verisi)
+      12 ürün adı productList.ts'te; 3 örnek ürün MDX, demo .xlsx,
+      ekran görüntüleri, Shopier URL'leri gerekiyor.
+  GATE 4 (Yasal/iletişim)           : BEKLİYOR (e-posta, unvan, VKN)
+      /iletisim /hakkinda /lisans /mesafeli /teslimat /kvkk /cerez
+      /paketler /paket/[slug] /rehber /rehber/[slug]
+  GATE 5 (SEO/performans)           : BEKLİYOR (ürünle birlikte)
+      Lighthouse, axe, rich result, 4 tarayıcı, JS <= 40KB ölçümü.
+  GATE 6 (Shopier canlı test)       : BEKLİYOR (kullanıcı hesabı)
+
+Bekleyen özellikler (mandate §10):
+  - Çerezsiz analitik + olay izleme (gorev_secildi, odeme_sayfasina_gidildi
+    vb.) kurulmadı — onay bekliyor (üçüncü parti script disiplini).
+
+
+
+================================================================================
+11. HIZLI REFERANS — ÖZET TABLO
+================================================================================
+
+  Framework        : Astro 7.1.6, statik
+  Stil             : Tailwind v4 + global.css token katmanı
+  İçerik           : MDX + Content Collections + Zod
+  Şema             : src/content.config.ts
+  Slug             : src/utils/slug.ts (Türkçe ad → URL)
+  Rotalar          : / /404 /sablonlar /sablonlar/[kategori]
+                     /sablon/[slug] /sss /nasil-calisir
+  Bileşen          : 16 adet, src/components/ (İngilizce)
+  Fontlar          : Inter 400/600, JetBrains Mono 400 (woff2 self-host)
+  Ödeme            : Shopier (shopierUrl, yeni sekme)
+  Barındırma       : Firebase Hosting, dist/, cleanUrls, cache immutable
+  Hedef SEO        : canonical, OG, sitemap, JSON-LD (Product/FAQ/Breadcrumb)
+  JS yükü          : 0 (statik, script yok)
+  Node             : >= 22.12.0
+
+  Build komutu     : npm run build
+  Önizleme         : npm run preview → localhost:4321
+  Yayın            : npm run build && firebase deploy --only hosting
+
+================================================================================
+BELGE SONU — EXCEL ARŞİV SİSTEM DNA'SI
+================================================================================
