@@ -10,9 +10,10 @@ const { searchIndex } = Astro.props;
 ---
 
 <section class="hero-section" aria-labelledby="hero-title">
-  <div class="hero-section__shell">
+  <div class="hero-shell">
     <h1 id="hero-title" class="sr-only">Excel Şablonları ve İşletme Çözümleri</h1>
-    <picture class="hero-section__artwork">
+    <picture class="hero-artwork">
+      <source media="(max-width: 720px)" srcset="/images/hero-mobile.jpg" />
       <img
         src="/images/hero.jpg"
         alt="Akıllı Kasa Defteri — gerçek Excel şablonunun önizlemesi"
@@ -26,27 +27,38 @@ const { searchIndex } = Astro.props;
 </section>
 
 <style>
-  .hero-section__shell {
-    position: relative;
-    width: min(1440px, calc(100% - 40px));
-    margin-inline: auto;
+  .hero-section {
     padding-top: 28px;
   }
-  .hero-section__artwork {
+  .hero-shell {
+    position: relative;
+    width: min(1480px, calc(100% - 48px));
+    margin-inline: auto;
+  }
+  .hero-artwork {
+    position: relative;
     display: block;
     overflow: hidden;
+    aspect-ratio: 3 / 1;
     border-radius: 28px;
     box-shadow: 0 32px 90px rgba(24, 55, 38, 0.16);
   }
-  .hero-section__artwork img {
+  .hero-artwork img {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
   }
   @media (max-width: 720px) {
-    .hero-section__shell {
-      width: calc(100% - 20px);
+    .hero-section {
       padding-top: 12px;
+    }
+    .hero-shell {
+      width: calc(100% - 20px);
+    }
+    .hero-artwork {
+      aspect-ratio: 5 / 3;
     }
   }
 </style>

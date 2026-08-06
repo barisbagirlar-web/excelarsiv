@@ -1,54 +1,199 @@
 ---
 const year = new Date().getFullYear();
+
+const productLinks = [
+  { label: 'Şablonlar', href: '/sablonlar' },
+  { label: 'Paketler', href: '/paketler' },
+  { label: 'Nasıl Çalışır', href: '/nasil-calisir' },
+  { label: 'Rehber', href: '/rehber' },
+];
+
+const supportLinks = [
+  { label: 'İletişim', href: '/iletisim' },
+  { label: 'Sık Sorulan Sorular', href: '/sss' },
+  { label: 'Teslimat ve İade', href: '/teslimat-ve-iade' },
+];
+
 const legalLinks = [
   { label: 'Lisans', href: '/lisans' },
   { label: 'Mesafeli Satış Sözleşmesi', href: '/mesafeli-satis-sozlesmesi' },
-  { label: 'Teslimat ve İade', href: '/teslimat-ve-iade' },
   { label: 'KVKK Aydınlatma', href: '/kvkk-aydinlatma' },
   { label: 'Çerez Politikası', href: '/cerez-politikasi' },
 ];
+
+const trustSignals = ['Shopier ile güvenli ödeme', 'KDV dahil fiyat', 'E-posta ile teslimat'];
 ---
 
-<footer class="border-t border-rule-strong bg-surface-0">
-  <div class="container-site section-pad">
-    <div class="flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between">
-      <div class="max-w-sm">
-        <div class="flex items-center gap-2">
-          <img src="/images/excel-logo.png" alt="Excel Arşiv" width="32" height="30" class="h-8 w-auto" loading="lazy" />
-          <p class="font-display text-lg tracking-tight text-ink-900">Excel Arşiv</p>
+<footer class="site-footer">
+  <div class="site-container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <div class="site-footer__logo">
+          <img src="/images/excel-logo.png" alt="Excel Arşiv" width="32" height="30" loading="lazy" />
+          <span>Excel Arşiv</span>
         </div>
-        <p class="mono-xs mt-4">
-          Türkiye'deki ticari işletmelere finans, muhasebe ve operasyon amaçlı Excel çalışma
+        <p class="site-footer__desc">
+          Türkiye'deki ticari işletmelere finans, muhasebe ve operasyon amaçlı hazır Excel çalışma
           tabloları.
         </p>
       </div>
-      <ul class="grid grid-cols-2 gap-x-10 gap-y-3 sm:grid-cols-1">
+      <nav class="site-footer__col" aria-label="Ürünler">
+        <h3 class="site-footer__heading">Ürünler</h3>
+        <ul>
+          {
+            productLinks.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <nav class="site-footer__col" aria-label="Destek">
+        <h3 class="site-footer__heading">Destek</h3>
+        <ul>
+          {
+            supportLinks.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <nav class="site-footer__col" aria-label="Yasal">
+        <h3 class="site-footer__heading">Yasal</h3>
+        <ul>
+          {
+            legalLinks.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+    <div class="site-footer__bottom">
+      <ul class="site-footer__signals">
         {
-          legalLinks.map((item) => (
+          trustSignals.map((signal) => (
             <li>
-              <a
-                href={item.href}
-                class="font-mono text-sm text-ink-500 transition-colors duration-150 ease-out hover:text-accent-primary"
-              >
-                {item.label}
-              </a>
+              <span class="site-footer__check" aria-hidden="true">✓</span>
+              {signal}
             </li>
           ))
         }
       </ul>
-    </div>
-  </div>
-  <!-- Status Bar — Excel sistem durumu dili -->
-  <div class="status-bar">
-    <div class="container-site flex min-h-9 flex-wrap items-center gap-x-6 gap-y-1">
-      <span class="status-bar-item">
-        <span aria-hidden="true" class="inline-block size-1.5 bg-signal-up"></span>
-        Hazır
-      </span>
-      <span class="status-bar-item">Sürüm · 0.1.0</span>
-      <span class="status-bar-item">Biçim · XLSX</span>
-      <span class="status-bar-item">Ödeme · Shopier</span>
-      <span class="status-bar-item">© {year} Excel Arşiv · Tüm hakları saklıdır</span>
+      <p class="site-footer__copy">© {year} Excel Arşiv · Tüm hakları saklıdır</p>
     </div>
   </div>
 </footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--xl-grid);
+    background: var(--xl-paper);
+    padding-block: clamp(40px, 5vw, 64px) 24px;
+  }
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));
+    gap: 32px;
+  }
+  .site-footer__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--xl-ink-900);
+  }
+  .site-footer__logo img {
+    border-radius: 6px;
+  }
+  .site-footer__desc {
+    max-width: 300px;
+    margin: 12px 0 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--xl-ink-3);
+  }
+  .site-footer__heading {
+    margin: 0 0 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--xl-ink-3);
+  }
+  .site-footer__col ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .site-footer__col a {
+    font-size: 13.5px;
+    color: var(--xl-ink-900);
+    text-decoration: none;
+    transition: color 150ms ease-out;
+  }
+  .site-footer__col a:hover {
+    color: var(--xl-green-dark);
+  }
+  .site-footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid var(--xl-grid);
+  }
+  .site-footer__signals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--xl-ink-3);
+  }
+  .site-footer__check {
+    color: var(--xl-green);
+    font-weight: 700;
+    margin-right: 6px;
+  }
+  .site-footer__copy {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--xl-ink-3);
+  }
+  @media (max-width: 900px) {
+    .site-footer__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .site-footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 520px) {
+    .site-footer__grid {
+      grid-template-columns: 1fr;
+    }
+    .site-footer__bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

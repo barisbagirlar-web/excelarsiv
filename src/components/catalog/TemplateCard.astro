@@ -37,31 +37,33 @@ const rows = (sheetMap ?? []).slice(0, 3);
 ---
 
 <article
-  class="wb"
+  class="tcard"
   aria-label={name}
   data-template-card
   data-name={name}
   data-category={categorySlug ?? ''}
   data-summary={summary}
 >
-  <div class="wb-title">
-    <span class="xic" aria-hidden="true">X</span>
-    <span class="truncate">{name}</span>
-    {version && <span class="cf good" style="margin-left:auto">v{version}</span>}
+  <div class="tcard__top">
+    <span class="tcard__cat">{category ?? `${sheetCount} sayfa`}</span>
+    {version && <span class="tcard__ver">v{version}</span>}
   </div>
-  <div class="wb-body">
-    <span class="wb-file mono" aria-hidden="true">{slug}.xlsx</span>
+
+  <h3 class="tcard__title" title={name}>{name}</h3>
+  <p class="tcard__summary">{summary}</p>
+
+  <div class="tcard__viz">
     {
       variant === 'sparkline' && (
-        <svg class="sp" viewBox="0 0 200 44" preserveAspectRatio="none" aria-hidden="true">
-          <polyline points="0,36 28,30 56,33 84,22 112,26 140,15 168,19 200,8" />
-          <circle class="last" cx="200" cy="8" r="3" />
+        <svg viewBox="0 0 200 44" preserveAspectRatio="none" class="tcard__spark" aria-hidden="true">
+          <polyline points="0,36 28,30 56,33 84,22 112,26 140,15 168,19 200,8" fill="none" stroke="var(--xl-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="200" cy="8" r="3" fill="var(--xl-green)" />
         </svg>
       )
     }
     {
       variant === 'hm' && (
-        <div class="hm" aria-hidden="true" style="margin-bottom:10px">
+        <div class="tcard__hm" aria-hidden="true">
           <i style="--a:.2;--d:.4s"></i><i style="--a:.5;--d:.5s"></i><i style="--a:.85;--d:.6s"></i
           ><i style="--a:.35;--d:.7s"></i><i style="--a:.65;--d:.8s"></i><i style="--a:.95;--d:.9s"></i>
         </div>
@@ -69,40 +71,225 @@ const rows = (sheetMap ?? []).slice(0, 3);
     }
     {
       variant === 'bars' && (
-        <div class="bars" style="height:64px;margin-top:0" aria-hidden="true">
+        <div class="tcard__bars" aria-hidden="true">
           <i></i><i></i><i></i><i></i><i></i><i></i>
         </div>
       )
     }
-    <p class="mt-2 font-mono text-[10.5px] leading-relaxed text-xl-ink-300 line-clamp-2">{summary}</p>
-    {
-      rows.length > 0 && (
-        <>
-          <span class="balloon" style="top:10px;right:10px">=B2*C2</span>
-          <table>
-            <tr>
-              <th></th>
-              <th>A</th>
-              <th>B</th>
-              <th>C</th>
-            </tr>
-            {
-              rows.map((row, index) => (
-                <tr>
-                  <td>{index + 1}</td>
-                  <td style="text-align:left">{row.name}</td>
-                  <td class={index === 1 ? 'sel' : undefined}>{kindLabel[row.kind]}</td>
-                  <td class="cf good">✓</td>
-                </tr>
-              ))
-            }
-          </table>
-        </>
-      )
-    }
   </div>
-  <div class="wb-foot">
-    <a class="wb-tab" href={`/sablon/${slug}`}>{category ?? `${sheetCount} sayfa`}</a>
-    <span class="cf good price">{price} TL</span>
+
+  {
+    rows.length > 0 && (
+      <ul class="tcard__outputs">
+        {
+          rows.map((row) => (
+            <li>
+              <span class="tcard__output-name">{row.name}</span>
+              <span class="tcard__output-kind">{kindLabel[row.kind]}</span>
+            </li>
+          ))
+        }
+      </ul>
+    )
+  }
+
+  <div class="tcard__foot">
+    <span class="tcard__scope">
+      {sheetCount} sayfa · <span class="tcard__file">{slug}.xlsx</span>
+    </span>
+    <span class="tcard__price">{price} TL</span>
+    <a class="tcard__cta" href={`/sablon/${slug}`}>
+      İncele <span aria-hidden="true">→</span>
+    </a>
   </div>
 </article>
+
+<style>
+  .tcard {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 0;
+    padding: 22px;
+    border: 1px solid var(--xl-border);
+    border-radius: 20px;
+    background: #fff;
+    transition:
+      border-color 150ms ease-out,
+      transform 150ms ease-out,
+      box-shadow 150ms ease-out;
+  }
+  .tcard:hover {
+    border-color: var(--xl-accent-border);
+    transform: translateY(-3px);
+    box-shadow: 0 18px 44px rgba(24, 55, 38, 0.12);
+  }
+  .tcard__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .tcard__cat {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: var(--xl-accent-soft);
+    color: var(--xl-green-dark);
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 700;
+  }
+  .tcard__ver {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--xl-ink-3);
+  }
+  .tcard__title {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 16.5px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--xl-ink-900);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .tcard__summary {
+    margin: 8px 0 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--xl-ink-3);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .tcard__viz {
+    margin: 14px 0;
+    border-radius: 12px;
+    background: var(--xl-paper);
+    padding: 12px;
+    min-height: 48px;
+    display: grid;
+    place-items: center;
+  }
+  .tcard__spark {
+    width: 100%;
+    height: 44px;
+  }
+  .tcard__hm {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    width: 100%;
+  }
+  .tcard__hm i {
+    aspect-ratio: 1;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--xl-green) calc(var(--a) * 100%), var(--xl-paper));
+  }
+  .tcard__bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+    height: 40px;
+    width: 100%;
+  }
+  .tcard__bars i {
+    flex: 1;
+    border-radius: 3px 3px 0 0;
+    background: var(--xl-green);
+    height: 100%;
+    opacity: 0.55;
+  }
+  .tcard__bars i:nth-child(2) {
+    opacity: 0.75;
+  }
+  .tcard__bars i:nth-child(3) {
+    opacity: 0.4;
+  }
+  .tcard__bars i:nth-child(4) {
+    opacity: 0.9;
+  }
+  .tcard__bars i:nth-child(5) {
+    opacity: 0.65;
+  }
+  .tcard__bars i:nth-child(6) {
+    opacity: 0.95;
+  }
+  .tcard__outputs {
+    margin: 0 0 16px;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .tcard__outputs li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    background: var(--xl-paper);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+  }
+  .tcard__output-name {
+    color: var(--xl-ink-900);
+  }
+  .tcard__output-kind {
+    color: var(--xl-ink-3);
+  }
+  .tcard__foot {
+    margin-top: auto;
+    border-top: 1px solid var(--xl-grid);
+    padding-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .tcard__scope {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--xl-ink-3);
+  }
+  .tcard__file {
+    color: var(--xl-ink-3);
+  }
+  .tcard__price {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--xl-ink-900);
+  }
+  .tcard__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 40px;
+    border: 1px solid var(--xl-green);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--xl-green-dark);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+      background 150ms ease-out,
+      color 150ms ease-out;
+  }
+  .tcard__cta:hover {
+    background: var(--xl-green);
+    color: #fff;
+  }
+</style>

@@ -19,27 +19,20 @@ const isActive = (href: string) =>
   href === '/sablonlar' ? pathname.startsWith('/sablon') : pathname === href;
 ---
 
-<header class="border-b border-rule-strong bg-surface-0">
-  <!-- Running header — sticky, hairline üstünde bölüm adı -->
-  <div class="running-header">
-    <div class="container-site running-header-inner">
-      <span class="running-header-title" title={pageTitle}>{pageTitle}</span>
-      <span class="running-header-path" aria-hidden="true">{pathname === '/' ? 'Ana Sayfa' : pathname}</span>
-    </div>
-  </div>
-  <!-- Ribbon ünvan çubuğu -->
-  <div class="ribbon-titlebar">
-    <div class="container-site flex min-h-8 items-center justify-between">
-      <a href="/" class="flex items-center gap-2 font-mono text-xs text-ink-700">
-        <img src="/images/excel-logo.png" alt="Excel Arşiv" width="32" height="30" class="h-8 w-auto" loading="eager" />
-        <span>Excel Arşiv</span>
-      </a>
-      <span class="font-mono text-xs text-ink-400">workbook.xlsx · V1.0</span>
-    </div>
-  </div>
-  <!-- Ribbon sekmeleri -->
-  <div class="ribbon-tabs">
-    <nav class="container-site flex min-h-11 items-center gap-1 overflow-x-auto" aria-label="Ana menü">
+<header class="site-header">
+  <div class="site-container site-header__inner">
+    <a href="/" class="site-header__brand">
+      <img
+        src="/images/excel-logo.png"
+        alt="Excel Arşiv"
+        width="32"
+        height="30"
+        loading="eager"
+        class="site-header__logo"
+      />
+      <span class="site-header__wordmark">Excel Arşiv</span>
+    </a>
+    <nav class="site-header__nav" aria-label="Ana menü">
       {
         menu.map((item) => {
           const active = isActive(item.href);
@@ -47,7 +40,7 @@ const isActive = (href: string) =>
             <a
               href={item.href}
               aria-current={active ? 'page' : undefined}
-              class={`ribbon-tab${active ? ' is-active' : ''}`}
+              class={`site-header__link${active ? ' is-active' : ''}`}
             >
               {item.label}
             </a>
@@ -55,5 +48,99 @@ const isActive = (href: string) =>
         })
       }
     </nav>
+    <a class="site-header__cta" href="/sablonlar">
+      Şablonları İncele
+    </a>
   </div>
 </header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--xl-grid);
+  }
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 64px;
+  }
+  .site-header__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+  .site-header__logo {
+    border-radius: 6px;
+  }
+  .site-header__wordmark {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--xl-ink-900);
+  }
+  .site-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-inline: auto;
+  }
+  .site-header__link {
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--xl-ink-3);
+    text-decoration: none;
+    transition: color 150ms ease-out, background 150ms ease-out;
+  }
+  .site-header__link:hover {
+    color: var(--xl-green-dark);
+    background: var(--xl-accent-soft);
+  }
+  .site-header__link.is-active {
+    color: var(--xl-green-dark);
+    background: var(--xl-accent-soft);
+  }
+  .site-header__cta {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 20px;
+    border-radius: 12px;
+    background: var(--xl-green);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 150ms ease-out;
+  }
+  .site-header__cta:hover {
+    background: var(--xl-accent-dark);
+  }
+  @media (max-width: 900px) {
+    .site-header__nav {
+      display: none;
+    }
+  }
+  @media (max-width: 640px) {
+    .site-header__inner {
+      min-height: 56px;
+    }
+    .site-header__cta {
+      min-height: 36px;
+      padding: 0 14px;
+      font-size: 12px;
+    }
+  }
+</style>

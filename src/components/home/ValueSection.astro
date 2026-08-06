@@ -1,26 +1,6 @@
 ---
-const items = [
-  {
-    code: 'CF-01',
-    title: 'Veri Çubukları',
-    text: 'Karşılaştırma ve kota takibi anında görünür; hücre içinde mini çubuklarla.',
-  },
-  {
-    code: 'CF-02',
-    title: 'Eğilim Çizgileri',
-    text: 'Dönem bazlı trendler sparkline ile satır içinde; grafik çizmeden yön okunur.',
-  },
-  {
-    code: 'CF-03',
-    title: 'Yön Göstergeleri',
-    text: 'İkon setleriyle artış, düşüş ve sabit durum bir bakışta ayrışır.',
-  },
-  {
-    code: 'CF-04',
-    title: 'Isı Haritaları',
-    text: 'Renk ölçeği ile riskli alanlar öne çıkar; tablo boyunca desen okunur.',
-  },
-];
+const bars = [64, 82, 47, 91];
+const heatmap = [0.15, 0.35, 0.55, 0.8, 0.95, 0.6, 0.25, 0.45, 0.7, 0.9, 0.5, 0.3, 0.1, 0.3, 0.5, 0.65];
 ---
 
 <section class="site-section site-section--alt" aria-labelledby="value-title">
@@ -33,15 +13,70 @@ const items = [
       </p>
     </div>
     <ul class="value-grid">
-      {
-        items.map((item) => (
-          <li class="value-card">
-            <span class="value-card__code">{item.code}</span>
-            <h3 class="value-card__title">{item.title}</h3>
-            <p class="value-card__text">{item.text}</p>
-          </li>
-        ))
-      }
+      <li class="value-card">
+        <span class="value-card__code">CF-01 · VERİ ÇUBUKLARI</span>
+        <h3 class="value-card__title">Veri Çubukları</h3>
+        <div class="value-card__viz value-card__viz--bars" aria-hidden="true">
+          {['OCA', 'ŞUB', 'MAR', 'NİS'].map((month, index) => (
+            <span class="value-card__bar-row">
+              <span class="value-card__bar-label">{month}</span>
+              <span class="value-card__bar-track">
+                <span class="value-card__bar-fill" style={`--w:${bars[index]}%`}></span>
+              </span>
+              <span class="value-card__bar-val">{bars[index]}</span>
+            </span>
+          ))}
+        </div>
+        <p class="value-card__text">Değerler hücre içinde görünür bar olarak karşılaştırılır.</p>
+      </li>
+
+      <li class="value-card">
+        <span class="value-card__code">CF-02 · SPARKLINE</span>
+        <h3 class="value-card__title">Eğilim Çizgileri</h3>
+        <div class="value-card__viz" aria-hidden="true">
+          <svg viewBox="0 0 200 60" preserveAspectRatio="none" class="value-card__spark">
+            <polyline
+              points="0,50 28,44 56,47 84,36 112,40 140,26 168,30 200,16"
+              fill="none"
+              stroke="var(--xl-green)"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <circle cx="200" cy="16" r="4" fill="var(--xl-green)" />
+          </svg>
+          <span class="value-card__spark-meta"><span class="value-card__up">▲ %18</span> NET · 7 AY</span>
+        </div>
+        <p class="value-card__text">Trend satır içi grafikle; ayrı grafik sayfası gerekmez.</p>
+      </li>
+
+      <li class="value-card">
+        <span class="value-card__code">CF-03 · İKON SETLERİ</span>
+        <h3 class="value-card__title">Yön Göstergeleri</h3>
+        <div class="value-card__viz value-card__viz--icons" aria-hidden="true">
+          <span class="value-card__icon-row"><span>Brüt Kâr</span><b class="value-card__up">▲ %24</b></span>
+          <span class="value-card__icon-row"><span>Stok Devri</span><b class="value-card__flat">→ 4,2</b></span>
+          <span class="value-card__icon-row"><span>Fire</span><b class="value-card__down">▼ %1,8</b></span>
+          <span class="value-card__icon-row"><span>Tahsilat</span><b class="value-card__up">▲ %96</b></span>
+        </div>
+        <p class="value-card__text">Artış, düşüş ve sabit durum ikonlarla ayrışır.</p>
+      </li>
+
+      <li class="value-card">
+        <span class="value-card__code">CF-04 · RENK ÖLÇEĞİ</span>
+        <h3 class="value-card__title">Isı Haritası</h3>
+        <div class="value-card__viz value-card__viz--heat" aria-hidden="true">
+          {
+            heatmap.map((alpha, index) => (
+              <span
+                class="value-card__heat-cell"
+                style={`--a:${alpha};--d:${0.3 + index * 0.05}s`}
+              ></span>
+            ))
+          }
+        </div>
+        <p class="value-card__text">Renk yoğunluğu ile riskli alanlar öne çıkar.</p>
+      </li>
     </ul>
   </div>
 </section>
@@ -62,30 +97,134 @@ const items = [
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding: 22px;
+    padding: 24px;
     border: 1px solid var(--xl-border);
-    border-radius: 16px;
+    border-radius: 20px;
     background: #fff;
   }
   .value-card__code {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 700;
     color: var(--xl-green);
     letter-spacing: 0.04em;
   }
   .value-card__title {
+    margin: 0;
     font-family: var(--font-body);
     font-size: 16px;
     font-weight: 700;
     color: var(--xl-ink-900);
-    margin: 0;
   }
   .value-card__text {
-    font-size: 13.5px;
-    line-height: 1.6;
+    margin: auto 0 0;
+    font-size: 12.5px;
+    line-height: 1.55;
     color: var(--xl-ink-3);
-    margin: 0;
+  }
+  .value-card__viz {
+    margin: 6px 0 10px;
+  }
+  .value-card__viz--bars {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .value-card__bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--xl-ink-3);
+  }
+  .value-card__bar-label {
+    width: 26px;
+    flex-shrink: 0;
+  }
+  .value-card__bar-track {
+    flex: 1;
+    height: 10px;
+    border-radius: 5px;
+    background: var(--xl-paper);
+    overflow: hidden;
+  }
+  .value-card__bar-fill {
+    display: block;
+    height: 100%;
+    width: var(--w);
+    border-radius: 5px;
+    background: var(--xl-green);
+    animation: bar-grow 0.8s var(--ease-out) both;
+  }
+  .value-card__bar-val {
+    width: 22px;
+    text-align: right;
+  }
+  @keyframes bar-grow {
+    from {
+      width: 0;
+    }
+  }
+  .value-card__spark {
+    width: 100%;
+    height: 60px;
+  }
+  .value-card__spark-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--xl-ink-3);
+  }
+  .value-card__viz--icons {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 12px;
+  }
+  .value-card__icon-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: var(--xl-paper);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--xl-ink-3);
+  }
+  .value-card__up {
+    color: var(--xl-green-dark);
+    font-weight: 700;
+  }
+  .value-card__flat {
+    color: var(--xl-ink-3);
+    font-weight: 700;
+  }
+  .value-card__down {
+    color: var(--xl-cf-red-ink, #9c0006);
+    font-weight: 700;
+  }
+  .value-card__viz--heat {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .value-card__heat-cell {
+    aspect-ratio: 1;
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--xl-green) calc(var(--a) * 100%), var(--xl-paper));
+    animation: heat-fade 0.6s ease-out both;
+    animation-delay: var(--d);
+  }
+  @keyframes heat-fade {
+    from {
+      opacity: 0.2;
+    }
   }
   @media (max-width: 1024px) {
     .value-grid {

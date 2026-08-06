@@ -45,7 +45,7 @@ export function mountHeroSearch(root: HTMLElement, items: SearchItem[]): void {
           normalize(item.summary).includes(q) ||
           normalize(item.category).includes(q)
       )
-      .slice(0, 6);
+      .slice(0, 5);
 
     if (results.length === 0) {
       list.innerHTML = `<li class="hero-search__empty">“${escapeHtml(query.trim())}” için sonuç bulunamadı</li>`;
@@ -55,9 +55,9 @@ export function mountHeroSearch(root: HTMLElement, items: SearchItem[]): void {
 
     list.innerHTML = results
       .map(
-        (result) => `
+        (result, index) => `
           <li>
-            <a href="${result.url}">
+            <a href="${result.url}" data-result-index="${index}">
               <span class="hero-search__name">${escapeHtml(result.name)}</span>
               <span class="hero-search__meta">${escapeHtml(result.category)}</span>
             </a>
@@ -75,7 +75,23 @@ export function mountHeroSearch(root: HTMLElement, items: SearchItem[]): void {
     if (event.key === 'Escape') {
       close();
       input.blur();
+      return;
     }
+    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+    const links = Array.from(list.querySelectorAll<HTMLAnchorElement>('a[data-result-index]'));
+    if (links.length === 0) return;
+    event.preventDefault();
+    const active = list.querySelector<HTMLAnchorElement>('a[data-result-index].is-highlighted');
+    const activeIndex = active ? links.indexOf(active) : -1;
+    const nextIndex =
+      event.key === 'ArrowDown'
+        ? (activeIndex + 1) % links.length
+        : (activeIndex - 1 + links.length) % links.length;
+    links.forEach((link, index) => {
+      const isActive = index === nextIndex;
+      link.classList.toggle('is-highlighted', isActive);
+      if (isActive) link.scrollIntoView({ block: 'nearest' });
+    });
   });
   document.addEventListener('click', (event) => {
     if (!root.contains(event.target as Node)) close();
@@ -83,6 +99,12 @@ export function mountHeroSearch(root: HTMLElement, items: SearchItem[]): void {
   form.addEventListener('submit', () => {
     if (normalize(input.value).length < 2) {
       event?.preventDefault();
+      return;
+    }
+    const highlighted = list.querySelector<HTMLAnchorElement>('a[data-result-index].is-highlighted');
+    if (highlighted) {
+      event?.preventDefault();
+      window.location.href = highlighted.href;
     }
   });
 }

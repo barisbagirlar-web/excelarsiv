@@ -5,7 +5,9 @@ import TrustStrip from '../components/home/TrustStrip.astro';
 import CategorySection from '../components/home/CategorySection.astro';
 import FeaturedTemplates from '../components/home/FeaturedTemplates.astro';
 import ValueSection from '../components/home/ValueSection.astro';
+import GainSection from '../components/home/GainSection.astro';
 import ProcessSection from '../components/home/ProcessSection.astro';
+import PurchaseProcess from '../components/home/PurchaseProcess.astro';
 import FinalCTA from '../components/home/FinalCTA.astro';
 
 import { getFeaturedTemplates, getTemplateSearchIndex } from '../lib/templates';
@@ -23,6 +25,8 @@ const searchIndex = await getTemplateSearchIndex();
   <CategorySection />
   <FeaturedTemplates templates={featuredTemplates} />
   <ValueSection />
+  <GainSection />
   <ProcessSection />
+  <PurchaseProcess />
   <FinalCTA />
 </CommerceLayout>
