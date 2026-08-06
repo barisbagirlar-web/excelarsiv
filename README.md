@@ -35,10 +35,6 @@ firebase deploy --only hosting
 
 `firebase.json` zaten `dist/` klasörünü yayınlar, cleanUrls açıktır, statik varlıklar için cache başlıkları tanımlıdır. Gizli değer (Shopier API anahtarı) bu projede kullanılmaz çünkü ödeme Shopier paneli üzerinden `shopierUrl` ile yapılır.
 
-## Ana sayfa hero varlığı
-
-Ana sayfanın premium hero görseli `public/images/hero.png` konumundadır. Kod içindeki arama alanı gerçek HTML formudur; görselin içine gömülü değildir.
-
 ## Yapı
 
 ```
