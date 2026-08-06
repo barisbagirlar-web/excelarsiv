@@ -1848,6 +1848,7 @@ body::after {
   .sheet-body {
     display: grid;
     grid-template-columns: 48px 1fr;
+    grid-auto-rows: auto;
   }
 
   .rowheads {
