@@ -1,364 +1,243 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import TemplateCard from '../components/TemplateCard.astro';
 import { slugify } from '../utils/slug';
 
 const templates = await getCollection('templates');
-const featured = templates.slice(0, 3);
+const featured = [...templates].sort((a, b) => b.data.priceTL - a.data.priceTL).slice(0, 6);
 
-const categories = [
-  { slug: 'finansal-analiz', name: 'Finansal Analiz' },
-  { slug: 'nakit-akisi', name: 'Nakit Akışı' },
-  { slug: 'muhasebe-ve-vergi', name: 'Muhasebe ve Vergi' },
-  { slug: 'butce-ve-planlama', name: 'Bütçe ve Planlama' },
-  { slug: 'stok-ve-uretim', name: 'Stok ve Üretim' },
-  { slug: 'satis-ve-fiyatlama', name: 'Satış ve Fiyatlama' },
-  { slug: 'personel-ve-bordro', name: 'Personel ve Bordro' },
-];
+const categoryMeta = [
+  { slug: 'finansal-analiz', name: 'Finansal Analiz', description: 'Kârlılık, oranlar ve yönetim kararları', icon: '↗' },
+  { slug: 'nakit-akisi', name: 'Nakit Akışı', description: 'Ödeme, tahsilat ve nakit görünürlüğü', icon: '₺' },
+  { slug: 'muhasebe-ve-vergi', name: 'Muhasebe ve Vergi', description: 'Kontrol, mutabakat ve vergi takibi', icon: '✓' },
+  { slug: 'butce-ve-planlama', name: 'Bütçe ve Planlama', description: 'Hedef, senaryo ve sapma analizi', icon: '◎' },
+  { slug: 'stok-ve-uretim', name: 'Stok ve Üretim', description: 'Stok maliyeti ve nakde bağlanan sermaye', icon: '▦' },
+  { slug: 'satis-ve-fiyatlama', name: 'Satış ve Fiyatlama', description: 'Fiyat, komisyon ve gerçek marj kontrolü', icon: '%' },
+  { slug: 'personel-ve-bordro', name: 'Personel ve Bordro', description: 'Personel maliyeti ve bordro planlama', icon: '⌁' },
+].map((category) => ({
+  ...category,
+  count: templates.filter((template) => template.data.category === category.slug).length,
+}));
 
-const categoryName = (slug: string) => categories.find((c) => c.slug === slug)?.name ?? slug;
-
-const roiRows = [
-  ['Banka ve cari mutabakat', '4 saat / ay', '30 dk / ay'],
-  ['Rapor hazırlama', '8 saat / ay', '1 saat / ay'],
-  ['Hata riski', 'Yüksek', 'Düşük'],
-  ['Aylık toplam', '12 saat / ay', '1,5 saat / ay'],
-];
-
-const methodology = [
-  {
-    title: 'İhtiyaç analizi',
-    description: 'Dosyanın çözeceği iş problemini, çıktı biçimini ve raporlama dönemini tanımlıyoruz.',
-  },
-  {
-    title: 'Model kurulumu',
-    description: 'Formüller, adlandırılmış aralıklar, veri doğrulama ve sayfa korumalarıyla yapıyı kuruyoruz.',
-  },
-  {
-    title: 'Gerçek veriyle test',
-    description: 'Farklı Excel sürümlerinde ve gerçek iş senaryolarıyla sonuçları doğruluyoruz.',
-  },
-  {
-    title: 'Belgeleme',
-    description: 'Girdi alanlarını, hesaplama mantığını ve uyarıları dosyanın içinde açıklıyoruz.',
-  },
-];
-
-const cardVariants = ['sparkline', 'hm', 'bars'] as const;
+const site = Astro.site ?? new URL('https://excelarsiv.com/');
+const itemListLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Öne Çıkan Finansal Excel Şablonları',
+  itemListElement: featured.map((template, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    url: new URL(`/sablon/${slugify(template.data.name)}`, site).href,
+    item: {
+      '@type': 'Product',
+      name: template.data.name,
+      description: template.data.summary,
+      offers: {
+        '@type': 'Offer',
+        price: template.data.priceTL,
+        priceCurrency: 'TRY',
+        availability: 'https://schema.org/InStock',
+      },
+    },
+  })),
+});
 ---
 
 <Layout
-  title="Excel Arşiv — İşletmeniz için Hazır Excel Çalışma Tabloları"
-  description="Kasa, nakit akışı, cari hesap, stok ve kârlılık işleriniz için hazır Excel dosyaları. Demo dosyayla inceleyin, Shopier ile ödeyin, e-postayla alın."
+  mode="commerce"
+  title="Hazır Finansal Excel Tabloları ve KOBİ Yönetim Sistemleri | Excel Arşiv"
+  description="Nakit akışı, kasa, cari hesap, kârlılık, stok ve bütçe yönetimi için kullanıma hazır finansal Excel tabloları. Demo dosyasını inceleyin, tek seferlik ödeme ile kullanmaya başlayın."
 >
-  <!-- C1 · Sütun başlıkları (dekoratif) -->
-  <div class="colheads" aria-hidden="true">
-    <span class="corner"></span><span>A</span><span class="sel">B</span><span>C</span><span>D</span
-    ><span>E</span><span>F</span><span>G</span><span>H</span><span>I</span>
-  </div>
-  <div class="sheet-body">
-    <!-- C1 · Satır başlıkları (dekoratif) -->
-    <div class="rowheads" aria-hidden="true">
-      <span>1</span><span class="sel">2</span><span>3</span><span>4</span><span>5</span
-      ><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span
-      ><span>12</span>
-    </div>
-    <!-- C1 · Hero — 3 bölge: names/zone-a + hero-center + dash + roam -->
-    <header class="hero">
-      <div class="names" aria-hidden="true">
-        <small>TANIMLI ADLAR:</small><b>KASA_TOTAL</b><b>STOK_MIN</b><b>KDV_ORAN</b><b>NET_KAR</b>
-      </div>
+  <script slot="head" type="application/ld+json" set:html={itemListLd} />
 
-      <div class="zone-a" aria-label="Canlı girdi önizlemesi">
-        <div class="za-head mono"><span>GİRDİ · Sayfa1!A1:B5</span><span class="cf good">canlı</span></div>
-        <table class="za">
-          <tr>
-            <th></th>
-            <th>A</th>
-            <th>B</th>
-          </tr>
-          <tr>
-            <td>1</td>
-            <td style="text-align:left">Gelir</td>
-            <td><span class="type t1">₺128.400</span></td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td style="text-align:left">Gider</td>
-            <td><span class="type t2">₺86.150</span></td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td style="text-align:left">Net</td>
-            <td class="netcell"><span class="calcfx"></span><span class="netv">₺42.250</span><i class="cmnt"></i></td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td style="text-align:left">KDV</td>
-            <td class="editcell"><span class="cursor"></span></td>
-          </tr>
-        </table>
-        <div class="za-link mono">
-          → B3 = <b>B1-B2</b> · Dashboard'a bağlandı <span class="cf good">✓</span>
-        </div>
-      </div>
-
-      <div class="hero-center">
-        <p class="kicker">HÜCRE B2 · BİRLEŞTİRİLMİŞ</p>
-        <h1 class="display">
-          Rakam sizden,<br /><em>mühendislik</em> bizden.
-        </h1>
-        <p class="lead">
-          Formülleri test edilmiş, yapısı denetlenmiş, indirildiği anda çalışan kurumsal Excel şablonları. Soldaki hücreler gibi: yaz, hesaplasın, dashboard'a aksın.
+  <div class="home-page">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="eyebrow"><span></span> Finansal kontrolü kuran hazır Excel sistemleri</div>
+        <h1 id="hero-title">İşletmenizin parasını<br /><em>tek ekranda yönetin.</em></h1>
+        <p class="hero-lead">
+          Kasa, nakit akışı, tahsilat, kredi, stok ve gerçek kârlılık için sıfırdan dosya kurmayın.
+          Formülleri hazırlanmış, kullanım alanları açıklanmış Excel sistemlerini indirin ve aynı gün çalışmaya başlayın.
         </p>
-        <div class="cta-row">
-          <a class="btn primary" href="/sablonlar">Şablonları İncele <span class="ar">→</span></a>
-          <a class="btn" href="/nasil-calisir">Nasıl Çalışır <span class="dn">↓</span></a>
+        <div class="hero-actions">
+          <a class="button primary" href="#one-cikanlar">Öne Çıkan Sistemler <span>→</span></a>
+          <a class="button secondary" href="/sablonlar">Tüm Şablonları Gör</a>
         </div>
-        <div class="trust">
-          <span class="cf good">KDV Dahil</span><span class="cf good">VUK Uyumlu</span
-          ><span class="cf warn">v3.2 · 47 Test</span>
+        <div class="trust-row" aria-label="Satın alma avantajları">
+          <span><b>✓</b> Demo dosyası</span>
+          <span><b>✓</b> KDV dahil fiyat</span>
+          <span><b>✓</b> Tek seferlik ödeme</span>
+          <span><b>✓</b> Kullanım açıklamaları</span>
         </div>
       </div>
 
-      <aside class="dash" aria-label="Örnek dashboard">
-        <span class="balloon" style="top:-14px;right:14px">=B4*KDV_ORAN</span>
-        <div class="dash-tabs"><a class="active">Dashboard</a><a>Veri</a><a>Grafik</a></div>
-        <div class="dash-body">
-          <div class="kpis">
-            <div class="kpi">
-              <small>ŞABLON</small>
-              <span class="row"
-                ><b class="odo" role="img" aria-label="12"
-                  ><span class="d" style="--v:1;--dl:.5s"><i><span>0</span><span>1</span></i></span
-                  ><span class="d" style="--v:2;--dl:.6s"><i><span>0</span><span>1</span><span>2</span></i></span></b
-                ></span
-              >
+      <div class="hero-product" aria-label="Excel finans paneli örneği">
+        <div class="product-window">
+          <div class="window-bar"><span class="window-dots"><i></i><i></i><i></i></span><strong>Finans_Kontrol_Paneli.xlsx</strong><span class="saved">✓ Kaydedildi</span></div>
+          <div class="sheet-tabs"><span class="active">Yönetim Paneli</span><span>Nakit Akışı</span><span>Tahsilat</span></div>
+          <div class="dashboard">
+            <div class="metric green"><small>GÜNCEL KASA</small><strong>₺482.600</strong><span>Son 30 gün +%12,4</span></div>
+            <div class="metric"><small>BEKLEYEN TAHSİLAT</small><strong>₺168.250</strong><span>8 açık işlem</span></div>
+            <div class="metric"><small>AYLIK NET KÂR</small><strong>₺94.800</strong><span>Hedefin %106'sı</span></div>
+            <div class="chart-card">
+              <div class="chart-head"><span>12 Haftalık Nakit Görünümü</span><b>Pozitif</b></div>
+              <div class="chart" aria-hidden="true">
+                <span style="--h:42%"></span><span style="--h:55%"></span><span style="--h:48%"></span><span style="--h:67%"></span><span style="--h:61%"></span><span style="--h:78%"></span><span style="--h:88%"></span><span style="--h:82%"></span>
+                <svg viewBox="0 0 600 180" preserveAspectRatio="none"><polyline points="0,145 85,118 170,130 255,83 340,95 425,54 510,33 600,46" /></svg>
+              </div>
+              <div class="chart-labels"><span>1. Hafta</span><span>6. Hafta</span><span>12. Hafta</span></div>
             </div>
-            <div class="kpi">
-              <small>TEST CASE</small>
-              <span class="row"
-                ><b class="odo" role="img" aria-label="47"
-                  ><span class="d" style="--v:4;--dl:.7s"><i><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span></i></span
-                  ><span class="d" style="--v:7;--dl:.8s"><i><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span></i></span></b
-                ></span
-              >
-            </div>
-            <div class="kpi">
-              <small>DOĞRULUK</small>
-              <span class="row"
-                ><i>%</i><b class="odo" role="img" aria-label="98"
-                  ><span class="d" style="--v:9;--dl:.9s"><i><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></i></span
-                  ><span class="d" style="--v:8;--dl:1s"><i><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></i></span></b
-                ></span
-              >
-            </div>
-            <div class="kpi">
-              <small>İNDİRME</small>
-              <span class="row"
-                ><b class="odo" role="img" aria-label="2400"
-                  ><span class="d" style="--v:2;--dl:1.1s"><i><span>0</span><span>1</span><span>2</span></i></span
-                  ><span class="d" style="--v:4;--dl:1.2s"><i><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span></i></span
-                  ><span class="d" style="--v:0;--dl:1.3s"><i><span>0</span></i></span
-                  ><span class="d" style="--v:0;--dl:1.4s"><i><span>0</span></i></span></b
-                ><i>+</i></span
-              >
-            </div>
-          </div>
-          <div class="livebar mono">
-            <span class="pulse"></span>KASA
-            <span class="live"><span>₺48.200</span><span>₺49.140</span><span>₺48.750</span></span>
-            <span class="cf good"><b class="upar">▲</b> canlı</span>
-          </div>
-          <div class="charts">
-            <div class="panel">
-              <div class="cap"><span>NAKİT AKIŞI · 7 AY</span><span class="cf good"><b class="upar">▲</b> %18</span></div>
-              <svg class="lc" viewBox="0 0 320 130" preserveAspectRatio="none" aria-hidden="true">
-                <g class="gridl"><line x1="0" y1="32" x2="320" y2="32"/><line x1="0" y1="65" x2="320" y2="65"/><line x1="0" y1="98" x2="320" y2="98"/></g>
-                <path class="area" d="M0,104 L53,88 L106,94 L160,62 L213,70 L266,40 L320,30 L320,130 L0,130 Z"/>
-                <polyline class="ln2" points="0,112 53,102 106,106 160,86 213,90 266,70 320,62"/>
-                <polyline class="ln" points="0,104 53,88 106,94 160,62 213,70 266,40 320,30"/>
-                <g class="dots"><circle cx="0" cy="104" r="3.5"/><circle cx="53" cy="88" r="3.5"/><circle cx="106" cy="94" r="3.5"/><circle cx="160" cy="62" r="3.5"/><circle cx="213" cy="70" r="3.5"/><circle cx="266" cy="40" r="3.5"/><circle cx="320" cy="30" r="3.5"/></g>
-              </svg>
-              <div class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-              <div class="legend"><span><i style="background:var(--ch-1)"></i>Gider</span><span><i style="background:var(--ch-6)"></i>Gelir</span></div>
-            </div>
-            <div class="panel">
-              <div class="cap"><span>TAHSİLAT</span></div>
-              <div class="donut" aria-hidden="true"></div>
-              <div class="legend" style="justify-content:center;margin-top:12px"><span><i style="background:var(--xl-green)"></i>Tahsil</span><span><i style="background:var(--xl-grid)"></i>Bekleyen</span></div>
-            </div>
+            <div class="alert-card"><span>!</span><div><strong>3 ödeme için erken uyarı</strong><small>Nakit açığı oluşmadan önce aksiyon alın.</small></div><b>İncele →</b></div>
           </div>
         </div>
-      </aside>
-      <div class="roam" aria-hidden="true"></div>
-    </header>
-  </div>
-
-  <!-- C2 · Kategori sekmeleri -->
-  <nav class="sheet-tabs" aria-label="Kategoriler">
-    {
-      categories.map((cat, index) => (
-        <a href={`/sablonlar/${cat.slug}`} class={index === 0 ? 'active' : undefined}>
-          {cat.name}
-        </a>
-      ))
-    }
-    <span class="plus" title="Yeni şablon yakında">+</span>
-  </nav>
-
-  <!-- C3 · Showcase: Excel'in görsel silahları -->
-  <section class="showcase">
-    <div class="sec-head"><span class="namebox">C4</span><h2 class="h2">Excel'in Görsel Silahları — Şablonların İçinde</h2></div>
-    <div class="tiles">
-      <div class="tile">
-        <span class="tag">CF-01 · KOŞULLU BİÇİM</span><h3>Veri Çubukları</h3>
-        <div class="dbrow"><span>OCA</span><span class="db"><i style="--w:64%;animation-delay:.5s"></i></span><span>64</span></div>
-        <div class="dbrow"><span>ŞUB</span><span class="db"><i style="--w:82%;animation-delay:.7s"></i></span><span>82</span></div>
-        <div class="dbrow"><span>MAR</span><span class="db"><i style="--w:47%;animation-delay:.9s"></i></span><span>47</span></div>
-        <div class="dbrow"><span>NİS</span><span class="db"><i style="--w:91%;animation-delay:1.1s"></i></span><span>91</span></div>
+        <div class="floating-proof proof-one"><strong>{templates.length}</strong><span>hazır finans sistemi</span></div>
+        <div class="floating-proof proof-two"><strong>7</strong><span>iş yönetim alanı</span></div>
       </div>
-      <div class="tile">
-        <span class="tag">CF-02 · SPARKLINE</span><h3>Eğilim Çizgisi</h3>
-        <svg class="sp" viewBox="0 0 200 44" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,34 25,28 50,31 75,20 100,24 125,14 150,18 175,8 200,10"/><circle class="last" cx="200" cy="10" r="3"/></svg>
-        <div class="dbrow" style="margin-top:10px"><span>NET</span><span class="db"><i style="--w:76%;animation-delay:1.3s"></i></span><span class="cf good">▲</span></div>
-      </div>
-      <div class="tile">
-        <span class="tag">CF-03 · ICON SETS</span><h3>Yön Göstergeleri</h3>
-        <div class="iset"><div><span>Brüt Kâr</span><b class="up">▲ %24</b></div><div><span>Stok Devri</span><b class="fl">→ 4,2</b></div><div><span>Fire</span><b class="dn2">▼ %1,8</b></div><div><span>Tahsilat</span><b class="up">▲ %96</b></div></div>
-      </div>
-      <div class="tile">
-        <span class="tag">CF-04 · COLOR SCALE</span><h3>Isı Haritası</h3>
-        <div class="hm" aria-hidden="true"><i style="--a:.15;--d:.4s"></i><i style="--a:.35;--d:.5s"></i><i style="--a:.55;--d:.6s"></i><i style="--a:.8;--d:.7s"></i><i style="--a:.95;--d:.8s"></i><i style="--a:.6;--d:.9s"></i><i style="--a:.25;--d:.5s"></i><i style="--a:.45;--d:.6s"></i><i style="--a:.7;--d:.7s"></i><i style="--a:.9;--d:.8s"></i><i style="--a:.5;--d:.9s"></i><i style="--a:.3;--d:1s"></i><i style="--a:.1;--d:.6s"></i><i style="--a:.3;--d:.7s"></i><i style="--a:.5;--d:.8s"></i><i style="--a:.65;--d:.9s"></i><i style="--a:.85;--d:1s"></i><i style="--a:.4;--d:1.1s"></i></div>
-      </div>
-    </div>
+    </section>
 
-    <!-- C4 · Öne çıkan şablonlar -->
-    <div class="sec-head" style="margin-top:44px"><span class="namebox">B14</span><h2 class="h2">Öne Çıkan Şablonlar</h2><a class="all" href="/sablonlar">Tümünü Gör <span class="ar">→</span></a></div>
-    {/*
-      ÖRNEK VERİ — GATE-2'de koleksiyonla değişecek.
-      Koleksiyon boşsa referanstaki 3 statik kart render edilir.
-    */}
-    {
-      featured.length > 0 ? (
-        <div class="cards">
-          {
-            featured.map((template, index) => (
-              <TemplateCard
-                slug={slugify(template.data.name)}
-                name={template.data.name}
-                summary={template.data.summary}
-                sheetCount={template.data.sheetCount}
-                priceTL={template.data.priceTL}
-                category={categoryName(template.data.category)}
-                version={template.data.version}
-                variant={cardVariants[index]}
-                sheetMap={template.data.sheetMap}
-              />
-            ))
-          }
-        </div>
-      ) : (
-        <div class="cards">
-          <article class="wb"><div class="wb-title"><span class="xic">X</span>nakit-akisi.xlsx<span class="cf good" style="margin-left:auto">v3.2</span></div>
-            <div class="wb-body"><svg class="sp" viewBox="0 0 200 44" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,36 28,30 56,33 84,22 112,26 140,15 168,19 200,8"/><circle class="last" cx="200" cy="8" r="3"/></svg>
-            <table><tr><th></th><th>A</th><th>B</th><th>C</th></tr><tr><td>1</td><td>Dönem</td><td>Akış</td><td>Durum</td></tr><tr><td>2</td><td>Q1</td><td class="sel">₺48.200</td><td class="cf good">▲</td></tr><tr><td>3</td><td>Q2</td><td>₺61.750</td><td class="cf good">▲</td></tr></table></div>
-            <div class="wb-foot"><span class="wb-tab">Nakit Akışı</span><span class="cf good price">₺1.290</span></div></article>
-          <article class="wb"><div class="wb-title"><span class="xic">X</span>kdv-hesap.xlsx<span class="cf good" style="margin-left:auto">v2.8</span></div>
-            <div class="wb-body"><div class="hm" aria-hidden="true" style="margin-bottom:10px"><i style="--a:.2;--d:.4s"></i><i style="--a:.5;--d:.5s"></i><i style="--a:.85;--d:.6s"></i><i style="--a:.35;--d:.7s"></i><i style="--a:.65;--d:.8s"></i><i style="--a:.95;--d:.9s"></i></div>
-            <table><tr><th></th><th>A</th><th>B</th><th>C</th></tr><tr><td>1</td><td>Matrah</td><td>KDV</td><td>Oran</td></tr><tr><td>2</td><td>8.200</td><td class="sel">1.640</td><td>%20</td></tr><tr><td>3</td><td>4.500</td><td>450</td><td>%10</td></tr></table></div>
-            <div class="wb-foot"><span class="wb-tab">Muhasebe ve Vergi</span><span class="cf good price">₺890</span></div></article>
-          <article class="wb"><div class="wb-title"><span class="xic">X</span>stok-takip.xlsx<span class="cf warn" style="margin-left:auto">v4.0</span></div>
-            <div class="wb-body"><div class="bars" style="height:64px;margin-top:0" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-            <table><tr><th></th><th>A</th><th>B</th><th>C</th></tr><tr><td>1</td><td>SKU</td><td>Mevcut</td><td>Sinyal</td></tr><tr><td>2</td><td>ST-01</td><td class="sel">180</td><td class="cf good">▲</td></tr><tr><td>3</td><td>ST-02</td><td>4</td><td class="cf warn">→</td></tr></table></div>
-            <div class="wb-foot"><span class="wb-tab">Stok ve Üretim</span><span class="cf good price">₺1.490</span></div></article>
-        </div>
-      )
-    }
-  </section>
+    <section class="problem-strip" aria-label="Çözülen iş problemleri">
+      <div><strong>Para nerede?</strong><span>Kasa ve banka hareketlerini tek yerde görün.</span></div>
+      <div><strong>Ne zaman açık vereceğim?</strong><span>Ödeme gününden önce nakit açığını fark edin.</span></div>
+      <div><strong>Gerçekte ne kadar kazanıyorum?</strong><span>Gizli maliyetleri dahil ederek net kârı ölçün.</span></div>
+    </section>
 
-  <!-- C5 · ROI — .za tablosu; "1,5 saat / ay" .netv stili (CF yeşil) -->
-  <section class="border-t border-rule-hairline">
-    <div class="container-site grid-12 section-enter items-start">
-      <div class="col-span-12 lg:col-span-4">
-        <p class="kicker">ROI</p>
-        <h2 class="h2 mt-3">Mutabakat ve raporlama süresi neye gidiyor?</h2>
-        <p class="lead mt-3">
-          Örnek senaryo: Aylık banka/cari mutabakatı ve yönetim raporu hazırlayan bir işletmede, hazır yapılı dosyalarla geçen sürenin değişimi.
+    <section class="section categories" aria-labelledby="categories-title">
+      <div class="section-heading">
+        <div><span class="section-kicker">İHTİYACA GÖRE SEÇİN</span><h2 id="categories-title">Hangi finansal sorunu çözmek istiyorsunuz?</h2></div>
+        <p>Dosya adına göre değil, çözmek istediğiniz işletme problemine göre ilerleyin.</p>
+      </div>
+      <div class="category-grid">
+        {categoryMeta.map((category) => (
+          <a href={`/sablonlar/${category.slug}`} class="category-card">
+            <span class="category-icon">{category.icon}</span>
+            <div><h3>{category.name}</h3><p>{category.description}</p></div>
+            <span class="category-count">{category.count} sistem</span>
+            <span class="category-arrow">→</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="section featured" id="one-cikanlar" aria-labelledby="featured-title">
+      <div class="section-heading">
+        <div><span class="section-kicker">ÖNE ÇIKAN ÇALIŞMALAR</span><h2 id="featured-title">İşletmede doğrudan kullanılan Excel sistemleri</h2></div>
+        <a class="text-link" href="/sablonlar">Tümünü incele →</a>
+      </div>
+      <div class="product-grid">
+        {featured.map((template) => {
+          const t = template.data;
+          return (
+            <article class="product-card">
+              <a class="product-preview" href={`/sablon/${slugify(t.name)}`} aria-label={`${t.name} detayını aç`}>
+                <div class="preview-toolbar"><span></span><span></span><span></span><b>{t.fileFormat.toUpperCase()}</b></div>
+                <div class="preview-sheet">
+                  <div class="preview-kpis"><i></i><i></i><i></i></div>
+                  <div class="preview-chart"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                  <div class="preview-table"><i></i><i></i><i></i><i></i></div>
+                </div>
+                <span class="preview-category">{categoryMeta.find((category) => category.slug === t.category)?.name}</span>
+              </a>
+              <div class="product-content">
+                <div class="product-meta"><span>{t.sheetCount} çalışma sayfası</span><span>{t.hasMacros ? 'Makrolu' : 'Makrosuz'}</span></div>
+                <h3><a href={`/sablon/${slugify(t.name)}`}>{t.name}</a></h3>
+                <p>{t.summary}</p>
+                <ul>
+                  {t.outputs.slice(0, 3).map((output) => <li>{output}</li>)}
+                </ul>
+                <div class="product-footer">
+                  <div><small>KDV dahil</small><strong>{t.priceTL.toLocaleString('tr-TR')} TL</strong></div>
+                  <a href={`/sablon/${slugify(t.name)}`}>İncele <span>→</span></a>
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="value-section" aria-labelledby="value-title">
+      <div class="value-copy">
+        <span class="section-kicker">EXCEL DOSYASI DEĞİL, ÇALIŞAN SİSTEM</span>
+        <h2 id="value-title">Tabloyu değil, karar hızını satın alın.</h2>
+        <p>
+          Ücretsiz şablonların çoğu yalnızca veri toplar. Excel Arşiv sistemleri; girdiyi hesaplamaya,
+          hesaplamayı yönetim çıktısına dönüştürmek için yapılandırılır.
         </p>
-        <a href="/iletisim" class="btn mt-6">Şirketinize özel hesaplama <span class="ar">→</span></a>
+        <a class="button primary" href="/nasil-calisir">Sistem Nasıl Çalışıyor? <span>→</span></a>
       </div>
-      <div class="col-span-12 mt-8 lg:col-span-8 lg:mt-0">
-        <table class="za">
-          <tr>
-            <th style="text-align:left;width:auto">Metrik</th>
-            <th>Mevcut durum</th>
-            <th>Excel Arşiv ile</th>
-          </tr>
-          {
-            roiRows.map(([metric, before, after], index) => (
-              <tr>
-                <td style="text-align:left;width:auto">{metric}</td>
-                <td class="tabular">{before}</td>
-                <td>
-                  {index === roiRows.length - 1 ? (
-                    <span class="netv tabular">{after}</span>
-                  ) : (
-                    <span class="tabular">{after}</span>
-                  )}
-                </td>
-              </tr>
-            ))
-          }
-        </table>
+      <div class="comparison">
+        <div class="comparison-head"><span>Ücretsiz / Dağınık Dosya</span><span>Excel Arşiv Sistemi</span></div>
+        <div><span>Formülleri kendiniz kurarsınız</span><strong>Formüller hazır gelir</strong></div>
+        <div><span>Hata kontrolü size kalır</span><strong>Girdi ve çıktı yapısı tanımlıdır</strong></div>
+        <div><span>Raporu ayrıca hazırlarsınız</span><strong>Yönetim çıktıları otomatik oluşur</strong></div>
+        <div><span>Nasıl kullanılacağı belirsizdir</span><strong>Demo ve kullanım açıklaması vardır</strong></div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- C5 · Üretim süreci — 4 kolon hairline ayrım, numaralar mono -->
-  <section class="border-t border-rule-hairline bg-surface-1">
-    <div class="container-site grid-12 section-enter items-start">
-      <div class="col-span-12 lg:col-span-4">
-        <p class="kicker">ÜRETİM SÜRECİ</p>
-        <h2 class="h2 mt-3">Bu dosyalar nasıl hazırlanıyor?</h2>
-        <p class="lead mt-3">Her şablon aynı dört adımla üretilir; çıktısı gerçek iş verisiyle test edilmiş dosyadır.</p>
+    <section class="section how" aria-labelledby="how-title">
+      <div class="section-heading centered">
+        <div><span class="section-kicker">3 ADIMDA KULLANIMA BAŞLAYIN</span><h2 id="how-title">Beklemeden, kurulum projesine dönüşmeden</h2></div>
       </div>
-      <ol class="col-span-12 mt-6 grid grid-cols-1 gap-px bg-rule-hairline sm:grid-cols-2 lg:col-span-8 lg:grid-cols-4">
-        {
-          methodology.map((item, index) => (
-            <li class="relative flex flex-col bg-surface-0 p-6">
-              <span aria-hidden="true" class="mono text-xl text-xl-ink-300 tabular">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <h3 class="h3 mt-4">{item.title}</h3>
-              <p class="body-sm mt-2 text-ink-500">{item.description}</p>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
+      <div class="steps">
+        <article><span>01</span><h3>Demo dosyasını inceleyin</h3><p>Sayfaları, girdi alanlarını ve üretilecek çıktıları satın almadan önce görün.</p></article>
+        <article><span>02</span><h3>İhtiyacınıza uygun sistemi alın</h3><p>Ürün sayfasındaki kapsam, uyumluluk ve fiyat bilgileri üzerinden karar verin.</p></article>
+        <article><span>03</span><h3>Kendi verinizle çalıştırın</h3><p>Dosyayı indirin, belirtilen alanlara verilerinizi girin ve raporları kullanın.</p></article>
+      </div>
+    </section>
 
-  <!-- C5 · Final CTA — hero grid zemini üzerinde ortalanır -->
-  <section class="hero-pattern border-t border-rule-hairline bg-surface-1">
-    <div class="container-site section-enter flex flex-col items-center text-center">
-      <p class="kicker">BAŞLANGIÇ</p>
-      <h2 class="display">
-        Bugün <em>başlayın</em>
-      </h2>
-      <p class="lead mt-3">
-        Demo dosyayla inceleyin, beğenin, ödeyin — teslimat e-postayla. Kredi kartı bilginiz yalnızca Shopier'de işlenir.
-      </p>
-      <div class="cta-row">
-        <a class="btn primary" href="/sablonlar">Şablonları İncele <span class="ar">→</span></a>
-        <a class="btn" href="/nasil-calisir">Nasıl Çalışır <span class="dn">↓</span></a>
-      </div>
-      <p class="mono mt-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-[11px] text-xl-ink-300">
-        <span><span class="cf good">VUK</span> uyumlu şablonlar</span>
-        <span><span class="cf good">TFRS</span> uyumlu yapılar</span>
-        <span><span class="cf warn">Shopier</span> · Güvenli Ödeme</span>
-      </p>
-    </div>
-  </section>
+    <section class="assurance">
+      <div><span class="assurance-icon">✓</span><strong>Satın almadan önce kapsam görünür</strong><p>Her üründe girdiler, çıktılar, sayfa yapısı, uyumluluk ve uygun olmayan kullanım alanları açıkça belirtilir.</p></div>
+      <div><span class="assurance-icon">₺</span><strong>Fiyatlar KDV dahil gösterilir</strong><p>Sürpriz ücret olmadan, ürün sayfasında görülen toplam fiyat üzerinden satın alma kararı verirsiniz.</p></div>
+      <div><span class="assurance-icon">?</span><strong>Satış sonrası iletişim kanalı</strong><p>Dosya teslimatı ve kullanım kapsamıyla ilgili sorular için iletişim sayfasından destek talebi iletebilirsiniz.</p></div>
+    </section>
+
+    <section class="final-cta">
+      <div><span class="section-kicker">DAĞINIK EXCEL DOSYALARINI BIRAKIN</span><h2>Finansal kontrolü bugün kurun.</h2><p>İhtiyacınıza uygun sistemi seçin, demo dosyasını inceleyin ve kendi verinizle çalışmaya başlayın.</p></div>
+      <div class="final-actions"><a class="button light" href="/sablonlar">Şablonları İncele <span>→</span></a><a class="button ghost" href="/iletisim">Doğru sistemi sor</a></div>
+    </section>
+  </div>
 </Layout>
+
+<style>
+  .home-page { --green:#107c41; --green-dark:#0b5f34; --ink:#17221d; --muted:#65736b; --line:#dfe8e3; --soft:#eef7f2; }
+  .hero { display:grid; grid-template-columns:minmax(0,1fr) minmax(480px,.95fr); gap:clamp(46px,6vw,92px); align-items:center; max-width:1240px; margin:auto; padding:clamp(72px,9vw,132px) clamp(20px,5vw,72px) 84px; }
+  .eyebrow,.section-kicker { color:var(--green-dark); font-size:12px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+  .eyebrow { display:flex; align-items:center; gap:9px; margin-bottom:22px; }
+  .eyebrow span { width:26px; height:2px; background:var(--green); }
+  h1,h2,h3,p { margin-top:0; }
+  h1 { max-width:720px; margin-bottom:26px; color:var(--ink); font-family:"Inter Tight",Inter,sans-serif; font-size:clamp(48px,5.8vw,78px); line-height:.97; letter-spacing:-.055em; }
+  h1 em { color:var(--green); font-style:normal; }
+  .hero-lead { max-width:680px; margin-bottom:30px; color:#536159; font-size:clamp(17px,1.55vw,20px); line-height:1.65; }
+  .hero-actions,.final-actions { display:flex; flex-wrap:wrap; gap:12px; }
+  .button { display:inline-flex; min-height:50px; align-items:center; justify-content:center; gap:20px; padding:0 20px; border:1px solid transparent; border-radius:11px; font-size:14px; font-weight:800; text-decoration:none; transition:transform .2s ease,box-shadow .2s ease,background .2s ease; }
+  .button:hover { transform:translateY(-2px); }
+  .button.primary { background:var(--green); color:white; box-shadow:0 12px 28px rgba(16,124,65,.2); }
+  .button.secondary { border-color:#cad8d0; background:white; color:var(--ink); }
+  .trust-row { display:flex; flex-wrap:wrap; gap:12px 22px; margin-top:28px; color:#536159; font-size:12px; font-weight:700; }
+  .trust-row b { color:var(--green); }
+  .hero-product { position:relative; }
+  .product-window { overflow:hidden; border:1px solid #d9e2dd; border-radius:20px; background:white; box-shadow:0 38px 90px rgba(33,54,43,.16); transform:rotate(1deg); }
+  .window-bar { display:flex; align-items:center; gap:12px; padding:13px 16px; border-bottom:1px solid #dfe8e3; background:#f7f9f8; color:#48554e; font-size:11px; }
+  .window-bar strong { flex:1; text-align:center; font-weight:700; }
+  .window-dots { display:flex; gap:5px; }.window-dots i{width:8px;height:8px;border-radius:50%;background:#ccd6d1}.window-dots i:first-child{background:#ef9b92}.window-dots i:nth-child(2){background:#edc86f}.window-dots i:last-child{background:#75c28e}
+  .saved { color:var(--green); font-weight:700; }
+  .sheet-tabs { display:flex; gap:6px; padding:10px 16px 0; border-bottom:1px solid #e3ebe7; background:#fbfcfb; font-size:10px; font-weight:700; }
+  .sheet-tabs span { padding:9px 12px; color:#77847d; }.sheet-tabs .active{border-bottom:2px solid var(--green);color:var(--green)}
+  .dashboard { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; padding:18px; background:linear-gradient(180deg,#fff,#f7faf8); }
+  .metric { display:grid; gap:6px; padding:15px; border:1px solid #e0e8e4; border-radius:12px; background:white; }.metric.green{background:#eef8f2;border-color:#cde7d8}.metric small{color:#7a8780;font-size:8px;font-weight:800;letter-spacing:.09em}.metric strong{color:#233129;font-size:20px;letter-spacing:-.04em}.metric span{color:#6e7c74;font-size:9px}.metric.green strong,.metric.green span{color:#0b6638}
+  .chart-card { grid-column:1/-1; padding:16px; border:1px solid #e0e8e4; border-radius:12px; background:white; }.chart-head{display:flex;justify-content:space-between;color:#536159;font-size:10px;font-weight:800}.chart-head b{color:var(--green)}
+  .chart { position:relative; display:flex; height:150px; align-items:flex-end; gap:8px; margin-top:12px; padding:12px 4px 0; border-bottom:1px solid #dfe8e3; background:repeating-linear-gradient(to bottom,#fff 0,#fff 35px,#eef2f0 36px); }.chart>span{z-index:1;flex:1;height:var(--h);border-radius:4px 4px 0 0;background:linear-gradient(180deg,#b5ddc5,#dceee3)}.chart svg{position:absolute;inset:12px 4px 0;width:calc(100% - 8px);height:calc(100% - 12px);z-index:2}.chart polyline{fill:none;stroke:var(--green);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}.chart-labels{display:flex;justify-content:space-between;margin-top:8px;color:#849089;font-size:8px}
+  .alert-card { grid-column:1/-1; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px; padding:12px 14px; border-radius:10px; background:#fff7df; color:#785a00; }.alert-card>span{display:grid;width:24px;height:24px;place-items:center;border-radius:50%;background:#f3ca52;font-weight:900}.alert-card div{display:grid;gap:2px}.alert-card strong{font-size:10px}.alert-card small{font-size:8px}.alert-card>b{font-size:9px}
+  .floating-proof { position:absolute; display:grid; min-width:116px; gap:2px; padding:13px 15px; border:1px solid #d8e2dc; border-radius:12px; background:rgba(255,255,255,.94); box-shadow:0 18px 40px rgba(33,54,43,.12); backdrop-filter:blur(12px); }.floating-proof strong{color:var(--green);font-size:24px}.floating-proof span{color:#65736b;font-size:10px;font-weight:700}.proof-one{left:-34px;bottom:32px}.proof-two{right:-25px;top:42px}
+  .problem-strip { display:grid; grid-template-columns:repeat(3,1fr); max-width:1240px; margin:0 auto; border:1px solid #dce6e0; border-radius:18px; background:white; box-shadow:0 16px 40px rgba(33,54,43,.06); }.problem-strip div{display:grid;gap:7px;padding:25px 28px}.problem-strip div+div{border-left:1px solid #e3ebe7}.problem-strip strong{color:var(--ink);font-size:15px}.problem-strip span{color:var(--muted);font-size:13px;line-height:1.5}
+  .section { max-width:1240px; margin:auto; padding:112px clamp(20px,5vw,72px); }.section-heading{display:flex;align-items:end;justify-content:space-between;gap:36px;margin-bottom:38px}.section-heading>div{max-width:760px}.section-heading h2,.value-copy h2,.final-cta h2{margin:10px 0 0;color:var(--ink);font-family:"Inter Tight",Inter,sans-serif;font-size:clamp(34px,4vw,52px);line-height:1.04;letter-spacing:-.045em}.section-heading>p{max-width:390px;margin-bottom:4px;color:var(--muted);line-height:1.65}.text-link{color:var(--green-dark);font-weight:800;text-decoration:none;white-space:nowrap}
+  .category-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }.category-card{position:relative;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;min-height:112px;padding:22px 24px;border:1px solid #dce6e0;border-radius:15px;background:white;color:var(--ink);text-decoration:none;transition:transform .2s,border-color .2s,box-shadow .2s}.category-card:hover{transform:translateY(-3px);border-color:#91c6a8;box-shadow:0 15px 32px rgba(33,54,43,.08)}.category-icon{display:grid;width:48px;height:48px;place-items:center;border-radius:12px;background:var(--soft);color:var(--green);font-size:20px;font-weight:900}.category-card h3{margin-bottom:5px;font-size:16px}.category-card p{margin:0;color:var(--muted);font-size:12px}.category-count{align-self:start;padding:5px 8px;border-radius:999px;background:#f1f5f3;color:#65736b;font-size:9px;font-weight:800}.category-arrow{position:absolute;right:24px;bottom:18px;color:var(--green);font-weight:900}
+  .featured { max-width:none; background:#edf4f0; }.featured>.section-heading,.featured>.product-grid{max-width:1240px;margin-left:auto;margin-right:auto}.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.product-card{overflow:hidden;border:1px solid #d9e4de;border-radius:18px;background:white;box-shadow:0 10px 26px rgba(33,54,43,.05);transition:transform .2s,box-shadow .2s}.product-card:hover{transform:translateY(-5px);box-shadow:0 22px 44px rgba(33,54,43,.11)}.product-preview{position:relative;display:block;height:210px;padding:14px;background:linear-gradient(145deg,#e9f4ee,#f9fbfa);color:inherit;text-decoration:none}.preview-toolbar{display:flex;gap:5px;align-items:center;padding:9px 10px;border-radius:9px 9px 0 0;background:#1b6f43}.preview-toolbar span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5)}.preview-toolbar b{margin-left:auto;color:#fff;font-size:8px;letter-spacing:.1em}.preview-sheet{display:grid;grid-template-columns:1fr .75fr;grid-template-rows:auto 1fr;gap:8px;height:142px;padding:12px;border:1px solid #d7e2dc;border-top:0;border-radius:0 0 9px 9px;background:white}.preview-kpis{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.preview-kpis i{height:25px;border-radius:4px;background:#edf5f1}.preview-kpis i:first-child{background:#cde7d8}.preview-chart{display:flex;align-items:flex-end;gap:4px;padding:8px;border:1px solid #edf1ef}.preview-chart span{flex:1;border-radius:2px 2px 0 0;background:#89c5a3}.preview-chart span:nth-child(1){height:35%}.preview-chart span:nth-child(2){height:65%}.preview-chart span:nth-child(3){height:48%}.preview-chart span:nth-child(4){height:80%}.preview-chart span:nth-child(5){height:61%}.preview-chart span:nth-child(6){height:92%}.preview-table{display:grid;align-content:start;gap:6px;padding:9px;border:1px solid #edf1ef}.preview-table i{height:7px;border-radius:2px;background:#e4ebe7}.preview-table i:first-child{background:#b9d9c7}.preview-category{position:absolute;left:24px;bottom:23px;padding:6px 9px;border-radius:999px;background:#fff;color:var(--green-dark);font-size:9px;font-weight:800;box-shadow:0 5px 16px rgba(33,54,43,.12)}.product-content{padding:22px}.product-meta{display:flex;gap:12px;margin-bottom:12px;color:#748078;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.05em}.product-content h3{min-height:46px;margin-bottom:10px;font-size:17px;line-height:1.35}.product-content h3 a{color:var(--ink);text-decoration:none}.product-content>p{min-height:62px;color:var(--muted);font-size:12px;line-height:1.65}.product-content ul{display:grid;gap:8px;min-height:76px;margin:18px 0 22px;padding:0;list-style:none}.product-content li{position:relative;padding-left:16px;color:#4c5a52;font-size:11px}.product-content li:before{content:'✓';position:absolute;left:0;color:var(--green);font-weight:900}.product-footer{display:flex;align-items:end;justify-content:space-between;padding-top:17px;border-top:1px solid #e6ece9}.product-footer div{display:grid;gap:2px}.product-footer small{color:#7a8780;font-size:9px}.product-footer strong{color:var(--ink);font-size:21px;letter-spacing:-.03em}.product-footer>a{display:inline-flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;background:var(--soft);color:var(--green-dark);font-size:11px;font-weight:800;text-decoration:none}
+  .value-section { display:grid;grid-template-columns:.85fr 1.15fr;gap:72px;align-items:center;max-width:1240px;margin:auto;padding:112px clamp(20px,5vw,72px) }.value-copy>p{max-width:560px;margin:24px 0 28px;color:var(--muted);font-size:16px;line-height:1.75}.comparison{overflow:hidden;border:1px solid #d9e4de;border-radius:18px;background:white;box-shadow:0 24px 55px rgba(33,54,43,.09)}.comparison-head,.comparison>div:not(.comparison-head){display:grid;grid-template-columns:1fr 1fr}.comparison-head{background:#17221d;color:white;font-size:12px;font-weight:800}.comparison-head span,.comparison>div:not(.comparison-head)>*{padding:17px 20px}.comparison>div:not(.comparison-head){border-top:1px solid #e4ebe7;font-size:12px}.comparison>div:not(.comparison-head) span{color:#7a8780}.comparison>div:not(.comparison-head) strong{border-left:1px solid #e4ebe7;background:#f1f8f4;color:#0b6638}
+  .how { padding-top:92px; }.centered{justify-content:center;text-align:center}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.steps article{padding:28px;border:1px solid #dce6e0;border-radius:16px;background:white}.steps article>span{display:inline-grid;width:42px;height:42px;place-items:center;margin-bottom:22px;border-radius:11px;background:var(--soft);color:var(--green);font-size:12px;font-weight:900}.steps h3{margin-bottom:10px;font-size:17px}.steps p{margin:0;color:var(--muted);font-size:13px;line-height:1.65}
+  .assurance { display:grid;grid-template-columns:repeat(3,1fr);gap:1px;max-width:1240px;margin:0 auto 112px;overflow:hidden;border:1px solid #dce6e0;border-radius:18px;background:#dce6e0 }.assurance>div{display:grid;grid-template-columns:auto 1fr;align-content:start;gap:5px 13px;padding:28px;background:white}.assurance-icon{grid-row:1/3;display:grid;width:36px;height:36px;place-items:center;border-radius:10px;background:var(--soft);color:var(--green);font-weight:900}.assurance strong{font-size:14px}.assurance p{grid-column:2;margin:0;color:var(--muted);font-size:11px;line-height:1.6}
+  .final-cta { display:flex;justify-content:space-between;align-items:end;gap:52px;max-width:1240px;margin:0 auto 112px;padding:54px 58px;border-radius:22px;background:linear-gradient(135deg,#0b5f34,#123c29);color:white;box-shadow:0 30px 70px rgba(11,95,52,.23)}.final-cta .section-kicker{color:#a9dfbf}.final-cta h2{color:white}.final-cta p{max-width:680px;margin:17px 0 0;color:#c8ddd1;line-height:1.65}.button.light{background:white;color:#0b5f34}.button.ghost{border-color:rgba(255,255,255,.28);color:white}
+  @media(max-width:1080px){.hero{grid-template-columns:1fr;padding-top:78px}.hero-copy{max-width:800px}.hero-product{max-width:740px;margin:auto}.product-grid{grid-template-columns:repeat(2,1fr)}.value-section{grid-template-columns:1fr}.final-cta{align-items:flex-start;flex-direction:column}.proof-one{left:-10px}.proof-two{right:-10px}}
+  @media(max-width:760px){.hero{padding-inline:20px}.dashboard{grid-template-columns:1fr}.metric{grid-column:1/-1}.floating-proof{display:none}.problem-strip{grid-template-columns:1fr;margin-inline:20px}.problem-strip div+div{border-left:0;border-top:1px solid #e3ebe7}.section-heading{align-items:flex-start;flex-direction:column}.category-grid,.product-grid,.steps,.assurance{grid-template-columns:1fr}.value-section{gap:42px}.comparison-head,.comparison>div:not(.comparison-head){grid-template-columns:1fr}.comparison>div:not(.comparison-head) strong{border-left:0;border-top:1px solid #e4ebe7}.assurance{margin-inline:20px}.final-cta{margin-inline:20px;padding:38px 28px}.product-content h3,.product-content>p,.product-content ul{min-height:0}}
+  @media(max-width:520px){h1{font-size:46px}.hero-actions .button{width:100%}.hero-product{margin-inline:-8px}.product-window{border-radius:14px}.dashboard{padding:10px}.window-bar strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.saved{display:none}.section{padding-top:82px;padding-bottom:82px}.category-card{grid-template-columns:auto 1fr}.category-count{display:none}.product-grid{grid-template-columns:1fr}.comparison>div:not(.comparison-head)>*,.comparison-head span{padding:14px}.final-actions{width:100%}.final-actions .button{width:100%}}
+</style>

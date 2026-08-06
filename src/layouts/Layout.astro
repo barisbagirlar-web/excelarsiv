@@ -5,12 +5,12 @@ import iconSprite from '../icons/sprite.svg?raw';
 interface Props {
   title: string;
   description?: string;
+  mode?: 'workbook' | 'commerce';
 }
 
-const { title, description } = Astro.props;
-
+const { title, description, mode = 'workbook' } = Astro.props;
+const commerce = mode === 'commerce';
 const site = Astro.site ?? new URL('https://excelarsiv.com/');
-
 const pathname = Astro.url.pathname;
 
 const menu = [
@@ -62,18 +62,17 @@ const orgLd = JSON.stringify({
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description ?? ''} />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, site)} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Excel Arşiv" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description ?? ''} />
-    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:url" content={new URL(Astro.url.pathname, site)} />
     <meta property="og:locale" content="tr_TR" />
-    <meta property="og:image" content={new URL('/og.png', Astro.site)} />
+    <meta property="og:image" content={new URL('/og.png', site)} />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preload" href="/images/excel-logo.png" as="image" />
-    <!-- Font preload — kritik ağırlıklar ve subsetler -->
     <link rel="preload" href="/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/inter-600-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/inter-tight-800-latin.woff2" as="font" type="font/woff2" crossorigin />
@@ -81,87 +80,217 @@ const orgLd = JSON.stringify({
     <script type="application/ld+json" set:html={orgLd} />
     <slot name="head" />
   </head>
-  <body class="font-body text-ink-700 antialiased">
+  <body class={commerce ? 'commerce-body' : 'font-body text-ink-700 antialiased'}>
     <Fragment set:html={iconSprite} />
-    <a
-      href="#icerik"
-      class="sr-only focus:not-sr-only focus:absolute focus:left-0 focus:top-0 focus:z-50 focus:bg-accent-primary focus:px-4 focus:py-3 focus:text-white"
-    >
-      İçeriğe geç
-    </a>
-    <div class="window">
-      <div class="titlebar">
-        <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
-        <img src="/images/excel-logo.png" alt="" width="18" height="17" class="titlebar-logo" />
-        <span class="file">excelarsiv.com — Kurumsal_Şablonlar.xlsx</span>
-        <span class="cf good"><span class="pulse"></span>Otomatik Kaydet: Açık</span>
-      </div>
-      <nav class="ribbon" aria-label="Ana menü">
-        <a
-          href="/"
-          class={`tab${pathname === '/' ? ' active' : ''}`}
-          aria-current={pathname === '/' ? 'page' : undefined}
-        >
-          Ana Sayfa
-        </a>
-        {
-          menu.map((item) => {
-            const active = isActive(item.href);
-            return (
-              <a
-                href={item.href}
-                class={`tab${active ? ' active' : ''}`}
-                aria-current={active ? 'page' : undefined}
-              >
-                {item.label}
-              </a>
-            );
-          })
-        }
-      </nav>
-      <div class="formulabar">
-        <span class="namebox">A1</span><span class="fx" aria-hidden="true">fx</span>
-        <div class="fstack" aria-hidden="true">
-          <span>=EĞER(ziyaretçi="usta";"hoş_geldin";"zanaatı_gör")</span>
-          <span>=XLOOKUP(kategori;A:A;B:B)</span>
-          <span>=ETOPLA(Stok!D:D;">"&MinEşik)</span>
+    <a href="#icerik" class="skip-link">İçeriğe geç</a>
+
+    {
+      commerce ? (
+        <div class="commerce-shell">
+          <div class="commerce-topline">
+            <span>Türkiye’deki işletmeler için hazır finansal Excel sistemleri</span>
+            <a href="/nasil-calisir">Satın alma ve teslimat</a>
+          </div>
+          <header class="commerce-header">
+            <a href="/" class="commerce-brand" aria-label="Excel Arşiv ana sayfa">
+              <span class="brand-mark" aria-hidden="true">X</span>
+              <span><strong>Excel Arşiv</strong><small>Finansal çalışma sistemleri</small></span>
+            </a>
+            <nav class="commerce-nav" aria-label="Ana menü">
+              {menu.map((item) => {
+                const active = isActive(item.href);
+                return (
+                  <a href={item.href} class={active ? 'active' : undefined} aria-current={active ? 'page' : undefined}>
+                    {item.label}
+                  </a>
+                );
+              })}
+            </nav>
+            <a href="/sablonlar" class="commerce-cta">Şablonları Gör</a>
+          </header>
+          <main id="icerik"><slot /></main>
+          <footer class="commerce-footer">
+            <div class="footer-main">
+              <div class="footer-brand">
+                <span class="brand-mark" aria-hidden="true">X</span>
+                <div>
+                  <strong>Excel Arşiv</strong>
+                  <p>İşletmelerin nakit, kârlılık, tahsilat ve finans kontrolünü kuran hazır Excel sistemleri.</p>
+                </div>
+              </div>
+              <div class="footer-links">
+                <div><strong>Ürünler</strong><a href="/sablonlar">Tüm şablonlar</a><a href="/paketler">Paketler</a><a href="/nasil-calisir">Nasıl çalışır</a></div>
+                <div><strong>Destek</strong><a href="/rehber">Rehber</a><a href="/sss">Sık sorulan sorular</a><a href="/iletisim">İletişim</a></div>
+              </div>
+            </div>
+            <div class="footer-legal">
+              <span>© {year} Excel Arşiv</span>
+              <nav aria-label="Yasal bağlantılar">
+                {legalLinks.map((item) => <a href={item.href}>{item.label}</a>)}
+              </nav>
+            </div>
+          </footer>
         </div>
-      </div>
-      <main id="icerik">
-        <slot />
-      </main>
-      <div class="cfbar" aria-hidden="true">
-        <i style="--w:34%"></i
-        ><i style="--w:22%;background:var(--cf-warn-bg)"></i
-        ><i style="--w:9%;background:var(--cf-bad-bg)"></i
-        ><i style="--w:35%;background:var(--xl-header)"></i>
-      </div>
-      <nav class="legalbar" aria-label="Yasal bağlantılar">
-        {
-          legalLinks.map((item, index) => (
-            <>
-              <a href={item.href}>{item.label}</a>
-              {index < legalLinks.length - 1 && <span class="sep" aria-hidden="true">·</span>}
-            </>
-          ))
-        }
-        <span class="sep" aria-hidden="true">·</span>
-        <span>© {year} Excel Arşiv · Tüm hakları saklıdır</span>
-      </nav>
-      <footer class="statusbar">
-        <span
-          ><span class="pulse" style="background:#fff"></span>
-          <span class="ststack" aria-hidden="true"
-            ><span>Hazır</span><span>Hesaplanıyor: %47…</span
-            ><span>Hazır · 12 şablon güncel</span></span
-          >
-          &nbsp;· Şablon: 12 · JS: 0 KB
-        </span>
-        <span class="status-right">
-          <span class="sheetpages" aria-hidden="true"><b>Girdi</b> Hesap Çıktı</span>
-          <span class="zoom">− <span class="bar"></span> + &nbsp;%100</span>
-        </span>
-      </footer>
-    </div>
+      ) : (
+        <div class="window">
+          <div class="titlebar">
+            <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <img src="/images/excel-logo.png" alt="" width="18" height="17" class="titlebar-logo" />
+            <span class="file">excelarsiv.com — Kurumsal_Şablonlar.xlsx</span>
+            <span class="cf good"><span class="pulse"></span>Otomatik Kaydet: Açık</span>
+          </div>
+          <nav class="ribbon" aria-label="Ana menü">
+            <a href="/" class={`tab${pathname === '/' ? ' active' : ''}`} aria-current={pathname === '/' ? 'page' : undefined}>Ana Sayfa</a>
+            {menu.map((item) => {
+              const active = isActive(item.href);
+              return <a href={item.href} class={`tab${active ? ' active' : ''}`} aria-current={active ? 'page' : undefined}>{item.label}</a>;
+            })}
+          </nav>
+          <div class="formulabar">
+            <span class="namebox">A1</span><span class="fx" aria-hidden="true">fx</span>
+            <div class="fstack" aria-hidden="true">
+              <span>=EĞER(ziyaretçi="usta";"hoş_geldin";"zanaatı_gör")</span>
+              <span>=XLOOKUP(kategori;A:A;B:B)</span>
+              <span>=ETOPLA(Stok!D:D;">"&MinEşik)</span>
+            </div>
+          </div>
+          <main id="icerik"><slot /></main>
+          <div class="cfbar" aria-hidden="true">
+            <i style="--w:34%"></i><i style="--w:22%;background:var(--cf-warn-bg)"></i><i style="--w:9%;background:var(--cf-bad-bg)"></i><i style="--w:35%;background:var(--xl-header)"></i>
+          </div>
+          <nav class="legalbar" aria-label="Yasal bağlantılar">
+            {legalLinks.map((item, index) => (
+              <>
+                <a href={item.href}>{item.label}</a>
+                {index < legalLinks.length - 1 && <span class="sep" aria-hidden="true">·</span>}
+              </>
+            ))}
+            <span class="sep" aria-hidden="true">·</span>
+            <span>© {year} Excel Arşiv · Tüm hakları saklıdır</span>
+          </nav>
+          <footer class="statusbar">
+            <span><span class="pulse" style="background:#fff"></span><span class="ststack" aria-hidden="true"><span>Hazır</span><span>Hesaplanıyor: %47…</span><span>Hazır · 12 şablon güncel</span></span>&nbsp;· Şablon: 12 · JS: 0 KB</span>
+            <span class="status-right"><span class="sheetpages" aria-hidden="true"><b>Girdi</b> Hesap Çıktı</span><span class="zoom">− <span class="bar"></span> + &nbsp;%100</span></span>
+          </footer>
+        </div>
+      )
+    }
   </body>
 </html>
+
+<style>
+  :global(.commerce-body) {
+    margin: 0;
+    min-width: 320px;
+    background: #f7f9f8;
+    color: #17221d;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .skip-link {
+    position: fixed;
+    left: 12px;
+    top: -80px;
+    z-index: 1000;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: #107c41;
+    color: white;
+    font-weight: 700;
+  }
+  .skip-link:focus { top: 12px; }
+  .commerce-shell { min-height: 100vh; overflow: clip; }
+  .commerce-topline {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    padding: 9px 24px;
+    background: #0b5f34;
+    color: #eefaf3;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .commerce-topline a { color: #fff; text-underline-offset: 3px; }
+  .commerce-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 32px;
+    min-height: 76px;
+    padding: 0 clamp(20px, 5vw, 72px);
+    border-bottom: 1px solid #dde6e1;
+    background: color-mix(in srgb, #ffffff 94%, transparent);
+    backdrop-filter: blur(16px);
+  }
+  .commerce-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 11px;
+    color: #17221d;
+    text-decoration: none;
+  }
+  .commerce-brand > span:last-child { display: grid; gap: 1px; }
+  .commerce-brand strong { font-size: 18px; letter-spacing: -0.02em; }
+  .commerce-brand small { color: #65736b; font-size: 10px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  .brand-mark {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border-radius: 11px;
+    background: #107c41;
+    color: white;
+    font-weight: 800;
+    box-shadow: 0 8px 22px rgba(16,124,65,.2);
+  }
+  .commerce-nav { display: flex; justify-content: center; gap: 6px; }
+  .commerce-nav a {
+    padding: 10px 12px;
+    border-radius: 9px;
+    color: #46534c;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .commerce-nav a:hover, .commerce-nav a.active { background: #eaf5ef; color: #0b6638; }
+  .commerce-cta {
+    padding: 11px 17px;
+    border-radius: 10px;
+    background: #17221d;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .commerce-footer { padding: 64px clamp(20px, 5vw, 72px) 26px; background: #101a15; color: #d6e1db; }
+  .footer-main { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(320px, 1fr); gap: 72px; max-width: 1240px; margin: 0 auto 54px; }
+  .footer-brand { display: flex; align-items: flex-start; gap: 16px; max-width: 560px; }
+  .footer-brand strong { color: white; font-size: 20px; }
+  .footer-brand p { max-width: 520px; margin: 9px 0 0; color: #9eafa6; line-height: 1.7; }
+  .footer-links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 36px; }
+  .footer-links > div { display: grid; align-content: start; gap: 10px; }
+  .footer-links strong { margin-bottom: 5px; color: white; font-size: 13px; text-transform: uppercase; letter-spacing: .07em; }
+  .footer-links a, .footer-legal a { color: #b7c5bd; text-decoration: none; }
+  .footer-links a:hover, .footer-legal a:hover { color: white; }
+  .footer-legal { display: flex; justify-content: space-between; gap: 24px; max-width: 1240px; margin: auto; padding-top: 22px; border-top: 1px solid #2a3831; color: #84958c; font-size: 12px; }
+  .footer-legal nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 16px; }
+  @media (max-width: 960px) {
+    .commerce-header { grid-template-columns: 1fr auto; gap: 16px; }
+    .commerce-nav { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; overflow-x: auto; padding-bottom: 12px; }
+    .commerce-header { padding-top: 12px; }
+    .footer-main { grid-template-columns: 1fr; gap: 44px; }
+  }
+  @media (max-width: 640px) {
+    .commerce-topline { justify-content: flex-start; overflow-x: auto; white-space: nowrap; }
+    .commerce-header { min-height: 68px; padding-inline: 16px; }
+    .commerce-brand small { display: none; }
+    .commerce-cta { padding: 10px 12px; }
+    .commerce-nav a { white-space: nowrap; }
+    .commerce-footer { padding-inline: 20px; }
+    .footer-links { grid-template-columns: 1fr 1fr; }
+    .footer-legal { display: grid; }
+    .footer-legal nav { justify-content: flex-start; }
+  }
+</style>
