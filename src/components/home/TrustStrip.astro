@@ -1,0 +1,82 @@
+---
+const items = [
+  { label: 'KDV Dahil', note: 'Tüm fiyatlar vergi dahil' },
+  { label: 'VUK Uyumlu', note: 'Defter usulüne uygun yapılar' },
+  { label: 'Shopier ile Ödeme', note: 'Kart bilgisi sitede saklanmaz' },
+  { label: 'E-posta ile Teslimat', note: 'Ödeme sonrası anında gönderim' },
+];
+---
+
+<section class="trust-strip" aria-label="Güvence noktaları">
+  <div class="site-container">
+    <ul class="trust-strip__grid">
+      {
+        items.map((item) => (
+          <li class="trust-strip__item">
+            <span class="trust-strip__check" aria-hidden="true">✓</span>
+            <span class="trust-strip__label">{item.label}</span>
+            <span class="trust-strip__note">{item.note}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .trust-strip {
+    padding-block: 28px;
+    background: var(--xl-paper);
+    border-bottom: 1px solid var(--xl-grid);
+  }
+  .trust-strip__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .trust-strip__item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 14px 16px;
+    border: 1px solid var(--xl-grid);
+    border-radius: 14px;
+    background: #fff;
+  }
+  .trust-strip__check {
+    display: inline-grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    background: var(--xl-green);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .trust-strip__label {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--xl-ink-900);
+  }
+  .trust-strip__note {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--xl-ink-3);
+  }
+  @media (max-width: 900px) {
+    .trust-strip__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 520px) {
+    .trust-strip__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

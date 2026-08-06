@@ -5,15 +5,25 @@ interface Props {
   summary: string;
   sheetCount: number;
   priceTL: number;
-  /* v5 (opsiyonel) — mevcut çağrıları kırmadan zenginleştirir (I9) */
   category?: string;
+  categorySlug?: string;
   version?: string;
   variant?: 'sparkline' | 'hm' | 'bars';
   sheetMap?: { name: string; kind: 'input' | 'calculation' | 'output' }[];
 }
 
-const { slug, name, summary, sheetCount, priceTL, category, version, variant = 'sparkline', sheetMap } =
-  Astro.props;
+const {
+  slug,
+  name,
+  summary,
+  sheetCount,
+  priceTL,
+  category,
+  categorySlug,
+  version,
+  variant = 'sparkline',
+  sheetMap,
+} = Astro.props;
 
 const price = priceTL.toLocaleString('tr-TR');
 
@@ -26,13 +36,21 @@ const kindLabel: Record<string, string> = {
 const rows = (sheetMap ?? []).slice(0, 3);
 ---
 
-<article class="wb" aria-label={name}>
+<article
+  class="wb"
+  aria-label={name}
+  data-template-card
+  data-name={name}
+  data-category={categorySlug ?? ''}
+  data-summary={summary}
+>
   <div class="wb-title">
     <span class="xic" aria-hidden="true">X</span>
-    <span class="truncate">{slug}.xlsx</span>
+    <span class="truncate">{name}</span>
     {version && <span class="cf good" style="margin-left:auto">v{version}</span>}
   </div>
   <div class="wb-body">
+    <span class="wb-file mono" aria-hidden="true">{slug}.xlsx</span>
     {
       variant === 'sparkline' && (
         <svg class="sp" viewBox="0 0 200 44" preserveAspectRatio="none" aria-hidden="true">
@@ -84,7 +102,7 @@ const rows = (sheetMap ?? []).slice(0, 3);
     }
   </div>
   <div class="wb-foot">
-    <span class="wb-tab">{category ?? `${sheetCount} sayfa`}</span>
+    <a class="wb-tab" href={`/sablon/${slug}`}>{category ?? `${sheetCount} sayfa`}</a>
     <span class="cf good price">{price} TL</span>
   </div>
 </article>

@@ -1,0 +1,45 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Excel Şablonları',
+  description = 'Finans, muhasebe ve operasyon için hazır Excel çalışma tabloları. Demo dosyayla inceleyin, Shopier ile güvenli ödeyin.',
+} = Astro.props;
+---
+
+<section class="catalog-hero" aria-labelledby="catalog-title">
+  <div class="site-container">
+    <span class="section-head__kicker">KATALOG</span>
+    <h1 id="catalog-title" class="catalog-hero__title">{title}</h1>
+    <p class="catalog-hero__lead">{description}</p>
+  </div>
+</section>
+
+<style>
+  .catalog-hero {
+    padding-block: clamp(40px, 6vw, 72px) clamp(24px, 4vw, 40px);
+    border-bottom: 1px solid var(--xl-grid);
+    background:
+      radial-gradient(900px 320px at 50% -60px, rgba(16, 124, 65, 0.1), transparent 70%),
+      #fff;
+  }
+  .catalog-hero__title {
+    margin: 14px 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(30px, 4.5vw, 46px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--xl-ink-900);
+  }
+  .catalog-hero__lead {
+    max-width: 640px;
+    margin: 14px 0 0;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--xl-ink-3);
+  }
+</style>

@@ -1980,6 +1980,22 @@ body::after {
     }
   }
 
+  /* HERO-SHOT — gerçek şablon önizlemesi (tam genişlik, 3:1) */
+  .hero-shot {
+    grid-column: 1 / -1;
+    margin: 2px 0 0;
+    border: 1px solid var(--xl-border);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 18px 48px rgba(27, 27, 31, 0.14);
+    background: #fff;
+  }
+  .hero-shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   /* BÖLGE A */
   .zone-a {
     position: relative;
@@ -2884,6 +2900,16 @@ body::after {
     position: relative;
     padding: 14px;
   }
+  .wb-file {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--xl-ink-3);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--xl-border);
+    word-break: break-all;
+  }
   .wb table {
     width: 100%;
     border-collapse: collapse;
@@ -3160,4 +3186,85 @@ body::after {
     }
   }
 }
+
+/* ===== Commerce / katalog ortak düzen (site-container, section-head) ===== */
+.site-container {
+  width: min(1240px, calc(100% - 40px));
+  margin-inline: auto;
+}
+
+.site-section {
+  padding-block: clamp(64px, 8vw, 108px);
+}
+
+.site-section--alt {
+  background: var(--xl-paper);
+  border-block: 1px solid var(--xl-grid);
+}
+
+.section-head {
+  max-width: 640px;
+  margin-bottom: clamp(28px, 4vw, 40px);
+}
+
+.section-head--row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: none;
+}
+
+.section-head__kicker {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--xl-green);
+}
+
+.section-head__kicker--light {
+  color: var(--xl-green);
+}
+
+.section-head__title {
+  margin: 12px 0 0;
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.4vw, 36px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  color: var(--xl-ink-900);
+}
+
+.section-head__lead {
+  margin: 12px 0 0;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--xl-ink-3);
+}
+
+.section-head__link {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--xl-green);
+  text-decoration: none;
+}
+
+.section-head__link:hover {
+  color: var(--xl-accent-dark);
+}
+
+@media (max-width: 520px) {
+  .section-head--row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 

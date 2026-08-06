@@ -1,5 +1,5 @@
 ---
-import Layout from '../../layouts/Layout.astro';
+import CommerceLayout from '../../layouts/CommerceLayout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import SectionLabel from '../../components/SectionLabel.astro';
@@ -10,16 +10,15 @@ import DemoDownloadBox from '../../components/DemoDownloadBox.astro';
 import SheetMapTable from '../../components/SheetMapTable.astro';
 import EligibilityList from '../../components/EligibilityList.astro';
 import FaqAccordion from '../../components/FaqAccordion.astro';
-import TemplateCard from '../../components/TemplateCard.astro';
+import TemplateCard from '../../components/catalog/TemplateCard.astro';
 import CellGrid from '../../components/CellGrid.astro';
 import PurchaseBar from '../../components/PurchaseBar.astro';
 import Notice from '../../components/Notice.astro';
-import { slugify } from '../../utils/slug';
 
 export async function getStaticPaths() {
   const templates = await getCollection('templates');
   return templates.map((template) => ({
-    params: { slug: slugify(template.data.name) },
+    params: { slug: template.id },
     props: { template },
   }));
 }
@@ -44,7 +43,7 @@ const categoryLabels: Record<string, string> = {
 const categoryLabel = categoryLabels[t.category] ?? t.category;
 
 const allTemplates = await getCollection('templates');
-const related = allTemplates.filter((item) => t.related.includes(slugify(item.data.name)));
+const related = allTemplates.filter((item) => t.related.includes(item.id));
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -84,7 +83,7 @@ const jsonLd = {
 };
 ---
 
-<Layout
+<CommerceLayout
   title={`${t.name} — Excel Arşiv`}
   description={`${t.summary} Demo dosyayı ücretsiz inceleyin; ödeme Shopier ile güvenli, teslimat e-posta ile.`}
 >
@@ -249,7 +248,7 @@ const jsonLd = {
               {
                 related.map((item) => (
                   <TemplateCard
-                    slug={slugify(item.data.name)}
+                    slug={item.id}
                     name={item.data.name}
                     summary={item.data.summary}
                     sheetCount={item.data.sheetCount}
@@ -266,4 +265,4 @@ const jsonLd = {
 
   {t.shopierUrl && <PurchaseBar name={t.name} priceTL={t.priceTL} shopierUrl={t.shopierUrl} />}
   <div class="h-20 sm:hidden" aria-hidden="true" />
-</Layout>
+</CommerceLayout>

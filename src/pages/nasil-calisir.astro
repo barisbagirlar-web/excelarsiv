@@ -1,5 +1,5 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import CommerceLayout from '../layouts/CommerceLayout.astro';
 import SectionLabel from '../components/SectionLabel.astro';
 import Button from '../components/Button.astro';
 
@@ -35,7 +35,7 @@ const howToLd = JSON.stringify({
 });
 ---
 
-<Layout
+<CommerceLayout
   title="Nasıl Çalışır — Excel Arşiv"
   description="Satın alma, teslimat, lisans ve güncelleme adımları — Excel şablonlarını nasıl satın alır ve alırsınız."
 >
@@ -63,4 +63,4 @@ const howToLd = JSON.stringify({
       <Button href="/sablonlar">Şablonları İncele</Button>
     </div>
   </section>
-</Layout>
+</CommerceLayout>

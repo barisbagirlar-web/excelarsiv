@@ -1,0 +1,100 @@
+---
+const items = [
+  {
+    code: 'CF-01',
+    title: 'Veri Çubukları',
+    text: 'Karşılaştırma ve kota takibi anında görünür; hücre içinde mini çubuklarla.',
+  },
+  {
+    code: 'CF-02',
+    title: 'Eğilim Çizgileri',
+    text: 'Dönem bazlı trendler sparkline ile satır içinde; grafik çizmeden yön okunur.',
+  },
+  {
+    code: 'CF-03',
+    title: 'Yön Göstergeleri',
+    text: 'İkon setleriyle artış, düşüş ve sabit durum bir bakışta ayrışır.',
+  },
+  {
+    code: 'CF-04',
+    title: 'Isı Haritaları',
+    text: 'Renk ölçeği ile riskli alanlar öne çıkar; tablo boyunca desen okunur.',
+  },
+];
+---
+
+<section class="site-section site-section--alt" aria-labelledby="value-title">
+  <div class="site-container">
+    <div class="section-head">
+      <span class="section-head__kicker">EXCEL'İN GÖRSEL GÜCÜ</span>
+      <h2 id="value-title" class="section-head__title">Şablonların içinde neler var?</h2>
+      <p class="section-head__lead">
+        Her dosya, koşullu biçimlendirmenin güçlü araçlarıyla kurulur — rakamlar yorum gerektirmeden konuşur.
+      </p>
+    </div>
+    <ul class="value-grid">
+      {
+        items.map((item) => (
+          <li class="value-card">
+            <span class="value-card__code">{item.code}</span>
+            <h3 class="value-card__title">{item.title}</h3>
+            <p class="value-card__text">{item.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .value-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .value-grid > * {
+    min-width: 0;
+  }
+  .value-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 22px;
+    border: 1px solid var(--xl-border);
+    border-radius: 16px;
+    background: #fff;
+  }
+  .value-card__code {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--xl-green);
+    letter-spacing: 0.04em;
+  }
+  .value-card__title {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--xl-ink-900);
+    margin: 0;
+  }
+  .value-card__text {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--xl-ink-3);
+    margin: 0;
+  }
+  @media (max-width: 1024px) {
+    .value-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 520px) {
+    .value-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

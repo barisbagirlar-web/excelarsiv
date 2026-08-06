@@ -1,0 +1,42 @@
+---
+interface Props {
+  message?: string;
+}
+
+const { message = 'Demo dosyaları satın almadan önce ücretsiz incelenebilir.' } = Astro.props;
+---
+
+<div class="announcement-bar" role="status">
+  <div class="container-site announcement-bar-inner">
+    <span class="announcement-bar-icon" aria-hidden="true">✓</span>
+    <span class="announcement-bar-text">{message}</span>
+  </div>
+</div>
+
+<style>
+  .announcement-bar {
+    background: var(--xl-green);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.01em;
+  }
+  .announcement-bar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 32px;
+    padding-block: 4px;
+  }
+  .announcement-bar-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.18);
+    font-size: 10px;
+    font-weight: 700;
+  }
+</style>

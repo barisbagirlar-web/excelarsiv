@@ -1,46 +1,38 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
-import SectionLabel from '../components/SectionLabel.astro';
-import CellGrid from '../components/CellGrid.astro';
-import TemplateCard from '../components/TemplateCard.astro';
-import CategoryNav from '../components/CategoryNav.astro';
-import { slugify } from '../utils/slug';
+import CommerceLayout from '../layouts/CommerceLayout.astro';
+import CatalogHero from '../components/catalog/CatalogHero.astro';
+import CatalogSearch from '../components/catalog/CatalogSearch.astro';
+import CatalogFilters from '../components/catalog/CatalogFilters.astro';
+import TemplateGrid from '../components/catalog/TemplateGrid.astro';
+import { getAllTemplates } from '../lib/templates';
 
-const templates = await getCollection('templates');
+const templates = await getAllTemplates();
 ---
 
-<Layout
+<CommerceLayout
   title="Şablonlar — Excel Arşiv"
   description="Finans, muhasebe ve operasyon için Excel çalışma tabloları. Kategoriye göre filtreleyin, demo dosyayla inceleyin."
 >
-  <section class="mx-auto max-w-6xl px-4 pb-24 pt-8">
-    <SectionLabel address="A1" label="Katalog" />
-    <h1 class="display mt-6">Şablonlar</h1>
-
-    <div class="mt-8">
-      <CategoryNav active="" />
+  <CatalogHero />
+  <section class="catalog-section">
+    <div class="site-container">
+      <CatalogSearch />
+      <div class="catalog-section__filters">
+        <CatalogFilters />
+      </div>
+      <TemplateGrid templates={templates} />
     </div>
-
-    <div class="mt-8">
-      <CellGrid>
-        {
-          templates.map((template) => (
-            <TemplateCard
-              slug={slugify(template.data.name)}
-              name={template.data.name}
-              summary={template.data.summary}
-              sheetCount={template.data.sheetCount}
-              priceTL={template.data.priceTL}
-            />
-          ))
-        }
-      </CellGrid>
-    </div>
-
-    <p class="mt-8 max-w-xl leading-relaxed text-ink-500">
-      Finans, muhasebe ve operasyon için hazır Excel çalışma tabloları. Her ürünün demo dosyasını
-      satın almadan inceleyebilirsiniz.
-    </p>
   </section>
-</Layout>
+</CommerceLayout>
+
+<style>
+  .catalog-section {
+    padding-block: clamp(32px, 5vw, 56px) clamp(64px, 8vw, 108px);
+  }
+  .catalog-section__filters {
+    margin-top: 18px;
+  }
+  .catalog-section > .site-container > :last-child {
+    margin-top: 32px;
+  }
+</style>

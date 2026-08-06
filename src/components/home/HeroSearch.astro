@@ -1,0 +1,145 @@
+---
+import type { SearchItem } from '../../lib/search';
+
+interface Props {
+  searchIndex: SearchItem[];
+}
+
+const { searchIndex } = Astro.props;
+---
+
+<div class="hero-search" data-hero-search>
+  <form class="hero-search__form" action="/sablonlar" method="get" role="search">
+    <svg class="hero-search__icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+      <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+      <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+    </svg>
+    <input
+      type="search"
+      name="q"
+      class="hero-search__input"
+      placeholder="Şablon ara: kasa, cari, stok, KDV…"
+      autocomplete="off"
+      role="combobox"
+      aria-label="Şablon ara"
+      aria-expanded="false"
+    />
+    <button type="submit" class="hero-search__submit">Ara</button>
+  </form>
+  <ul class="hero-search__results" hidden></ul>
+</div>
+
+<script define:vars={{ searchIndex }}>
+  import { mountHeroSearch } from '../../scripts/hero-search';
+  const root = document.querySelector<HTMLElement>('[data-hero-search]');
+  if (root) mountHeroSearch(root, searchIndex);
+</script>
+
+<style>
+  .hero-search {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(980px, calc(100% - 80px));
+    z-index: 3;
+  }
+  .hero-search__form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 68px;
+    padding: 8px 8px 8px 22px;
+    background: #fff;
+    border: 1px solid var(--xl-border);
+    border-radius: 18px;
+    box-shadow: 0 18px 48px rgba(27, 27, 31, 0.22);
+  }
+  .hero-search__icon {
+    flex-shrink: 0;
+    color: var(--xl-ink-3);
+  }
+  .hero-search__input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: 18px;
+    color: var(--xl-ink-900);
+  }
+  .hero-search__input::placeholder {
+    color: var(--xl-ink-3);
+    opacity: 1;
+  }
+  .hero-search__submit {
+    flex-shrink: 0;
+    height: 50px;
+    padding: 0 30px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--xl-green);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 150ms ease-out;
+  }
+  .hero-search__submit:hover {
+    background: var(--xl-accent-dark);
+  }
+  .hero-search__results {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 8px;
+    list-style: none;
+    background: #fff;
+    border: 1px solid var(--xl-border);
+    border-radius: 14px;
+    box-shadow: 0 18px 48px rgba(27, 27, 31, 0.18);
+  }
+  .hero-search__results a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+  }
+  .hero-search__results a:hover {
+    background: var(--xl-accent-soft);
+  }
+  .hero-search__name {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--xl-ink-900);
+  }
+  .hero-search__meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--xl-ink-3);
+  }
+  .hero-search__empty {
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--xl-ink-3);
+  }
+  @media (max-width: 720px) {
+    .hero-search {
+      position: relative;
+      left: auto;
+      top: auto;
+      transform: none;
+      width: calc(100% - 16px);
+      margin: -28px auto 0;
+    }
+  }
+</style>
