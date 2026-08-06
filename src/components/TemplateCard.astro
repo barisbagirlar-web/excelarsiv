@@ -29,7 +29,7 @@ const rows = (sheetMap ?? []).slice(0, 3);
 <article class="wb" aria-label={name}>
   <div class="wb-title">
     <span class="xic" aria-hidden="true">X</span>
-    <span class="truncate">{slug}.xlsx</span>
+    <span class="truncate" title={name}>{name}</span>
     {version && <span class="cf good" style="margin-left:auto">v{version}</span>}
   </div>
   <div class="wb-body">
