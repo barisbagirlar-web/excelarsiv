@@ -1,5 +1,5 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import CommerceLayout from '../layouts/CommerceLayout.astro';
 import SectionLabel from '../components/SectionLabel.astro';
 import FaqAccordion from '../components/FaqAccordion.astro';
 
@@ -49,7 +49,7 @@ const faqLd = JSON.stringify({
 });
 ---
 
-<Layout
+<CommerceLayout
   title="Sık Sorulan Sorular — Excel Arşiv"
   description="Dosya kilidi, uyarlama, teslimat süresi, fatura, iade, uyumluluk ve güncelleme — gerçek itirazların net cevapları."
 >
@@ -63,4 +63,4 @@ const faqLd = JSON.stringify({
       <FaqAccordion items={questions} />
     </div>
   </section>
-</Layout>
+</CommerceLayout>

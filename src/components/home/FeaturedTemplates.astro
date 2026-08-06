@@ -1,0 +1,79 @@
+---
+import TemplateCard from '../catalog/TemplateCard.astro';
+import type { TemplateViewModel } from '../../lib/templates';
+
+interface Props {
+  templates: TemplateViewModel[];
+}
+
+const { templates } = Astro.props;
+
+const variants = ['sparkline', 'hm', 'bars', 'sparkline', 'hm', 'bars'] as const;
+---
+
+<section class="site-section" aria-labelledby="featured-title">
+  <div class="site-container">
+    <div class="section-head section-head--row">
+      <div>
+        <span class="section-head__kicker">ÖNE ÇIKAN ŞABLONLAR</span>
+        <h2 id="featured-title" class="section-head__title">En çok tercih edilenler</h2>
+      </div>
+      <a class="section-head__link" href="/sablonlar">
+        Tümünü Gör <span aria-hidden="true">→</span>
+      </a>
+    </div>
+    {
+      templates.length > 0 ? (
+        <ul class="template-grid">
+          {
+            templates.map((template, index) => (
+              <li>
+                <TemplateCard
+                  slug={template.slug}
+                  name={template.name}
+                  summary={template.summary}
+                  sheetCount={template.sheetCount}
+                  priceTL={template.priceTL}
+                  category={template.categoryName}
+                  categorySlug={template.categorySlug}
+                  version={template.version}
+                  variant={variants[index % variants.length]}
+                  sheetMap={template.sheetMap}
+                />
+              </li>
+            ))
+          }
+        </ul>
+      ) : (
+        <p class="section-head__lead">Şablonlar yayına hazırlanıyor.</p>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .template-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .template-grid > * {
+    min-width: 0;
+  }
+  .template-grid li {
+    min-width: 0;
+  }
+  @media (max-width: 1024px) {
+    .template-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 680px) {
+    .template-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

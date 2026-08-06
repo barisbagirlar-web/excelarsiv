@@ -1,25 +1,24 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import CommerceLayout from '../layouts/CommerceLayout.astro';
 import { getCollection } from 'astro:content';
 import Button from '../components/Button.astro';
 import CellGrid from '../components/CellGrid.astro';
-import TemplateCard from '../components/TemplateCard.astro';
+import TemplateCard from '../components/catalog/TemplateCard.astro';
 import Icon from '../components/Icon.astro';
-import { slugify } from '../utils/slug';
 
 const templates = await getCollection('templates');
 const featured = templates.slice(0, 3);
 
-// Client-side arama için statik indeks — şablon adı + slug
+// Client-side arama için statik indeks — şablon adı + id
 const searchIndex = templates.map((template) => ({
   name: template.data.name,
-  slug: slugify(template.data.name),
+  slug: template.id,
 }));
 
 const otherErrors = ['#NAME?', '#VALUE!', '#DIV/0!'];
 ---
 
-<Layout
+<CommerceLayout
   title="Sayfa Bulunamadı — Excel Arşiv"
   description="Aradığınız şablon silindi veya adı değiştirildi. Şablon arayın veya kataloğa göz atın."
 >
@@ -93,7 +92,7 @@ const otherErrors = ['#NAME?', '#VALUE!', '#DIV/0!'];
               {
                 featured.map((template) => (
                   <TemplateCard
-                    slug={slugify(template.data.name)}
+                    slug={template.id}
                     name={template.data.name}
                     summary={template.data.summary}
                     sheetCount={template.data.sheetCount}
@@ -107,7 +106,7 @@ const otherErrors = ['#NAME?', '#VALUE!', '#DIV/0!'];
       </section>
     )
   }
-</Layout>
+</CommerceLayout>
 
 <script define:vars={{ searchIndex }}>
   const input = /** @type {HTMLInputElement} */ (document.getElementById('sablon-ara'));

@@ -1,0 +1,64 @@
+---
+import type { SearchItem } from '../../lib/search';
+import HeroSearch from './HeroSearch.astro';
+
+interface Props {
+  searchIndex: SearchItem[];
+}
+
+const { searchIndex } = Astro.props;
+---
+
+<section class="hero-section" aria-labelledby="hero-title">
+  <div class="hero-shell">
+    <h1 id="hero-title" class="sr-only">Excel Şablonları ve İşletme Çözümleri</h1>
+    <picture class="hero-artwork">
+      <source media="(max-width: 720px)" srcset="/images/hero-mobile.jpg" />
+      <img
+        src="/images/hero.jpg"
+        alt="Akıllı Kasa Defteri — gerçek Excel şablonunun önizlemesi"
+        width="1600"
+        height="533"
+        fetchpriority="high"
+      />
+    </picture>
+    <HeroSearch searchIndex={searchIndex} />
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    padding-top: 28px;
+  }
+  .hero-shell {
+    position: relative;
+    width: min(1480px, calc(100% - 48px));
+    margin-inline: auto;
+  }
+  .hero-artwork {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 3 / 1;
+    border-radius: 28px;
+    box-shadow: 0 32px 90px rgba(24, 55, 38, 0.16);
+  }
+  .hero-artwork img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  @media (max-width: 720px) {
+    .hero-section {
+      padding-top: 12px;
+    }
+    .hero-shell {
+      width: calc(100% - 20px);
+    }
+    .hero-artwork {
+      aspect-ratio: 5 / 3;
+    }
+  }
+</style>

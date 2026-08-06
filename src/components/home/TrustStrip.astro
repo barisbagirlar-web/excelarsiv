@@ -1,0 +1,264 @@
+---
+const demoRows = [
+  { label: 'Gelir', value: '₺128.400' },
+  { label: 'Gider', value: '₺86.150' },
+  { label: 'Net', value: '₺42.250' },
+];
+
+const priceRows = [
+  { label: 'Etiket fiyatı', value: '349 TL' },
+  { label: 'KDV', value: 'Dahil' },
+  { label: 'Ek ücret', value: '0 TL' },
+];
+
+const deliverySteps = ['Satın alma', 'E-posta', 'Dosya'];
+---
+
+<section class="trust-section" aria-labelledby="trust-title">
+  <div class="site-container">
+    <span class="section-head__kicker">GÜVENCE VE AVANTAJLAR</span>
+    <h2 id="trust-title" class="section-head__title">Satın almadan önce bilmeniz gerekenler</h2>
+    <ul class="trust-grid">
+      <li class="trust-card">
+        <div class="trust-card__head">
+          <span class="trust-card__badge">Ücretsiz demo</span>
+        </div>
+        <h3 class="trust-card__title">Demo ile inceleyin</h3>
+        <div class="trust-card__demo" aria-hidden="true">
+          {
+            demoRows.map((row, index) => (
+              <span class="trust-card__demo-row">
+                <span>{row.label}</span>
+                <span class={index === 2 ? 'trust-card__demo-net' : ''}>{row.value}</span>
+              </span>
+            ))
+          }
+        </div>
+        <p class="trust-card__text">
+          Her dosyanın sınırlı verili demosu satın almadan önce indirilebilir.
+        </p>
+      </li>
+
+      <li class="trust-card">
+        <div class="trust-card__head">
+          <span class="trust-card__price">349 TL</span>
+        </div>
+        <h3 class="trust-card__title">KDV dahil fiyat</h3>
+        <div class="trust-card__ledger" aria-hidden="true">
+          {
+            priceRows.map((row) => (
+              <span class="trust-card__ledger-row">
+                <span>{row.label}</span>
+                <span class="trust-card__ledger-val">{row.value}</span>
+              </span>
+            ))
+          }
+        </div>
+        <p class="trust-card__text">Sonradan ek ücret yok.</p>
+      </li>
+
+      <li class="trust-card">
+        <div class="trust-card__head">
+          <span class="trust-card__stamp" aria-hidden="true">TEK<br />ÖDEME</span>
+        </div>
+        <h3 class="trust-card__title">Tek seferlik ödeme</h3>
+        <div class="trust-card__timeline" aria-hidden="true">
+          <span class="trust-card__tl-dot is-now">●</span>
+          <span class="trust-card__tl-line"></span>
+          <span class="trust-card__tl-dot">✓</span>
+        </div>
+        <p class="trust-card__text">Abonelik yok; tek ödeme, kalıcı kullanım.</p>
+      </li>
+
+      <li class="trust-card">
+        <div class="trust-card__head">
+          <span class="trust-card__flow-icon" aria-hidden="true">⤓</span>
+        </div>
+        <h3 class="trust-card__title">Dijital teslimat</h3>
+        <div class="trust-card__flow" aria-hidden="true">
+          {
+            deliverySteps.map((step, index) => (
+              <>
+                <span class="trust-card__flow-step">{step}</span>
+                {index < deliverySteps.length - 1 && <span class="trust-card__flow-arrow">→</span>}
+              </>
+            ))
+          }
+        </div>
+        <p class="trust-card__text">
+          Ödeme onaylandığında dosya e-postanıza iletilir.
+        </p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .trust-section {
+    padding-block: clamp(56px, 7vw, 88px);
+    background: var(--xl-paper);
+    border-bottom: 1px solid var(--xl-grid);
+  }
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .trust-grid > * {
+    min-width: 0;
+  }
+  .trust-card {
+    min-width: 0;
+    min-height: 210px;
+    padding: 26px;
+    border: 1px solid var(--xl-border);
+    border-radius: 20px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+  .trust-card__head {
+    min-height: 32px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: flex-start;
+  }
+  .trust-card__badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: var(--xl-accent-soft);
+    color: var(--xl-green-dark);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .trust-card__price {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--xl-ink-900);
+  }
+  .trust-card__stamp {
+    display: inline-grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border: 2px solid var(--xl-green);
+    border-radius: 50%;
+    color: var(--xl-green);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.15;
+    text-align: center;
+  }
+  .trust-card__flow-icon {
+    font-size: 26px;
+    line-height: 1;
+    color: var(--xl-green);
+  }
+  .trust-card__title {
+    margin: 0 0 12px;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--xl-ink-900);
+  }
+  .trust-card__text {
+    margin: auto 0 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--xl-ink-3);
+  }
+  .trust-card__demo,
+  .trust-card__ledger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 14px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .trust-card__demo-row,
+  .trust-card__ledger-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: var(--xl-paper);
+    color: var(--xl-ink-3);
+  }
+  .trust-card__demo-net {
+    color: var(--xl-green-dark);
+    font-weight: 700;
+  }
+  .trust-card__ledger-val {
+    color: var(--xl-ink-900);
+    font-weight: 700;
+  }
+  .trust-card__timeline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 14px;
+  }
+  .trust-card__tl-dot {
+    display: inline-grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border: 1px solid var(--xl-border);
+    border-radius: 50%;
+    background: #fff;
+    color: var(--xl-ink-3);
+    font-size: 10px;
+  }
+  .trust-card__tl-dot.is-now {
+    border-color: var(--xl-green);
+    background: var(--xl-green);
+    color: #fff;
+  }
+  .trust-card__tl-line {
+    flex: 1;
+    height: 2px;
+    background: var(--xl-grid);
+  }
+  .trust-card__flow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .trust-card__flow-step {
+    padding: 6px 10px;
+    border: 1px solid var(--xl-border);
+    border-radius: 8px;
+    color: var(--xl-ink-900);
+    background: #fff;
+  }
+  .trust-card__flow-arrow {
+    color: var(--xl-ink-3);
+  }
+  @media (max-width: 1024px) {
+    .trust-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 560px) {
+    .trust-grid {
+      grid-template-columns: 1fr;
+    }
+    .trust-card {
+      min-height: 0;
+    }
+  }
+</style>

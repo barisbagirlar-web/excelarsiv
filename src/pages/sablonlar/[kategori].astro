@@ -1,24 +1,18 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { getCollection } from 'astro:content';
-import SectionLabel from '../../components/SectionLabel.astro';
-import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import CellGrid from '../../components/CellGrid.astro';
-import TemplateCard from '../../components/TemplateCard.astro';
-import CategoryNav from '../../components/CategoryNav.astro';
-import { slugify } from '../../utils/slug';
+import CommerceLayout from '../../layouts/CommerceLayout.astro';
+import CatalogHero from '../../components/catalog/CatalogHero.astro';
+import CatalogSearch from '../../components/catalog/CatalogSearch.astro';
+import CatalogFilters from '../../components/catalog/CatalogFilters.astro';
+import TemplateGrid from '../../components/catalog/TemplateGrid.astro';
+import { getTemplatesByCategory } from '../../lib/templates';
+import { getCategoryName } from '../../lib/categories';
 
 export async function getStaticPaths() {
-  const categories = [
-    ['finansal-analiz', 'Finansal Analiz'],
-    ['nakit-akisi', 'Nakit Akışı'],
-    ['muhasebe-ve-vergi', 'Muhasebe ve Vergi'],
-    ['butce-ve-planlama', 'Bütçe ve Planlama'],
-    ['stok-ve-uretim', 'Stok ve Üretim'],
-    ['satis-ve-fiyatlama', 'Satış ve Fiyatlama'],
-    ['personel-ve-bordro', 'Personel ve Bordro'],
-  ] as const;
-  return categories.map(([slug, label]) => ({ params: { kategori: slug }, props: { categoryName: label } }));
+  const { categories } = await import('../../lib/categories');
+  return categories.map((category) => ({
+    params: { kategori: category.slug },
+    props: { categoryName: category.name },
+  }));
 }
 
 interface Props {
@@ -28,43 +22,37 @@ interface Props {
 const { categoryName } = Astro.props;
 const categorySlug = Astro.params.kategori!;
 
-const templates = (await getCollection('templates')).filter(
-  (template) => template.data.category === categorySlug
-);
+const templates = await getTemplatesByCategory(categorySlug);
+const categoryLabel = getCategoryName(categorySlug);
 ---
 
-<Layout
-  title={`${categoryName} Şablonları — Excel Arşiv`}
-  description={`${categoryName} alanında hazır Excel çalışma tabloları. Demo dosyayla inceleyin, Shopier ile güvenli ödeme yapın.`}
+<CommerceLayout
+  title={`${categoryLabel} Şablonları — Excel Arşiv`}
+  description={`${categoryLabel} alanında hazır Excel çalışma tabloları. Demo dosyayla inceleyin, Shopier ile güvenli ödeme yapın.`}
 >
-  <section class="mx-auto max-w-6xl px-4 pb-24 pt-8">
-    <Breadcrumbs crumbs={[{ label: 'Şablonlar', href: '/sablonlar' }, { label: categoryName }]} />
-    <SectionLabel address="A1" label="Kategori" />
-    <h1 class="display mt-6">{categoryName} Şablonları</h1>
-
-    <div class="mt-8">
-      <CategoryNav active={categorySlug} />
+  <CatalogHero
+    title={`${categoryLabel} Şablonları`}
+    description={`${categoryLabel} alanında hazır Excel çalışma tabloları. Her ürünün demo dosyasını satın almadan inceleyebilirsiniz.`}
+  />
+  <section class="catalog-section">
+    <div class="site-container">
+      <CatalogSearch />
+      <div class="catalog-section__filters">
+        <CatalogFilters active={categorySlug} />
+      </div>
+      <TemplateGrid templates={templates} />
     </div>
-
-    <div class="mt-8">
-      <CellGrid>
-        {
-          templates.map((template) => (
-            <TemplateCard
-              slug={slugify(template.data.name)}
-              name={template.data.name}
-              summary={template.data.summary}
-              sheetCount={template.data.sheetCount}
-              priceTL={template.data.priceTL}
-            />
-          ))
-        }
-      </CellGrid>
-    </div>
-
-    <p class="mt-8 max-w-xl leading-relaxed text-ink-500">
-      {categoryName} alanında hazır Excel çalışma tabloları. Her ürünün demo dosyasını satın almadan
-      inceleyebilirsiniz.
-    </p>
   </section>
-</Layout>
+</CommerceLayout>
+
+<style>
+  .catalog-section {
+    padding-block: clamp(32px, 5vw, 56px) clamp(64px, 8vw, 108px);
+  }
+  .catalog-section__filters {
+    margin-top: 18px;
+  }
+  .catalog-section > .site-container > :last-child {
+    margin-top: 32px;
+  }
+</style>

@@ -1,0 +1,144 @@
+---
+const signals = [
+  { label: 'VUK', note: 'uyumlu şablonlar' },
+  { label: 'TFRS', note: 'uyumlu yapılar' },
+  { label: 'Shopier', note: 'güvenli ödeme' },
+];
+---
+
+<section class="final-cta" aria-labelledby="final-cta-title">
+  <div class="final-cta__inner">
+    <span class="final-cta__kicker">BAŞLANGIÇ</span>
+    <h2 id="final-cta-title" class="final-cta__title">
+      Doğru dosya, işinizi <em>taşır</em>.
+    </h2>
+    <p class="final-cta__lead">
+      Katalogdan şablon seçin, demo ile inceleyin, Shopier üzerinden tek seferde ödeyin — dosya
+      e-postanıza gelsin.
+    </p>
+    <div class="final-cta__actions">
+      <a class="final-cta__btn" href="/sablonlar">
+        Şablonları İncele <span aria-hidden="true">→</span>
+      </a>
+    </div>
+    <a class="final-cta__link" href="/nasil-calisir">Nasıl çalıştığını öğrenin</a>
+    <ul class="final-cta__signals">
+      {
+        signals.map((signal) => (
+          <li class="final-cta__signal">
+            <span class="final-cta__signal-dot" aria-hidden="true"></span>
+            <span>
+              <b class="final-cta__signal-label">{signal.label}</b> {signal.note}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .final-cta {
+    min-height: 300px;
+    padding: clamp(48px, 6vw, 76px);
+    background:
+      radial-gradient(800px 320px at 50% -60px, rgba(16, 124, 65, 0.12), transparent 70%),
+      var(--xl-paper);
+    border-top: 1px solid var(--xl-grid);
+    display: grid;
+    place-items: center;
+  }
+  .final-cta__inner {
+    width: min(1240px, calc(100% - 40px));
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .final-cta__kicker {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--xl-green);
+  }
+  .final-cta__title {
+    margin: 14px 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(30px, 4.5vw, 44px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--xl-ink-900);
+  }
+  .final-cta__title em {
+    color: var(--xl-green);
+    font-style: normal;
+  }
+  .final-cta__lead {
+    max-width: 540px;
+    margin: 16px 0 0;
+    font-size: 15.5px;
+    line-height: 1.7;
+    color: var(--xl-ink-3);
+  }
+  .final-cta__actions {
+    margin-top: 26px;
+  }
+  .final-cta__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 50px;
+    padding: 0 32px;
+    border-radius: 14px;
+    background: var(--xl-green);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 150ms ease-out;
+  }
+  .final-cta__btn:hover {
+    background: var(--xl-accent-dark);
+  }
+  .final-cta__link {
+    margin-top: 16px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--xl-ink-3);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .final-cta__link:hover {
+    color: var(--xl-green-dark);
+  }
+  .final-cta__signals {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 28px;
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .final-cta__signal {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--xl-ink-3);
+  }
+  .final-cta__signal-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--xl-green);
+  }
+  .final-cta__signal-label {
+    color: var(--xl-green-dark);
+  }
+</style>

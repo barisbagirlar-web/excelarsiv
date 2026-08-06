@@ -1,0 +1,111 @@
+---
+import { categories } from '../../lib/categories';
+
+const icons: Record<string, string> = {
+  'finansal-analiz': 'M3 17l4-6 4 4 5-8 5 6',
+  'nakit-akisi': 'M3 12h18M3 12l4-4M3 12l4 4M21 12l-4-4M21 12l-4 4',
+  'muhasebe-ve-vergi': 'M6 3h9l4 4v14H6zM9 12h6M9 16h6M15 3v4h4',
+  'butce-ve-planlama': 'M3 8h18M3 8l3-5h12l3 5M3 8v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8M8 12v6M12 12v6M16 12v6',
+  'stok-ve-uretim': 'M3 9l9-5 9 5-9 5-9-5zM3 9v6l9 5 9-5V9',
+  'satis-ve-fiyatlama': 'M3 7h18l-3 5 3 5H3l3-5-3-5z',
+  'personel-ve-bordro': 'M4 21a7 7 0 0 1 14 0M11 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8z',
+};
+---
+
+<section class="site-section" aria-labelledby="category-title">
+  <div class="site-container">
+    <div class="section-head">
+      <span class="section-head__kicker">KATEGORİLER</span>
+      <h2 id="category-title" class="section-head__title">İhtiyacınıza göre seçin</h2>
+      <p class="section-head__lead">
+        Finans, muhasebe ve operasyon işlerinize özel kategorilerdeki hazır Excel sistemlerine göz atın.
+      </p>
+    </div>
+    <ul class="category-grid">
+      {
+        categories.map((category) => (
+          <li>
+            <a class="category-card" href={`/sablonlar/${category.slug}`}>
+              <span class="category-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d={icons[category.slug] ?? ''} />
+                </svg>
+              </span>
+              <span class="category-card__name">{category.name}</span>
+              <span class="category-card__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .category-grid > * {
+    min-width: 0;
+  }
+  .category-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    height: 100%;
+    padding: 22px;
+    border: 1px solid var(--xl-border);
+    border-radius: 20px;
+    background: #fff;
+    text-decoration: none;
+    transition:
+      border-color 150ms ease-out,
+      transform 150ms ease-out,
+      box-shadow 150ms ease-out;
+  }
+  .category-card:hover {
+    border-color: var(--xl-accent-border);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(24, 55, 38, 0.1);
+  }
+  .category-card__icon {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: var(--xl-accent-soft);
+    color: var(--xl-green-dark);
+  }
+  .category-card__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  .category-card__name {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--xl-ink-900);
+  }
+  .category-card__arrow {
+    margin-top: auto;
+    font-size: 16px;
+    color: var(--xl-ink-3);
+  }
+  @media (max-width: 1024px) {
+    .category-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 520px) {
+    .category-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

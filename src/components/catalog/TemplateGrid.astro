@@ -1,0 +1,72 @@
+---
+import TemplateCard from './TemplateCard.astro';
+import EmptyState from './EmptyState.astro';
+import type { TemplateViewModel } from '../../lib/templates';
+
+interface Props {
+  templates: TemplateViewModel[];
+  query?: string;
+}
+
+const { templates, query = '' } = Astro.props;
+const variants = ['sparkline', 'hm', 'bars', 'sparkline', 'hm', 'bars'] as const;
+---
+
+<div class="template-grid-wrap">
+  <ul class="template-grid" data-template-grid>
+    {
+      templates.map((template, index) => (
+        <li>
+          <TemplateCard
+            slug={template.slug}
+            name={template.name}
+            summary={template.summary}
+            sheetCount={template.sheetCount}
+            priceTL={template.priceTL}
+            category={template.categoryName}
+            categorySlug={template.categorySlug}
+            version={template.version}
+            variant={variants[index % variants.length]}
+            sheetMap={template.sheetMap}
+          />
+        </li>
+      ))
+    }
+  </ul>
+  <EmptyState query={query} />
+</div>
+
+<script>
+  import { mountCatalogFilter } from '../../scripts/catalog-filter';
+  mountCatalogFilter();
+</script>
+
+<style>
+  .template-grid-wrap {
+    min-width: 0;
+  }
+  .template-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .template-grid > * {
+    min-width: 0;
+  }
+  .template-grid li {
+    min-width: 0;
+  }
+  @media (max-width: 1024px) {
+    .template-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 680px) {
+    .template-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

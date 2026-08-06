@@ -1,0 +1,147 @@
+---
+const metrics = [
+  {
+    label: 'Mutabakat',
+    before: '4 saat / ay',
+    after: '30 dk / ay',
+    gain: '×8 hız',
+  },
+  {
+    label: 'Rapor hazırlama',
+    before: '8 saat / ay',
+    after: '1 saat / ay',
+    gain: '×8 hız',
+  },
+  {
+    label: 'Hata riski',
+    before: 'Yüksek',
+    after: 'Düşük',
+    gain: 'Kontrollü',
+  },
+  {
+    label: 'Aylık toplam',
+    before: '12 saat / ay',
+    after: '1,5 saat / ay',
+    gain: '%87 tasarruf',
+  },
+];
+---
+
+<section class="site-section" aria-labelledby="gain-title">
+  <div class="site-container">
+    <div class="section-head section-head--row">
+      <div>
+        <span class="section-head__kicker">ZAMAN VE KONTROL</span>
+        <h2 id="gain-title" class="section-head__title">Saatleriniz nereye gidiyor?</h2>
+        <p class="section-head__lead">
+          Aylık mutabakat ve raporlama yapan bir işletmede, hazır yapılı dosyalarla geçen sürenin değişimi.
+        </p>
+      </div>
+    </div>
+    <div class="gain-panel">
+      <table class="gain-table">
+        <thead>
+          <tr>
+            <th>Metrik</th>
+            <th>Mevcut durum</th>
+            <th>Excel Arşiv ile</th>
+            <th class="gain-table__gain-col">Kazanım</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            metrics.map((metric) => (
+              <tr>
+                <td class="gain-table__label">{metric.label}</td>
+                <td class="gain-table__before">{metric.before}</td>
+                <td class="gain-table__after">{metric.after}</td>
+                <td class="gain-table__gain">
+                  <span class="gain-table__gain-badge">{metric.gain}</span>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+      <p class="gain-panel__note">
+        Örnek senaryo; süreler işletmenin büyüklüğüne göre değişir. Fark, dosya yapısının hazır gelmesidir:
+        formül, doğrulama ve rapor düzeni kurulu teslim edilir.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .gain-panel {
+    border: 1px solid var(--xl-border);
+    border-radius: 20px;
+    background: #fff;
+    overflow: hidden;
+  }
+  .gain-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .gain-table th,
+  .gain-table td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid var(--xl-grid);
+  }
+  .gain-table thead th {
+    background: var(--xl-paper);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--xl-ink-3);
+  }
+  .gain-table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  .gain-table__label {
+    font-weight: 700;
+    color: var(--xl-ink-900);
+  }
+  .gain-table__before {
+    font-family: var(--font-mono);
+    color: var(--xl-ink-3);
+  }
+  .gain-table__after {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: var(--xl-ink-900);
+  }
+  .gain-table__gain-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 0 10px;
+    border-radius: 999px;
+    background: var(--xl-accent-soft);
+    color: var(--xl-green-dark);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .gain-panel__note {
+    margin: 0;
+    padding: 14px 18px;
+    background: var(--xl-paper);
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--xl-ink-3);
+  }
+  @media (max-width: 680px) {
+    .gain-table th:nth-child(2),
+    .gain-table td:nth-child(2) {
+      display: none;
+    }
+    .gain-table th,
+    .gain-table td {
+      padding: 12px 14px;
+    }
+  }
+</style>
