@@ -16,9 +16,20 @@ const categoryLabels: Record<string, string> = {
   'personel-ve-bordro': 'Personel ve Bordro',
 };
 
+const categoryDescriptions: Record<string, string> = {
+  'finansal-analiz': 'Kârlılık, oranlar ve yönetim kararları',
+  'nakit-akisi': 'Ödeme, tahsilat ve nakit görünürlüğü',
+  'muhasebe-ve-vergi': 'Kontrol, mutabakat ve vergi takibi',
+  'butce-ve-planlama': 'Hedef, senaryo ve sapma analizi',
+  'stok-ve-uretim': 'Stok maliyeti ve üretim kontrolü',
+  'satis-ve-fiyatlama': 'Fiyat, komisyon ve gerçek marj',
+  'personel-ve-bordro': 'Personel maliyeti ve bordro planı',
+};
+
 const categories = Object.entries(categoryLabels).map(([slug, name]) => ({
   slug,
   name,
+  description: categoryDescriptions[slug],
   count: templates.filter((template) => template.data.category === slug).length,
 }));
 
@@ -60,76 +71,81 @@ const itemListLd = JSON.stringify({
 >
   <script slot="head" type="application/ld+json" set:html={itemListLd} />
 
-  <main class="home-page">
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-seo sr-only">
-        <h1 id="hero-title">Excel Şablonları ve İşletme Çözümleri</h1>
+  <div class="ea-home">
+    <section class="ea-hero" aria-labelledby="ea-hero-title">
+      <div class="ea-sr-only">
+        <h1 id="ea-hero-title">Excel Şablonları ve İşletme Çözümleri</h1>
         <p>
           İşletmeler için hazırlanmış profesyonel Excel şablonlarıyla nakit akışınızı, kasa takibinizi,
           cari hesaplarınızı, kârlılığınızı ve raporlamanızı daha kolay yönetin.
         </p>
       </div>
 
-      <div class="hero-visual">
-        <img
-          src="/images/hero.png"
-          width="2172"
-          height="724"
-          alt="Excel şablonları ve finansal işletme çözümlerini gösteren yönetim paneli"
-          fetchpriority="high"
-          decoding="async"
-        />
-      </div>
-
-      <div class="hero-search-wrap">
-        <form class="hero-search" id="hero-search" action="/sablonlar" method="get" role="search">
-          <label class="sr-only" for="hero-search-input">Excel şablonu ara</label>
-          <svg class="search-leading" aria-hidden="true" viewBox="0 0 24 24">
-            <circle cx="11" cy="11" r="7"></circle>
-            <path d="m20 20-4-4"></path>
-          </svg>
-          <input
-            id="hero-search-input"
-            type="search"
-            name="q"
-            placeholder="Hazır şablonlarda arama yapın..."
-            autocomplete="off"
-            minlength="2"
-            maxlength="80"
+      <div class="ea-hero-stage">
+        <div class="ea-hero-art">
+          <img
+            class="ea-hero-image"
+            src="/images/hero.png"
+            width="2172"
+            height="724"
+            alt="Excel şablonları ve finansal işletme çözümlerini gösteren yönetim paneli"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
           />
-          <button type="submit" aria-label="Şablonlarda ara">
-            <svg aria-hidden="true" viewBox="0 0 24 24">
+        </div>
+
+        <div class="ea-search-dock">
+          <form class="ea-search" id="ea-search" action="/sablonlar" method="get" role="search">
+            <label class="ea-sr-only" for="ea-search-input">Excel şablonu ara</label>
+            <svg class="ea-search-leading" aria-hidden="true" viewBox="0 0 24 24">
               <circle cx="11" cy="11" r="7"></circle>
               <path d="m20 20-4-4"></path>
             </svg>
-          </button>
-          <div class="hero-search-results" id="hero-search-results" hidden></div>
-        </form>
-        <a class="all-templates" href="/sablonlar">Tüm şablonları inceleyin <span>→</span></a>
+            <input
+              id="ea-search-input"
+              type="search"
+              name="q"
+              placeholder="Hazır şablonlarda arama yapın..."
+              autocomplete="off"
+              minlength="2"
+              maxlength="80"
+            />
+            <button type="submit" aria-label="Şablonlarda ara">
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="m20 20-4-4"></path>
+              </svg>
+            </button>
+            <div class="ea-search-results" id="ea-search-results" hidden></div>
+          </form>
+          <a class="ea-all-templates" href="/sablonlar">Tüm şablonları inceleyin <span>→</span></a>
+        </div>
       </div>
     </section>
 
-    <section class="trust-strip" aria-label="Satın alma avantajları">
+    <section class="ea-trust" aria-label="Satın alma avantajları">
       <div><strong>Demo ile inceleyin</strong><span>Satın almadan önce dosyanın yapısını görün.</span></div>
       <div><strong>KDV dahil fiyat</strong><span>Ürün sayfasındaki toplam fiyat üzerinden karar verin.</span></div>
       <div><strong>Tek seferlik ödeme</strong><span>Abonelik olmadan ürünü satın alın.</span></div>
       <div><strong>Dijital teslimat</strong><span>Dosyanızı ödeme sonrasında kullanmaya başlayın.</span></div>
     </section>
 
-    <section class="section categories" aria-labelledby="categories-title">
-      <div class="section-heading">
+    <section class="ea-section" aria-labelledby="ea-categories-title">
+      <div class="ea-section-heading">
         <div>
           <span>İHTİYACA GÖRE SEÇİN</span>
-          <h2 id="categories-title">Aradığınız çözümü kategoriye göre bulun</h2>
+          <h2 id="ea-categories-title">Aradığınız çözümü kategoriye göre bulun</h2>
         </div>
         <p>Dosya adına göre değil, çözmek istediğiniz işletme problemine göre ilerleyin.</p>
       </div>
 
-      <div class="category-grid">
+      <div class="ea-category-grid">
         {categories.map((category) => (
-          <a href={`/sablonlar/${category.slug}`} class="category-card">
+          <a href={`/sablonlar/${category.slug}`} class="ea-category-card">
             <div>
               <strong>{category.name}</strong>
+              <p>{category.description}</p>
               <span>{category.count} hazır sistem</span>
             </div>
             <b>→</b>
@@ -138,58 +154,60 @@ const itemListLd = JSON.stringify({
       </div>
     </section>
 
-    <section class="section featured" aria-labelledby="featured-title">
-      <div class="section-heading">
-        <div>
-          <span>ÖNE ÇIKAN ŞABLONLAR</span>
-          <h2 id="featured-title">İşletmede doğrudan kullanılan Excel sistemleri</h2>
+    <section class="ea-featured" aria-labelledby="ea-featured-title">
+      <div class="ea-featured-inner">
+        <div class="ea-section-heading">
+          <div>
+            <span>ÖNE ÇIKAN ŞABLONLAR</span>
+            <h2 id="ea-featured-title">İşletmede doğrudan kullanılan Excel sistemleri</h2>
+          </div>
+          <a href="/sablonlar">Tümünü incele →</a>
         </div>
-        <a href="/sablonlar">Tümünü incele →</a>
-      </div>
 
-      <div class="product-grid">
-        {featured.map((template) => {
-          const t = template.data;
-          const url = `/sablon/${slugify(t.name)}`;
-          return (
-            <article class="product-card">
-              <a class="product-preview" href={url} aria-label={`${t.name} detayını aç`}>
-                <div class="preview-top"><span>{t.fileFormat.toUpperCase()}</span><b>{categoryLabels[t.category]}</b></div>
-                <div class="preview-body">
-                  <div class="preview-kpis"><i></i><i></i><i></i></div>
-                  <div class="preview-chart"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-                  <div class="preview-table"><i></i><i></i><i></i><i></i></div>
+        <div class="ea-product-grid">
+          {featured.map((template) => {
+            const t = template.data;
+            const url = `/sablon/${slugify(t.name)}`;
+            return (
+              <article class="ea-product-card">
+                <a class="ea-product-preview" href={url} aria-label={`${t.name} detayını aç`}>
+                  <div class="ea-preview-top"><span>{t.fileFormat.toUpperCase()}</span><b>{categoryLabels[t.category]}</b></div>
+                  <div class="ea-preview-body">
+                    <div class="ea-preview-kpis"><i></i><i></i><i></i></div>
+                    <div class="ea-preview-chart"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                    <div class="ea-preview-table"><i></i><i></i><i></i><i></i></div>
+                  </div>
+                </a>
+                <div class="ea-product-content">
+                  <div class="ea-product-meta"><span>{t.sheetCount} çalışma sayfası</span><span>{t.hasMacros ? 'Makrolu' : 'Makrosuz'}</span></div>
+                  <h3><a href={url}>{t.name}</a></h3>
+                  <p>{t.summary}</p>
+                  <ul>
+                    {t.outputs.slice(0, 3).map((output) => <li>{output}</li>)}
+                  </ul>
+                  <div class="ea-product-footer">
+                    <div><small>KDV dahil</small><strong>{t.priceTL.toLocaleString('tr-TR')} TL</strong></div>
+                    <a href={url}>İncele <span>→</span></a>
+                  </div>
                 </div>
-              </a>
-              <div class="product-content">
-                <div class="product-meta"><span>{t.sheetCount} çalışma sayfası</span><span>{t.hasMacros ? 'Makrolu' : 'Makrosuz'}</span></div>
-                <h3><a href={url}>{t.name}</a></h3>
-                <p>{t.summary}</p>
-                <ul>
-                  {t.outputs.slice(0, 3).map((output) => <li>{output}</li>)}
-                </ul>
-                <div class="product-footer">
-                  <div><small>KDV dahil</small><strong>{t.priceTL.toLocaleString('tr-TR')} TL</strong></div>
-                  <a href={url}>İncele <span>→</span></a>
-                </div>
-              </div>
-            </article>
-          );
-        })}
+              </article>
+            );
+          })}
+        </div>
       </div>
     </section>
 
-    <section class="value-section" aria-labelledby="value-title">
-      <div class="value-copy">
+    <section class="ea-value" aria-labelledby="ea-value-title">
+      <div class="ea-value-copy">
         <span>EXCEL DOSYASI DEĞİL, ÇALIŞAN SİSTEM</span>
-        <h2 id="value-title">Tabloyu değil, karar hızını satın alın.</h2>
+        <h2 id="ea-value-title">Tabloyu değil, karar hızını satın alın.</h2>
         <p>
           Excel Arşiv ürünleri yalnızca veri toplamaz. Girdileri hesaplamaya, hesaplamaları yönetim
           çıktısına ve uyarıya dönüştüren kullanıma hazır çalışma sistemleri sunar.
         </p>
-        <a class="primary-button" href="/nasil-calisir">Nasıl çalıştığını görün <b>→</b></a>
+        <a class="ea-primary-button" href="/nasil-calisir">Nasıl çalıştığını görün <b>→</b></a>
       </div>
-      <div class="value-grid">
+      <div class="ea-value-grid">
         <article><strong>Hazır hesaplama yapısı</strong><p>Formülleri ve veri akışı önceden kurulmuş dosyalar.</p></article>
         <article><strong>Yönetim çıktıları</strong><p>Raporlama için ayrıca tablo kurmadan sonuçlara ulaşın.</p></article>
         <article><strong>Açık ürün kapsamı</strong><p>Girdileri, çıktıları ve uyumluluğu satın almadan önce görün.</p></article>
@@ -197,67 +215,67 @@ const itemListLd = JSON.stringify({
       </div>
     </section>
 
-    <section class="section process" aria-labelledby="process-title">
-      <div class="section-heading centered">
+    <section class="ea-section ea-process" aria-labelledby="ea-process-title">
+      <div class="ea-section-heading ea-centered">
         <div>
           <span>3 ADIMDA BAŞLAYIN</span>
-          <h2 id="process-title">Kurulum projesine dönüşmeden kullanın</h2>
+          <h2 id="ea-process-title">Kurulum projesine dönüşmeden kullanın</h2>
         </div>
       </div>
-      <div class="steps">
+      <div class="ea-steps">
         <article><b>01</b><strong>Demo dosyasını inceleyin</strong><p>Sayfaları ve üretilecek çıktıları satın almadan önce görün.</p></article>
         <article><b>02</b><strong>İhtiyacınıza uygun sistemi seçin</strong><p>Kapsam, uyumluluk ve fiyat üzerinden karar verin.</p></article>
         <article><b>03</b><strong>Kendi verinizle çalıştırın</strong><p>Dosyayı indirin, verilerinizi girin ve raporları kullanın.</p></article>
       </div>
     </section>
 
-    <section class="final-cta">
+    <section class="ea-final-cta">
       <div><span>DAĞINIK EXCEL DOSYALARINI BIRAKIN</span><h2>Finansal kontrolü bugün kurun.</h2></div>
       <a href="/sablonlar">Şablonları İncele <b>→</b></a>
     </section>
-  </main>
+  </div>
 
-  <script id="template-search-index" type="application/json" set:html={JSON.stringify(searchIndex)} />
+  <script id="ea-template-search-index" type="application/json" set:html={JSON.stringify(searchIndex)} />
 
   <script>
-    const normalizeText = (value) =>
+    const normalizeEaText = (value) =>
       value
         .toLocaleLowerCase('tr-TR')
         .normalize('NFD')
         .replace(/\p{Diacritic}/gu, '')
         .trim();
 
-    const input = document.querySelector('#hero-search-input');
-    const results = document.querySelector('#hero-search-results');
-    const indexNode = document.querySelector('#template-search-index');
+    const eaInput = document.querySelector('#ea-search-input');
+    const eaResults = document.querySelector('#ea-search-results');
+    const eaIndexNode = document.querySelector('#ea-template-search-index');
 
-    if (input instanceof HTMLInputElement && results instanceof HTMLElement && indexNode) {
-      const templates = JSON.parse(indexNode.textContent || '[]');
+    if (eaInput instanceof HTMLInputElement && eaResults instanceof HTMLElement && eaIndexNode) {
+      const eaTemplates = JSON.parse(eaIndexNode.textContent || '[]');
 
-      const closeResults = () => {
-        results.hidden = true;
-        results.replaceChildren();
+      const closeEaResults = () => {
+        eaResults.hidden = true;
+        eaResults.replaceChildren();
       };
 
-      input.addEventListener('input', () => {
-        const query = normalizeText(input.value);
+      eaInput.addEventListener('input', () => {
+        const query = normalizeEaText(eaInput.value);
         if (query.length < 2) {
-          closeResults();
+          closeEaResults();
           return;
         }
 
-        const matches = templates
+        const matches = eaTemplates
           .filter((template) =>
-            normalizeText(`${template.name} ${template.summary} ${template.category}`).includes(query)
+            normalizeEaText(`${template.name} ${template.summary} ${template.category}`).includes(query)
           )
           .slice(0, 6);
 
-        results.replaceChildren();
+        eaResults.replaceChildren();
 
         if (matches.length === 0) {
           const empty = document.createElement('p');
           empty.textContent = 'Eşleşen şablon bulunamadı.';
-          results.append(empty);
+          eaResults.append(empty);
         } else {
           matches.forEach((template) => {
             const link = document.createElement('a');
@@ -270,155 +288,338 @@ const itemListLd = JSON.stringify({
             summary.textContent = template.summary;
 
             link.append(name, summary);
-            results.append(link);
+            eaResults.append(link);
           });
         }
 
-        results.hidden = false;
+        eaResults.hidden = false;
       });
 
       document.addEventListener('click', (event) => {
-        if (event.target instanceof Node && !document.querySelector('#hero-search')?.contains(event.target)) {
-          closeResults();
+        if (event.target instanceof Node && !document.querySelector('#ea-search')?.contains(event.target)) {
+          closeEaResults();
         }
       });
 
-      input.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') closeResults();
+      eaInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeEaResults();
       });
     }
   </script>
 </Layout>
 
-<style>
-  .home-page { --green:#107c41; --green-dark:#0b5f34; --ink:#17221d; --muted:#627168; --line:#dce6e0; --soft:#edf6f1; background:#f7f9f8; color:var(--ink); }
-  .sr-only { position:absolute!important; width:1px!important; height:1px!important; padding:0!important; margin:-1px!important; overflow:hidden!important; clip:rect(0,0,0,0)!important; white-space:nowrap!important; border:0!important; }
+<style is:global>
+  .ea-home {
+    --ea-green:#107c41;
+    --ea-green-dark:#0b5f34;
+    --ea-ink:#17221d;
+    --ea-muted:#627168;
+    --ea-line:#dce6e0;
+    --ea-soft:#edf6f1;
+    overflow:hidden;
+    background:#f7f9f8;
+    color:var(--ea-ink);
+  }
 
-  .hero { position:relative; max-width:1440px; margin:0 auto; padding:28px clamp(18px,3.5vw,52px) 92px; }
-  .hero-visual { overflow:hidden; border:1px solid #d8e2dc; border-radius:24px; background:#eef2f6; box-shadow:0 28px 80px rgba(28,53,40,.12); }
-  .hero-visual img { display:block; width:100%; height:auto; aspect-ratio:3/1; object-fit:cover; }
-  .hero-search-wrap { position:absolute; left:50%; bottom:25px; z-index:5; display:grid; width:min(860px,calc(100% - 52px)); justify-items:center; transform:translateX(-50%); }
-  .hero-search { position:relative; display:grid; grid-template-columns:32px minmax(0,1fr) 64px; align-items:center; width:100%; min-height:78px; padding:7px 8px 7px 24px; border:1px solid #a8ceb8; border-radius:22px; background:rgba(255,255,255,.98); box-shadow:0 22px 55px rgba(20,76,47,.19); backdrop-filter:blur(18px); }
-  .hero-search:focus-within { border-color:var(--green); box-shadow:0 0 0 4px rgba(16,124,65,.12),0 24px 60px rgba(20,76,47,.2); }
-  .hero-search input { min-width:0; height:62px; padding:0 18px; border:0; outline:0; background:transparent; color:var(--ink); font:inherit; font-size:clamp(17px,1.5vw,21px); }
-  .hero-search input::placeholder { color:#7d8982; }
-  .hero-search svg { fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; }
-  .search-leading { width:27px; color:#86948c; }
-  .hero-search button { display:grid; width:58px; height:58px; place-items:center; border:0; border-radius:17px; background:var(--green); color:white; cursor:pointer; transition:transform .18s ease,background .18s ease; }
-  .hero-search button:hover { background:var(--green-dark); transform:translateY(-1px); }
-  .hero-search button svg { width:26px; }
-  .all-templates { margin-top:13px; color:var(--green-dark); font-size:13px; font-weight:800; text-decoration:none; }
-  .all-templates span { margin-left:6px; }
-  .hero-search-results { position:absolute; top:88px; left:0; right:0; overflow:hidden; border:1px solid var(--line); border-radius:18px; background:white; box-shadow:0 24px 60px rgba(24,49,35,.18); }
-  .hero-search-results a { display:grid; gap:4px; padding:14px 18px; border-bottom:1px solid #e8eeeb; color:var(--ink); text-decoration:none; }
-  .hero-search-results a:hover { background:#f1f8f4; }
-  .hero-search-results strong { font-size:14px; }
-  .hero-search-results span,.hero-search-results p { margin:0; color:var(--muted); font-size:12px; line-height:1.45; }
-  .hero-search-results p { padding:18px; }
+  .ea-sr-only {
+    position:absolute!important;
+    width:1px!important;
+    height:1px!important;
+    padding:0!important;
+    margin:-1px!important;
+    overflow:hidden!important;
+    clip:rect(0,0,0,0)!important;
+    white-space:nowrap!important;
+    border:0!important;
+  }
 
-  .trust-strip { display:grid; grid-template-columns:repeat(4,1fr); max-width:1240px; margin:36px auto 0; overflow:hidden; border:1px solid var(--line); border-radius:18px; background:white; box-shadow:0 12px 35px rgba(28,53,40,.06); }
-  .trust-strip div { display:grid; gap:6px; padding:24px 26px; }
-  .trust-strip div+div { border-left:1px solid #e4ebe7; }
-  .trust-strip strong { font-size:14px; }
-  .trust-strip span { color:var(--muted); font-size:12px; line-height:1.5; }
+  .ea-hero {
+    position:relative;
+    padding:30px clamp(16px,2.5vw,40px) 105px;
+    background:linear-gradient(180deg,#f5f8f6 0%,#f7f9f8 100%);
+  }
 
-  .section { max-width:1240px; margin:0 auto; padding:104px clamp(20px,5vw,72px); }
-  .section-heading { display:flex; align-items:end; justify-content:space-between; gap:40px; margin-bottom:38px; }
-  .section-heading>div { max-width:760px; }
-  .section-heading span,.value-copy>span,.final-cta span { color:var(--green-dark); font-size:11px; font-weight:900; letter-spacing:.11em; text-transform:uppercase; }
-  .section-heading h2,.value-copy h2,.final-cta h2 { margin:10px 0 0; font-family:"Inter Tight",Inter,sans-serif; font-size:clamp(34px,4vw,52px); line-height:1.03; letter-spacing:-.045em; }
-  .section-heading p { max-width:400px; margin:0; color:var(--muted); line-height:1.65; }
-  .section-heading>a { color:var(--green-dark); font-weight:800; text-decoration:none; white-space:nowrap; }
-  .centered { justify-content:center; text-align:center; }
+  .ea-hero-stage {
+    position:relative;
+    width:min(100%,1540px);
+    margin:0 auto;
+  }
 
-  .category-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
-  .category-card { display:flex; min-height:104px; align-items:center; justify-content:space-between; gap:18px; padding:22px; border:1px solid var(--line); border-radius:16px; background:white; color:var(--ink); text-decoration:none; transition:transform .2s,border-color .2s,box-shadow .2s; }
-  .category-card:hover { transform:translateY(-3px); border-color:#91c6a8; box-shadow:0 16px 35px rgba(28,53,40,.09); }
-  .category-card div { display:grid; gap:7px; }
-  .category-card strong { font-size:15px; }
-  .category-card span { color:var(--muted); font-size:11px; }
-  .category-card b { color:var(--green); font-size:18px; }
+  .ea-hero-art {
+    position:relative;
+    width:100%;
+    aspect-ratio:3 / 1;
+    min-height:430px;
+    overflow:hidden;
+    border:1px solid #d4e0da;
+    border-radius:28px;
+    background:#eef3f6;
+    box-shadow:0 30px 90px rgba(24,55,38,.15);
+    isolation:isolate;
+  }
 
-  .featured { max-width:none; background:#edf4f0; }
-  .featured>.section-heading,.featured>.product-grid { max-width:1240px; margin-left:auto; margin-right:auto; }
-  .product-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
-  .product-card { overflow:hidden; border:1px solid #d9e4de; border-radius:18px; background:white; box-shadow:0 10px 28px rgba(28,53,40,.06); transition:transform .2s,box-shadow .2s; }
-  .product-card:hover { transform:translateY(-5px); box-shadow:0 24px 48px rgba(28,53,40,.12); }
-  .product-preview { display:block; height:215px; padding:15px; background:linear-gradient(145deg,#e5f1ea,#f9fbfa); color:inherit; text-decoration:none; }
-  .preview-top { display:flex; justify-content:space-between; padding:10px 12px; border-radius:10px 10px 0 0; background:#176b42; color:white; font-size:9px; font-weight:800; }
-  .preview-body { display:grid; grid-template-columns:1.15fr .85fr; grid-template-rows:auto 1fr; gap:9px; height:145px; padding:13px; border:1px solid #d6e1db; border-top:0; border-radius:0 0 10px 10px; background:white; }
-  .preview-kpis { grid-column:1/-1; display:grid; grid-template-columns:repeat(3,1fr); gap:7px; }
-  .preview-kpis i { height:27px; border-radius:5px; background:#e9f1ed; }
-  .preview-kpis i:first-child { background:#c6e3d2; }
-  .preview-chart { display:flex; align-items:flex-end; gap:5px; padding:9px; border:1px solid #ecf1ee; }
-  .preview-chart i { flex:1; border-radius:3px 3px 0 0; background:#84c39e; }
-  .preview-chart i:nth-child(1){height:32%}.preview-chart i:nth-child(2){height:58%}.preview-chart i:nth-child(3){height:44%}.preview-chart i:nth-child(4){height:75%}.preview-chart i:nth-child(5){height:62%}.preview-chart i:nth-child(6){height:91%}
-  .preview-table { display:grid; align-content:start; gap:7px; padding:10px; border:1px solid #ecf1ee; }
-  .preview-table i { height:8px; border-radius:3px; background:#e3ebe7; }
-  .preview-table i:first-child { background:#aed5bf; }
-  .product-content { padding:23px; }
-  .product-meta { display:flex; gap:14px; margin-bottom:12px; color:#748078; font-size:9px; font-weight:800; text-transform:uppercase; }
-  .product-content h3 { min-height:48px; margin:0 0 10px; font-size:17px; line-height:1.35; }
-  .product-content h3 a { color:var(--ink); text-decoration:none; }
-  .product-content>p { min-height:62px; margin:0; color:var(--muted); font-size:12px; line-height:1.65; }
-  .product-content ul { display:grid; gap:8px; min-height:78px; margin:18px 0 22px; padding:0; list-style:none; }
-  .product-content li { position:relative; padding-left:17px; color:#4f5d55; font-size:11px; }
-  .product-content li:before { content:'✓'; position:absolute; left:0; color:var(--green); font-weight:900; }
-  .product-footer { display:flex; align-items:end; justify-content:space-between; padding-top:18px; border-top:1px solid #e5ece8; }
-  .product-footer div { display:grid; gap:3px; }
-  .product-footer small { color:#7b8780; font-size:9px; }
-  .product-footer strong { font-size:21px; }
-  .product-footer>a { padding:10px 13px; border-radius:10px; background:var(--soft); color:var(--green-dark); font-size:11px; font-weight:800; text-decoration:none; }
+  .ea-hero-image {
+    position:absolute!important;
+    inset:0!important;
+    display:block!important;
+    width:100%!important;
+    min-width:100%!important;
+    max-width:none!important;
+    height:100%!important;
+    min-height:100%!important;
+    object-fit:cover!important;
+    object-position:center center!important;
+  }
 
-  .value-section { display:grid; grid-template-columns:.9fr 1.1fr; gap:70px; align-items:center; max-width:1240px; margin:0 auto; padding:108px clamp(20px,5vw,72px); }
-  .value-copy p { margin:23px 0 28px; color:var(--muted); font-size:16px; line-height:1.75; }
-  .primary-button { display:inline-flex; min-height:52px; align-items:center; gap:20px; padding:0 20px; border-radius:11px; background:var(--green); color:white; font-size:13px; font-weight:800; text-decoration:none; box-shadow:0 14px 30px rgba(16,124,65,.2); }
-  .value-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
-  .value-grid article { padding:25px; border:1px solid var(--line); border-radius:16px; background:white; }
-  .value-grid strong { font-size:15px; }
-  .value-grid p { margin:10px 0 0; color:var(--muted); font-size:12px; line-height:1.6; }
+  .ea-search-dock {
+    position:absolute;
+    left:50%;
+    bottom:-68px;
+    z-index:8;
+    display:grid;
+    width:min(1040px,82%);
+    justify-items:center;
+    transform:translateX(-50%);
+  }
 
-  .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
-  .steps article { display:grid; gap:12px; padding:29px; border:1px solid var(--line); border-radius:17px; background:white; }
-  .steps b { display:grid; width:43px; height:43px; place-items:center; border-radius:11px; background:var(--soft); color:var(--green); font-size:12px; }
-  .steps strong { font-size:17px; }
-  .steps p { margin:0; color:var(--muted); font-size:13px; line-height:1.65; }
+  .ea-search {
+    position:relative;
+    display:grid;
+    grid-template-columns:34px minmax(0,1fr) 70px;
+    align-items:center;
+    width:100%;
+    min-height:88px;
+    padding:7px 9px 7px 26px;
+    border:1px solid #91c6a8;
+    border-radius:24px;
+    background:rgba(255,255,255,.985);
+    box-shadow:0 28px 70px rgba(19,75,45,.22),0 0 0 8px rgba(255,255,255,.42);
+    backdrop-filter:blur(20px);
+  }
 
-  .final-cta { display:flex; align-items:end; justify-content:space-between; gap:40px; max-width:1240px; margin:0 auto 108px; padding:52px 58px; border-radius:22px; background:#0b5f34; color:white; box-shadow:0 30px 70px rgba(11,95,52,.22); }
-  .final-cta span { color:#b9e4ca; }
-  .final-cta h2 { color:white; }
-  .final-cta>a { display:inline-flex; min-height:52px; align-items:center; gap:18px; padding:0 20px; border-radius:11px; background:white; color:var(--green-dark); font-weight:800; text-decoration:none; white-space:nowrap; }
+  .ea-search:focus-within {
+    border-color:var(--ea-green);
+    box-shadow:0 0 0 5px rgba(16,124,65,.13),0 30px 76px rgba(19,75,45,.24);
+  }
+
+  .ea-search input {
+    min-width:0;
+    height:70px;
+    padding:0 20px;
+    border:0;
+    outline:0;
+    background:transparent;
+    color:var(--ea-ink);
+    font:inherit;
+    font-size:clamp(18px,1.55vw,24px);
+    font-weight:500;
+  }
+
+  .ea-search input::placeholder { color:#78867e; }
+  .ea-search svg { fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; }
+  .ea-search-leading { width:29px; color:#7d8d84; }
+
+  .ea-search button {
+    display:grid;
+    width:64px;
+    height:64px;
+    place-items:center;
+    border:0;
+    border-radius:19px;
+    background:var(--ea-green);
+    color:#fff;
+    cursor:pointer;
+    box-shadow:0 12px 28px rgba(16,124,65,.25);
+    transition:transform .18s ease,background .18s ease;
+  }
+
+  .ea-search button:hover { background:var(--ea-green-dark); transform:translateY(-2px); }
+  .ea-search button svg { width:28px; }
+
+  .ea-all-templates {
+    margin-top:16px;
+    padding:8px 13px;
+    border-radius:999px;
+    background:rgba(247,249,248,.9);
+    color:var(--ea-green-dark);
+    font-size:13px;
+    font-weight:850;
+    text-decoration:none;
+    box-shadow:0 8px 24px rgba(27,61,42,.06);
+  }
+
+  .ea-all-templates span { margin-left:7px; }
+
+  .ea-search-results {
+    position:absolute;
+    top:100px;
+    left:0;
+    right:0;
+    overflow:hidden;
+    border:1px solid var(--ea-line);
+    border-radius:18px;
+    background:#fff;
+    box-shadow:0 26px 64px rgba(24,49,35,.2);
+  }
+
+  .ea-search-results a {
+    display:grid;
+    gap:4px;
+    padding:15px 20px;
+    border-bottom:1px solid #e8eeeb;
+    color:var(--ea-ink);
+    text-decoration:none;
+  }
+
+  .ea-search-results a:hover { background:#f1f8f4; }
+  .ea-search-results strong { font-size:14px; }
+  .ea-search-results span,.ea-search-results p { margin:0; color:var(--ea-muted); font-size:12px; line-height:1.45; }
+  .ea-search-results p { padding:18px; }
+
+  .ea-trust {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    width:min(calc(100% - 40px),1240px);
+    margin:34px auto 0;
+    overflow:hidden;
+    border:1px solid var(--ea-line);
+    border-radius:18px;
+    background:#fff;
+    box-shadow:0 14px 38px rgba(28,53,40,.07);
+  }
+
+  .ea-trust div { display:grid; gap:7px; padding:25px 27px; }
+  .ea-trust div+div { border-left:1px solid #e4ebe7; }
+  .ea-trust strong { font-size:14px; }
+  .ea-trust span { color:var(--ea-muted); font-size:12px; line-height:1.55; }
+
+  .ea-section,.ea-featured-inner,.ea-value {
+    width:min(calc(100% - 40px),1240px);
+    margin:0 auto;
+  }
+
+  .ea-section { padding:104px 0; }
+
+  .ea-section-heading {
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    gap:42px;
+    margin-bottom:39px;
+  }
+
+  .ea-section-heading>div { max-width:770px; }
+  .ea-section-heading>div>span,.ea-value-copy>span,.ea-final-cta span { color:var(--ea-green-dark); font-size:11px; font-weight:900; letter-spacing:.11em; text-transform:uppercase; }
+  .ea-section-heading h2,.ea-value-copy h2,.ea-final-cta h2 { margin:10px 0 0; font-family:"Inter Tight",Inter,sans-serif; font-size:clamp(34px,4vw,52px); line-height:1.03; letter-spacing:-.045em; }
+  .ea-section-heading>p { max-width:400px; margin:0; color:var(--ea-muted); line-height:1.65; }
+  .ea-section-heading>a { color:var(--ea-green-dark); font-weight:800; text-decoration:none; white-space:nowrap; }
+  .ea-centered { justify-content:center; text-align:center; }
+
+  .ea-category-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+
+  .ea-category-card {
+    display:flex;
+    min-height:144px;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    padding:24px;
+    border:1px solid var(--ea-line);
+    border-radius:17px;
+    background:#fff;
+    color:var(--ea-ink);
+    text-decoration:none;
+    transition:transform .2s,border-color .2s,box-shadow .2s;
+  }
+
+  .ea-category-card:hover { transform:translateY(-4px); border-color:#91c6a8; box-shadow:0 18px 38px rgba(28,53,40,.1); }
+  .ea-category-card>div { display:grid; gap:8px; }
+  .ea-category-card strong { font-size:15px; }
+  .ea-category-card p { margin:0; color:var(--ea-muted); font-size:11px; line-height:1.5; }
+  .ea-category-card span { color:#748078; font-size:10px; font-weight:700; text-transform:uppercase; }
+  .ea-category-card b { color:var(--ea-green); font-size:20px; }
+
+  .ea-featured { padding:104px 0; background:#edf4f0; }
+  .ea-product-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .ea-product-card { overflow:hidden; border:1px solid #d9e4de; border-radius:18px; background:#fff; box-shadow:0 10px 28px rgba(28,53,40,.06); transition:transform .2s,box-shadow .2s; }
+  .ea-product-card:hover { transform:translateY(-5px); box-shadow:0 24px 48px rgba(28,53,40,.12); }
+  .ea-product-preview { display:block; height:215px; padding:15px; background:linear-gradient(145deg,#e5f1ea,#f9fbfa); color:inherit; text-decoration:none; }
+  .ea-preview-top { display:flex; justify-content:space-between; padding:10px 12px; border-radius:10px 10px 0 0; background:#176b42; color:#fff; font-size:9px; font-weight:800; }
+  .ea-preview-body { display:grid; grid-template-columns:1.15fr .85fr; grid-template-rows:auto 1fr; gap:9px; height:145px; padding:13px; border:1px solid #d6e1db; border-top:0; border-radius:0 0 10px 10px; background:#fff; }
+  .ea-preview-kpis { grid-column:1/-1; display:grid; grid-template-columns:repeat(3,1fr); gap:7px; }
+  .ea-preview-kpis i { height:27px; border-radius:5px; background:#e9f1ed; }
+  .ea-preview-kpis i:first-child { background:#c6e3d2; }
+  .ea-preview-chart { display:flex; align-items:flex-end; gap:5px; padding:9px; border:1px solid #ecf1ee; }
+  .ea-preview-chart i { flex:1; border-radius:3px 3px 0 0; background:#84c39e; }
+  .ea-preview-chart i:nth-child(1){height:32%}.ea-preview-chart i:nth-child(2){height:58%}.ea-preview-chart i:nth-child(3){height:44%}.ea-preview-chart i:nth-child(4){height:75%}.ea-preview-chart i:nth-child(5){height:62%}.ea-preview-chart i:nth-child(6){height:91%}
+  .ea-preview-table { display:grid; align-content:start; gap:7px; padding:10px; border:1px solid #ecf1ee; }
+  .ea-preview-table i { height:8px; border-radius:3px; background:#e3ebe7; }
+  .ea-preview-table i:first-child { background:#aed5bf; }
+  .ea-product-content { padding:23px; }
+  .ea-product-meta { display:flex; gap:14px; margin-bottom:12px; color:#748078; font-size:9px; font-weight:800; text-transform:uppercase; }
+  .ea-product-content h3 { min-height:48px; margin:0 0 10px; font-size:17px; line-height:1.35; }
+  .ea-product-content h3 a { color:var(--ea-ink); text-decoration:none; }
+  .ea-product-content>p { min-height:62px; margin:0; color:var(--ea-muted); font-size:12px; line-height:1.65; }
+  .ea-product-content ul { display:grid; gap:8px; min-height:78px; margin:18px 0 22px; padding:0; list-style:none; }
+  .ea-product-content li { position:relative; padding-left:17px; color:#4f5d55; font-size:11px; }
+  .ea-product-content li:before { content:'✓'; position:absolute; left:0; color:var(--ea-green); font-weight:900; }
+  .ea-product-footer { display:flex; align-items:end; justify-content:space-between; padding-top:18px; border-top:1px solid #e5ece8; }
+  .ea-product-footer>div { display:grid; gap:3px; }
+  .ea-product-footer small { color:#7b8780; font-size:9px; }
+  .ea-product-footer strong { font-size:21px; }
+  .ea-product-footer>a { padding:10px 13px; border-radius:10px; background:var(--ea-soft); color:var(--ea-green-dark); font-size:11px; font-weight:800; text-decoration:none; }
+
+  .ea-value { display:grid; grid-template-columns:.9fr 1.1fr; gap:70px; align-items:center; padding:108px 0; }
+  .ea-value-copy p { margin:23px 0 28px; color:var(--ea-muted); font-size:16px; line-height:1.75; }
+  .ea-primary-button { display:inline-flex; min-height:52px; align-items:center; gap:20px; padding:0 20px; border-radius:11px; background:var(--ea-green); color:#fff; font-size:13px; font-weight:800; text-decoration:none; box-shadow:0 14px 30px rgba(16,124,65,.2); }
+  .ea-value-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .ea-value-grid article { padding:25px; border:1px solid var(--ea-line); border-radius:16px; background:#fff; }
+  .ea-value-grid strong { font-size:15px; }
+  .ea-value-grid p { margin:10px 0 0; color:var(--ea-muted); font-size:12px; line-height:1.6; }
+
+  .ea-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  .ea-steps article { display:grid; gap:12px; padding:29px; border:1px solid var(--ea-line); border-radius:17px; background:#fff; }
+  .ea-steps b { display:grid; width:43px; height:43px; place-items:center; border-radius:11px; background:var(--ea-soft); color:var(--ea-green); font-size:12px; }
+  .ea-steps strong { font-size:17px; }
+  .ea-steps p { margin:0; color:var(--ea-muted); font-size:13px; line-height:1.65; }
+
+  .ea-final-cta { display:flex; align-items:end; justify-content:space-between; gap:40px; width:min(calc(100% - 40px),1240px); margin:0 auto 108px; padding:52px 58px; border-radius:22px; background:#0b5f34; color:#fff; box-shadow:0 30px 70px rgba(11,95,52,.22); }
+  .ea-final-cta span { color:#b9e4ca; }
+  .ea-final-cta h2 { color:#fff; }
+  .ea-final-cta>a { display:inline-flex; min-height:52px; align-items:center; gap:18px; padding:0 20px; border-radius:11px; background:#fff; color:var(--ea-green-dark); font-weight:800; text-decoration:none; white-space:nowrap; }
 
   @media(max-width:1080px){
-    .hero { padding-bottom:104px; }
-    .category-grid { grid-template-columns:repeat(2,1fr); }
-    .product-grid { grid-template-columns:repeat(2,1fr); }
-    .trust-strip { grid-template-columns:repeat(2,1fr); margin-inline:20px; }
-    .trust-strip div:nth-child(3) { border-left:0; border-top:1px solid #e4ebe7; }
-    .trust-strip div:nth-child(4) { border-top:1px solid #e4ebe7; }
-    .value-section { grid-template-columns:1fr; }
+    .ea-hero-art { min-height:360px; }
+    .ea-search-dock { width:min(900px,88%); }
+    .ea-category-grid,.ea-product-grid { grid-template-columns:repeat(2,1fr); }
+    .ea-trust { grid-template-columns:repeat(2,1fr); }
+    .ea-trust div:nth-child(3) { border-left:0; border-top:1px solid #e4ebe7; }
+    .ea-trust div:nth-child(4) { border-top:1px solid #e4ebe7; }
+    .ea-value { grid-template-columns:1fr; }
   }
 
   @media(max-width:760px){
-    .hero { padding:16px 14px 108px; }
-    .hero-visual { border-radius:17px; }
-    .hero-visual img { aspect-ratio:16/9; object-position:center; }
-    .hero-search-wrap { bottom:22px; width:calc(100% - 28px); }
-    .hero-search { grid-template-columns:26px minmax(0,1fr) 54px; min-height:68px; padding-left:17px; border-radius:18px; }
-    .hero-search input { height:54px; padding-inline:12px; font-size:16px; }
-    .hero-search button { width:50px; height:50px; border-radius:14px; }
-    .search-leading { width:23px; }
-    .trust-strip,.category-grid,.product-grid,.steps,.value-grid { grid-template-columns:1fr; }
-    .trust-strip div+div { border-left:0; border-top:1px solid #e4ebe7; }
-    .section-heading { align-items:flex-start; flex-direction:column; }
-    .section { padding-top:82px; padding-bottom:82px; }
-    .product-content h3,.product-content>p,.product-content ul { min-height:0; }
-    .final-cta { align-items:flex-start; flex-direction:column; margin-inline:20px; padding:38px 29px; }
+    .ea-hero { padding:16px 12px 105px; }
+    .ea-hero-art { height:390px; min-height:0; aspect-ratio:auto; border-radius:20px; }
+    .ea-hero-image { object-position:30% center!important; }
+    .ea-search-dock { bottom:-64px; width:calc(100% - 20px); }
+    .ea-search { grid-template-columns:27px minmax(0,1fr) 58px; min-height:74px; padding-left:18px; border-radius:20px; }
+    .ea-search input { height:58px; padding-inline:13px; font-size:16px; }
+    .ea-search button { width:54px; height:54px; border-radius:16px; }
+    .ea-search-leading { width:23px; }
+    .ea-all-templates { margin-top:13px; font-size:12px; }
+    .ea-trust,.ea-category-grid,.ea-product-grid,.ea-steps,.ea-value-grid { grid-template-columns:1fr; }
+    .ea-trust div+div { border-left:0; border-top:1px solid #e4ebe7; }
+    .ea-section-heading { align-items:flex-start; flex-direction:column; }
+    .ea-section { padding:82px 0; }
+    .ea-featured { padding:82px 0; }
+    .ea-product-content h3,.ea-product-content>p,.ea-product-content ul { min-height:0; }
+    .ea-final-cta { align-items:flex-start; flex-direction:column; padding:38px 29px; }
   }
 
   @media(max-width:480px){
-    .hero-visual img { aspect-ratio:4/3; object-position:61% center; }
-    .all-templates { font-size:12px; }
-    .section-heading h2,.value-copy h2,.final-cta h2 { font-size:36px; }
+    .ea-hero-art { height:330px; }
+    .ea-hero-image { object-position:28% center!important; }
+    .ea-section-heading h2,.ea-value-copy h2,.ea-final-cta h2 { font-size:36px; }
   }
 </style>
