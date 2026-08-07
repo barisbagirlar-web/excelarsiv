@@ -42,7 +42,6 @@ const templates = defineCollection({
     requirements: z.array(z.string()).min(1),
     updatePolicy: z.string(),
     faq: z.array(z.object({ question: z.string(), answer: z.string() })).min(6),
-    demoFile: z.string(),
     screenshots: z.array(z.object({ src: z.string(), alt: z.string().min(25) })).min(3),
     related: z.array(z.string()).max(3),
   }),
