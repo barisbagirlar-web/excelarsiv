@@ -1,88 +1,106 @@
 ---
 import CommerceLayout from '../layouts/CommerceLayout.astro';
-import SectionLabel from '../components/SectionLabel.astro';
-import Button from '../components/Button.astro';
-import Icon from '../components/Icon.astro';
+
+const modules = [
+  { code: '01', title: 'Kasa ve Nakit Kontrolü', text: 'Günlük kasa hareketleri, fiili bakiye ve dönem sonu kontrolü.' },
+  { code: '02', title: '13 Haftalık Nakit Akışı', text: 'Kritik ödeme haftalarını ve nakit açığını önceden görmeye yönelik planlama.' },
+  { code: '03', title: 'Cari ve Tahsilat Takibi', text: 'Müşteri bakiyesi, vade ve tahsilat takibini tek düzende toplama.' },
+  { code: '04', title: 'Banka / Kredi / Taksit', text: 'Banka hesapları, kredi taksitleri ve ödeme tarihlerinin birlikte takibi.' },
+  { code: '05', title: 'Çek–Senet / Vade Riski', text: 'Portföyü vade aralıklarıyla izleme ve vade yoğunluğunu görünür kılma.' },
+  { code: '06', title: 'Dönem Sonu Karşılıkları', text: 'Dönemsel finans kontrolünde gerekli hesaplama ve karşılık yapıları.' },
+  { code: '07', title: 'Patron Finans Paneli', text: 'Ciro, net kâr, nakit, alacak günü ve temel yönetim göstergelerini tek panelde toplama.' },
+];
 ---
 
 <CommerceLayout
-  title="Paketler — Excel Arşiv"
-  description="KOBİ Finans Yönetim Paketi ve bireysel sistemler. Tüm dosyalar birlikte alındığında avantajlı fiyatla sunulur."
+  title="KOBİ Finans Yönetim Paketi | Excel Arşiv"
+  description="Kasa, nakit akışı, cari hesap, banka, çek-senet, dönem sonu ve yönetim raporlamasını aynı Excel sistem ailesinde birleştiren KOBİ Finans Yönetim Paketi."
 >
-  <section class="border-b border-rule-hairline bg-surface-1">
-    <div class="container-site section-enter">
-      <SectionLabel number={1} label="Paketler" />
-      <h1 class="display mt-6">İhtiyacınıza göre seçin</h1>
-      <p class="lead mt-6 max-w-xl">
-        Finans süreçlerinizin tamamını tek pakette toplamak istiyorsanız KOBİ Finans Yönetim
-        Paketi'ni; yalnızca bir işi çözmek istiyorsanız bireysel sistemleri tercih edin.
-      </p>
+  <section class="suite-hero">
+    <div class="site-container suite-hero__inner">
+      <div class="suite-hero__copy">
+        <span class="suite-kicker">KOBİ FİNANS YÖNETİM PAKETİ</span>
+        <h1>Finans işlerinizi <em>tek tek dosyalarla değil, aynı sistem ailesiyle</em> yönetin.</h1>
+        <p>Kasa, nakit, cari, banka, vade ve yönetim raporlamasını birbirinden kopuk Excel dosyaları yerine aynı çalışma mantığında hazırlanmış sistemlerle yürütün.</p>
+        <div class="suite-hero__actions">
+          <a href="/sablonlar" class="suite-btn suite-btn--primary">Sistemleri demo ile inceleyin <span aria-hidden="true">→</span></a>
+          <a href="#paket-kapsami" class="suite-btn suite-btn--secondary">Paket kapsamı</a>
+        </div>
+        <div class="suite-hero__proof"><span>✓ Tek seferlik satın alma</span><span>✓ KDV dahil fiyat</span><span>✓ Shopier ile ödeme</span></div>
+      </div>
+
+      <div class="suite-hero__visual" aria-hidden="true">
+        <div class="suite-window">
+          <div class="suite-window__top"><i></i><i></i><i></i><b>KOBI_Finans_Yonetim.xlsx</b><span>CANLI</span></div>
+          <div class="suite-window__tabs"><strong>Yönetim</strong><span>Nakit</span><span>Cari</span><span>Banka</span><span>Risk</span></div>
+          <div class="suite-window__metrics"><div><small>Nakit</small><b>₺1,25M</b><em>▲ %12</em></div><div><small>Net kâr</small><b>₺415K</b><em>▲ %8</em></div><div><small>Tahsilat</small><b>%92</b><em>▲ %4</em></div></div>
+          <div class="suite-window__body">
+            <svg viewBox="0 0 420 150" preserveAspectRatio="none"><path d="M0 126 L52 115 L104 119 L156 89 L208 98 L260 68 L312 76 L364 42 L420 25 L420 150 L0 150 Z" fill="rgba(16,124,65,.09)"/><polyline points="0,126 52,115 104,119 156,89 208,98 260,68 312,76 364,42 420,25" fill="none" stroke="#16864b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="suite-window__risk"><span><b>Nakit tamponu</b><em>Güçlü</em></span><span><b>Tahsilat</b><em>%92</em></span><span><b>Vade baskısı</b><em>İzle</em></span></div>
+          </div>
+        </div>
+        <div class="suite-float suite-float--one"><small>07 sistem</small><strong>Tek aile</strong></div>
+        <div class="suite-float suite-float--two"><small>Önce demo</small><strong>Sonra karar</strong></div>
+      </div>
     </div>
   </section>
 
-  <section>
-    <div class="container-site section-enter">
-      <div class="grid-12 items-start">
-        <div class="col-span-12 lg:col-span-5">
-          <article class="cell-highlight p-8">
-            <p class="mono-xs flex items-center gap-2 text-ink-400">
-              <Icon name="excel-sheet" size={14} />
-              KOBİ Finans Yönetim Paketi
-            </p>
-            <h2 class="h1 mt-4">Tüm sistemler, tek çalışma kitabı ailesi</h2>
-            <ul class="mt-8 space-y-3">
-              <li class="flex items-start gap-3 text-sm leading-relaxed text-ink-700">
-                <Icon name="status-success" size={16} className="mt-0.5 shrink-0 text-signal-up" />
-                Kasa, nakit akışı, cari hesap, banka ve çek–senet takibi tek pakette
-              </li>
-              <li class="flex items-start gap-3 text-sm leading-relaxed text-ink-700">
-                <Icon name="status-success" size={16} className="mt-0.5 shrink-0 text-signal-up" />
-                Dönem sonu karşılık ayırma ve patron finans paneli dahil
-              </li>
-              <li class="flex items-start gap-3 text-sm leading-relaxed text-ink-700">
-                <Icon name="status-success" size={16} className="mt-0.5 shrink-0 text-signal-up" />
-                Güncelleme dönemlerinde paket sürümü yenilenir
-              </li>
-            </ul>
-            <div class="mt-8">
-              <Button href="/sablonlar">Katalogda incele</Button>
-            </div>
-          </article>
-        </div>
-        <div class="col-span-12 mt-8 lg:col-span-6 lg:col-start-7 lg:mt-0">
-          <h2 class="h3">Nasıl çalışır?</h2>
-          <ol class="mt-6 space-y-6">
-            <li class="flex gap-4">
-              <span class="mono-xs mt-0.5 text-ink-400">01</span>
-              <div>
-                <h3 class="h4">Demo dosyayla inceleyin</h3>
-                <p class="body-sm mt-2">
-                  Her sistemin sınırlı verili demo dosyası ücretsizdir; yapıyı satın almadan
-                  görün.
-                </p>
-              </div>
-            </li>
-            <li class="flex gap-4">
-              <span class="mono-xs mt-0.5 text-ink-400">02</span>
-              <div>
-                <h3 class="h4">Paketi Shopier'den satın alın</h3>
-                <p class="body-sm mt-2">
-                  Ödeme Shopier altyapısıyla işlenir; kredi kartı bilgileriniz siteye kaydedilmez.
-                </p>
-              </div>
-            </li>
-            <li class="flex gap-4">
-              <span class="mono-xs mt-0.5 text-ink-400">03</span>
-              <div>
-                <h3 class="h4">Dosyaları e-postayla teslim alın</h3>
-                <p class="body-sm mt-2">
-                  Teslimat e-postayla yapılır; satın alınan lisans, dosyaların tamamını kapsar.
-                </p>
-              </div>
-            </li>
-          </ol>
-        </div>
+  <section id="paket-kapsami" class="suite-modules">
+    <div class="site-container">
+      <div class="suite-section-head">
+        <div><span class="suite-kicker">PAKET KAPSAMI</span><h2>İşletmenin finans döngüsünü parçalara ayırmadan ele alın.</h2></div>
+        <p>Her sistem ayrı bir işi çözer; paket yaklaşımı bu işleri aynı yönetim mantığı altında bir araya getirir.</p>
+      </div>
+      <ol class="suite-modules__grid">
+        {modules.map((module, index) => (
+          <li class={index === 6 ? 'is-wide' : ''}>
+            <span>{module.code}</span><h3>{module.title}</h3><p>{module.text}</p><i aria-hidden="true">→</i>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="suite-value">
+    <div class="site-container suite-value__layout">
+      <div class="suite-value__copy">
+        <span class="suite-kicker">PAKETİN DEĞERİ</span>
+        <h2>Ödediğiniz şey hücre sayısı değil; <em>kurulum işinin hazır gelmesi.</em></h2>
+        <p>Tekrar eden finans süreçlerinde değer, aynı modeli her dönem yeniden kurmamakta ve kritik göstergeleri aynı düzende okuyabilmektedir.</p>
+      </div>
+      <div class="suite-value__rail">
+        <div><span>01</span><strong>Standart çalışma mantığı</strong><p>Benzer giriş, kontrol ve çıktı yaklaşımı kullanıcı alışkanlığını korur.</p></div>
+        <div><span>02</span><strong>Birlikte kullanılan sistemler</strong><p>Kasa, nakit, cari ve banka tarafı birbirini tamamlayan finans süreçleridir.</p></div>
+        <div><span>03</span><strong>Yönetim görünümü</strong><p>Operasyonel satırlar yerine karar verilebilir göstergeler öne çıkar.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="suite-fit">
+    <div class="site-container suite-fit__inner">
+      <div><span class="suite-kicker">KİMLER İÇİN?</span><h2>Finans işlerini Excel'de yürüten ama dağınık dosya düzeninden çıkmak isteyen işletmeler için.</h2></div>
+      <ul><li><span>✓</span> Günlük kasa ve tahsilat takibi yapan KOBİ'ler</li><li><span>✓</span> Nakit planını haftalık görmek isteyen işletmeler</li><li><span>✓</span> Banka, kredi ve vade takibini Excel'de yöneten ekipler</li><li><span>✓</span> Yönetim için düzenli finans özeti hazırlayan işletmeler</li></ul>
+    </div>
+  </section>
+
+  <section class="suite-close">
+    <div class="site-container">
+      <div class="suite-close__card">
+        <div><span class="suite-kicker">ÖNCE GÖRÜN</span><h2>Paketi satın almadan önce içindeki sistemlerin demolarını inceleyin.</h2><p>İhtiyacınıza uymayan bir yapıya ödeme yapmayın. Katalogdan ilgili sistemleri açın, demo dosyaları görün ve paketi buna göre değerlendirin.</p></div>
+        <a href="/sablonlar">Demo sistemleri inceleyin <span aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
 </CommerceLayout>
+
+<style>
+  .suite-kicker{font-family:var(--font-mono);font-size:9.5px;font-weight:700;letter-spacing:.12em;color:var(--xl-green)}
+  .suite-hero{padding-block:clamp(72px,8vw,112px);background:linear-gradient(180deg,#f5f8f5 0%,#fff 100%);border-bottom:1px solid var(--xl-grid)}.suite-hero__inner{display:grid;grid-template-columns:minmax(0,.92fr) minmax(500px,1.08fr);gap:58px;align-items:center}.suite-hero__copy h1{max-width:700px;margin:13px 0 0;font-family:var(--font-display);font-size:clamp(46px,5.4vw,76px);line-height:.94;letter-spacing:-.05em;color:var(--xl-ink-900)}.suite-hero__copy h1 em{font-style:normal;color:var(--xl-green)}.suite-hero__copy>p{max-width:620px;margin:20px 0 0;font-size:15px;line-height:1.7;color:var(--xl-ink-3)}.suite-hero__actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}.suite-btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 18px;border-radius:13px;font-family:var(--font-mono);font-size:10.5px;font-weight:700;text-decoration:none}.suite-btn--primary{gap:7px;background:var(--xl-green);color:#fff}.suite-btn--secondary{border:1px solid var(--xl-border);background:#fff;color:var(--xl-ink-900)}.suite-hero__proof{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:18px;font-family:var(--font-mono);font-size:8.5px;color:#617067}
+  .suite-hero__visual{position:relative;min-width:0}.suite-window{overflow:hidden;border:1px solid #cfdad2;border-radius:22px;background:#fff;box-shadow:0 30px 80px rgba(25,67,42,.15);transform:rotate(-1deg)}.suite-window__top{display:flex;align-items:center;gap:6px;min-height:38px;padding:0 12px;background:#e9eeea;border-bottom:1px solid #d9e1db;font-family:var(--font-mono);font-size:8px;color:#748078}.suite-window__top i{width:7px;height:7px;border-radius:50%;background:#ef6f68}.suite-window__top i:nth-child(2){background:#eab94e}.suite-window__top i:nth-child(3){background:#52b86f}.suite-window__top b{margin-left:5px;font-weight:500}.suite-window__top span{margin-left:auto;padding:4px 6px;border-radius:5px;background:#d9f0e2;color:#0c7040;font-weight:700}.suite-window__tabs{display:flex;gap:4px;padding:10px 12px 0;border-bottom:1px solid #e0e6e1}.suite-window__tabs>*{padding:7px 9px;font-family:var(--font-mono);font-size:8px;color:#718078}.suite-window__tabs strong{border:1px solid #dfe5e0;border-bottom:0;border-radius:7px 7px 0 0;background:#f7fbf8;color:#0d7540}.suite-window__metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:16px}.suite-window__metrics>div{display:flex;flex-direction:column;gap:4px;padding:10px;border:1px solid #e1e7e2;border-radius:10px;background:#fafcfb}.suite-window__metrics small{font-size:7px;color:#78857d}.suite-window__metrics b{font-family:var(--font-mono);font-size:14px}.suite-window__metrics em{font-family:var(--font-mono);font-size:7px;font-style:normal;color:#0d7a41}.suite-window__body{display:grid;grid-template-columns:1.5fr .7fr;gap:14px;padding:0 16px 18px}.suite-window__body svg{width:100%;height:180px}.suite-window__risk{display:flex;flex-direction:column;justify-content:center;gap:7px}.suite-window__risk span{display:flex;justify-content:space-between;gap:8px;padding:7px 8px;border-radius:8px;background:#f4f7f5;font-family:var(--font-mono);font-size:7.5px}.suite-window__risk b{font-weight:500;color:#68766e}.suite-window__risk em{font-style:normal;color:#0d7540;font-weight:700}.suite-float{position:absolute;padding:10px 12px;border:1px solid #dbe4de;border-radius:12px;background:rgba(255,255,255,.96);box-shadow:0 14px 32px rgba(29,64,43,.12);display:flex;flex-direction:column;gap:3px}.suite-float small{font-family:var(--font-mono);font-size:7.5px;color:#718078}.suite-float strong{font-size:12px;color:#1c2b22}.suite-float--one{left:-22px;bottom:28px}.suite-float--two{right:-18px;top:40px}
+  .suite-modules{padding-block:clamp(72px,8vw,108px);background:#fff;border-bottom:1px solid var(--xl-grid)}.suite-section-head{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:48px;align-items:end;margin-bottom:30px}.suite-section-head h2{max-width:760px;margin:10px 0 0;font-family:var(--font-display);font-size:clamp(38px,4.5vw,62px);line-height:.98;letter-spacing:-.045em;color:var(--xl-ink-900)}.suite-section-head>p{margin:0;font-size:14px;line-height:1.7;color:var(--xl-ink-3)}.suite-modules__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0;padding:0;list-style:none}.suite-modules__grid li{position:relative;min-height:190px;padding:21px;border:1px solid var(--xl-border);border-radius:18px;background:#f8faf8}.suite-modules__grid li.is-wide{grid-column:span 3;min-height:145px;background:#edf7f1}.suite-modules__grid li>span{font-family:var(--font-mono);font-size:8px;font-weight:700;color:var(--xl-green)}.suite-modules__grid h3{margin:11px 0 0;font-size:18px;color:var(--xl-ink-900)}.suite-modules__grid p{max-width:90%;margin:8px 0 0;font-size:11.5px;line-height:1.55;color:var(--xl-ink-3)}.suite-modules__grid i{position:absolute;right:18px;bottom:17px;font-style:normal;color:var(--xl-green)}
+  .suite-value{padding-block:clamp(76px,8vw,112px);background:#0b3424;color:#fff}.suite-value__layout{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:70px;align-items:start}.suite-value__copy h2{max-width:600px;margin:10px 0 0;font-family:var(--font-display);font-size:clamp(38px,4.5vw,62px);line-height:.98;letter-spacing:-.045em}.suite-value__copy h2 em{font-style:normal;color:#83e0a8}.suite-value__copy p{max-width:560px;margin:18px 0 0;font-size:14px;line-height:1.7;color:rgba(255,255,255,.7)}.suite-value__rail{border-top:1px solid rgba(255,255,255,.14)}.suite-value__rail>div{display:grid;grid-template-columns:38px 1fr;gap:10px;padding:22px 0;border-bottom:1px solid rgba(255,255,255,.14)}.suite-value__rail span{font-family:var(--font-mono);font-size:8px;color:#77d59d}.suite-value__rail strong{font-size:17px}.suite-value__rail p{grid-column:2;margin:0;font-size:11.5px;line-height:1.55;color:rgba(255,255,255,.62)}
+  .suite-fit{padding-block:clamp(64px,7vw,92px);background:#f1f0eb}.suite-fit__inner{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center}.suite-fit h2{max-width:720px;margin:10px 0 0;font-family:var(--font-display);font-size:clamp(34px,4vw,54px);line-height:1;letter-spacing:-.04em;color:#222722}.suite-fit ul{margin:0;padding:0;list-style:none;border-top:1px solid #d7d3ca}.suite-fit li{display:grid;grid-template-columns:22px 1fr;gap:8px;padding:14px 0;border-bottom:1px solid #d7d3ca;font-size:12px;color:#59635b}.suite-fit li span{color:#0f7b43;font-weight:800}
+  .suite-close{padding-block:clamp(64px,7vw,96px);background:#fff}.suite-close__card{display:grid;grid-template-columns:1fr auto;gap:44px;align-items:center;padding:34px 38px;border:1px solid #d6e1d9;border-radius:24px;background:#f4faf6}.suite-close h2{max-width:780px;margin:10px 0 0;font-size:30px;line-height:1.05;color:var(--xl-ink-900)}.suite-close p{max-width:680px;margin:10px 0 0;font-size:12.5px;line-height:1.6;color:var(--xl-ink-3)}.suite-close a{display:inline-flex;align-items:center;gap:7px;min-height:46px;padding:0 18px;border-radius:12px;background:var(--xl-green);color:#fff;font-family:var(--font-mono);font-size:10.5px;font-weight:700;text-decoration:none;white-space:nowrap}
+  @media(max-width:980px){.suite-hero__inner,.suite-section-head,.suite-value__layout,.suite-fit__inner{grid-template-columns:1fr}.suite-hero__visual{max-width:760px}.suite-modules__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.suite-modules__grid li.is-wide{grid-column:span 2}.suite-close__card{grid-template-columns:1fr}.suite-close a{justify-self:start}}
+  @media(max-width:640px){.suite-hero{padding-block:46px}.suite-hero__inner{gap:30px}.suite-hero__copy h1{font-size:40px}.suite-hero__copy>p{font-size:12.5px;line-height:1.55}.suite-hero__actions{margin-top:20px}.suite-btn{min-height:42px;font-size:9.5px}.suite-hero__visual{padding-inline:3px}.suite-window{transform:none;border-radius:16px}.suite-window__body{grid-template-columns:1fr}.suite-window__risk{display:none}.suite-window__body svg{height:120px}.suite-float{display:none}.suite-modules{padding-block:48px}.suite-section-head{gap:12px;margin-bottom:20px}.suite-section-head h2{font-size:35px}.suite-section-head>p{font-size:12px;line-height:1.5}.suite-modules__grid{grid-template-columns:1fr 1fr;gap:8px}.suite-modules__grid li,.suite-modules__grid li.is-wide{grid-column:auto;min-height:145px;padding:14px;border-radius:15px}.suite-modules__grid h3{font-size:14px}.suite-modules__grid p{display:none}.suite-modules__grid li.is-wide:last-child{grid-column:1/-1;min-height:96px}.suite-value{padding-block:50px}.suite-value__layout{gap:28px}.suite-value__copy h2{font-size:35px}.suite-value__copy p{font-size:12.5px;line-height:1.55}.suite-value__rail>div{padding:16px 0}.suite-fit{padding-block:48px}.suite-fit__inner{gap:24px}.suite-fit h2{font-size:32px}.suite-close{padding-block:46px}.suite-close__card{padding:24px 20px;border-radius:18px;gap:20px}.suite-close h2{font-size:25px}.suite-close a{min-height:42px;font-size:9.5px}}
+</style>
