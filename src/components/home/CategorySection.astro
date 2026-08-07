@@ -10,33 +10,38 @@ const icons: Record<string, string> = {
   'satis-ve-fiyatlama': 'M3 7h18l-3 5 3 5H3l3-5-3-5z',
   'personel-ve-bordro': 'M4 21a7 7 0 0 1 14 0M11 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8z',
 };
+
+const descriptions: Record<string, string> = {
+  'finansal-analiz': 'Oran ve eğilimlerle mali yapıyı izleyin.',
+  'nakit-akisi': 'Giriş ve çıkışları haftalık planlayın.',
+  'muhasebe-ve-vergi': 'Kayıt ve kontrol düzenini kurun.',
+  'butce-ve-planlama': 'Hedef ve sapmaları yönetin.',
+  'stok-ve-uretim': 'Miktar ve devir takibini yapın.',
+  'satis-ve-fiyatlama': 'Fiyat ve marj kararlarını verin.',
+  'personel-ve-bordro': 'Bordro ve maliyeti hesaplayın.',
+};
 ---
 
-<section class="site-section" aria-labelledby="category-title">
+<section class="site-section category-section" aria-labelledby="category-title">
   <div class="site-container">
-    <div class="section-head">
+    <div class="section-head category-head">
       <span class="section-head__kicker">KATEGORİLER</span>
       <h2 id="category-title" class="section-head__title">İhtiyacınıza göre seçin</h2>
-      <p class="section-head__lead">
-        Finans, muhasebe ve operasyon işlerinize özel kategorilerdeki hazır Excel sistemlerine göz atın.
-      </p>
+      <p class="section-head__lead">Finans, muhasebe ve operasyon ihtiyaçlarınıza uygun hazır Excel sistemlerine gidin.</p>
     </div>
     <ul class="category-grid">
-      {
-        categories.map((category) => (
-          <li>
-            <a class="category-card" href={`/sablonlar/${category.slug}`}>
-              <span class="category-card__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d={icons[category.slug] ?? ''} />
-                </svg>
-              </span>
-              <span class="category-card__name">{category.name}</span>
-              <span class="category-card__arrow" aria-hidden="true">→</span>
-            </a>
-          </li>
-        ))
-      }
+      {categories.map((category) => (
+        <li>
+          <a class="category-card" href={`/sablonlar/${category.slug}`}>
+            <span class="category-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={icons[category.slug] ?? ''} /></svg>
+            </span>
+            <span class="category-card__name">{category.name}</span>
+            <span class="category-card__desc">{descriptions[category.slug]}</span>
+            <span class="category-card__arrow" aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
     </ul>
   </div>
 </section>
@@ -45,68 +50,71 @@ const icons: Record<string, string> = {
   .category-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 18px;
+    gap: 16px;
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  .category-grid > * {
-    min-width: 0;
-  }
+  .category-grid > * { min-width: 0; }
   .category-card {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
-    min-height: 170px;
+    min-height: 164px;
     height: 100%;
-    padding: 22px;
+    padding: 20px;
     border: 1px solid var(--xl-border);
-    border-radius: 20px;
-    background: #fff;
+    border-radius: 18px;
+    background: linear-gradient(155deg, #fff 0%, #fff 70%, rgba(233,245,238,.7) 100%);
     text-decoration: none;
-    transition:
-      border-color 150ms ease-out,
-      transform 150ms ease-out,
-      box-shadow 150ms ease-out;
+    overflow: hidden;
+    transition: border-color 150ms ease-out, transform 150ms ease-out, box-shadow 150ms ease-out;
   }
-  .category-card:hover {
-    border-color: var(--xl-accent-border);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(24, 55, 38, 0.08);
+  .category-card::after {
+    content: '';
+    position: absolute;
+    right: -26px;
+    bottom: -28px;
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: rgba(16,124,65,.045);
   }
+  .category-card:hover { border-color: var(--xl-accent-border); transform: translateY(-2px); box-shadow: 0 12px 28px rgba(24,55,38,.08); }
   .category-card__icon {
     display: inline-grid;
     place-items: center;
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 12px;
+    border-radius: 13px;
     background: var(--xl-accent-soft);
     color: var(--xl-green-dark);
   }
-  .category-card__icon svg {
-    width: 24px;
-    height: 24px;
-  }
-  .category-card__name {
-    font-family: var(--font-body);
-    font-size: 14.5px;
-    font-weight: 700;
-    color: var(--xl-ink-900);
-  }
-  .category-card__arrow {
-    margin-top: auto;
-    font-size: 16px;
-    color: var(--xl-ink-3);
-  }
+  .category-card__icon svg { width: 22px; height: 22px; }
+  .category-card__name { font-size: 15px; font-weight: 700; line-height: 1.2; color: var(--xl-ink-900); }
+  .category-card__desc { margin-top: 6px; max-width: 92%; font-size: 11.5px; line-height: 1.45; color: var(--xl-ink-3); }
+  .category-card__arrow { margin-top: auto; padding-top: 10px; font-size: 15px; color: var(--xl-green-dark); }
+
   @media (max-width: 1024px) {
-    .category-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+    .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
-  @media (max-width: 520px) {
-    .category-grid {
-      grid-template-columns: 1fr;
-    }
+  @media (max-width: 560px) {
+    .category-section { padding-block: 40px; }
+    .category-head { margin-bottom: 22px; }
+    .category-head :global(.section-head__title) { font-size: 29px; line-height: 1.04; }
+    .category-head :global(.section-head__lead) { font-size: 13.5px; line-height: 1.5; }
+    .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .category-card { min-height: 126px; padding: 14px; border-radius: 15px; }
+    .category-card__icon { width: 36px; height: 36px; margin-bottom: 10px; border-radius: 11px; }
+    .category-card__icon svg { width: 18px; height: 18px; }
+    .category-card__name { font-size: 13.5px; }
+    .category-card__desc { display: none; }
+    .category-card__arrow { padding-top: 8px; font-size: 14px; }
+    .category-grid li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+    .category-grid li:last-child:nth-child(odd) .category-card { min-height: 94px; flex-direction: row; align-items: center; gap: 12px; }
+    .category-grid li:last-child:nth-child(odd) .category-card__icon { margin: 0; }
+    .category-grid li:last-child:nth-child(odd) .category-card__arrow { margin-left: auto; margin-top: 0; padding: 0; }
   }
 </style>

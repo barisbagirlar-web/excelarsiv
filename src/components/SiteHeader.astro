@@ -4,7 +4,6 @@ interface Props {
 }
 
 const { pageTitle } = Astro.props;
-
 const pathname = Astro.url.pathname;
 
 const menu = [
@@ -21,17 +20,18 @@ const isActive = (href: string) =>
 
 <header class="site-header">
   <div class="site-container site-header__inner">
-    <a href="/" class="site-header__brand">
+    <a href="/" class="site-header__brand" aria-label="Excel Arşiv ana sayfa">
       <img
         src="/images/excel-logo.png"
-        alt="Excel Arşiv"
-        width="32"
-        height="30"
+        alt=""
+        width="30"
+        height="28"
         loading="eager"
         class="site-header__logo"
       />
       <span class="site-header__wordmark">Excel Arşiv</span>
     </a>
+
     <nav class="site-header__nav" aria-label="Ana menü">
       {
         menu.map((item) => {
@@ -48,9 +48,19 @@ const isActive = (href: string) =>
         })
       }
     </nav>
-    <a class="site-header__cta" href="/sablonlar">
-      Şablonları İncele
-    </a>
+
+    <div class="site-header__actions">
+      <a class="site-header__cta" href="/sablonlar">
+        <span class="site-header__cta-desktop">Şablonları İncele</span>
+        <span class="site-header__cta-mobile">Şablonlar</span>
+      </a>
+      <details class="site-header__menu">
+        <summary aria-label="Menüyü aç"><span></span><span></span><span></span></summary>
+        <nav class="site-header__mobile-nav" aria-label="Mobil menü">
+          {menu.map((item) => <a href={item.href}>{item.label}</a>)}
+        </nav>
+      </details>
+    </div>
   </div>
 </header>
 
@@ -59,88 +69,143 @@ const isActive = (href: string) =>
     position: sticky;
     top: 0;
     z-index: 50;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--xl-grid);
   }
   .site-header__inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 24px;
-    min-height: 64px;
+    gap: 18px;
+    min-height: 60px;
   }
   .site-header__brand {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
+    min-width: 0;
     text-decoration: none;
     flex-shrink: 0;
   }
-  .site-header__logo {
-    border-radius: 6px;
-  }
+  .site-header__logo { border-radius: 6px; }
   .site-header__wordmark {
     font-family: var(--font-display);
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 800;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
     color: var(--xl-ink-900);
+    white-space: nowrap;
   }
   .site-header__nav {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 2px;
     margin-inline: auto;
   }
   .site-header__link {
-    padding: 8px 14px;
-    border-radius: 10px;
-    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 9px;
+    font-size: 13.5px;
     font-weight: 500;
     color: var(--xl-ink-3);
     text-decoration: none;
     transition: color 150ms ease-out, background 150ms ease-out;
   }
-  .site-header__link:hover {
-    color: var(--xl-green-dark);
-    background: var(--xl-accent-soft);
-  }
+  .site-header__link:hover,
   .site-header__link.is-active {
     color: var(--xl-green-dark);
     background: var(--xl-accent-soft);
   }
-  .site-header__cta {
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     flex-shrink: 0;
+  }
+  .site-header__cta {
     display: inline-flex;
     align-items: center;
-    min-height: 40px;
-    padding: 0 20px;
-    border-radius: 12px;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0 16px;
+    border-radius: 11px;
     background: var(--xl-green);
     color: #fff;
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 700;
     text-decoration: none;
-    transition: background 150ms ease-out;
   }
-  .site-header__cta:hover {
-    background: var(--xl-accent-dark);
-  }
+  .site-header__cta:hover { background: var(--xl-accent-dark); }
+  .site-header__cta-mobile,
+  .site-header__menu { display: none; }
+
   @media (max-width: 900px) {
-    .site-header__nav {
-      display: none;
+    .site-header__nav { display: none; }
+    .site-header__menu { display: block; position: relative; }
+    .site-header__menu summary {
+      display: grid;
+      place-content: center;
+      gap: 4px;
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--xl-border);
+      border-radius: 10px;
+      background: #fff;
+      cursor: pointer;
+      list-style: none;
     }
+    .site-header__menu summary::-webkit-details-marker { display: none; }
+    .site-header__menu summary span {
+      display: block;
+      width: 16px;
+      height: 1.5px;
+      background: var(--xl-ink-900);
+      border-radius: 2px;
+    }
+    .site-header__mobile-nav {
+      position: absolute;
+      top: 46px;
+      right: 0;
+      display: grid;
+      min-width: 210px;
+      padding: 8px;
+      border: 1px solid var(--xl-border);
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 18px 48px rgba(24, 55, 38, 0.16);
+    }
+    .site-header__mobile-nav a {
+      padding: 11px 12px;
+      border-radius: 9px;
+      color: var(--xl-ink-900);
+      font-size: 13px;
+      text-decoration: none;
+    }
+    .site-header__mobile-nav a:hover { background: var(--xl-accent-soft); }
   }
+
   @media (max-width: 640px) {
     .site-header__inner {
       min-height: 56px;
+      gap: 10px;
     }
+    .site-header__logo { width: 27px; height: auto; }
+    .site-header__wordmark { font-size: 16px; }
     .site-header__cta {
       min-height: 36px;
-      padding: 0 14px;
-      font-size: 12px;
+      padding: 0 12px;
+      border-radius: 10px;
+      font-size: 11.5px;
     }
+    .site-header__cta-desktop { display: none; }
+    .site-header__cta-mobile { display: inline; }
+    .site-header__menu summary { width: 36px; height: 36px; }
+  }
+
+  @media (max-width: 380px) {
+    .site-header__wordmark { font-size: 15px; }
+    .site-header__cta { padding-inline: 10px; }
   }
 </style>
