@@ -1,47 +1,126 @@
 ---
 interface Props {
-  demoFile: string;
+  productSlug: string;
   name: string;
 }
 
-import { statSync } from 'node:fs';
-
-const { demoFile, name } = Astro.props;
-
-// Build-time boyut: public/ altındaki gerçek dosyadan KB hesabı (0 client JS)
-// import.meta.url, Vite build'de dist içini gösterebildiğinden proje kökü process.cwd() ile alınır.
-const publicDir = new URL('public/', `file://${process.cwd()}/`);
-const fileName = demoFile.split('/').filter(Boolean).pop() ?? demoFile;
-
-// Defansif: geçersiz demoFile yolu link render etmez (şemaya dokunulmaz)
-const demoFileValid = demoFile.startsWith('/demo/') && demoFile.endsWith('.xlsx');
-
-let sizeKB = 0;
-if (demoFileValid) {
-  try {
-    sizeKB = Math.max(1, Math.round(statSync(new URL(demoFile.slice(1), publicDir)).size / 1024));
-  } catch {
-    console.warn('[DEMO MISSING] ' + demoFile);
-  }
-}
+const { productSlug, name } = Astro.props;
 ---
 
-{
-  !demoFileValid ? (
-    <div class="cf warn">demo path geçersiz</div>
-  ) : (
-    <div
-      class="flex flex-col items-start gap-3 border border-xl-border bg-xl-canvas p-5"
-      style="border-radius:6px"
-    >
-      <p class="kicker">ÜCRETSİZ DEMO</p>
-      <p class="text-sm text-xl-ink-2">{name} — sınırlı veri, filigranlı çıktı</p>
-      <a class="btn" href={demoFile} download>
-        Ücretsiz Demo <span class="dn">↓</span>
-      </a>
-      <p class="mono text-[11px] text-xl-ink-3">
-        {fileName} · ~{sizeKB} KB · makrosuz · şifresiz
-      </p>
+<div
+  class="border border-xl-border bg-xl-canvas p-5"
+  style="border-radius:6px"
+  data-proof-demo
+  data-product-slug={productSlug}
+>
+  <div class="flex flex-col gap-2">
+    <p class="kicker">ÜCRETSİZ PROOF DEMO</p>
+    <h3 class="font-display text-lg text-ink-700">{name}</h3>
+    <p class="max-w-2xl text-sm leading-relaxed text-xl-ink-2">
+      20 satırlık kontrollü değerlendirme sürümü. Gerçek ürün akışını ve karar çıktısını görürsünüz;
+      premium MOTOR, tam eşikler ve ticari analitikler demo dosyasında bulunmaz.
+    </p>
+  </div>
+
+  <form class="mt-5 grid gap-3" data-demo-form>
+    <label class="grid gap-1 text-sm text-ink-700">
+      <span>E-posta</span>
+      <input
+        class="w-full border border-xl-border bg-white px-3 py-2 text-sm outline-none focus:border-accent-primary"
+        style="border-radius:4px"
+        type="email"
+        name="email"
+        autocomplete="email"
+        inputmode="email"
+        maxlength="254"
+        placeholder="ornek@firma.com"
+        required
+      />
+      <span class="text-[11px] leading-relaxed text-ink-400">
+        E-posta, Proof Demo'nun güvenli oluşturulması ve kötüye kullanımın sınırlandırılması için işlenir.
+        Demo Excel'ine ham e-posta yazılmaz. <a class="underline underline-offset-2" href="/kvkk-aydinlatma" target="_blank" rel="noopener noreferrer">KVKK Aydınlatma Metni</a>
+      </span>
+    </label>
+
+    <label class="flex items-start gap-2 text-xs leading-relaxed text-ink-500">
+      <input class="mt-0.5" type="checkbox" name="terms" required />
+      <span>
+        Proof Demo'nun yalnız değerlendirme amaçlı olduğunu ve
+        <a class="underline underline-offset-2" href="/demo-kullanim-kosullari" target="_blank" rel="noopener noreferrer">
+          Demo Kullanım Koşulları'nı
+        </a>
+        kabul ediyorum.
+      </span>
+    </label>
+
+    <div class="flex flex-wrap items-center gap-3">
+      <button class="btn" type="submit" data-demo-submit>Proof Demo Oluştur <span class="dn">↓</span></button>
+      <span class="mono text-[11px] text-xl-ink-3">tek kullanımlık · 10 dakika · makrosuz .xlsx</span>
     </div>
-  )
-}
+
+    <p class="hidden text-xs leading-relaxed" role="status" aria-live="polite" data-demo-status></p>
+  </form>
+
+  <div class="mt-5 grid gap-2 border-t border-xl-border pt-4 text-xs leading-relaxed text-ink-500 sm:grid-cols-3">
+    <p><strong class="text-ink-700">Kişisel iz:</strong> Her dosyada benzersiz Demo ID + geri döndürülemez e-posta parmak izi.</p>
+    <p><strong class="text-ink-700">IP koruması:</strong> Premium formüller ve tam karar motoru demoya hiç yazılmaz.</p>
+    <p><strong class="text-ink-700">Güvenli teslim:</strong> Statik public XLSX yok; kısa ömürlü, tek kullanımlık indirme yetkisi.</p>
+  </div>
+</div>
+
+<script>
+  const ERROR_TEXT: Record<string, string> = {
+    INVALID_EMAIL: 'Geçerli bir e-posta adresi girin.',
+    DEMO_TERMS_REQUIRED: 'Demo kullanım koşullarını kabul etmeniz gerekiyor.',
+    UNKNOWN_PRODUCT: 'Bu ürün için demo şu anda kullanılamıyor.',
+    DEMO_RATE_LIMITED: 'Kısa sürede çok fazla demo istendi. Daha sonra yeniden deneyin.',
+    INTERNAL_ERROR: 'Demo hazırlanamadı. Lütfen yeniden deneyin.',
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-proof-demo]').forEach((root) => {
+    const form = root.querySelector<HTMLFormElement>('[data-demo-form]');
+    const submit = root.querySelector<HTMLButtonElement>('[data-demo-submit]');
+    const status = root.querySelector<HTMLElement>('[data-demo-status]');
+    const productSlug = root.dataset.productSlug ?? '';
+    if (!form || !submit || !status || !productSlug) return;
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+
+      const data = new FormData(form);
+      const email = String(data.get('email') ?? '').trim();
+      const acceptedTerms = data.get('terms') === 'on';
+
+      submit.disabled = true;
+      submit.setAttribute('aria-busy', 'true');
+      status.classList.remove('hidden');
+      status.className = 'text-xs leading-relaxed text-ink-500';
+      status.textContent = 'Kişisel Proof Demo hazırlanıyor…';
+
+      try {
+        const response = await fetch('/api/demo-request', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productSlug, email, acceptedTerms }),
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok || !payload?.downloadUrl) {
+          const code = String(payload?.error ?? 'INTERNAL_ERROR');
+          throw new Error(code);
+        }
+
+        status.className = 'text-xs leading-relaxed text-positive-700';
+        status.textContent = `Demo ${payload.demoId ?? ''} hazır. İndirme başlatılıyor…`;
+        window.location.assign(String(payload.downloadUrl));
+      } catch (error) {
+        const code = error instanceof Error ? error.message : 'INTERNAL_ERROR';
+        status.className = 'text-xs leading-relaxed text-negative-700';
+        status.textContent = ERROR_TEXT[code] ?? ERROR_TEXT.INTERNAL_ERROR;
+      } finally {
+        submit.disabled = false;
+        submit.removeAttribute('aria-busy');
+      }
+    });
+  });
+</script>

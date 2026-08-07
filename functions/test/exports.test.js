@@ -18,6 +18,8 @@ test('production Firebase entrypoint exports all commerce functions', () => {
     'recoverPurchase',
     'createDownloadToken',
     'downloadFile',
+    'requestProofDemo',
+    'downloadProofDemo',
   ]) {
     assert.ok(functions[name], `${name} is exported`);
   }

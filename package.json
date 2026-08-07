@@ -10,7 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "generate": "node scripts/generate-demo.mjs && node scripts/generate-previews.mjs && node scripts/generate-mdx.mjs",
+    "generate": "node scripts/validate-commerce.mjs",
     "validate:commerce": "node scripts/validate-commerce.mjs",
     "test": "node scripts/validate-commerce.mjs && astro build && node scripts/smoke-test.mjs"
   },

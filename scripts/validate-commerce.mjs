@@ -58,11 +58,40 @@ const requiredRoutes = [
   '/api/recover-purchase',
   '/api/download-token',
   '/api/download',
+  '/api/demo-request',
+  '/api/demo-download',
 ];
 for (const route of requiredRoutes) {
   if (!rewrites.some((entry) => entry.source === route && entry.function?.functionId)) {
     errors.push(`${route}: Firebase Hosting function rewrite eksik.`);
   }
+}
+
+// Proof Demo güvenlik kapısı: indirilebilir Excel binary'si public/ altında bulunamaz.
+const publicDir = path.join(root, 'public');
+const publicExcel = [];
+function scanPublic(dir) {
+  if (!fs.existsSync(dir)) return;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) scanPublic(full);
+    else if (/\.(xlsx|xlsm)$/i.test(entry.name)) publicExcel.push(path.relative(root, full));
+  }
+}
+scanPublic(publicDir);
+if (publicExcel.length) {
+  errors.push(`Public Excel binary yasak; Proof Demo API üzerinden üretilmeli: ${publicExcel.join(', ')}`);
+}
+
+const demoComponent = fs.readFileSync(path.join(root, 'src/components/DemoDownloadBox.astro'), 'utf8');
+if (/href\s*=\s*\{?[^\n]*demoFile/i.test(demoComponent) || /\/demo\/[^\s'\"]+\.xlsx/i.test(demoComponent)) {
+  errors.push('DemoDownloadBox statik /demo/*.xlsx bağlantısı içeremez.');
+}
+if (!demoComponent.includes('/api/demo-request')) errors.push('DemoDownloadBox Proof Demo API akışına bağlı değil.');
+
+const proofSpecs = fs.readFileSync(path.join(root, 'functions/proof-demo-specs.js'), 'utf8');
+for (const slug of Object.keys(catalog.products)) {
+  if (!proofSpecs.includes(`'${slug}'`)) errors.push(`${slug}: Proof Demo sözleşmesi eksik.`);
 }
 
 if (errors.length) {
@@ -71,4 +100,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`Commerce validation OK: ${templateFiles.length} ürün, 4 Shopier seviyesi, ${requiredRoutes.length} güvenli API rotası.`);
+console.log(`Commerce validation OK: ${templateFiles.length} ürün, 4 Shopier seviyesi, ${requiredRoutes.length} güvenli API rotası, public Excel binary=0.`);
