@@ -1,0 +1,166 @@
+/* Mobile Commerce M1 — dedicated conversion layout, not a scaled desktop. */
+@media (max-width: 720px) {
+  html { scroll-behavior: smooth; }
+  body { overflow-x: hidden; padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
+
+  .site-container,
+  .container-site {
+    width: calc(100% - 32px) !important;
+    max-width: none !important;
+    margin-inline: auto !important;
+  }
+
+  .site-section {
+    padding-block: 40px !important;
+  }
+  .site-section--alt {
+    padding-block: 40px !important;
+  }
+  .section-head {
+    margin-bottom: 22px !important;
+  }
+  .section-head--row {
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+  .section-head__kicker {
+    font-size: 9.5px !important;
+    letter-spacing: .09em !important;
+  }
+  .section-head__title {
+    margin-top: 8px !important;
+    font-size: 29px !important;
+    line-height: 1.04 !important;
+    letter-spacing: -.035em !important;
+  }
+  .section-head__lead {
+    margin-top: 10px !important;
+    max-width: 100% !important;
+    font-size: 13.5px !important;
+    line-height: 1.5 !important;
+  }
+  .section-head__link {
+    font-size: 11px !important;
+    white-space: nowrap;
+  }
+
+  /* Visual-value cards become a compact 2x2 product-proof grid. */
+  .value-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+  .value-card {
+    min-height: 150px !important;
+    padding: 13px !important;
+    border-radius: 15px !important;
+    gap: 4px !important;
+  }
+  .value-card__code { font-size: 8px !important; }
+  .value-card__title { font-size: 13px !important; }
+  .value-card__text {
+    font-size: 10px !important;
+    line-height: 1.35 !important;
+  }
+  .value-card__viz {
+    margin: 3px 0 6px !important;
+    transform: scale(.92);
+    transform-origin: center;
+  }
+  .value-card__spark { height: 34px !important; }
+
+  /* Time-gain table turns into a compact comparison panel. */
+  .gain-panel { border-radius: 15px !important; }
+  .gain-table { font-size: 11px !important; }
+  .gain-table th,
+  .gain-table td { padding: 9px 8px !important; }
+  .gain-table th:nth-child(2),
+  .gain-table td:nth-child(2) { display: none !important; }
+  .gain-table__gain-badge {
+    min-height: 22px !important;
+    padding-inline: 7px !important;
+    font-size: 9px !important;
+  }
+  .gain-panel__note {
+    padding: 10px 12px !important;
+    font-size: 10.5px !important;
+    line-height: 1.45 !important;
+  }
+
+  /* Purchase flow: one tight horizontal-looking timeline. */
+  .purchase-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+  .purchase-card {
+    min-height: 0 !important;
+    padding: 13px 0 13px 42px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    position: relative !important;
+  }
+  .purchase-card::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 17px;
+    width: 22px;
+    height: 22px;
+    border: 1px solid var(--xl-accent-border);
+    border-radius: 8px;
+    background: #fff;
+  }
+  .purchase-card:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 23px;
+    top: 39px;
+    bottom: -1px;
+    width: 1px;
+    background: var(--xl-grid);
+  }
+  .purchase-card__code {
+    position: absolute !important;
+    left: 17px !important;
+    top: 21px !important;
+    z-index: 1;
+    font-size: 8px !important;
+  }
+  .purchase-card__title { font-size: 14px !important; }
+  .purchase-card__text { font-size: 11px !important; line-height: 1.4 !important; }
+  .purchase-card__arrow { display: none !important; }
+
+  /* Final CTA stays useful but never becomes a second hero. */
+  .final-cta {
+    min-height: 0 !important;
+    padding: 36px 16px !important;
+  }
+  .final-cta__inner { width: 100% !important; }
+  .final-cta__kicker { font-size: 9px !important; }
+  .final-cta__title {
+    margin-top: 8px !important;
+    font-size: 28px !important;
+    line-height: 1.04 !important;
+  }
+  .final-cta__lead {
+    margin-top: 9px !important;
+    font-size: 12px !important;
+    line-height: 1.45 !important;
+  }
+  .final-cta__actions { margin-top: 15px !important; }
+  .final-cta__btn {
+    min-height: 42px !important;
+    padding-inline: 18px !important;
+    font-size: 12px !important;
+  }
+  .final-cta__link { margin-top: 10px !important; font-size: 10.5px !important; }
+  .final-cta__signals { margin-top: 16px !important; gap: 7px 12px !important; }
+  .final-cta__signal { font-size: 9.5px !important; }
+}
+
+@media (max-width: 390px) {
+  .site-container,
+  .container-site { width: calc(100% - 24px) !important; }
+  .section-head__title { font-size: 27px !important; }
+  .value-grid { grid-template-columns: 1fr 1fr !important; }
+}
