@@ -48,6 +48,39 @@ jobs:
       - name: Validate commerce, build and smoke test
         run: npm test
 
+      - name: Smoke test Functions HTTP runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PORT=8080
+          export FUNCTION_TARGET=checkoutStatus
+          export GCLOUD_PROJECT="$FIREBASE_PROJECT_ID"
+          export GOOGLE_CLOUD_PROJECT="$FIREBASE_PROJECT_ID"
+          export FIREBASE_CONFIG="{\"projectId\":\"$FIREBASE_PROJECT_ID\",\"storageBucket\":\"$FIREBASE_PROJECT_ID.appspot.com\"}"
+
+          npm --prefix functions start >/tmp/functions-runtime.log 2>&1 &
+          pid=$!
+          trap 'kill "$pid" >/dev/null 2>&1 || true' EXIT
+
+          ready=false
+          for _ in $(seq 1 20); do
+            if curl --silent --output /tmp/functions-runtime-response.txt --write-out '%{http_code}' http://127.0.0.1:8080/ | grep -Eq '^(405|400)$'; then
+              ready=true
+              break
+            fi
+            if ! kill -0 "$pid" >/dev/null 2>&1; then
+              cat /tmp/functions-runtime.log
+              exit 1
+            fi
+            sleep 1
+          done
+
+          if [[ "$ready" != "true" ]]; then
+            cat /tmp/functions-runtime.log
+            exit 1
+          fi
+          echo "Functions runtime listens on PORT=8080."
+
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
@@ -106,61 +139,35 @@ jobs:
 
           if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" || "$functions_changed" == "true" || "$functions_missing" == "true" ]]; then
             echo "deploy_functions=true" >> "$GITHUB_OUTPUT"
-            echo "Backend deployment required (manual=$GITHUB_EVENT_NAME, changed=$functions_changed, missing=$functions_missing)."
+            echo "Backend deployment required."
           else
             echo "deploy_functions=false" >> "$GITHUB_OUTPUT"
             echo "All required functions exist and backend source is unchanged."
           fi
 
-      - name: Deploy secure HTTP Functions directly with gcloud
+      - name: Deploy verification and delivery Functions with Firebase
         if: steps.backend.outputs.deploy_functions == 'true'
+        env:
+          CI: "true"
         shell: bash
         run: |
           set -euo pipefail
+          firebase deploy \
+            --project "$FIREBASE_PROJECT_ID" \
+            --only "functions:checkoutStatus,functions:verifyShopierOrder,functions:recoverPurchase,functions:createDownloadToken,functions:downloadFile,functions:requestProofDemo,functions:downloadProofDemo" \
+            --non-interactive
 
-          deploy_http() {
-            local name="$1"
-            local entry="$2"
-            local memory="$3"
-            local timeout="$4"
-            local max_instances="$5"
-            local uses_shopier_secret="${6:-false}"
-
-            args=(
-              gcloud functions deploy "$name"
-              --project="$FIREBASE_PROJECT_ID"
-              --gen2
-              --region="$FUNCTIONS_REGION"
-              --runtime=nodejs22
-              --source=functions
-              --entry-point="$entry"
-              --trigger-http
-              --allow-unauthenticated
-              --memory="$memory"
-              --timeout="$timeout"
-              --max-instances="$max_instances"
-              --quiet
-            )
-
-            if [[ "$uses_shopier_secret" == "true" ]]; then
-              args+=(--set-secrets=SHOPIER_ACCESS_TOKEN=SHOPIER_ACCESS_TOKEN:latest)
-            fi
-
-            echo "Deploying $name..."
-            "${args[@]}"
-          }
-
-          # Demo and delivery endpoints must exist before Hosting is released.
-          # Payment verification/recovery are deployed before createCheckout so the
-          # production path remains fail-closed if any dependency cannot deploy.
-          deploy_http checkoutStatus checkoutStatus 256Mi 30s 20 true
-          deploy_http verifyShopierOrder verifyShopierOrder 256Mi 30s 20 true
-          deploy_http recoverPurchase recoverPurchase 256Mi 20s 10 true
-          deploy_http createDownloadToken createDownloadToken 256Mi 30s 20 false
-          deploy_http downloadFile downloadFile 512Mi 60s 30 false
-          deploy_http requestProofDemo requestProofDemo 256Mi 30s 20 false
-          deploy_http downloadProofDemo downloadProofDemo 512Mi 60s 30 false
-          deploy_http createCheckout createCheckout 256Mi 30s 20 false
+      - name: Deploy checkout Function last
+        if: steps.backend.outputs.deploy_functions == 'true'
+        env:
+          CI: "true"
+        shell: bash
+        run: |
+          set -euo pipefail
+          firebase deploy \
+            --project "$FIREBASE_PROJECT_ID" \
+            --only "functions:createCheckout" \
+            --non-interactive
 
       - name: Verify required Functions exist before Hosting release
         shell: bash
@@ -190,6 +197,7 @@ jobs:
             -X POST "$BASE_URL/api/checkout" \
             -H 'Content-Type: application/json' \
             --data '{"productSlug":"__deployment_probe__","email":"probe@example.com"}')"
+          cat /tmp/checkout-probe.json
           test "$code" = '400'
           grep -Fq 'UNKNOWN_PRODUCT' /tmp/checkout-probe.json
           rm -f /tmp/checkout-probe.json
