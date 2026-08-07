@@ -1,0 +1,98 @@
+{
+  "tiers": {
+    "PRO": {
+      "priceTL": 990,
+      "shopierProductId": "49652321",
+      "shopierUrl": "https://www.shopier.com/49652321"
+    },
+    "PREMIUM": {
+      "priceTL": 1490,
+      "shopierProductId": "49652403",
+      "shopierUrl": "https://www.shopier.com/49652403"
+    },
+    "ENTERPRISE": {
+      "priceTL": 2490,
+      "shopierProductId": "49653399",
+      "shopierUrl": "https://www.shopier.com/49653399"
+    },
+    "EXCLUSIVE": {
+      "priceTL": 7900,
+      "shopierProductId": "49653437",
+      "shopierUrl": "https://www.shopier.com/49653437"
+    }
+  },
+  "products": {
+    "13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi": {
+      "name": "13 Haftalık Nakit Akışı ve Ödeme Planlama Sistemi",
+      "tier": "ENTERPRISE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi/current.xlsx"
+    },
+    "akilli-kasa-defteri-ve-nakit-kontrol-sistemi": {
+      "name": "Akıllı Kasa Defteri ve Nakit Kontrol Sistemi",
+      "tier": "PRO",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/akilli-kasa-defteri-ve-nakit-kontrol-sistemi/current.xlsx"
+    },
+    "aylik-patron-finans-paneli": {
+      "name": "Aylık Patron Finans Paneli",
+      "tier": "ENTERPRISE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/aylik-patron-finans-paneli/current.xlsx"
+    },
+    "banka-kredi-ve-taksit-takip-sistemi": {
+      "name": "Banka, Kredi ve Taksit Takip Sistemi",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/banka-kredi-ve-taksit-takip-sistemi/current.xlsx"
+    },
+    "cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi": {
+      "name": "Cari Hesap, Tahsilat ve Müşteri Risk Takip Sistemi",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi/current.xlsx"
+    },
+    "cek-senet-ve-vade-risk-sistemi": {
+      "name": "Çek–Senet ve Vade Risk Sistemi",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/cek-senet-ve-vade-risk-sistemi/current.xlsx"
+    },
+    "gunluk-gelir-gider-ve-gercek-karlilik-sistemi": {
+      "name": "Günlük Gelir–Gider ve Gerçek Kârlılık Sistemi",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/gunluk-gelir-gider-ve-gercek-karlilik-sistemi/current.xlsx"
+    },
+    "kobi-finans-yonetim-paketi": {
+      "name": "KOBİ Finans Yönetim Paketi",
+      "tier": "EXCLUSIVE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/kobi-finans-yonetim-paketi/current.xlsx"
+    },
+    "pos-komisyon-ve-net-tahsilat-kontrol-sistemi": {
+      "name": "POS, Komisyon ve Net Tahsilat Kontrol Sistemi",
+      "tier": "PRO",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/pos-komisyon-ve-net-tahsilat-kontrol-sistemi/current.xlsx"
+    },
+    "proje-ve-is-bazinda-gercek-karlilik-sistemi": {
+      "name": "Proje ve İş Bazında Gerçek Kârlılık Sistemi",
+      "tier": "ENTERPRISE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/proje-ve-is-bazinda-gercek-karlilik-sistemi/current.xlsx"
+    },
+    "stok-satis-ve-nakit-baglanma-sistemi": {
+      "name": "Stok, Satış ve Nakit Bağlanma Sistemi",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/stok-satis-ve-nakit-baglanma-sistemi/current.xlsx"
+    },
+    "vergi-sgk-ve-maas-karsilik-ayirma-sistemi": {
+      "name": "Vergi, SGK ve Maaş Karşılık Ayırma Sistemi",
+      "tier": "PRO",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/vergi-sgk-ve-maas-karsilik-ayirma-sistemi/current.xlsx"
+    }
+  }
+}
