@@ -1,199 +1,70 @@
 ---
 const year = new Date().getFullYear();
-
 const productLinks = [
   { label: 'Şablonlar', href: '/sablonlar' },
   { label: 'Paketler', href: '/paketler' },
   { label: 'Nasıl Çalışır', href: '/nasil-calisir' },
   { label: 'Rehber', href: '/rehber' },
 ];
-
 const supportLinks = [
   { label: 'İletişim', href: '/iletisim' },
   { label: 'Sık Sorulan Sorular', href: '/sss' },
   { label: 'Teslimat ve İade', href: '/teslimat-ve-iade' },
 ];
-
 const legalLinks = [
   { label: 'Lisans', href: '/lisans' },
   { label: 'Mesafeli Satış Sözleşmesi', href: '/mesafeli-satis-sozlesmesi' },
   { label: 'KVKK Aydınlatma', href: '/kvkk-aydinlatma' },
   { label: 'Çerez Politikası', href: '/cerez-politikasi' },
 ];
-
-const trustSignals = ['Shopier ile güvenli ödeme', 'KDV dahil fiyat', 'E-posta ile teslimat'];
+const trustSignals = ['Shopier güvenli ödeme', 'KDV dahil', 'E-posta teslimat'];
 ---
 
 <footer class="site-footer">
   <div class="site-container">
-    <div class="site-footer__grid">
+    <div class="site-footer__grid site-footer__desktop">
       <div class="site-footer__brand">
-        <div class="site-footer__logo">
-          <img src="/images/excel-logo.png" alt="Excel Arşiv" width="32" height="30" loading="lazy" />
-          <span>Excel Arşiv</span>
-        </div>
-        <p class="site-footer__desc">
-          Türkiye'deki ticari işletmelere finans, muhasebe ve operasyon amaçlı hazır Excel çalışma
-          tabloları.
-        </p>
+        <div class="site-footer__logo"><img src="/images/excel-logo.png" alt="" width="30" height="28" loading="lazy" /><span>Excel Arşiv</span></div>
+        <p class="site-footer__desc">İşletmeler için finans, muhasebe ve operasyon odaklı hazır Excel sistemleri.</p>
       </div>
-      <nav class="site-footer__col" aria-label="Ürünler">
-        <h3 class="site-footer__heading">Ürünler</h3>
-        <ul>
-          {
-            productLinks.map((link) => (
-              <li>
-                <a href={link.href}>{link.label}</a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-      <nav class="site-footer__col" aria-label="Destek">
-        <h3 class="site-footer__heading">Destek</h3>
-        <ul>
-          {
-            supportLinks.map((link) => (
-              <li>
-                <a href={link.href}>{link.label}</a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-      <nav class="site-footer__col" aria-label="Yasal">
-        <h3 class="site-footer__heading">Yasal</h3>
-        <ul>
-          {
-            legalLinks.map((link) => (
-              <li>
-                <a href={link.href}>{link.label}</a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
+      <nav class="site-footer__col" aria-label="Ürünler"><h3>Ürünler</h3><ul>{productLinks.map((link)=><li><a href={link.href}>{link.label}</a></li>)}</ul></nav>
+      <nav class="site-footer__col" aria-label="Destek"><h3>Destek</h3><ul>{supportLinks.map((link)=><li><a href={link.href}>{link.label}</a></li>)}</ul></nav>
+      <nav class="site-footer__col" aria-label="Yasal"><h3>Yasal</h3><ul>{legalLinks.map((link)=><li><a href={link.href}>{link.label}</a></li>)}</ul></nav>
     </div>
+
+    <div class="site-footer__mobile">
+      <div class="site-footer__logo"><img src="/images/excel-logo.png" alt="" width="28" height="26" loading="lazy" /><span>Excel Arşiv</span></div>
+      <p class="site-footer__desc">Hazır finansal Excel sistemleri.</p>
+      <div class="site-footer__mobile-links">
+        <details><summary>Ürünler <span>+</span></summary><nav>{productLinks.map((link)=><a href={link.href}>{link.label}</a>)}</nav></details>
+        <details><summary>Destek <span>+</span></summary><nav>{supportLinks.map((link)=><a href={link.href}>{link.label}</a>)}</nav></details>
+        <details><summary>Yasal <span>+</span></summary><nav>{legalLinks.map((link)=><a href={link.href}>{link.label}</a>)}</nav></details>
+      </div>
+    </div>
+
     <div class="site-footer__bottom">
-      <ul class="site-footer__signals">
-        {
-          trustSignals.map((signal) => (
-            <li>
-              <span class="site-footer__check" aria-hidden="true">✓</span>
-              {signal}
-            </li>
-          ))
-        }
-      </ul>
+      <ul class="site-footer__signals">{trustSignals.map((signal)=><li><span aria-hidden="true">✓</span>{signal}</li>)}</ul>
       <p class="site-footer__copy">© {year} Excel Arşiv · Tüm hakları saklıdır</p>
     </div>
   </div>
 </footer>
 
 <style>
-  .site-footer {
-    border-top: 1px solid var(--xl-grid);
-    background: var(--xl-paper);
-    padding-block: clamp(40px, 5vw, 64px) 24px;
-  }
-  .site-footer__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));
-    gap: 32px;
-  }
-  .site-footer__logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--font-display);
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: -0.01em;
-    color: var(--xl-ink-900);
-  }
-  .site-footer__logo img {
-    border-radius: 6px;
-  }
-  .site-footer__desc {
-    max-width: 300px;
-    margin: 12px 0 0;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--xl-ink-3);
-  }
-  .site-footer__heading {
-    margin: 0 0 14px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--xl-ink-3);
-  }
-  .site-footer__col ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .site-footer__col a {
-    font-size: 13.5px;
-    color: var(--xl-ink-900);
-    text-decoration: none;
-    transition: color 150ms ease-out;
-  }
-  .site-footer__col a:hover {
-    color: var(--xl-green-dark);
-  }
-  .site-footer__bottom {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid var(--xl-grid);
-  }
-  .site-footer__signals {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 24px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--xl-ink-3);
-  }
-  .site-footer__check {
-    color: var(--xl-green);
-    font-weight: 700;
-    margin-right: 6px;
-  }
-  .site-footer__copy {
-    margin: 0;
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--xl-ink-3);
-  }
-  @media (max-width: 900px) {
-    .site-footer__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .site-footer__brand {
-      grid-column: 1 / -1;
-    }
-  }
-  @media (max-width: 520px) {
-    .site-footer__grid {
-      grid-template-columns: 1fr;
-    }
-    .site-footer__bottom {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+  .site-footer { border-top:1px solid var(--xl-grid); background:var(--xl-paper); padding:42px 0 22px; }
+  .site-footer__grid { display:grid; grid-template-columns:minmax(0,1.6fr) repeat(3,minmax(0,1fr)); gap:30px; }
+  .site-footer__logo { display:flex; align-items:center; gap:9px; font-family:var(--font-display); font-size:17px; font-weight:800; color:var(--xl-ink-900); }
+  .site-footer__logo img{border-radius:6px}.site-footer__desc{max-width:280px;margin:10px 0 0;font-size:12.5px;line-height:1.55;color:var(--xl-ink-3)}
+  .site-footer__col h3{margin:0 0 12px;font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--xl-ink-3)}
+  .site-footer__col ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}.site-footer__col a{font-size:13px;color:var(--xl-ink-900);text-decoration:none}.site-footer__col a:hover{color:var(--xl-green-dark)}
+  .site-footer__bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;margin-top:30px;padding-top:17px;border-top:1px solid var(--xl-grid)}
+  .site-footer__signals{display:flex;flex-wrap:wrap;gap:8px 18px;margin:0;padding:0;list-style:none;font-family:var(--font-mono);font-size:10.5px;color:var(--xl-ink-3)}.site-footer__signals span{color:var(--xl-green);font-weight:700;margin-right:5px}.site-footer__copy{margin:0;font-family:var(--font-mono);font-size:10.5px;color:var(--xl-ink-3)}
+  .site-footer__mobile{display:none}
+  @media(max-width:900px){.site-footer__grid{grid-template-columns:repeat(2,minmax(0,1fr))}.site-footer__brand{grid-column:1/-1}}
+  @media(max-width:560px){
+    .site-footer{padding:30px 0 calc(82px + env(safe-area-inset-bottom))}.site-footer__desktop{display:none}.site-footer__mobile{display:block}.site-footer__desc{margin-top:6px;font-size:11.5px}
+    .site-footer__mobile-links{margin-top:18px;border-top:1px solid var(--xl-grid)}
+    .site-footer__mobile-links details{border-bottom:1px solid var(--xl-grid)}.site-footer__mobile-links summary{display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:12.5px;font-weight:700;cursor:pointer;list-style:none}.site-footer__mobile-links summary::-webkit-details-marker{display:none}.site-footer__mobile-links summary span{color:var(--xl-green)}
+    .site-footer__mobile-links nav{display:grid;gap:8px;padding:0 0 12px}.site-footer__mobile-links a{font-size:12px;color:var(--xl-ink-3);text-decoration:none}
+    .site-footer__bottom{display:grid;gap:10px;margin-top:16px;padding-top:14px}.site-footer__signals{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 10px;font-size:9.5px}.site-footer__copy{font-size:9.5px}
   }
 </style>
