@@ -1,0 +1,100 @@
+name: Deploy Firebase Production
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: firebase-production
+  cancel-in-progress: false
+
+env:
+  FIREBASE_PROJECT_ID: carbon-web-1265b
+  FIREBASE_HOSTING_SITE: excelarsiv
+
+jobs:
+  deploy:
+    name: Test and deploy production
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install site dependencies
+        run: npm ci
+
+      - name: Install Functions dependencies
+        run: npm install --prefix functions --ignore-scripts --no-audit --no-fund
+
+      - name: Test Functions and Proof Demo
+        run: npm --prefix functions test
+
+      - name: Validate commerce, build and smoke test
+        run: npm test
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: Install Firebase CLI
+        run: npm install --global firebase-tools@latest
+
+      - name: Deploy Firebase Functions and Hosting
+        env:
+          CI: "true"
+        run: firebase deploy --project "$FIREBASE_PROJECT_ID" --only "functions,hosting:$FIREBASE_HOSTING_SITE" --non-interactive
+
+      - name: Verify production Proof Demo flow
+        env:
+          BASE_URL: https://excelarsiv.web.app
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          smoke_email="deploy-smoke+${GITHUB_RUN_ID}@excelarsiv.com"
+          curl --fail --silent --show-error \
+            --retry 5 --retry-delay 3 --retry-all-errors \
+            -X POST "$BASE_URL/api/demo-request" \
+            -H 'Content-Type: application/json' \
+            --data "{\"productSlug\":\"akilli-kasa-defteri-ve-nakit-kontrol-sistemi\",\"email\":\"$smoke_email\",\"acceptedTerms\":true}" \
+            -o /tmp/demo-response.json
+
+          download_url="$(node -e "const fs=require('fs');const x=JSON.parse(fs.readFileSync('/tmp/demo-response.json','utf8'));if(!x.downloadUrl||!x.demoId)process.exit(2);process.stdout.write(x.downloadUrl)")"
+          demo_id="$(node -e "const fs=require('fs');const x=JSON.parse(fs.readFileSync('/tmp/demo-response.json','utf8'));process.stdout.write(x.demoId)")"
+
+          case "$download_url" in
+            /api/demo-download?token=*) ;;
+            *) echo 'Invalid Proof Demo download path'; exit 3 ;;
+          esac
+
+          curl --fail --silent --show-error \
+            --retry 5 --retry-delay 2 --retry-all-errors \
+            -D /tmp/demo-headers.txt \
+            -o /tmp/proof-demo.xlsx \
+            "$BASE_URL$download_url"
+
+          unzip -t /tmp/proof-demo.xlsx >/dev/null
+          grep -Fqi 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' /tmp/demo-headers.txt
+          grep -Fqi "X-ExcelArsiv-Demo-Id: $demo_id" /tmp/demo-headers.txt
+
+          second_code="$(curl --silent --show-error -o /tmp/demo-second.json -w '%{http_code}' "$BASE_URL$download_url")"
+          test "$second_code" = '410'
+          grep -Fq 'TOKEN_EXPIRED' /tmp/demo-second.json
+
+          rm -f /tmp/demo-response.json /tmp/demo-headers.txt /tmp/proof-demo.xlsx /tmp/demo-second.json
+
+      - name: Verify custom domain
+        run: curl --fail --silent --show-error --retry 5 --retry-delay 3 --retry-all-errors https://excelarsiv.com/ >/dev/null
