@@ -1,240 +1,104 @@
 ---
-const bars = [64, 82, 47, 91];
-const heatmap = [0.15, 0.35, 0.55, 0.8, 0.95, 0.6, 0.25, 0.45, 0.7, 0.9, 0.5, 0.3, 0.1, 0.3, 0.5, 0.65];
+const tools = [
+  { key: 'bars', code: 'CF-01', title: 'Veri çubukları', text: 'Karşılaştırma ve kota farkları hücrenin içinde görünür; ayrı grafik açmadan seviye okunur.' },
+  { key: 'spark', code: 'CF-02', title: 'Eğilim çizgileri', text: 'Dönem hareketi satır içinde görünür; yükseliş ve kırılma noktaları tek bakışta ayrışır.' },
+  { key: 'icons', code: 'CF-03', title: 'Yön göstergeleri', text: 'Artış, düşüş ve sabit durum metin kalabalığı oluşturmadan işaretlenir.' },
+  { key: 'heat', code: 'CF-04', title: 'Isı haritası', text: 'Risk ve yoğunluk tablonun içinde renk seviyeleriyle öne çıkar.' },
+];
 ---
 
-<section class="site-section site-section--alt" aria-labelledby="value-title">
+<section class="workbook-lab" aria-labelledby="value-title" data-value-lab data-active="bars">
   <div class="site-container">
-    <div class="section-head">
-      <span class="section-head__kicker">EXCEL'İN GÖRSEL GÜCÜ</span>
-      <h2 id="value-title" class="section-head__title">Şablonların içinde neler var?</h2>
-      <p class="section-head__lead">
-        Her dosya, koşullu biçimlendirmenin güçlü araçlarıyla kurulur — rakamlar yorum gerektirmeden konuşur.
-      </p>
+    <div class="workbook-lab__head">
+      <div>
+        <span class="section-head__kicker">DOSYANIN İÇİNE BAKIN</span>
+        <h2 id="value-title">Excel'in gücü, <em>görünen hücrenin arkasında.</em></h2>
+      </div>
+      <p>Her özelliği ayrı bir kartta anlatmak yerine aynı çalışma kitabının üzerinde gösteriyoruz. Bir aracı seçin; ilgili alan dosya üzerinde öne çıksın.</p>
     </div>
-    <ul class="value-grid">
-      <li class="value-card">
-        <span class="value-card__code">CF-01 · VERİ ÇUBUKLARI</span>
-        <h3 class="value-card__title">Veri Çubukları</h3>
-        <div class="value-card__viz value-card__viz--bars" aria-hidden="true">
-          {['OCA', 'ŞUB', 'MAR', 'NİS'].map((month, index) => (
-            <span class="value-card__bar-row">
-              <span class="value-card__bar-label">{month}</span>
-              <span class="value-card__bar-track">
-                <span class="value-card__bar-fill" style={`--w:${bars[index]}%`}></span>
-              </span>
-              <span class="value-card__bar-val">{bars[index]}</span>
-            </span>
+
+    <div class="workbook-lab__stage">
+      <div class="workbook-lab__controls" role="tablist" aria-label="Excel görsel araçları">
+        {tools.map((tool, index) => (
+          <button type="button" class={`lab-control${index === 0 ? ' is-active' : ''}`} data-lab-control={tool.key} role="tab" aria-selected={index === 0 ? 'true' : 'false'}>
+            <span>{tool.code}</span>
+            <strong>{tool.title}</strong>
+          </button>
+        ))}
+      </div>
+
+      <div class="workbook-lab__canvas">
+        <div class="lab-window" aria-label="Örnek Excel çalışma kitabı görünümü">
+          <div class="lab-window__chrome"><span>●</span><span>●</span><span>●</span><b>Finans_Kontrol_Paneli.xlsx</b><em>Hazır</em></div>
+          <div class="lab-window__formula"><b>fx</b><code>=EĞER($B4&gt;0;$B4/$C4;0)</code></div>
+          <div class="lab-sheet">
+            <div class="lab-sheet__corner"></div>
+            <div class="lab-sheet__col">A</div><div class="lab-sheet__col">B</div><div class="lab-sheet__col">C</div><div class="lab-sheet__col">D</div><div class="lab-sheet__col">E</div>
+            <div class="lab-sheet__rowhead">1</div><div class="lab-cell is-head">Metrik</div><div class="lab-cell is-head">Oca</div><div class="lab-cell is-head">Şub</div><div class="lab-cell is-head">Mar</div><div class="lab-cell is-head">Nis</div>
+            <div class="lab-sheet__rowhead">2</div><div class="lab-cell">Gelir</div><div class="lab-cell lab-bars"><i style="--w:64%"></i><span>64</span></div><div class="lab-cell lab-bars"><i style="--w:82%"></i><span>82</span></div><div class="lab-cell lab-bars"><i style="--w:47%"></i><span>47</span></div><div class="lab-cell lab-bars"><i style="--w:91%"></i><span>91</span></div>
+            <div class="lab-sheet__rowhead">3</div><div class="lab-cell">Net trend</div><div class="lab-cell lab-spark" style="grid-column:span 4"><svg viewBox="0 0 300 44" preserveAspectRatio="none"><polyline points="0,34 36,29 72,32 108,20 144,24 180,15 216,20 255,10 300,7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="lab-sheet__rowhead">4</div><div class="lab-cell">Durum</div><div class="lab-cell lab-icons"><b>▲</b> %24</div><div class="lab-cell lab-icons"><b>→</b> 4,2</div><div class="lab-cell lab-icons is-down"><b>▼</b> %1,8</div><div class="lab-cell lab-icons"><b>▲</b> %96</div>
+            <div class="lab-sheet__rowhead">5</div><div class="lab-cell">Risk</div><div class="lab-cell lab-heat is-h1"></div><div class="lab-cell lab-heat is-h2"></div><div class="lab-cell lab-heat is-h3"></div><div class="lab-cell lab-heat is-h4"></div>
+            <div class="lab-sheet__rowhead">6</div><div class="lab-cell">Tahsilat</div><div class="lab-cell">92%</div><div class="lab-cell">89%</div><div class="lab-cell">94%</div><div class="lab-cell">96%</div>
+          </div>
+          <span class="lab-highlight lab-highlight--bars" aria-hidden="true"></span>
+          <span class="lab-highlight lab-highlight--spark" aria-hidden="true"></span>
+          <span class="lab-highlight lab-highlight--icons" aria-hidden="true"></span>
+          <span class="lab-highlight lab-highlight--heat" aria-hidden="true"></span>
+        </div>
+
+        <div class="workbook-lab__detail" aria-live="polite">
+          {tools.map((tool, index) => (
+            <div class={`lab-detail${index === 0 ? ' is-active' : ''}`} data-lab-detail={tool.key} hidden={index !== 0}>
+              <span>{tool.code}</span>
+              <strong>{tool.title}</strong>
+              <p>{tool.text}</p>
+            </div>
           ))}
         </div>
-        <p class="value-card__text">Değerler hücre içinde görünür bar olarak karşılaştırılır.</p>
-      </li>
-
-      <li class="value-card">
-        <span class="value-card__code">CF-02 · SPARKLINE</span>
-        <h3 class="value-card__title">Eğilim Çizgileri</h3>
-        <div class="value-card__viz" aria-hidden="true">
-          <svg viewBox="0 0 200 60" preserveAspectRatio="none" class="value-card__spark">
-            <polyline
-              points="0,50 28,44 56,47 84,36 112,40 140,26 168,30 200,16"
-              fill="none"
-              stroke="var(--xl-green)"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <circle cx="200" cy="16" r="4" fill="var(--xl-green)" />
-          </svg>
-          <span class="value-card__spark-meta"><span class="value-card__up">▲ %18</span> NET · 7 AY</span>
-        </div>
-        <p class="value-card__text">Trend satır içi grafikle; ayrı grafik sayfası gerekmez.</p>
-      </li>
-
-      <li class="value-card">
-        <span class="value-card__code">CF-03 · İKON SETLERİ</span>
-        <h3 class="value-card__title">Yön Göstergeleri</h3>
-        <div class="value-card__viz value-card__viz--icons" aria-hidden="true">
-          <span class="value-card__icon-row"><span>Brüt Kâr</span><b class="value-card__up">▲ %24</b></span>
-          <span class="value-card__icon-row"><span>Stok Devri</span><b class="value-card__flat">→ 4,2</b></span>
-          <span class="value-card__icon-row"><span>Fire</span><b class="value-card__down">▼ %1,8</b></span>
-          <span class="value-card__icon-row"><span>Tahsilat</span><b class="value-card__up">▲ %96</b></span>
-        </div>
-        <p class="value-card__text">Artış, düşüş ve sabit durum ikonlarla ayrışır.</p>
-      </li>
-
-      <li class="value-card">
-        <span class="value-card__code">CF-04 · RENK ÖLÇEĞİ</span>
-        <h3 class="value-card__title">Isı Haritası</h3>
-        <div class="value-card__viz value-card__viz--heat" aria-hidden="true">
-          {
-            heatmap.map((alpha, index) => (
-              <span
-                class="value-card__heat-cell"
-                style={`--a:${alpha};--d:${0.3 + index * 0.05}s`}
-              ></span>
-            ))
-          }
-        </div>
-        <p class="value-card__text">Renk yoğunluğu ile riskli alanlar öne çıkar.</p>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </section>
 
+<script>
+  document.querySelectorAll<HTMLElement>('[data-value-lab]').forEach((root) => {
+    const controls = [...root.querySelectorAll<HTMLButtonElement>('[data-lab-control]')];
+    const details = [...root.querySelectorAll<HTMLElement>('[data-lab-detail]')];
+    const activate = (key: string) => {
+      root.dataset.active = key;
+      controls.forEach((control) => {
+        const on = control.dataset.labControl === key;
+        control.classList.toggle('is-active', on);
+        control.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      details.forEach((detail) => {
+        const on = detail.dataset.labDetail === key;
+        detail.classList.toggle('is-active', on);
+        detail.hidden = !on;
+      });
+    };
+    controls.forEach((control) => control.addEventListener('click', () => activate(control.dataset.labControl ?? 'bars')));
+  });
+</script>
+
 <style>
-  .value-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .value-grid > * {
-    min-width: 0;
-  }
-  .value-card {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-height: 180px;
-    padding: 20px;
-    border: 1px solid var(--xl-border);
-    border-radius: 18px;
-    background: #fff;
-  }
-  .value-card__code {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--xl-green);
-    letter-spacing: 0.04em;
-  }
-  .value-card__title {
-    margin: 0;
-    font-family: var(--font-body);
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--xl-ink-900);
-  }
-  .value-card__text {
-    margin: auto 0 0;
-    font-size: 12px;
-    line-height: 1.55;
-    color: var(--xl-ink-3);
-  }
-  .value-card__viz {
-    margin: 4px 0 8px;
-  }
-  .value-card__viz--bars {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .value-card__bar-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--xl-ink-3);
-  }
-  .value-card__bar-label {
-    width: 26px;
-    flex-shrink: 0;
-  }
-  .value-card__bar-track {
-    flex: 1;
-    height: 10px;
-    border-radius: 5px;
-    background: var(--xl-paper);
-    overflow: hidden;
-  }
-  .value-card__bar-fill {
-    display: block;
-    height: 100%;
-    width: var(--w);
-    border-radius: 5px;
-    background: var(--xl-green);
-    animation: bar-grow 0.8s var(--ease-out) both;
-  }
-  .value-card__bar-val {
-    width: 22px;
-    text-align: right;
-  }
-  @keyframes bar-grow {
-    from {
-      width: 0;
-    }
-  }
-  .value-card__spark {
-    width: 100%;
-    height: 60px;
-  }
-  .value-card__spark-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 6px;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--xl-ink-3);
-  }
-  .value-card__viz--icons {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 10px;
-  }
-  .value-card__icon-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 5px 9px;
-    border-radius: 7px;
-    background: var(--xl-paper);
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    color: var(--xl-ink-3);
-  }
-  .value-card__up {
-    color: var(--xl-green-dark);
-    font-weight: 700;
-  }
-  .value-card__flat {
-    color: var(--xl-ink-3);
-    font-weight: 700;
-  }
-  .value-card__down {
-    color: var(--xl-cf-red-ink, #9c0006);
-    font-weight: 700;
-  }
-  .value-card__viz--heat {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 5px;
-    margin-bottom: 10px;
-  }
-  .value-card__heat-cell {
-    aspect-ratio: 1;
-    border-radius: 5px;
-    background: color-mix(in srgb, var(--xl-green) calc(var(--a) * 100%), var(--xl-paper));
-    animation: heat-fade 0.6s ease-out both;
-    animation-delay: var(--d);
-  }
-  @keyframes heat-fade {
-    from {
-      opacity: 0.2;
-    }
-  }
-  @media (max-width: 1024px) {
-    .value-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-  @media (max-width: 680px) {
-    .value-grid {
-      grid-template-columns: 1fr;
-    }
-  }
+  .workbook-lab { padding-block:clamp(76px,8vw,112px); background:#fff; border-bottom:1px solid var(--xl-grid); }
+  .workbook-lab__head { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr); gap:56px; align-items:end; margin-bottom:32px; }
+  .workbook-lab__head h2 { max-width:760px; margin:10px 0 0; font-family:var(--font-display); font-size:clamp(38px,4.5vw,62px); line-height:.98; letter-spacing:-.045em; color:var(--xl-ink-900); }.workbook-lab__head h2 em{color:var(--xl-green);font-style:normal}.workbook-lab__head>p{margin:0;font-size:14px;line-height:1.7;color:var(--xl-ink-3)}
+  .workbook-lab__stage { display:grid; grid-template-columns:220px minmax(0,1fr); gap:18px; align-items:stretch; }
+  .workbook-lab__controls { display:flex; flex-direction:column; gap:8px; }
+  .lab-control { appearance:none; display:flex; flex-direction:column; align-items:flex-start; gap:4px; width:100%; padding:15px 16px; border:1px solid var(--xl-border); border-radius:15px; background:#f8f9f7; text-align:left; cursor:pointer; transition:background 160ms ease,border-color 160ms ease,transform 160ms ease; }.lab-control:hover{transform:translateX(2px);border-color:var(--xl-accent-border)}.lab-control.is-active{background:#eaf5ee;border-color:#89c6a1}.lab-control span{font-family:var(--font-mono);font-size:8.5px;font-weight:700;color:var(--xl-green)}.lab-control strong{font-size:13px;color:var(--xl-ink-900)}
+  .workbook-lab__canvas { position:relative; min-width:0; display:grid; grid-template-columns:minmax(0,1fr) 260px; gap:16px; padding:20px; border:1px solid #d8e2db; border-radius:26px; background:linear-gradient(145deg,#f2f7f3,#f8faf8); overflow:hidden; }
+  .lab-window { position:relative; overflow:hidden; min-width:0; border:1px solid #cfd9d1; border-radius:17px; background:#fff; box-shadow:0 20px 52px rgba(32,66,46,.12); }
+  .lab-window__chrome { display:flex; align-items:center; gap:5px; min-height:34px; padding:0 10px; border-bottom:1px solid #dde4df; background:#edf1ee; font-family:var(--font-mono); font-size:7px; color:#748077; }.lab-window__chrome>span{font-size:8px}.lab-window__chrome>span:nth-child(1){color:#e96c65}.lab-window__chrome>span:nth-child(2){color:#eab84c}.lab-window__chrome>span:nth-child(3){color:#4bb56a}.lab-window__chrome b{margin-left:6px;font-weight:500}.lab-window__chrome em{margin-left:auto;padding:3px 6px;border-radius:5px;background:#dff2e6;color:#0d7540;font-style:normal;font-weight:700}
+  .lab-window__formula { display:flex; align-items:center; gap:9px; min-height:34px; padding:0 11px; border-bottom:1px solid #e1e7e2; font-family:var(--font-mono); font-size:8px; }.lab-window__formula b{color:#0e7840}.lab-window__formula code{color:#526159}
+  .lab-sheet { display:grid; grid-template-columns:28px 1.2fr repeat(4,1fr); grid-auto-rows:48px; min-width:580px; color:#34443a; }
+  .lab-sheet__corner,.lab-sheet__col,.lab-sheet__rowhead,.lab-cell{border-right:1px solid #e2e7e3;border-bottom:1px solid #e2e7e3}.lab-sheet__corner,.lab-sheet__col,.lab-sheet__rowhead{display:grid;place-items:center;background:#f4f5f4;font-family:var(--font-mono);font-size:7.5px;color:#77837b}.lab-cell{position:relative;display:flex;align-items:center;padding:0 10px;font-family:var(--font-mono);font-size:8px;background:#fff}.lab-cell.is-head{background:#f7f8f7;font-weight:700;color:#5d6c63}.lab-bars{justify-content:flex-end;overflow:hidden}.lab-bars i{position:absolute;left:5px;right:auto;width:var(--w);max-width:calc(100% - 10px);height:18px;border-radius:4px;background:#c9e9d5}.lab-bars span{position:relative;z-index:1}.lab-spark{color:#158249;padding:4px 12px}.lab-spark svg{width:100%;height:100%}.lab-icons{justify-content:center;gap:4px;color:#0c7a40}.lab-icons.is-down{color:#9e1c24}.lab-heat{padding:0}.lab-heat.is-h1{background:#edf7f0}.lab-heat.is-h2{background:#cfe9d8}.lab-heat.is-h3{background:#91cfa7}.lab-heat.is-h4{background:#4cac70}
+  .lab-highlight { position:absolute; pointer-events:none; border:2px solid #16864b; border-radius:5px; box-shadow:0 0 0 4px rgba(22,134,75,.08); opacity:0; transition:opacity 180ms ease; }.lab-highlight--bars{left:calc(28px + 20%);right:0;top:calc(68px + 48px);height:48px}.lab-highlight--spark{left:calc(28px + 20%);right:0;top:calc(68px + 96px);height:48px}.lab-highlight--icons{left:calc(28px + 20%);right:0;top:calc(68px + 144px);height:48px}.lab-highlight--heat{left:calc(28px + 20%);right:0;top:calc(68px + 192px);height:48px}
+  [data-active="bars"] .lab-highlight--bars,[data-active="spark"] .lab-highlight--spark,[data-active="icons"] .lab-highlight--icons,[data-active="heat"] .lab-highlight--heat{opacity:1}
+  .workbook-lab__detail { align-self:stretch; display:flex; min-width:0; }.lab-detail{display:flex;flex-direction:column;width:100%;padding:22px;border-radius:18px;background:#0c5a30;color:#fff;animation:lab-in .22s ease-out both}.lab-detail>span{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.08em;color:#8ee4b0}.lab-detail>strong{margin-top:auto;font-size:21px;line-height:1.08}.lab-detail>p{margin:10px 0 0;font-size:11.5px;line-height:1.55;color:rgba(255,255,255,.72)}@keyframes lab-in{from{opacity:0;transform:translateY(5px)}}
+  @media(max-width:980px){.workbook-lab__stage{grid-template-columns:1fr}.workbook-lab__controls{display:grid;grid-template-columns:repeat(4,1fr)}.lab-control{padding:11px}.workbook-lab__canvas{grid-template-columns:1fr}.workbook-lab__detail{min-height:150px}.lab-detail>strong{margin-top:20px}}
+  @media(max-width:680px){.workbook-lab{padding-block:48px}.workbook-lab__head{grid-template-columns:1fr;gap:12px;margin-bottom:20px}.workbook-lab__head h2{font-size:35px}.workbook-lab__head>p{font-size:12.5px;line-height:1.55}.workbook-lab__controls{display:flex;flex-direction:row;overflow-x:auto;gap:7px;padding-bottom:3px;scrollbar-width:none}.workbook-lab__controls::-webkit-scrollbar{display:none}.lab-control{flex:0 0 auto;width:auto;min-width:126px;padding:10px 12px}.lab-control strong{font-size:11px}.workbook-lab__canvas{padding:10px;border-radius:18px;overflow:hidden}.lab-window{border-radius:12px;overflow:auto}.lab-sheet{min-width:520px;grid-auto-rows:42px}.lab-highlight{display:none}.workbook-lab__detail{min-height:118px}.lab-detail{padding:16px;border-radius:14px}.lab-detail>strong{margin-top:12px;font-size:18px}.lab-detail>p{font-size:10.5px}}
+  @media(prefers-reduced-motion:reduce){.lab-control,.lab-detail{transition:none;animation:none}}
 </style>

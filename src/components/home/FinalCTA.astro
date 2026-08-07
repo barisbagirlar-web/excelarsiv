@@ -1,151 +1,52 @@
 ---
-const signals = [
-  { label: 'VUK', note: 'uyumlu şablonlar' },
-  { label: 'TFRS', note: 'uyumlu yapılar' },
-  { label: 'Shopier', note: 'güvenli ödeme' },
-];
+import { getCollection } from 'astro:content';
+
+const modules = ['Kasa ve nakit kontrolü', '13 haftalık nakit akışı', 'Cari ve tahsilat takibi', 'Banka / kredi / taksit', 'Çek–senet ve vade riski', 'Dönem sonu karşılıklar', 'Patron finans paneli'];
+const templates = await getCollection('templates');
+const packageEntry = templates.find((entry) => entry.id === 'kobi-finans-yonetim-paketi');
+const packagePrice = packageEntry?.data.priceTL.toLocaleString('tr-TR') ?? '7.900';
+const packageHref = packageEntry ? `/sablon/${packageEntry.id}` : '/paketler';
 ---
 
-<section class="final-cta" aria-labelledby="final-cta-title">
+<section class="premium-close" aria-labelledby="final-cta-title">
   <div class="site-container">
-    <div class="final-cta__card">
-      <span class="final-cta__kicker">BAŞLANGIÇ</span>
-      <h2 id="final-cta-title" class="final-cta__title">
-        Doğru dosya, işinizi <em>taşır</em>.
-      </h2>
-      <p class="final-cta__lead">
-        Katalogdan şablon seçin, demo ile inceleyin, Shopier üzerinden tek seferde ödeyin — dosya
-        e-postanıza gelsin.
-      </p>
-      <div class="final-cta__actions">
-        <a class="final-cta__btn" href="/sablonlar">
-          Şablonları İncele <span aria-hidden="true">→</span>
-        </a>
+    <div class="premium-close__shell">
+      <div class="premium-close__copy">
+        <span class="premium-close__kicker">TEK DOSYA DEĞİL, BÜTÜN DÜZEN</span>
+        <h2 id="final-cta-title">Finans işlerinizi parça parça kurmak yerine <em>hazır bir sistem ailesiyle</em> başlayın.</h2>
+        <p>Tek bir ihtiyacınız varsa bireysel sistemi seçin. Kasa, nakit, cari, banka ve yönetim raporlamasını birlikte yürütmek istiyorsanız paket yapısını inceleyin.</p>
+        <div class="premium-close__actions">
+          <a class="premium-close__primary" href={packageHref}>KOBİ Finans Paketini İncele <span aria-hidden="true">→</span></a>
+          <a class="premium-close__secondary" href="/sablonlar">Tekil sistemler</a>
+        </div>
+        <div class="premium-close__signals">
+          <span>✓ Satın almadan önce demo</span><span>✓ KDV dahil fiyat</span><span>✓ Shopier ile ödeme</span>
+        </div>
       </div>
-      <a class="final-cta__link" href="/nasil-calisir">Nasıl çalıştığını öğrenin</a>
-      <ul class="final-cta__signals">
-        {
-          signals.map((signal) => (
-            <li class="final-cta__signal">
-              <span class="final-cta__signal-dot" aria-hidden="true"></span>
-              <span>
-                <b class="final-cta__signal-label">{signal.label}</b> {signal.note}
-              </span>
-            </li>
-          ))
-        }
-      </ul>
+
+      <aside class="premium-close__package" aria-label="KOBİ Finans Yönetim Paketi kapsamı">
+        <div class="package-preview__top">
+          <span>KOBİ FİNANS YÖNETİM PAKETİ</span>
+          <b>Excel Arşiv</b>
+        </div>
+        <div class="package-preview__headline">Birbirinden kopuk dosyalar yerine aynı çalışma mantığında sistem ailesi.</div>
+        <div class="package-preview__price"><strong>{packagePrice} TL</strong><span>KDV dahil · tek ödeme</span></div>
+        <ul>
+          {modules.map((module, index) => <li><span>{String(index + 1).padStart(2, '0')}</span><b>{module}</b><i>✓</i></li>)}
+        </ul>
+        <a class="package-preview__bottom" href={packageHref}><span>Demo → İncele → Karar ver</span><strong>Paketi Gör ↗</strong></a>
+      </aside>
     </div>
   </div>
 </section>
 
 <style>
-  .final-cta {
-    margin-bottom: 48px;
-  }
-  .final-cta__card {
-    min-height: 240px;
-    padding: 44px 48px;
-    background:
-      radial-gradient(700px 280px at 50% -60px, rgba(16, 124, 65, 0.12), transparent 70%),
-      var(--xl-paper);
-    border: 1px solid var(--xl-grid);
-    border-radius: 22px;
-    display: grid;
-    place-items: center;
-  }
-  .final-cta__inner {
-    width: 100%;
-    max-width: 720px;
-    margin-inline: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  .final-cta__kicker {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: var(--xl-green);
-  }
-  .final-cta__title {
-    margin: 12px 0 0;
-    font-family: var(--font-display);
-    font-size: clamp(32px, 3vw, 44px);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
-    color: var(--xl-ink-900);
-  }
-  .final-cta__title em {
-    color: var(--xl-green);
-    font-style: normal;
-  }
-  .final-cta__lead {
-    max-width: 560px;
-    margin: 12px 0 0;
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--xl-ink-3);
-  }
-  .final-cta__actions {
-    margin-top: 20px;
-  }
-  .final-cta__btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    height: 46px;
-    padding-inline: 18px;
-    border-radius: 12px;
-    background: var(--xl-green);
-    color: #fff;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 700;
-    text-decoration: none;
-    transition: background 150ms ease-out;
-  }
-  .final-cta__btn:hover {
-    background: var(--xl-accent-dark);
-  }
-  .final-cta__link {
-    margin-top: 14px;
-    font-family: var(--font-mono);
-    font-size: 12.5px;
-    color: var(--xl-ink-3);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-  .final-cta__link:hover {
-    color: var(--xl-green-dark);
-  }
-  .final-cta__signals {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px 28px;
-    margin: 24px 0 0;
-    padding: 0;
-    list-style: none;
-  }
-  .final-cta__signal {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-mono);
-    font-size: 11.5px;
-    color: var(--xl-ink-3);
-  }
-  .final-cta__signal-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--xl-green);
-  }
-  .final-cta__signal-label {
-    color: var(--xl-green-dark);
-  }
+  .premium-close { padding-block:clamp(70px,8vw,108px); background:#fff; }
+  .premium-close__shell { display:grid; grid-template-columns:minmax(0,1.02fr) minmax(420px,.98fr); gap:60px; align-items:center; padding:clamp(38px,5vw,66px); overflow:hidden; border-radius:30px; background:linear-gradient(135deg,#10251b 0%,#0b3b28 55%,#0a5a34 100%); box-shadow:0 28px 72px rgba(19,55,35,.17); color:#fff; }
+  .premium-close__copy { min-width:0; }.premium-close__kicker{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.12em;color:#89e2ad}.premium-close h2{max-width:680px;margin:13px 0 0;font-family:var(--font-display);font-size:clamp(38px,4.6vw,62px);line-height:.98;letter-spacing:-.045em;color:#fff}.premium-close h2 em{font-style:normal;color:#87e2ad}.premium-close__copy>p{max-width:620px;margin:18px 0 0;font-size:14px;line-height:1.7;color:rgba(241,255,247,.72)}
+  .premium-close__actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:26px}.premium-close__primary,.premium-close__secondary{display:inline-flex;align-items:center;justify-content:center;min-height:46px;border-radius:13px;font-family:var(--font-mono);font-size:10.5px;font-weight:700;text-decoration:none}.premium-close__primary{gap:7px;padding:0 17px;background:#fff;color:#0b5f35}.premium-close__secondary{padding:0 15px;border:1px solid rgba(255,255,255,.24);color:#dff7e8;background:rgba(255,255,255,.04)}
+  .premium-close__signals{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:20px;font-family:var(--font-mono);font-size:8.5px;color:rgba(235,255,243,.62)}
+  .premium-close__package{overflow:hidden;border:1px solid rgba(255,255,255,.15);border-radius:22px;background:#f8fbf9;color:#14261c;box-shadow:0 26px 60px rgba(0,0,0,.22);transform:rotate(1.3deg)}.package-preview__top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;padding:0 16px;border-bottom:1px solid #dfe7e1;background:#edf4ef;font-family:var(--font-mono);font-size:8px;color:#5f6e65}.package-preview__top span{font-weight:700;color:#0d7140}.package-preview__top b{font-weight:700}.package-preview__headline{padding:20px 18px 10px;font-size:19px;font-weight:700;line-height:1.16;letter-spacing:-.02em}.package-preview__price{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:0 18px 14px}.package-preview__price strong{font-family:var(--font-mono);font-size:28px;letter-spacing:-.04em;color:#0b5e35}.package-preview__price span{padding-bottom:3px;font-family:var(--font-mono);font-size:8px;color:#6c796f}.premium-close__package ul{margin:0;padding:0 14px 14px;list-style:none}.premium-close__package li{display:grid;grid-template-columns:30px 1fr 20px;gap:8px;align-items:center;min-height:38px;border-bottom:1px solid #e7ece8;font-size:10px}.premium-close__package li:last-child{border-bottom:0}.premium-close__package li>span{font-family:var(--font-mono);font-size:8px;color:#829087}.premium-close__package li>b{font-weight:600}.premium-close__package li>i{font-style:normal;color:#0e7a42}.package-preview__bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:#edf5f0;border-top:1px solid #dfe7e1;font-family:var(--font-mono);font-size:8px;color:#64736a;text-decoration:none}.package-preview__bottom strong{color:#0d6f3e}
+  @media(max-width:980px){.premium-close__shell{grid-template-columns:1fr;gap:34px}.premium-close__package{transform:none;max-width:650px}}
+  @media(max-width:640px){.premium-close{padding-block:46px}.premium-close__shell{padding:28px 20px;border-radius:22px;gap:26px}.premium-close h2{font-size:35px}.premium-close__copy>p{font-size:12.5px;line-height:1.55}.premium-close__actions{margin-top:20px}.premium-close__primary,.premium-close__secondary{min-height:42px;font-size:9.5px}.premium-close__signals{font-size:7.8px}.premium-close__package{border-radius:16px}.package-preview__headline{font-size:16px;padding:16px 14px 8px}.package-preview__price{padding:0 14px 11px}.package-preview__price strong{font-size:24px}.premium-close__package ul{padding-inline:10px}.premium-close__package li{grid-template-columns:26px 1fr 16px;min-height:34px;font-size:9px}.package-preview__bottom{padding:11px 12px;flex-direction:column;align-items:flex-start;gap:5px}}
 </style>

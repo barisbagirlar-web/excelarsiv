@@ -10,129 +10,84 @@ const icons: Record<string, string> = {
   'satis-ve-fiyatlama': 'M3 7h18l-3 5 3 5H3l3-5-3-5z',
   'personel-ve-bordro': 'M4 21a7 7 0 0 1 14 0M11 4a4 4 0 1 1 0 8 4 4 0 0 1 0-8z',
 };
+
+const meta: Record<string, { signal: string; tint: string; className: string }> = {
+  'finansal-analiz': { signal: 'oran · trend · kârlılık', tint: '#edf7f1', className: 'is-hero' },
+  'nakit-akisi': { signal: 'giriş · çıkış · vade', tint: '#eef5fa', className: '' },
+  'muhasebe-ve-vergi': { signal: 'kayıt · kontrol · vergi', tint: '#f8f3e9', className: '' },
+  'butce-ve-planlama': { signal: 'hedef · sapma · senaryo', tint: '#f0f4ef', className: 'is-wide' },
+  'stok-ve-uretim': { signal: 'miktar · devir · hareket', tint: '#f3f0f8', className: '' },
+  'satis-ve-fiyatlama': { signal: 'fiyat · marj · satış', tint: '#fbf2e8', className: '' },
+  'personel-ve-bordro': { signal: 'bordro · maliyet · dönem', tint: '#edf5f4', className: 'is-wide' },
+};
 ---
 
-<section class="site-section category-section" aria-labelledby="category-title">
+<section class="category-atlas" aria-labelledby="category-title">
   <div class="site-container">
-    <div class="section-head category-head">
-      <span class="section-head__kicker">KATEGORİLER</span>
-      <h2 id="category-title" class="section-head__title">İhtiyacınıza göre seçin</h2>
-      <p class="section-head__lead">Finans, muhasebe ve operasyon ihtiyaçlarınıza uygun hazır Excel sistemlerine gidin.</p>
+    <div class="category-atlas__head">
+      <div>
+        <span class="section-head__kicker">İHTİYACA GÖRE KEŞİF</span>
+        <h2 id="category-title">İşiniz hangi tarafta sıkışıyorsa, <em>oradan başlayın.</em></h2>
+      </div>
+      <p>Her kategori farklı bir iş problemine odaklanır. Aynı tasarımı çoğaltmak yerine, ihtiyacın karakterine göre farklı sistemler sunulur.</p>
     </div>
-    <ul class="category-grid">
-      {
-        categories.map((category) => (
-          <li>
-            <a class="category-card" href={`/sablonlar/${category.slug}`}>
-              <span class="category-card__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                  <path d={icons[category.slug] ?? ''} />
-                </svg>
-              </span>
-              <span class="category-card__name">{category.name}</span>
-              <span class="category-card__desc">{category.description}</span>
-              <span class="category-card__arrow" aria-hidden="true">→</span>
+
+    <ul class="category-atlas__grid">
+      {categories.map((category) => {
+        const info = meta[category.slug];
+        return (
+          <li class={info?.className ?? ''}>
+            <a class="atlas-card" href={`/sablonlar/${category.slug}`} style={`--atlas-tint:${info?.tint ?? '#f5f7f5'}`}>
+              <div class="atlas-card__top">
+                <span class="atlas-card__icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={icons[category.slug] ?? ''} /></svg>
+                </span>
+                <span class="atlas-card__arrow" aria-hidden="true">↗</span>
+              </div>
+              <div class="atlas-card__body">
+                <span class="atlas-card__signal">{info?.signal}</span>
+                <h3>{category.name}</h3>
+                <p>{category.description}</p>
+              </div>
+              <div class="atlas-card__micro" aria-hidden="true">
+                {category.slug === 'finansal-analiz' && <><i style="height:34%"></i><i style="height:52%"></i><i style="height:46%"></i><i style="height:72%"></i><i style="height:63%"></i><i style="height:88%"></i></>}
+                {category.slug === 'nakit-akisi' && <svg viewBox="0 0 160 48" preserveAspectRatio="none"><polyline points="0,36 24,30 48,34 72,19 96,25 120,13 160,8" fill="none" stroke="currentColor" stroke-width="2.5"/></svg>}
+                {category.slug === 'muhasebe-ve-vergi' && <><span></span><span></span><span></span></>}
+                {category.slug === 'butce-ve-planlama' && <div class="atlas-target"><span></span></div>}
+                {category.slug === 'stok-ve-uretim' && <><b>64</b><b>82</b><b>47</b></>}
+                {category.slug === 'satis-ve-fiyatlama' && <><em>%18</em><em>%24</em><em>%31</em></>}
+                {category.slug === 'personel-ve-bordro' && <><u></u><u></u><u></u><u></u></>}
+              </div>
             </a>
           </li>
-        ))
-      }
+        );
+      })}
     </ul>
   </div>
 </section>
 
 <style>
-  .category-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .category-grid > * { min-width: 0; }
-  .category-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    min-height: 164px;
-    height: 100%;
-    padding: 20px;
-    border: 1px solid var(--xl-border);
-    border-radius: 18px;
-    background: linear-gradient(155deg, #fff 0%, #fff 70%, rgba(233, 245, 238, 0.7) 100%);
-    text-decoration: none;
-    overflow: hidden;
-    transition: border-color 150ms ease-out, transform 150ms ease-out, box-shadow 150ms ease-out;
-  }
-  .category-card::after {
-    content: '';
-    position: absolute;
-    right: -26px;
-    bottom: -28px;
-    width: 88px;
-    height: 88px;
-    border-radius: 50%;
-    background: rgba(16, 124, 65, 0.045);
-  }
-  .category-card:hover {
-    border-color: var(--xl-accent-border);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(24, 55, 38, 0.08);
-  }
-  .category-card__icon {
-    display: inline-grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 13px;
-    background: var(--xl-accent-soft);
-    color: var(--xl-green-dark);
-  }
-  .category-card__icon svg {
-    width: 20px;
-    height: 20px;
-  }
-  .category-card__name {
-    margin-top: 15px;
-    font-family: var(--font-body);
-    font-size: 17px;
-    font-weight: 700;
-    line-height: 1.2;
-    color: var(--xl-ink-900);
-  }
-  .category-card__desc {
-    margin-top: 8px;
-    max-width: 92%;
-    font-size: 12px;
-    line-height: 1.55;
-    color: var(--xl-ink-3);
-  }
-  .category-card__arrow {
-    margin-top: auto;
-    padding-top: 14px;
-    font-size: 11px;
-    color: var(--xl-ink-3);
-  }
-
-  @media (max-width: 1024px) {
-    .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
-  @media (max-width: 560px) {
-    .category-section { padding-block: 40px; }
-    .category-head { margin-bottom: 22px; }
-    .category-head :global(.section-head__title) { font-size: 29px; line-height: 1.04; }
-    .category-head :global(.section-head__lead) { font-size: 13.5px; line-height: 1.5; }
-    .category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-    .category-card { min-height: 126px; padding: 14px; border-radius: 15px; }
-    .category-card__icon { width: 36px; height: 36px; margin-bottom: 10px; border-radius: 11px; }
-    .category-card__icon svg { width: 18px; height: 18px; }
-    .category-card__name { font-size: 13.5px; }
-    .category-card__desc { display: none; }
-    .category-card__arrow { padding-top: 8px; font-size: 14px; }
-    .category-grid li:last-child:nth-child(odd) { grid-column: 1 / -1; }
-    .category-grid li:last-child:nth-child(odd) .category-card { min-height: 94px; flex-direction: row; align-items: center; gap: 12px; }
-    .category-grid li:last-child:nth-child(odd) .category-card__icon { margin: 0; }
-    .category-grid li:last-child:nth-child(odd) .category-card__arrow { margin-left: auto; margin-top: 0; padding: 0; }
-  }
+  .category-atlas { padding-block:clamp(72px,8vw,108px); background:#f7f8f6; border-bottom:1px solid var(--xl-grid); }
+  .category-atlas__head { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(300px,.7fr); gap:52px; align-items:end; margin-bottom:34px; }
+  .category-atlas__head h2 { max-width:760px; margin:10px 0 0; font-family:var(--font-display); font-size:clamp(38px,4.6vw,64px); line-height:.98; letter-spacing:-.045em; color:var(--xl-ink-900); }
+  .category-atlas__head h2 em { color:var(--xl-green); font-style:normal; }
+  .category-atlas__head>p { margin:0; font-size:14px; line-height:1.7; color:var(--xl-ink-3); }
+  .category-atlas__grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); grid-auto-rows:190px; gap:14px; margin:0; padding:0; list-style:none; }
+  .category-atlas__grid>li { min-width:0; }
+  .category-atlas__grid>li.is-hero { grid-column:span 2; grid-row:span 2; }
+  .category-atlas__grid>li.is-wide { grid-column:span 2; }
+  .atlas-card { position:relative; display:flex; flex-direction:column; height:100%; overflow:hidden; padding:20px; border:1px solid rgba(55,76,63,.12); border-radius:24px; background:var(--atlas-tint); text-decoration:none; color:var(--xl-ink-900); transition:transform 180ms ease,box-shadow 180ms ease,border-color 180ms ease; }
+  .atlas-card:hover { transform:translateY(-3px); border-color:rgba(16,124,65,.25); box-shadow:0 18px 44px rgba(31,64,44,.09); }
+  .atlas-card::after { content:''; position:absolute; width:180px; height:180px; border-radius:50%; right:-90px; bottom:-100px; background:rgba(255,255,255,.48); }
+  .atlas-card__top { display:flex; align-items:center; justify-content:space-between; gap:16px; position:relative; z-index:2; }
+  .atlas-card__icon { display:grid; place-items:center; width:42px; height:42px; border-radius:14px; background:rgba(255,255,255,.7); color:var(--xl-green-dark); box-shadow:inset 0 0 0 1px rgba(16,124,65,.08); }.atlas-card__icon svg{width:20px;height:20px}
+  .atlas-card__arrow { display:grid; place-items:center; width:30px; height:30px; border-radius:50%; background:rgba(255,255,255,.7); color:#53665a; font-size:14px; }
+  .atlas-card__body { position:relative; z-index:2; margin-top:auto; max-width:88%; }
+  .atlas-card__signal { font-family:var(--font-mono); font-size:8.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase; color:#617168; }
+  .atlas-card h3 { margin:7px 0 0; font-size:19px; line-height:1.1; letter-spacing:-.02em; }.atlas-card p{margin:7px 0 0;font-size:11.5px;line-height:1.5;color:#66766d}
+  .category-atlas__grid>li.is-hero .atlas-card { padding:28px; }.category-atlas__grid>li.is-hero .atlas-card__icon{width:52px;height:52px;border-radius:17px}.category-atlas__grid>li.is-hero .atlas-card__icon svg{width:25px;height:25px}.category-atlas__grid>li.is-hero .atlas-card h3{font-size:34px}.category-atlas__grid>li.is-hero .atlas-card p{max-width:330px;font-size:13px}.category-atlas__grid>li.is-hero .atlas-card__signal{font-size:9.5px}
+  .atlas-card__micro { position:absolute; right:18px; bottom:18px; z-index:1; width:34%; height:74px; display:flex; align-items:flex-end; justify-content:flex-end; gap:5px; color:rgba(16,124,65,.42); opacity:.78; }.atlas-card__micro i{width:12%;min-width:8px;border-radius:4px 4px 1px 1px;background:currentColor}.atlas-card__micro svg{width:100%;height:100%}.atlas-card__micro>span{display:block;width:52px;height:8px;border-radius:6px;background:currentColor}.atlas-card__micro>span:nth-child(2){width:36px;opacity:.65}.atlas-card__micro>span:nth-child(3){width:22px;opacity:.4}.atlas-card__micro b{display:grid;place-items:center;width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.72);font-family:var(--font-mono);font-size:9px}.atlas-card__micro em{display:grid;place-items:center;width:42px;height:30px;border-radius:9px;background:rgba(255,255,255,.72);font-family:var(--font-mono);font-size:8px;font-style:normal}.atlas-card__micro u{width:12px;border-radius:3px 3px 0 0;background:currentColor;height:24px;text-decoration:none}.atlas-card__micro u:nth-child(2){height:42px;opacity:.7}.atlas-card__micro u:nth-child(3){height:30px;opacity:.5}.atlas-card__micro u:nth-child(4){height:56px;opacity:.9}.atlas-target{width:66px;height:66px;border:2px solid currentColor;border-radius:50%;display:grid;place-items:center}.atlas-target::before,.atlas-target::after{content:'';position:absolute;border:1px solid currentColor;border-radius:50%}.atlas-target::before{width:42px;height:42px}.atlas-target::after{width:18px;height:18px}.atlas-target span{width:5px;height:5px;border-radius:50%;background:currentColor}
+  .category-atlas__grid>li.is-hero .atlas-card__micro{width:42%;height:150px;right:30px;bottom:28px}.category-atlas__grid>li.is-hero .atlas-card__micro i{width:9%;border-radius:6px 6px 2px 2px}
+  @media(max-width:1000px){.category-atlas__grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:180px}.category-atlas__grid>li.is-hero{grid-column:span 2;grid-row:span 1}.category-atlas__grid>li.is-wide{grid-column:span 1}.category-atlas__grid>li.is-hero .atlas-card h3{font-size:26px}.category-atlas__grid>li.is-hero .atlas-card__micro{height:90px;width:32%}}
+  @media(max-width:640px){.category-atlas{padding-block:48px}.category-atlas__head{grid-template-columns:1fr;gap:14px;margin-bottom:22px}.category-atlas__head h2{font-size:35px}.category-atlas__head>p{font-size:12.5px;line-height:1.55}.category-atlas__grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:142px;gap:9px}.category-atlas__grid>li.is-hero{grid-column:span 2;grid-row:span 1}.category-atlas__grid>li.is-wide{grid-column:span 1}.atlas-card,.category-atlas__grid>li.is-hero .atlas-card{padding:14px;border-radius:17px}.atlas-card__icon,.category-atlas__grid>li.is-hero .atlas-card__icon{width:34px;height:34px;border-radius:11px}.atlas-card__icon svg,.category-atlas__grid>li.is-hero .atlas-card__icon svg{width:16px;height:16px}.atlas-card__arrow{width:24px;height:24px;font-size:11px}.atlas-card__signal{display:none}.atlas-card h3,.category-atlas__grid>li.is-hero .atlas-card h3{font-size:14px;max-width:85%}.atlas-card p,.category-atlas__grid>li.is-hero .atlas-card p{display:none}.atlas-card__micro{right:10px;bottom:10px;width:34%;height:48px}.category-atlas__grid>li.is-hero .atlas-card__micro{right:12px;bottom:10px;width:32%;height:54px}.category-atlas__grid>li:last-child:nth-child(odd){grid-column:1/-1}.category-atlas__grid>li:last-child:nth-child(odd) .atlas-card{min-height:104px}}
 </style>

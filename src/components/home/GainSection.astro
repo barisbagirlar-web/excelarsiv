@@ -1,147 +1,94 @@
 ---
-const metrics = [
-  {
-    label: 'Mutabakat',
-    before: '4 saat / ay',
-    after: '30 dk / ay',
-    gain: '×8 hız',
-  },
-  {
-    label: 'Rapor hazırlama',
-    before: '8 saat / ay',
-    after: '1 saat / ay',
-    gain: '×8 hız',
-  },
-  {
-    label: 'Hata riski',
-    before: 'Yüksek',
-    after: 'Düşük',
-    gain: 'Kontrollü',
-  },
-  {
-    label: 'Aylık toplam',
-    before: '12 saat / ay',
-    after: '1,5 saat / ay',
-    gain: '%87 tasarruf',
-  },
+const beforeItems = ['Son.xlsx', 'Son_Gerçek.xlsx', 'Rapor_v7.xlsx', 'manuel formül kontrolü'];
+const afterItems = [
+  { label: 'Girdi alanı', value: 'Kontrollü' },
+  { label: 'Hesaplama', value: 'Bağlı' },
+  { label: 'Uyarılar', value: 'Görünür' },
+  { label: 'Yönetim çıktısı', value: 'Hazır' },
 ];
 ---
 
-<section class="site-section" aria-labelledby="gain-title">
+<section class="before-after" aria-labelledby="gain-title" data-compare-root style="--split:50%">
   <div class="site-container">
-    <div class="section-head section-head--row">
+    <div class="before-after__head">
       <div>
-        <span class="section-head__kicker">ZAMAN VE KONTROL</span>
-        <h2 id="gain-title" class="section-head__title">Saatleriniz nereye gidiyor?</h2>
-        <p class="section-head__lead">
-          Aylık mutabakat ve raporlama yapan bir işletmede, hazır yapılı dosyalarla geçen sürenin değişimi.
-        </p>
+        <span class="section-head__kicker">DEĞER NEREDE OLUŞUYOR?</span>
+        <h2 id="gain-title">Bir Excel dosyasına değil, <em>tekrar kurmayacağınız düzene</em> ödeme yaparsınız.</h2>
       </div>
+      <p>Fiyatı yalnızca hücre sayısıyla değerlendirmek yanıltır. Asıl değer; girdi, hesap, kontrol ve raporlama düzeninin daha ilk günden kurulmuş olmasıdır.</p>
     </div>
-    <div class="gain-panel">
-      <table class="gain-table">
-        <thead>
-          <tr>
-            <th>Metrik</th>
-            <th>Mevcut durum</th>
-            <th>Excel Arşiv ile</th>
-            <th class="gain-table__gain-col">Kazanım</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            metrics.map((metric) => (
-              <tr>
-                <td class="gain-table__label">{metric.label}</td>
-                <td class="gain-table__before">{metric.before}</td>
-                <td class="gain-table__after">{metric.after}</td>
-                <td class="gain-table__gain">
-                  <span class="gain-table__gain-badge">{metric.gain}</span>
-                </td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-      <p class="gain-panel__note">
-        Örnek senaryo; süreler işletmenin büyüklüğüne göre değişir. Fark, dosya yapısının hazır gelmesidir:
-        formül, doğrulama ve rapor düzeni kurulu teslim edilir.
-      </p>
+
+    <div class="compare-stage">
+      <div class="compare-stage__labels" aria-hidden="true"><span>DAĞINIK ÇALIŞMA</span><span>KURULU SİSTEM</span></div>
+      <div class="compare-visual">
+        <div class="compare-side compare-side--before">
+          <div class="messy-desktop">
+            <div class="messy-window is-back"><span>Excel</span><b>Son_Gerçek.xlsx</b><small>=SUM(B2:B18)</small></div>
+            <div class="messy-window is-mid"><span>Excel</span><b>Rapor_v7.xlsx</b><small>#DEĞER!</small></div>
+            <div class="messy-window is-front">
+              <div class="messy-window__bar"><span></span><span></span><span></span><b>Son.xlsx</b></div>
+              <div class="messy-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="messy-warning">⚠ Formül kontrolü</div>
+            </div>
+          </div>
+          <ul class="compare-list compare-list--before">
+            {beforeItems.map((item) => <li><span>×</span>{item}</li>)}
+          </ul>
+        </div>
+
+        <div class="compare-side compare-side--after">
+          <div class="clean-system">
+            <div class="clean-system__top"><span>Excel Arşiv</span><b>Finans_Kontrol_Sistemi.xlsx</b><em>✓ Hazır</em></div>
+            <div class="clean-system__body">
+              <div class="clean-system__metrics"><span><small>Nakit</small><b>₺1,25M</b></span><span><small>Net</small><b>₺415K</b></span><span><small>Tahsilat</small><b>%92</b></span></div>
+              <svg viewBox="0 0 420 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 100 L50 92 L100 96 L150 70 L200 77 L250 54 L300 61 L350 32 L420 18" fill="none" stroke="#17864b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div class="clean-system__status"><span>Girdi ✓</span><span>Hesap ✓</span><span>Kontrol ✓</span><span>Çıktı ✓</span></div>
+            </div>
+          </div>
+          <ul class="compare-list compare-list--after">
+            {afterItems.map((item) => <li><span>✓</span><b>{item.label}</b><em>{item.value}</em></li>)}
+          </ul>
+        </div>
+
+        <div class="compare-mask" aria-hidden="true"></div>
+        <div class="compare-divider" aria-hidden="true"><span>↔</span></div>
+      </div>
+      <label class="compare-range-label" for="compare-range">Önce / sonra karşılaştırması</label>
+      <input id="compare-range" class="compare-range" type="range" min="18" max="82" value="50" data-compare-range />
+    </div>
+
+    <div class="value-proof-row">
+      <div><span>01</span><strong>Kurulum işi azalır</strong><p>Dosya yapısı, formül düzeni ve kontrol katmanları hazır gelir.</p></div>
+      <div><span>02</span><strong>Tekrar kullanılabilir</strong><p>Aynı işletme sürecini her dönem yeniden kurmak yerine mevcut sistemi güncellersiniz.</p></div>
+      <div><span>03</span><strong>Karar çıktısı görünür</strong><p>Ham satırlar yerine yönetimin okuyabileceği özet ve uyarılar öne çıkar.</p></div>
     </div>
   </div>
 </section>
 
+<script>
+  document.querySelectorAll<HTMLElement>('[data-compare-root]').forEach((root) => {
+    const range = root.querySelector<HTMLInputElement>('[data-compare-range]');
+    if (!range) return;
+    const update = () => root.style.setProperty('--split', `${range.value}%`);
+    range.addEventListener('input', update);
+    update();
+  });
+</script>
+
 <style>
-  .gain-panel {
-    border: 1px solid var(--xl-border);
-    border-radius: 20px;
-    background: #fff;
-    overflow: hidden;
-  }
-  .gain-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-  }
-  .gain-table th,
-  .gain-table td {
-    padding: 11px 16px;
-    text-align: left;
-    border-bottom: 1px solid var(--xl-grid);
-  }
-  .gain-table thead th {
-    background: var(--xl-paper);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--xl-ink-3);
-  }
-  .gain-table tbody tr:last-child td {
-    border-bottom: 0;
-  }
-  .gain-table__label {
-    font-weight: 700;
-    color: var(--xl-ink-900);
-  }
-  .gain-table__before {
-    font-family: var(--font-mono);
-    color: var(--xl-ink-3);
-  }
-  .gain-table__after {
-    font-family: var(--font-mono);
-    font-weight: 700;
-    color: var(--xl-ink-900);
-  }
-  .gain-table__gain-badge {
-    display: inline-flex;
-    align-items: center;
-    min-height: 26px;
-    padding: 0 10px;
-    border-radius: 999px;
-    background: var(--xl-accent-soft);
-    color: var(--xl-green-dark);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 700;
-  }
-  .gain-panel__note {
-    margin: 0;
-    padding: 14px 18px;
-    background: var(--xl-paper);
-    font-size: 12.5px;
-    line-height: 1.6;
-    color: var(--xl-ink-3);
-  }
-  @media (max-width: 680px) {
-    .gain-table th:nth-child(2),
-    .gain-table td:nth-child(2) {
-      display: none;
-    }
-    .gain-table th,
-    .gain-table td {
-      padding: 12px 14px;
-    }
-  }
+  .before-after { padding-block:clamp(78px,9vw,120px); background:#f2f0eb; border-bottom:1px solid #ddd9d0; }
+  .before-after__head { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr); gap:52px; align-items:end; margin-bottom:34px; }.before-after__head h2{max-width:820px;margin:10px 0 0;font-family:var(--font-display);font-size:clamp(38px,4.8vw,66px);line-height:.98;letter-spacing:-.045em;color:#1e221f}.before-after__head h2 em{font-style:normal;color:#0f7b43}.before-after__head>p{margin:0;font-size:14px;line-height:1.7;color:#687069}
+  .compare-stage { position:relative; padding:18px; border:1px solid #d5d1c8; border-radius:28px; background:#fffdf9; box-shadow:0 26px 60px rgba(66,57,42,.08); }
+  .compare-stage__labels { display:flex; justify-content:space-between; gap:16px; margin-bottom:12px; padding:0 8px; font-family:var(--font-mono); font-size:9px; font-weight:700; letter-spacing:.1em; color:#77766f; }
+  .compare-visual { position:relative; display:grid; grid-template-columns:1fr 1fr; min-height:480px; overflow:hidden; border:1px solid #ddd9d0; border-radius:20px; background:#f5f3ee; }
+  .compare-side { min-width:0; padding:34px; }.compare-side--before{background:#f4f0ea}.compare-side--after{background:#edf7f1}
+  .messy-desktop { position:relative; min-height:285px; }.messy-window{position:absolute;width:78%;min-height:190px;border:1px solid #d4cec3;border-radius:12px;background:#fff;box-shadow:0 16px 35px rgba(62,52,38,.11);font-family:var(--font-mono);font-size:9px;color:#6e6b65}.messy-window>span{display:block;padding:9px 12px;border-bottom:1px solid #e4e0da;color:#1a7844}.messy-window>b{display:block;padding:14px 12px 4px;color:#343a35}.messy-window>small{display:block;padding:4px 12px;color:#8a7160}.messy-window.is-back{left:14%;top:10px;transform:rotate(4deg);opacity:.62}.messy-window.is-mid{left:5%;top:52px;transform:rotate(-5deg);opacity:.8}.messy-window.is-front{left:12%;top:86px;min-height:205px;transform:rotate(-1deg);opacity:1;overflow:hidden}.messy-window__bar{display:flex;align-items:center;gap:5px;min-height:30px;padding:0 9px;background:#eeeae4;border-bottom:1px solid #ddd8cf}.messy-window__bar>span{width:6px;height:6px;border-radius:50%;background:#c8c0b5}.messy-window__bar>b{margin-left:6px;font-weight:500;color:#64635d}.messy-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:34px}.messy-grid i{border-right:1px solid #ece8e1;border-bottom:1px solid #ece8e1;background:#fff}.messy-grid i:nth-child(6),.messy-grid i:nth-child(11){background:#fff2ce}.messy-warning{position:absolute;right:10px;bottom:10px;padding:7px 9px;border-radius:7px;background:#fff0d7;color:#8d620d;font-size:8px}
+  .compare-list{display:grid;gap:7px;margin:18px 0 0;padding:0;list-style:none;font-family:var(--font-mono);font-size:9.5px}.compare-list li{display:flex;align-items:center;gap:8px;min-height:32px;padding:0 10px;border-radius:8px}.compare-list--before li{background:rgba(255,255,255,.62);color:#77716a}.compare-list--before span{color:#a14e4e;font-weight:700}.compare-list--after li{display:grid;grid-template-columns:18px 1fr auto;background:rgba(255,255,255,.72);color:#506157}.compare-list--after span{color:#0e7840;font-weight:800}.compare-list--after b{font-weight:600}.compare-list--after em{font-style:normal;color:#0e7840;font-weight:700}
+  .clean-system { min-height:285px; overflow:hidden; border:1px solid #c9dace; border-radius:16px; background:#fff; box-shadow:0 18px 42px rgba(31,73,47,.12); }.clean-system__top{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;min-height:36px;padding:0 12px;border-bottom:1px solid #e0e9e2;background:#f3f7f4;font-family:var(--font-mono);font-size:8px}.clean-system__top span{color:#0d7840;font-weight:700}.clean-system__top b{font-weight:500;color:#6b776f}.clean-system__top em{font-style:normal;padding:4px 7px;border-radius:5px;background:#daf1e3;color:#0d6e3b;font-weight:700}.clean-system__body{padding:17px}.clean-system__metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.clean-system__metrics span{display:flex;flex-direction:column;gap:4px;padding:9px;border:1px solid #e2e9e4;border-radius:9px;background:#fafcfb}.clean-system__metrics small{font-size:7px;color:#78847c}.clean-system__metrics b{font-family:var(--font-mono);font-size:12px}.clean-system svg{width:100%;height:120px;margin-top:12px}.clean-system__status{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.clean-system__status span{padding:6px;border-radius:7px;background:#e5f4ea;text-align:center;font-family:var(--font-mono);font-size:7px;color:#0c7440}
+  .compare-mask { position:absolute; inset:0 0 0 var(--split); pointer-events:none; background:rgba(255,255,255,.0); border-left:1px solid rgba(22,134,75,.22); }
+  .compare-divider { position:absolute; top:0; bottom:0; left:var(--split); width:2px; transform:translateX(-1px); background:#0f7d43; pointer-events:none; box-shadow:0 0 0 1px rgba(255,255,255,.55) }.compare-divider span{position:absolute;top:50%;left:50%;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;transform:translate(-50%,-50%);background:#0f7d43;color:#fff;font-family:var(--font-mono);font-size:12px;box-shadow:0 10px 25px rgba(15,125,67,.22)}
+  .compare-range-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.compare-range{display:block;width:min(460px,80%);margin:18px auto 2px;accent-color:#0f7d43}
+  .value-proof-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.value-proof-row>div{padding:18px;border-top:1px solid #d7d2c8}.value-proof-row span{font-family:var(--font-mono);font-size:9px;font-weight:700;color:#0f7d43}.value-proof-row strong{display:block;margin-top:6px;font-size:15px;color:#242925}.value-proof-row p{margin:6px 0 0;font-size:11.5px;line-height:1.55;color:#6b716c}
+  @media(max-width:900px){.compare-visual{min-height:430px}.compare-side{padding:24px}.messy-window{width:88%}.value-proof-row{grid-template-columns:1fr 1fr}.value-proof-row>div:last-child{grid-column:1/-1}}
+  @media(max-width:680px){.before-after{padding-block:50px}.before-after__head{grid-template-columns:1fr;gap:12px;margin-bottom:22px}.before-after__head h2{font-size:35px}.before-after__head>p{font-size:12.5px;line-height:1.55}.compare-stage{padding:10px;border-radius:19px}.compare-stage__labels{font-size:7px}.compare-visual{grid-template-columns:1fr;min-height:0;overflow:visible;border-radius:14px}.compare-side{padding:16px}.messy-desktop{min-height:230px}.messy-window{width:80%;min-height:155px}.messy-window.is-front{min-height:165px;top:66px}.messy-grid{grid-auto-rows:27px}.clean-system{min-height:230px}.clean-system svg{height:85px}.compare-mask,.compare-divider,.compare-range{display:none}.compare-list{margin-top:12px}.compare-side--after{border-top:1px solid #d9e4dc}.value-proof-row{grid-template-columns:1fr;gap:0;margin-top:14px}.value-proof-row>div:last-child{grid-column:auto}.value-proof-row>div{padding:14px 4px}}
 </style>

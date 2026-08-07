@@ -3,6 +3,7 @@ import CommerceLayout from '../layouts/CommerceLayout.astro';
 import HeroSection from '../components/home/HeroSection.astro';
 import TrustStrip from '../components/home/TrustStrip.astro';
 import FeaturedTemplates from '../components/home/FeaturedTemplates.astro';
+import CommandCenter from '../components/home/CommandCenter.astro';
 import CategorySection from '../components/home/CategorySection.astro';
 import ValueSection from '../components/home/ValueSection.astro';
 import GainSection from '../components/home/GainSection.astro';
@@ -17,11 +18,12 @@ const searchIndex = await getTemplateSearchIndex();
 
 <CommerceLayout
   title="Excel Şablonları ve İşletme Çözümleri | Excel Arşiv"
-  description="Kasa, nakit akışı, cari hesap, stok ve kârlılık işleriniz için hazır Excel dosyaları. Demo dosyayla inceleyin, Shopier ile ödeyin, e-postayla alın."
+  description="Kasa, nakit akışı, cari hesap, stok ve kârlılık işleriniz için hazır Excel sistemleri. Demo dosyayla inceleyin, Shopier ile ödeyin, e-postayla alın."
 >
   <HeroSection searchIndex={searchIndex} />
   <TrustStrip />
   <FeaturedTemplates templates={featuredTemplates} />
+  <CommandCenter />
   <CategorySection />
   <ValueSection />
   <GainSection />
