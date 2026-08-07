@@ -5,7 +5,7 @@ import SectionLabel from '../components/SectionLabel.astro';
 
 <CommerceLayout
   title="KVKK Aydınlatma Metni — Excel Arşiv"
-  description="6698 sayılı KVKK kapsamında veri sorumlusu sıfatıyla kişisel verilerin işlenmesine ilişkin aydınlatma metni."
+  description="6698 sayılı KVKK kapsamında Excel Arşiv satın alma, Proof Demo ve güvenli dijital teslimat süreçlerinde kişisel verilerin işlenmesine ilişkin aydınlatma metni."
 >
   <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
     <SectionLabel number={4} label="KVKK" />
@@ -14,6 +14,7 @@ import SectionLabel from '../components/SectionLabel.astro';
       6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında, veri sorumlusu sıfatıyla
       kişisel verilerinizin işlenmesine ilişkin aydınlatma.
     </p>
+    <p class="mt-3 text-xs text-ink-400">Sürüm: 07.08.2026-v2</p>
 
     <div class="mt-12 space-y-10">
       <section>
@@ -23,46 +24,77 @@ import SectionLabel from '../components/SectionLabel.astro';
           talepler barisbagirlar@gmail.com adresine iletilebilir.
         </p>
       </section>
+
       <section>
         <h2 class="h3">2 · İşlenen kişisel veriler</h2>
         <p class="body-sm mt-3">
-          Satın alma sürecinde işlenen veriler: ad soyad, e-posta adresi, ödeme durumu
-          bilgisi ve sipariş numarasıdır. Kredi kartı bilgileri site tarafından toplanmaz;
-          ödeme Shopier altyapısında işlenir.
+          Satın alma ve dijital teslimat sürecinde; e-posta adresi, ödeme/sipariş durumu,
+          siparişe ilişkin teknik eşleştirme bilgileri ve güvenlik kayıtları işlenebilir.
+          Kredi kartı bilgileri Excel Arşiv tarafından toplanmaz; ödeme Shopier altyapısında işlenir.
+        </p>
+        <p class="body-sm mt-3">
+          Proof Demo talebinde e-posta adresi talep anında doğrulama, kötüye kullanımın sınırlandırılması
+          ve kişiye özgü demo üretimi için kullanılır. Demo kayıtlarında ve Excel dosyasında ham e-posta
+          yerine SHA-256 tabanlı geri döndürülemez özet/parmak izi kullanılır. Ayrıca Demo ID, token kullanım
+          durumu, zaman damgası ve hız sınırı için gerekli teknik kayıtlar tutulabilir.
         </p>
       </section>
+
       <section>
         <h2 class="h3">3 · İşleme amaçları ve hukuki sebepler</h2>
         <p class="body-sm mt-3">
-          Veriler; siparişin tamamlanması, dijital ürünün teslimi, faturanın düzenlenmesi,
-          satış sonrası destek ve yasal yükümlülüklerin yerine getirilmesi amacıyla
-          işlenir. Hukuki sebepler: sözleşmenin kurulması ve ifası, hukuki yükümlülüğün
-          yerine getirilmesi.
+          Veriler; kullanıcının talep ettiği Proof Demo'nun oluşturulması ve güvenli teslimi, kötüye kullanımın
+          önlenmesi, siparişin tamamlanması, dijital ürünün teslimi, satış sonrası destek, bilgi güvenliği ve
+          yasal yükümlülüklerin yerine getirilmesi amaçlarıyla işlenir. Her veri işleme faaliyeti ilgili süreçte
+          uygulanabilir KVKK m.5 işleme şartına dayandırılır; pazarlama amacıyla ayrıca bir işleme yapılacaksa
+          bunun hukuki şartı ve gerekli olduğu durumda açık rıza ayrı değerlendirilir.
         </p>
       </section>
+
       <section>
-        <h2 class="h3">4 · Aktarım</h2>
+        <h2 class="h3">4 · Kişisel verilerin toplanma yöntemi</h2>
         <p class="body-sm mt-3">
-          Kişisel veriler, ödeme işleminin gerçekleştirilmesi amacıyla sınırlı olarak Shopier
-          ödeme kuruluşuyla ve yasal zorunluluk hâllerinde yetkili kamu kurumlarıyla
-          paylaşılır. Veriler yurt dışına aktarılmaz.
+          Veriler; ürün/Proof Demo formları, güvenli API uçları, Shopier sipariş doğrulaması ve hizmetin
+          güvenli çalışması için oluşturulan teknik kayıtlar aracılığıyla elektronik ortamda elde edilir.
         </p>
       </section>
+
       <section>
-        <h2 class="h3">5 · Saklama süresi</h2>
+        <h2 class="h3">5 · Aktarım ve altyapı sağlayıcıları</h2>
         <p class="body-sm mt-3">
-          Veriler, siparişin tamamlanmasını takiben mevzuatta öngörülen süreler boyunca
-          (VUK ve TTK saklama süreleri) saklanır ve süre sonunda silinir, yok edilir veya
-          anonim hâle getirilir.
+          Kişisel veriler, hizmetin kurulması ve yürütülmesi için gerekli olduğu ölçüde ödeme ve bulut
+          altyapısı/hizmet sağlayıcılarıyla veya yasal zorunluluk hâllerinde yetkili kamu kurumlarıyla paylaşılabilir.
+          Yurt dışına kişisel veri aktarımı söz konusu olduğunda, 6698 sayılı Kanunun 9. maddesi ve yürürlükteki
+          ikincil düzenlemelerde öngörülen yeterlilik, uygun güvence veya ilgili diğer aktarım mekanizmaları
+          değerlendirilmeden aktarım yapılmaması esastır.
         </p>
       </section>
+
       <section>
-        <h2 class="h3">6 · İlgili kişi hakları</h2>
+        <h2 class="h3">6 · Saklama ve veri minimizasyonu</h2>
         <p class="body-sm mt-3">
-          KVKK madde 11 kapsamında: verilerin işlenip işlenmediğini öğrenme, düzeltilmesini
-          veya silinmesini isteme, işlemeye itiraz etme ve zararın giderilmesini talep etme
-          haklarınız vardır. Başvurular barisbagirlar@gmail.com adresine yapılabilir; başvurular
-          en geç 30 gün içinde sonuçlandırılır.
+          Veriler yalnız ilgili amacın gerektirdiği ölçü ve süreyle saklanır. Proof Demo tokenları kısa ömürlüdür;
+          ham e-posta demo Excel dosyasına yazılmaz. Satış ve mali kayıtlar bakımından kanuni saklama yükümlülükleri
+          saklıdır. Süresi dolan kayıtlar uygulanabilir politika ve mevzuata göre silinir, yok edilir veya anonimleştirilir.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="h3">7 · İlgili kişi hakları</h2>
+        <p class="body-sm mt-3">
+          KVKK madde 11 kapsamında kişisel verilerinizin işlenip işlenmediğini öğrenme, işlenmişse bilgi talep etme,
+          amacına uygun kullanılıp kullanılmadığını öğrenme, şartları oluştuğunda düzeltilmesini veya silinmesini/yok
+          edilmesini isteme ve Kanunda sayılan diğer haklara sahipsiniz. Başvurular barisbagirlar@gmail.com adresine
+          iletilebilir ve mevzuattaki usul/süreler çerçevesinde değerlendirilir.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="h3">8 · Aydınlatma ve izin ayrımı</h2>
+        <p class="body-sm mt-3">
+          Bu metin, kişisel verilerin işlenmesine ilişkin aydınlatma amacı taşır. Proof Demo kullanım koşullarının
+          kabulü ise demo lisans/kullanım şartlarına ilişkindir; aydınlatma metni için verilmiş bir açık rıza olarak
+          yorumlanmaz.
         </p>
       </section>
     </div>
