@@ -57,10 +57,15 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          account="$(gcloud auth list --filter=status:ACTIVE --format='value(account)' | head -n1)"
-          test -n "$account"
-          echo "Firebase deploy account: $account"
-          echo "Project: $FIREBASE_PROJECT_ID"
+          node - <<'NODE'
+          const fs = require('fs');
+          const file = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+          if (!file || !fs.existsSync(file)) throw new Error('ADC credentials file missing');
+          const credentials = JSON.parse(fs.readFileSync(file, 'utf8'));
+          if (!credentials.client_email) throw new Error('Service account client_email missing');
+          console.log(`Firebase deploy account: ${credentials.client_email}`);
+          console.log(`Project: ${process.env.FIREBASE_PROJECT_ID}`);
+          NODE
 
       - name: Deploy secure HTTP Functions directly with gcloud
         shell: bash
