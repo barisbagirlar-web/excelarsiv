@@ -26,6 +26,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - name: Use Node.js 22
         uses: actions/setup-node@v4
@@ -67,7 +69,21 @@ jobs:
           console.log(`Project: ${process.env.FIREBASE_PROJECT_ID}`);
           NODE
 
+      - name: Detect backend changes
+        id: backend
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet HEAD^ HEAD -- functions/; then
+            echo "functions_changed=false" >> "$GITHUB_OUTPUT"
+            echo "Backend unchanged — secure HTTP Functions deployment will be skipped."
+          else
+            echo "functions_changed=true" >> "$GITHUB_OUTPUT"
+            echo "Backend changed — secure HTTP Functions deployment is required."
+          fi
+
       - name: Deploy secure HTTP Functions directly with gcloud
+        if: steps.backend.outputs.functions_changed == 'true'
         shell: bash
         run: |
           set -euo pipefail
