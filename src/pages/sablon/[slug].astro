@@ -12,8 +12,8 @@ import FaqAccordion from '../../components/FaqAccordion.astro';
 import TemplateCard from '../../components/catalog/TemplateCard.astro';
 import CellGrid from '../../components/CellGrid.astro';
 import PurchaseBar from '../../components/PurchaseBar.astro';
-import CheckoutPanel from '../../components/CheckoutPanel.astro';
 import Notice from '../../components/Notice.astro';
+import ProductHeroPremium from '../../components/product/ProductHeroPremium.astro';
 
 export async function getStaticPaths() {
   const templates = await getCollection('templates');
@@ -29,7 +29,6 @@ interface Props {
 
 const { template } = Astro.props;
 const t = template.data;
-const price = t.priceTL.toLocaleString('tr-TR');
 
 const categoryLabels: Record<string, string> = {
   'finansal-analiz': 'Finansal Analiz',
@@ -92,7 +91,7 @@ const jsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </Fragment>
 
-  <section class="mx-auto max-w-6xl px-4 pb-24 pt-8">
+  <main class="product-page">
     <Breadcrumbs
       crumbs={[
         { label: 'Şablonlar', href: '/sablonlar' },
@@ -101,21 +100,104 @@ const jsonLd = {
       ]}
     />
 
-    <div class="mt-8 grid gap-10 lg:grid-cols-[1fr_360px]">
-      <div>
-        <h1 class="font-display text-3xl leading-tight text-ink-700">{t.name}</h1>
-        <p class="mt-3 max-w-xl text-lg leading-relaxed text-ink-500">{t.summary}</p>
-        <p class="price-numeric mt-4 font-mono text-2xl text-ink-900">
-          {price} <span class="acronym">TL</span> <span class="text-sm text-ink-400">(KDV dahil)</span>
-        </p>
-        <p class="mt-2 text-xs text-ink-400">
-          Ödeme Shopier'de işlenir; ödeme doğrulanınca indirme yetkisi bu sayfada açılır.
-        </p>
-        <div class="mt-6 max-w-xl">
-          <CheckoutPanel productSlug={template.id} name={t.name} priceTL={t.priceTL} />
+    <ProductHeroPremium
+      productSlug={template.id}
+      name={t.name}
+      summary={t.summary}
+      categoryLabel={categoryLabel}
+      priceTL={t.priceTL}
+      screenshots={t.screenshots}
+      outputs={t.outputs}
+      sheetCount={t.sheetCount}
+      minExcelVersion={t.minExcelVersion}
+      macCompatible={t.macCompatible}
+    />
+
+    <nav class="product-jump" aria-label="Ürün sayfası bölümleri">
+      <a href="#onizleme">Önizleme</a>
+      <a href="#iskelet">Dosya yapısı</a>
+      <a href="#girdi-cikti">Girdi / çıktı</a>
+      <a href="#uygunluk">Kimler için</a>
+      <a href="#teknik">Teknik</a>
+      <a href="#sss">SSS</a>
+    </nav>
+
+    <section id="onizleme" class="product-section product-section--proof">
+      <div class="product-section__head">
+        <div>
+          <SectionLabel address="B2" label="Önizleme" />
+          <h2>Önce görün, sonra karar verin.</h2>
+        </div>
+        <p>Kişisel Proof Demo ile gerçek ürün akışını sınırlı kapasitede deneyin; ardından katalogdaki gerçek ekran görüntülerini büyüterek inceleyin.</p>
+      </div>
+      <div class="product-demo-wrap">
+        <DemoDownloadBox productSlug={template.id} name={t.name} />
+      </div>
+      <div class="product-preview-wrap">
+        <PreviewGallery images={t.screenshots} />
+      </div>
+    </section>
+
+    <section id="iskelet" class="product-section product-section--soft">
+      <div class="product-section__head">
+        <div>
+          <SectionLabel address="B3" label="Sayfa Haritası" />
+          <h2>Dosyanın iskeleti satın almadan önce görünür.</h2>
+        </div>
+        <p>Hangi sayfa ne işe yarar, hangisi girdi hangisi hesap hangisi çıktı — ürünün çalışma mantığını dosyayı satın almadan okuyun.</p>
+      </div>
+      <SheetMapTable sheets={t.sheetMap} />
+    </section>
+
+    <section id="girdi-cikti" class="product-section product-section--contrast">
+      <div class="product-section__head product-section__head--light">
+        <div>
+          <SectionLabel address="B4" label="Girdi – Çıktı Sözleşmesi" />
+          <h2>Ne girersiniz, sistem size ne üretir?</h2>
+        </div>
+        <p>Ürünün değerini belirsiz özellik listeleriyle değil, doğrudan veri girişi ve karar çıktısı üzerinden okuyun.</p>
+      </div>
+      <div class="io-grid">
+        <div class="io-card">
+          <span class="io-card__code">GİRDİ</span>
+          <h3>Siz şunları girersiniz</h3>
+          <ul>
+            {t.inputs.map((item) => <li><span aria-hidden="true">→</span>{item}</li>)}
+          </ul>
+        </div>
+        <div class="io-card io-card--output">
+          <span class="io-card__code">ÇIKTI</span>
+          <h3>Sistem şunları üretir</h3>
+          <ul>
+            {t.outputs.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}
+          </ul>
         </div>
       </div>
-      <div class="lg:sticky lg:top-8 lg:self-start">
+    </section>
+
+    <section id="uygunluk" class="product-section">
+      <div class="product-section__head">
+        <div>
+          <SectionLabel address="B5" label="Uygunluk" />
+          <h2>Doğru ürünü aldığınızdan emin olun.</h2>
+        </div>
+        <p>Her ürün herkes için değildir. Uygun olmadığı senaryoyu da açıkça göstererek yanlış satın alma riskini azaltıyoruz.</p>
+      </div>
+      <div class="eligibility-grid">
+        <EligibilityList title="Kimler için uygun" items={t.suitableFor} />
+        <EligibilityList title="Kimler için uygun değil" items={t.notSuitableFor} negative />
+      </div>
+    </section>
+
+    <section id="teknik" class="product-section product-section--soft">
+      <div class="product-section__head">
+        <div>
+          <SectionLabel address="B6" label="Teknik ve Uyumluluk" />
+          <h2>Satın almadan önce teknik sınırlar net.</h2>
+        </div>
+        <p>Sürüm, sayfa sayısı, makro durumu ve platform uyumluluğu dahil teknik bilgiler ürünle birlikte açıkça sunulur.</p>
+      </div>
+      <div class="technical-grid">
         <SpecTable
           fileFormat={t.fileFormat}
           version={t.version}
@@ -127,130 +209,71 @@ const jsonLd = {
           macCompatible={t.macCompatible}
           sheetsCompatibility={t.sheetsCompatibility}
         />
-      </div>
-    </div>
-
-    <section class="border-t border-rule-strong py-12">
-      <SectionLabel address="B2" label="Önizleme" />
-      <h2 class="mt-3 font-display text-2xl text-ink-700">Dosyanın içini görün</h2>
-      <p class="mt-2 max-w-2xl text-sm leading-relaxed text-ink-500">
-        Kişisel Proof Demo ile gerçek ürün akışını sınırlı kapasitede deneyin; ardından gerçek ekran görüntülerini inceleyin.
-      </p>
-      <div class="mt-6">
-        <DemoDownloadBox productSlug={template.id} name={t.name} />
-      </div>
-      <div class="mt-8">
-        <PreviewGallery images={t.screenshots} />
-      </div>
-    </section>
-
-    <section class="border-t border-rule-strong py-12">
-      <SectionLabel address="B3" label="Sayfa Haritası" />
-      <h2 class="mt-3 font-display text-2xl text-ink-700">Dosyanın iskeleti</h2>
-      <p class="mt-2 max-w-2xl text-sm leading-relaxed text-ink-500">
-        Hangi sheet ne işe yarar, hangisi girdi hangisi çıktı — satın almadan önce.
-      </p>
-      <div class="mt-6">
-        <SheetMapTable sheets={t.sheetMap} />
-      </div>
-    </section>
-
-    <section class="border-t border-rule-strong py-12">
-      <SectionLabel address="B4" label="Girdi – Çıktı Sözleşmesi" />
-      <h2 class="mt-3 font-display text-2xl text-ink-700">Ne girersiniz, ne üretirsiniz</h2>
-      <div class="mt-6 grid gap-10 sm:grid-cols-2">
-        <div>
-          <h3 class="font-display text-lg text-ink-700">Siz şunları girersiniz</h3>
-          <ul class="mt-3 space-y-2">
-            {t.inputs.map((item) => (
-              <li class="flex gap-2 text-sm leading-relaxed text-ink-700">
-                <span aria-hidden="true" class="font-mono text-accent-primary">›</span>
-                <span>{item}</span>
-              </li>
-            ))}
+        <div class="requirements-card">
+          <span>ÇALIŞTIRMA GEREKSİNİMLERİ</span>
+          <ul>
+            {t.requirements.map((item) => <li><i aria-hidden="true">✓</i>{item}</li>)}
           </ul>
-        </div>
-        <div>
-          <h3 class="font-display text-lg text-ink-700">Dosya şunları üretir</h3>
-          <ul class="mt-3 space-y-2">
-            {t.outputs.map((item) => (
-              <li class="flex gap-2 text-sm leading-relaxed text-ink-700">
-                <span aria-hidden="true" class="font-mono text-accent-primary">›</span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
+          <div class="requirements-card__policy">
+            <small>GÜNCELLEME POLİTİKASI</small>
+            <p>{t.updatePolicy}</p>
+          </div>
         </div>
       </div>
-    </section>
-
-    <section class="border-t border-rule-strong py-12">
-      <div class="grid gap-10 sm:grid-cols-2">
-        <EligibilityList title="Kimler için uygun" items={t.suitableFor} />
-        <EligibilityList title="Kimler için uygun değil" items={t.notSuitableFor} negative />
-      </div>
-    </section>
-
-    <section class="border-t border-rule-strong py-12">
-      <SectionLabel address="B6" label="Teknik Gereksinimler" />
-      <h2 class="mt-3 font-display text-2xl text-ink-700">Çalıştırmak için gerekenler</h2>
-      <ul class="mt-6 space-y-2">
-        {t.requirements.map((item) => (
-          <li class="flex gap-2 text-sm leading-relaxed text-ink-700">
-            <span aria-hidden="true" class="font-mono text-accent-primary">›</span>
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
       {
         t.hasMacros && (
-          <div class="mt-6">
+          <div class="macro-notice">
             <Notice type="warning">
-              Bu dosya makro içerir. İlk açılışta Excel güvenlik uyarısı verir; içeriğe güveniyorsanız
-              "Makroları Etkinleştir" ile açabilirsiniz.
+              Bu dosya makro içerir. İlk açılışta Excel güvenlik uyarısı verir; içeriğe güveniyorsanız "Makroları Etkinleştir" ile açabilirsiniz.
             </Notice>
           </div>
         )
       }
     </section>
 
-    <section class="border-t border-rule-strong py-12">
-      <SectionLabel address="B7" label="Güncelleme Politikası" />
-      <h2 class="mt-3 font-display text-2xl text-ink-700">Sürümler ve güncellemeler</h2>
-      <p class="mt-4 max-w-2xl text-sm leading-relaxed text-ink-500">{t.updatePolicy}</p>
-    </section>
-
-    <section class="border-t border-rule-strong py-12">
-      <SectionLabel address="B8" label="Sık Sorulan Sorular" />
-      <h2 class="mt-3 font-display text-2xl text-ink-700">Bu dosyaya özel sorular</h2>
-      <div class="mt-6">
-        <FaqAccordion items={t.faq} />
+    <section id="sss" class="product-section">
+      <div class="product-section__head">
+        <div>
+          <SectionLabel address="B7" label="Sık Sorulan Sorular" />
+          <h2>Karar vermeden önce kalan soruları kapatın.</h2>
+        </div>
+        <p>Bu ürüne özel kullanım, uyumluluk, lisans ve çalışma mantığı sorularının yanıtları.</p>
       </div>
+      <FaqAccordion items={t.faq} />
     </section>
 
     {
       related.length > 0 && (
-        <section class="border-t border-rule-strong py-12">
-          <SectionLabel address="B9" label="İlgili Şablonlar" />
-          <h2 class="mt-3 font-display text-2xl text-ink-700">Bunlar da işinize yarayabilir</h2>
-          <div class="mt-6">
-            <CellGrid>
-              {related.map((item) => (
-                <TemplateCard
-                  slug={item.id}
-                  name={item.data.name}
-                  summary={item.data.summary}
-                  sheetCount={item.data.sheetCount}
-                  priceTL={item.data.priceTL}
-                />
-              ))}
-            </CellGrid>
+        <section class="product-section product-section--related">
+          <div class="product-section__head">
+            <div>
+              <SectionLabel address="B8" label="İlgili Sistemler" />
+              <h2>Aynı iş akışını tamamlayan sistemler.</h2>
+            </div>
+            <a href="/sablonlar">Tüm sistemleri görün →</a>
           </div>
+          <CellGrid>
+            {related.map((item) => (
+              <TemplateCard
+                slug={item.id}
+                name={item.data.name}
+                summary={item.data.summary}
+                sheetCount={item.data.sheetCount}
+                priceTL={item.data.priceTL}
+              />
+            ))}
+          </CellGrid>
         </section>
       )
     }
-  </section>
+  </main>
 
   <PurchaseBar name={t.name} priceTL={t.priceTL} />
   <div class="h-20 sm:hidden" aria-hidden="true" />
 </CommerceLayout>
+
+<style>
+  .product-page{width:min(1240px,calc(100% - 48px));margin-inline:auto;padding:30px 0 112px}.product-jump{position:sticky;top:8px;z-index:32;display:flex;align-items:center;justify-content:center;gap:5px;width:max-content;max-width:100%;margin:18px auto 8px;padding:6px;border:1px solid rgba(24,66,42,.10);border-radius:15px;background:rgba(255,255,255,.88);backdrop-filter:blur(16px);box-shadow:0 12px 30px rgba(24,66,42,.07);overflow-x:auto;scrollbar-width:none}.product-jump::-webkit-scrollbar{display:none}.product-jump a{flex:0 0 auto;padding:8px 10px;border-radius:10px;color:#627068;font-family:var(--font-mono);font-size:8.5px;font-weight:700;text-decoration:none;transition:background .16s ease,color .16s ease}.product-jump a:hover,.product-jump a:focus-visible{background:#e9f5ee;color:#0c6838}.product-section{scroll-margin-top:84px;padding:clamp(62px,7vw,94px) clamp(20px,3vw,38px);border-top:1px solid var(--xl-grid)}.product-section--soft{margin-inline:calc(clamp(20px,3vw,38px) * -1);padding-inline:clamp(28px,5vw,62px);border:1px solid #dbe4de;border-radius:28px;background:#f5f8f6}.product-section--contrast{margin:22px calc(clamp(20px,3vw,38px) * -1);padding-inline:clamp(28px,5vw,62px);border:0;border-radius:28px;background:#0a3827;color:#fff;overflow:hidden}.product-section__head{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(300px,.82fr);gap:48px;align-items:end;margin-bottom:28px}.product-section__head h2{max-width:760px;margin:10px 0 0;font-family:var(--font-display);font-size:clamp(31px,3.7vw,50px);line-height:1;letter-spacing:-.04em;color:var(--xl-ink-900)}.product-section__head>p{margin:0;font-size:13px;line-height:1.65;color:var(--xl-ink-3)}.product-section__head>a{justify-self:end;color:var(--xl-green);font-family:var(--font-mono);font-size:9px;font-weight:700;text-decoration:none}.product-section__head--light h2{color:#fff}.product-section__head--light>p{color:rgba(241,255,247,.67)}.product-demo-wrap{max-width:850px}.product-preview-wrap{margin-top:26px}.io-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.io-card{padding:24px;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.055)}.io-card--output{background:rgba(121,221,162,.09);border-color:rgba(121,221,162,.18)}.io-card__code{font-family:var(--font-mono);font-size:8.5px;font-weight:700;letter-spacing:.1em;color:#83dda8}.io-card h3{margin:10px 0 0;font-size:20px;color:#fff}.io-card ul{display:grid;gap:9px;margin:18px 0 0;padding:0;list-style:none}.io-card li{display:flex;gap:9px;font-size:12px;line-height:1.5;color:rgba(244,255,249,.72)}.io-card li span{color:#86e0ab;font-family:var(--font-mono);font-weight:700}.eligibility-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.technical-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(360px,1.1fr);gap:18px;align-items:start}.requirements-card{padding:24px;border:1px solid #dce5df;border-radius:18px;background:#fff}.requirements-card>span,.requirements-card__policy small{font-family:var(--font-mono);font-size:8.5px;font-weight:700;letter-spacing:.08em;color:var(--xl-green)}.requirements-card ul{display:grid;gap:9px;margin:18px 0 0;padding:0;list-style:none}.requirements-card li{display:flex;gap:9px;font-size:12px;line-height:1.45;color:#445149}.requirements-card li i{color:var(--xl-green);font-style:normal;font-weight:800}.requirements-card__policy{margin-top:22px;padding-top:18px;border-top:1px solid #e3e9e5}.requirements-card__policy p{margin:8px 0 0;font-size:11px;line-height:1.55;color:#69756e}.macro-notice{margin-top:18px}.product-section--related{padding-bottom:20px}
+  @media(max-width:900px){.product-page{width:min(100% - 32px,1240px)}.product-section__head{grid-template-columns:1fr;gap:12px}.product-section__head>a{justify-self:start}.technical-grid{grid-template-columns:1fr}.io-grid,.eligibility-grid{grid-template-columns:1fr}}
+  @media(max-width:680px){.product-page{width:calc(100% - 24px);padding-top:18px}.product-jump{justify-content:flex-start;margin:12px 0 4px;top:6px;width:100%}.product-section{padding:48px 4px}.product-section--soft,.product-section--contrast{margin-inline:-4px;padding-inline:16px;border-radius:20px}.product-section__head{margin-bottom:20px}.product-section__head h2{font-size:32px}.product-section__head>p{font-size:12px}.io-card{padding:18px}.product-section--related{padding-bottom:0}}
+</style>
