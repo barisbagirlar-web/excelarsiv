@@ -18,25 +18,26 @@ import SectionLabel from '../components/SectionLabel.astro';
       <section>
         <h2 class="h3">1 · Teslimat biçimi</h2>
         <p class="body-sm mt-3">
-          Teslimat, satın alınan dosyanın indirme bağlantısının alıcının satın alma
-          e-postasına gönderilmesiyle yapılır. Teslimatta ayrıca dosyanın kısa kullanım
-          notu ve lisans özeti yer alır.
+          Ödeme Shopier altyapısında tamamlanır. Shopier siparişi ExcelArşiv tarafından doğrulandıktan
+          sonra satın alınan ürün için güvenli indirme yetkisi açılır. Dosya, ürün sayfasındaki veya
+          <a class="text-accent-primary underline underline-offset-4" href="/teslimat">Satın Aldıklarım ve İndirme</a>
+          ekranındaki “Excel'i İndir” butonuyla doğrudan kullanıcının bilgisayarına indirilir.
         </p>
       </section>
       <section>
         <h2 class="h3">2 · Teslimat süresi</h2>
         <p class="body-sm mt-3">
-          İndirme bağlantısı, Shopier ödeme onayının ardından otomatik olarak gönderilir.
-          Kesin teslim süresi Shopier dijital teslimat ayarına bağlıdır; yayın öncesi test
-          siparişiyle doğrulanır ve ürün sayfasında belirtilir.
+          Sistem Shopier sipariş kaydını otomatik olarak kontrol eder. Ödeme kaydı doğrulandığında
+          indirme yetkisi açılır. Shopier API yanıtında geçici gecikme olması hâlinde doğrulama otomatik
+          olarak tekrar denenir; kullanıcı ayrıca Shopier sipariş numarasıyla doğrulama başlatabilir.
         </p>
       </section>
       <section>
         <h2 class="h3">3 · İade ve cayma hakkı</h2>
         <p class="body-sm mt-3">
-          Mesafeli Sözleşmeler Yönetmeliği gereği, dijital içerik teslimlerinde cayma hakkı
-          kullanılamaz. İndirme bağlantısının gönderildiği an teslimatın ifası başlamış
-          sayılır ve iade talebi bu aşamadan sonra kabul edilmez.
+          Dijital içeriklerde uygulanacak cayma hakkı ve istisnalar yürürlükteki tüketici mevzuatına,
+          sözleşme koşullarına ve teslimatın başlatılmasına ilişkin gerekli onaylara göre değerlendirilir.
+          Hatalı veya vaat edilen nitelikleri taşımayan dosyalara ilişkin yasal haklar saklıdır.
         </p>
       </section>
       <section>
@@ -44,15 +45,14 @@ import SectionLabel from '../components/SectionLabel.astro';
         <p class="body-sm mt-3">
           Dosyanın ürün sayfasında vaat edilen işlevi yerine getirmediği tespit edilirse,
           alıcı teslimat tarihinden itibaren 7 gün içinde satıcıya yazmalıdır. Telafi kapsamı:
-          hatanın düzeltilmiş sürümünün gönderilmesi; hatanın giderilememesi durumunda bedelin
-          iadesi. Bu koşul, dijital içerikte cayma hakkı istisnasının alıcı lehine
-          genişletilmiş hâlidir.
+          hatanın düzeltilmiş sürümünün sunulması; hatanın giderilememesi durumunda mevzuat ve
+          sözleşme koşulları çerçevesinde uygun çözüm uygulanması.
         </p>
       </section>
       <section>
         <h2 class="h3">5 · Talep kanalı</h2>
         <p class="body-sm mt-3">
-          Hatalı dosya ve teslimat talepleri, sipariş numarasıyla birlikte
+          Hatalı dosya ve teslimat talepleri, Shopier sipariş numarasıyla birlikte
           info@excelarsiv.com adresine iletilir. Talepler iş günlerinde 48 saat içinde
           yanıtlanır.
         </p>

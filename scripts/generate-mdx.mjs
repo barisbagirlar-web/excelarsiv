@@ -1,5 +1,5 @@
 // 12 ürünün MDX içerik dosyalarını src/content/templates/ altına üretir.
-import { mkdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { mkdirSync, rmSync, statSync, writeFileSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { products } from './product-data.mjs';
 
@@ -18,8 +18,10 @@ function slugify(text) {
     .replace(/^-|-$/g, '');
 }
 
-const demoDir = resolve(process.cwd(), 'public/demo');
-const outDir = resolve(process.cwd(), 'src/content/templates');
+const projectRoot = process.cwd();
+const commerceCatalog = JSON.parse(readFileSync(resolve(projectRoot, 'commerce/catalog.json'), 'utf8'));
+const demoDir = resolve(projectRoot, 'public/demo');
+const outDir = resolve(projectRoot, 'src/content/templates');
 rmSync(outDir, { recursive: true, force: true });
 mkdirSync(outDir, { recursive: true });
 
@@ -64,6 +66,14 @@ function yaml(value, indent = '  ') {
   return scalar(value);
 }
 
+function commerceProductFor(slug) {
+  const product = commerceCatalog.products?.[slug];
+  if (!product) throw new Error(`Commerce catalog product missing: ${slug}`);
+  const tier = commerceCatalog.tiers?.[product.tier];
+  if (!tier) throw new Error(`Commerce tier missing for ${slug}: ${product.tier}`);
+  return { product, tier };
+}
+
 function frontmatter(p, slug) {
   const sheets = p.sheets.map((s) => ({ name: s.name, purpose: s.purpose, kind: s.kind }));
   const screenshots = p.sheets.map((s, i) => ({
@@ -71,11 +81,14 @@ function frontmatter(p, slug) {
     alt: `${p.name} dosyasının ${s.name} sayfası — ${s.purpose}`,
   }));
   const faq = p.faq.map((f) => ({ question: f.question, answer: f.answer }));
+  const { product, tier } = commerceProductFor(slug);
+  if (product.name !== p.name) throw new Error(`Commerce product name mismatch: ${slug}`);
+
   const block = `---
 name: ${scalar(p.name)}
 summary: ${scalar(p.summary)}
 category: ${scalar(p.category)}
-priceTL: ${p.priceTL}
+priceTL: ${tier.priceTL}
 vatIncluded: true
 fileFormat: ${p.fileFormat}
 sizeMB: ${sizeMBOf(slug)}
@@ -112,7 +125,8 @@ function sizeMBOf(slug) {
 
 for (const p of products) {
   const slug = slugify(p.name);
-  const body = `Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.\n`;
+  commerceProductFor(slug);
+  const body = `Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir; ödeme doğrulandığında dosyanızı ExcelArşiv üzerinden doğrudan indirebilirsiniz.\n`;
   const file = join(outDir, `${slug}.mdx`);
   writeFileSync(file, frontmatter(p, slug) + '\n\n' + body);
   console.log(`${slug}.mdx`);
