@@ -110,7 +110,7 @@ const rows = (sheetMap ?? []).slice(0, 3);
     flex-direction: column;
     height: 100%;
     min-width: 0;
-    padding: 22px;
+    padding: 18px 18px 16px;
     border: 1px solid var(--xl-border);
     border-radius: 20px;
     background: #fff;
@@ -121,39 +121,39 @@ const rows = (sheetMap ?? []).slice(0, 3);
   }
   .tcard:hover {
     border-color: var(--xl-accent-border);
-    transform: translateY(-3px);
-    box-shadow: 0 18px 44px rgba(24, 55, 38, 0.12);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(24, 55, 38, 0.1);
   }
   .tcard__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   .tcard__cat {
     display: inline-flex;
     align-items: center;
-    min-height: 24px;
-    padding: 0 10px;
+    min-height: 22px;
+    padding: 0 9px;
     border-radius: 999px;
     background: var(--xl-accent-soft);
     color: var(--xl-green-dark);
     font-family: var(--font-mono);
-    font-size: 10.5px;
+    font-size: 10px;
     font-weight: 700;
   }
   .tcard__ver {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 10.5px;
     color: var(--xl-ink-3);
   }
   .tcard__title {
     margin: 0;
     font-family: var(--font-body);
-    font-size: 16.5px;
+    font-size: 18px;
     font-weight: 700;
-    line-height: 1.35;
+    line-height: 1.2;
     color: var(--xl-ink-900);
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -161,7 +161,7 @@ const rows = (sheetMap ?? []).slice(0, 3);
     overflow: hidden;
   }
   .tcard__summary {
-    margin: 8px 0 0;
+    margin: 6px 0 0;
     font-size: 13px;
     line-height: 1.55;
     color: var(--xl-ink-3);
@@ -171,17 +171,17 @@ const rows = (sheetMap ?? []).slice(0, 3);
     overflow: hidden;
   }
   .tcard__viz {
-    margin: 14px 0;
+    margin: 12px 0;
     border-radius: 12px;
     background: var(--xl-paper);
-    padding: 12px;
+    padding: 10px;
     min-height: 48px;
     display: grid;
     place-items: center;
   }
   .tcard__spark {
     width: 100%;
-    height: 44px;
+    height: 38px;
   }
   .tcard__hm {
     display: grid;
@@ -198,7 +198,7 @@ const rows = (sheetMap ?? []).slice(0, 3);
     display: flex;
     align-items: flex-end;
     gap: 5px;
-    height: 40px;
+    height: 32px;
     width: 100%;
   }
   .tcard__bars i {
@@ -224,23 +224,23 @@ const rows = (sheetMap ?? []).slice(0, 3);
     opacity: 0.95;
   }
   .tcard__outputs {
-    margin: 0 0 16px;
+    margin: 0 0 12px;
     padding: 0;
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
   }
   .tcard__outputs li {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    padding: 7px 10px;
-    border-radius: 8px;
+    padding: 6px 8px;
+    border-radius: 7px;
     background: var(--xl-paper);
     font-family: var(--font-mono);
-    font-size: 11.5px;
+    font-size: 11px;
   }
   .tcard__output-name {
     color: var(--xl-ink-900);
@@ -251,14 +251,14 @@ const rows = (sheetMap ?? []).slice(0, 3);
   .tcard__foot {
     margin-top: auto;
     border-top: 1px solid var(--xl-grid);
-    padding-top: 14px;
+    padding-top: 10px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
   }
   .tcard__scope {
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 10.5px;
     color: var(--xl-ink-3);
   }
   .tcard__file {
@@ -266,7 +266,7 @@ const rows = (sheetMap ?? []).slice(0, 3);
   }
   .tcard__price {
     font-family: var(--font-mono);
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     color: var(--xl-ink-900);
   }
@@ -275,13 +275,13 @@ const rows = (sheetMap ?? []).slice(0, 3);
     align-items: center;
     justify-content: center;
     gap: 6px;
-    min-height: 40px;
+    min-height: 36px;
     border: 1px solid var(--xl-green);
-    border-radius: 10px;
+    border-radius: 9px;
     background: #fff;
     color: var(--xl-green-dark);
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 700;
     text-decoration: none;
     transition:

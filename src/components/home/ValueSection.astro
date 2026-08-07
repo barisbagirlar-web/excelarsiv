@@ -96,8 +96,8 @@ const heatmap = [0.15, 0.35, 0.55, 0.8, 0.95, 0.6, 0.25, 0.45, 0.7, 0.9, 0.5, 0.
   .value-card {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding: 24px;
+    gap: 6px;
+    padding: 20px;
     border: 1px solid var(--xl-border);
     border-radius: 20px;
     background: #fff;
@@ -112,18 +112,18 @@ const heatmap = [0.15, 0.35, 0.55, 0.8, 0.95, 0.6, 0.25, 0.45, 0.7, 0.9, 0.5, 0.
   .value-card__title {
     margin: 0;
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: 15.5px;
     font-weight: 700;
     color: var(--xl-ink-900);
   }
   .value-card__text {
     margin: auto 0 0;
-    font-size: 12.5px;
-    line-height: 1.55;
+    font-size: 12px;
+    line-height: 1.5;
     color: var(--xl-ink-3);
   }
   .value-card__viz {
-    margin: 6px 0 10px;
+    margin: 4px 0 8px;
   }
   .value-card__viz--bars {
     display: flex;
@@ -168,7 +168,7 @@ const heatmap = [0.15, 0.35, 0.55, 0.8, 0.95, 0.6, 0.25, 0.45, 0.7, 0.9, 0.5, 0.
   }
   .value-card__spark {
     width: 100%;
-    height: 60px;
+    height: 48px;
   }
   .value-card__spark-meta {
     display: flex;
@@ -182,18 +182,18 @@ const heatmap = [0.15, 0.35, 0.55, 0.8, 0.95, 0.6, 0.25, 0.45, 0.7, 0.9, 0.5, 0.
   .value-card__viz--icons {
     display: flex;
     flex-direction: column;
-    gap: 7px;
-    margin-bottom: 12px;
+    gap: 6px;
+    margin-bottom: 10px;
   }
   .value-card__icon-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 6px 10px;
-    border-radius: 8px;
+    padding: 5px 9px;
+    border-radius: 7px;
     background: var(--xl-paper);
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 10.5px;
     color: var(--xl-ink-3);
   }
   .value-card__up {
@@ -211,12 +211,12 @@ const heatmap = [0.15, 0.35, 0.55, 0.8, 0.95, 0.6, 0.25, 0.45, 0.7, 0.9, 0.5, 0.
   .value-card__viz--heat {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-    margin-bottom: 12px;
+    gap: 5px;
+    margin-bottom: 10px;
   }
   .value-card__heat-cell {
     aspect-ratio: 1;
-    border-radius: 6px;
+    border-radius: 5px;
     background: color-mix(in srgb, var(--xl-green) calc(var(--a) * 100%), var(--xl-paper));
     animation: heat-fade 0.6s ease-out both;
     animation-delay: var(--d);

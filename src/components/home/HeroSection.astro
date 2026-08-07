@@ -31,6 +31,7 @@ const { searchIndex } = Astro.props;
 <style>
   .hero-section {
     padding-top: 28px;
+    padding-bottom: 48px;
   }
   .hero-shell {
     position: relative;
@@ -42,9 +43,11 @@ const { searchIndex } = Astro.props;
     position: relative;
     display: block;
     overflow: hidden;
-    aspect-ratio: 3 / 1;
-    border-radius: 28px;
-    box-shadow: 0 32px 90px rgba(24, 55, 38, 0.16);
+    max-width: 1360px;
+    margin-inline: auto;
+    aspect-ratio: 2.8 / 1;
+    border-radius: 24px;
+    box-shadow: 0 28px 72px rgba(24, 55, 38, 0.14);
   }
   .hero-artwork img {
     display: block;
@@ -58,12 +61,13 @@ const { searchIndex } = Astro.props;
     left: 50%;
     bottom: -34px;
     z-index: 10;
-    width: min(820px, calc(100% - 64px));
+    width: min(640px, calc(100% - 56px));
     transform: translateX(-50%);
   }
   @media (max-width: 720px) {
     .hero-section {
       padding-top: 12px;
+      padding-bottom: 0;
     }
     .hero-shell {
       width: calc(100% - 20px);
