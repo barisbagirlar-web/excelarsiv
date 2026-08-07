@@ -38,8 +38,9 @@ for (const page of pages) {
     failures.push(`${page}: <main> eksik`);
   }
 
-  // Kırık iç link kontrolü: yalnızca kök-relative href'ler (dış linkler hariç)
-  const links = [...html.matchAll(/href="\/([^"#]*?)(?:#[\s\S]*?)?"/g)]
+  // Kırık iç link kontrolü: yalnızca kök-relative href'ler (dış linkler hariç).
+  // Query string (?q=...) ve fragment (#...) yolun parçası değildir.
+  const links = [...html.matchAll(/href="\/([^"#?]*?)(?:[?#][\s\S]*?)?"/g)]
     .map((m) => m[1].replace(/\/+$/, ''))
     .filter((p) => p.length > 0);
   for (const target of [...new Set(links)]) {

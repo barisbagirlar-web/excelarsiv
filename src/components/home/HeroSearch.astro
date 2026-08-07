@@ -6,11 +6,19 @@ interface Props {
 }
 
 const { searchIndex } = Astro.props;
+
+const quickLinks = [
+  { label: 'Nakit Akışı', href: '/sablonlar?q=nakit' },
+  { label: 'Kasa', href: '/sablonlar?q=kasa' },
+  { label: 'Cari Hesap', href: '/sablonlar?q=cari' },
+  { label: 'Stok', href: '/sablonlar?q=stok' },
+  { label: 'Kârlılık', href: '/sablonlar?q=kârlılık' },
+];
 ---
 
 <div class="hero-search" data-hero-search>
   <form class="hero-search__form" action="/sablonlar" method="get" role="search">
-    <svg class="hero-search__icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+    <svg class="hero-search__icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
       <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2" />
       <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
     </svg>
@@ -25,7 +33,7 @@ const { searchIndex } = Astro.props;
       aria-expanded="false"
     />
     <button type="submit" class="hero-search__button" aria-label="Ara">
-      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
         <path
           d="M10.5 3a7.5 7.5 0 0 1 6.05 12.02l4.22 4.21-1.42 1.42-4.2-4.22A7.5 7.5 0 1 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"
           fill="currentColor"
@@ -34,6 +42,17 @@ const { searchIndex } = Astro.props;
     </button>
   </form>
   <ul class="hero-search__results" hidden></ul>
+  <p class="hero-search__quick">
+    <span class="hero-search__quick-label">Popüler:</span>
+    {
+      quickLinks.map((link, index) => (
+        <>
+          {index > 0 && <span class="hero-search__quick-dot" aria-hidden="true">·</span>}
+          <a class="hero-search__quick-link" href={link.href}>{link.label}</a>
+        </>
+      ))
+    }
+  </p>
 </div>
 
 <script type="application/json" id="hero-search-index" set:html={JSON.stringify(searchIndex)}></script>
@@ -48,25 +67,20 @@ const { searchIndex } = Astro.props;
 
 <style>
   .hero-search {
-    position: absolute;
-    left: clamp(28px, 5vw, 76px);
-    bottom: clamp(28px, 4vw, 56px);
-    width: min(610px, calc(100% - 56px));
-    z-index: 3;
+    position: relative;
   }
   .hero-search__form {
     display: grid;
-    grid-template-columns: 24px minmax(0, 1fr) auto;
+    grid-template-columns: 28px minmax(0, 1fr) 52px;
     align-items: center;
-    min-height: 66px;
-    padding: 7px 8px 7px 20px;
-    border: 1px solid rgba(16, 124, 65, 0.24);
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.94);
+    min-height: 72px;
+    padding: 8px 10px 8px 22px;
+    border: 1px solid rgba(16, 124, 65, 0.18);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.98);
     box-shadow:
-      0 18px 42px rgba(20, 47, 32, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(14px);
+      0 24px 60px rgba(24, 55, 38, 0.15),
+      0 4px 12px rgba(24, 55, 38, 0.06);
   }
   .hero-search__icon {
     color: var(--xl-ink-3);
@@ -103,7 +117,7 @@ const { searchIndex } = Astro.props;
   }
   .hero-search__results {
     position: absolute;
-    bottom: calc(100% + 10px);
+    top: calc(100% + 8px);
     left: 0;
     right: 0;
     margin: 0;
@@ -146,13 +160,27 @@ const { searchIndex } = Astro.props;
     font-size: 13px;
     color: var(--xl-ink-3);
   }
-  @media (max-width: 720px) {
-    .hero-search {
-      position: relative;
-      left: auto;
-      bottom: auto;
-      width: calc(100% - 24px);
-      margin: -18px auto 0;
-    }
+  .hero-search__quick {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 4px 10px;
+    margin: 10px 0 0;
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--xl-ink-3);
+  }
+  .hero-search__quick-dot {
+    color: rgba(98, 113, 104, 0.5);
+  }
+  .hero-search__quick-link {
+    color: var(--xl-ink-900);
+    text-decoration: none;
+    transition: color 150ms ease-out;
+  }
+  .hero-search__quick-link:hover {
+    color: var(--xl-green-dark);
   }
 </style>

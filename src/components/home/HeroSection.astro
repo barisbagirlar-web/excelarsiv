@@ -22,7 +22,9 @@ const { searchIndex } = Astro.props;
         fetchpriority="high"
       />
     </picture>
-    <HeroSearch searchIndex={searchIndex} />
+    <div class="hero-search-rail">
+      <HeroSearch searchIndex={searchIndex} />
+    </div>
   </div>
 </section>
 
@@ -34,6 +36,7 @@ const { searchIndex } = Astro.props;
     position: relative;
     width: min(1480px, calc(100% - 48px));
     margin-inline: auto;
+    padding-bottom: 58px;
   }
   .hero-artwork {
     position: relative;
@@ -50,15 +53,32 @@ const { searchIndex } = Astro.props;
     object-fit: cover;
     object-position: center;
   }
+  .hero-search-rail {
+    position: absolute;
+    left: 50%;
+    bottom: -34px;
+    z-index: 10;
+    width: min(820px, calc(100% - 64px));
+    transform: translateX(-50%);
+  }
   @media (max-width: 720px) {
     .hero-section {
       padding-top: 12px;
     }
     .hero-shell {
       width: calc(100% - 20px);
+      padding-bottom: 0;
     }
     .hero-artwork {
       aspect-ratio: 5 / 3;
+    }
+    .hero-search-rail {
+      position: relative;
+      left: auto;
+      bottom: auto;
+      transform: none;
+      width: calc(100% - 24px);
+      margin: -18px auto 0;
     }
   }
 </style>
