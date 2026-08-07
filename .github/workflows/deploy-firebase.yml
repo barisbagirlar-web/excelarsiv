@@ -15,12 +15,13 @@ concurrency:
 env:
   FIREBASE_PROJECT_ID: carbon-web-1265b
   FIREBASE_HOSTING_SITE: excelarsiv
+  FUNCTIONS_REGION: europe-west1
 
 jobs:
   deploy:
     name: Test and deploy production
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 35
 
     steps:
       - name: Checkout
@@ -52,10 +53,82 @@ jobs:
       - name: Install Firebase CLI
         run: npm install --global firebase-tools@latest
 
-      - name: Deploy Firebase Functions and Hosting
+      - name: Firebase deployment identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          account="$(gcloud auth list --filter=status:ACTIVE --format='value(account)' | head -n1)"
+          test -n "$account"
+          echo "Firebase deploy account: $account"
+          echo "Project: $FIREBASE_PROJECT_ID"
+
+      - name: Deploy secure HTTP Functions directly with gcloud
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          deploy_http() {
+            local name="$1"
+            local entry="$2"
+            local memory="$3"
+            local timeout="$4"
+            local max_instances="$5"
+            local uses_shopier_secret="${6:-false}"
+
+            args=(
+              gcloud functions deploy "$name"
+              --project="$FIREBASE_PROJECT_ID"
+              --gen2
+              --region="$FUNCTIONS_REGION"
+              --runtime=nodejs22
+              --source=functions
+              --entry-point="$entry"
+              --trigger-http
+              --allow-unauthenticated
+              --memory="$memory"
+              --timeout="$timeout"
+              --max-instances="$max_instances"
+              --quiet
+            )
+
+            if [[ "$uses_shopier_secret" == "true" ]]; then
+              args+=(--set-secrets=SHOPIER_ACCESS_TOKEN=SHOPIER_ACCESS_TOKEN:latest)
+            fi
+
+            echo "Deploying $name..."
+            "${args[@]}"
+          }
+
+          # Payment verification and recovery are deployed first. createCheckout is
+          # intentionally last: the site cannot start accepting payments until every
+          # function needed to verify and deliver a purchase has deployed successfully.
+          deploy_http checkoutStatus checkoutStatus 256Mi 30s 20 true
+          deploy_http verifyShopierOrder verifyShopierOrder 256Mi 30s 20 true
+          deploy_http recoverPurchase recoverPurchase 256Mi 20s 10 true
+          deploy_http createDownloadToken createDownloadToken 256Mi 30s 20 false
+          deploy_http downloadFile downloadFile 512Mi 60s 30 false
+          deploy_http requestProofDemo requestProofDemo 256Mi 30s 20 false
+          deploy_http downloadProofDemo downloadProofDemo 512Mi 60s 30 false
+          deploy_http createCheckout createCheckout 256Mi 30s 20 false
+
+      - name: Deploy Firebase Hosting
         env:
           CI: "true"
-        run: firebase deploy --project "$FIREBASE_PROJECT_ID" --only "functions,hosting:$FIREBASE_HOSTING_SITE" --non-interactive
+        run: firebase deploy --project "$FIREBASE_PROJECT_ID" --only "hosting:$FIREBASE_HOSTING_SITE" --non-interactive
+
+      - name: Verify checkout API is live
+        env:
+          BASE_URL: https://excelarsiv.web.app
+        shell: bash
+        run: |
+          set -euo pipefail
+          code="$(curl --silent --show-error -o /tmp/checkout-probe.json -w '%{http_code}' \
+            -X POST "$BASE_URL/api/checkout" \
+            -H 'Content-Type: application/json' \
+            --data '{"productSlug":"__deployment_probe__","email":"probe@example.com"}')"
+          test "$code" = '400'
+          grep -Fq 'UNKNOWN_PRODUCT' /tmp/checkout-probe.json
+          rm -f /tmp/checkout-probe.json
 
       - name: Verify production Proof Demo flow
         env:
