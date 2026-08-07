@@ -4,6 +4,9 @@
 // Keep a deployment-local catalog mirror so Cloud Functions never depends on
 // a parent-directory file that is omitted from the uploaded source package.
 const catalog = require('./catalog.json');
+if (!catalog?.tiers || !catalog?.products) {
+  throw new Error('Packaged commerce catalog is incomplete');
+}
 
 const TIERS = Object.freeze(
   Object.fromEntries(
