@@ -27,7 +27,7 @@ process.env.FIREBASE_CONFIG = JSON.stringify(firebaseConfig);
 const core = require('./index');
 const { createCheckout } = require('./safe-checkout');
 const { recoverPurchase } = require('./recover');
-const { requestProofDemo, downloadProofDemo } = require('./proof-demo');
+const { requestProofDemo, downloadProofDemo } = require('./proof-demo-v3');
 
 module.exports = {
   createCheckout,
