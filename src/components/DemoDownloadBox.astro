@@ -14,12 +14,18 @@ const { productSlug, name } = Astro.props;
   data-product-slug={productSlug}
 >
   <div class="flex flex-col gap-2">
-    <p class="kicker">ÜCRETSİZ PROOF DEMO</p>
+    <p class="kicker">ÜCRETSİZ CANLI EXCEL DEMOSU</p>
     <h3 class="font-display text-lg text-ink-700">{name}</h3>
     <p class="max-w-2xl text-sm leading-relaxed text-xl-ink-2">
-      20 satırlık kontrollü değerlendirme sürümü. Gerçek ürün akışını ve karar çıktısını görürsünüz;
-      premium MOTOR, tam eşikler ve ticari analitikler demo dosyasında bulunmaz.
+      Dosyayı yalnız seyretmeyin: sarı hücrelerde örnek verileri değiştirin, analizin nasıl tepki verdiğini,
+      karar kapısını ve yönetici panosunu doğrudan Excel içinde görün.
     </p>
+  </div>
+
+  <div class="mt-4 grid gap-2 text-xs leading-relaxed text-ink-500 sm:grid-cols-3">
+    <p class="border border-xl-border bg-white p-3"><strong class="text-ink-700">Canlı giriş</strong><br />20 kayıtlık kontrollü veri alanı, doğrulamalar ve görsel uyarılar.</p>
+    <p class="border border-xl-border bg-white p-3"><strong class="text-ink-700">Canlı karar</strong><br />KPI'lar, veri kalitesi, risk önizlemesi ve UYGUN / İNCELE / DURDUR kapısı.</p>
+    <p class="border border-xl-border bg-white p-3"><strong class="text-ink-700">Yönetici pano</strong><br />Tek ekranda karar, risk şeridi ve ilk aksiyonları inceleyin.</p>
   </div>
 
   <form class="mt-5 grid gap-3" data-demo-form>
@@ -37,15 +43,15 @@ const { productSlug, name } = Astro.props;
         required
       />
       <span class="text-[11px] leading-relaxed text-ink-400">
-        E-posta, Proof Demo'nun güvenli oluşturulması ve kötüye kullanımın sınırlandırılması için işlenir.
-        Demo Excel'ine ham e-posta yazılmaz. <a class="underline underline-offset-2" href="/kvkk-aydinlatma" target="_blank" rel="noopener noreferrer">KVKK Aydınlatma Metni</a>
+        E-posta yalnız güvenli demo üretimi ve kötüye kullanım sınırı için kullanılır; Excel dosyasına ham e-posta yazılmaz.
+        <a class="underline underline-offset-2" href="/kvkk-aydinlatma" target="_blank" rel="noopener noreferrer">KVKK Aydınlatma Metni</a>
       </span>
     </label>
 
     <label class="flex items-start gap-2 text-xs leading-relaxed text-ink-500">
       <input class="mt-0.5" type="checkbox" name="terms" required />
       <span>
-        Proof Demo'nun yalnız değerlendirme amaçlı olduğunu ve
+        Demo'nun değerlendirme amaçlı olduğunu ve
         <a class="underline underline-offset-2" href="/demo-kullanim-kosullari" target="_blank" rel="noopener noreferrer">
           Demo Kullanım Koşulları'nı
         </a>
@@ -54,18 +60,17 @@ const { productSlug, name } = Astro.props;
     </label>
 
     <div class="flex flex-wrap items-center gap-3">
-      <button class="btn" type="submit" data-demo-submit>Proof Demo Oluştur <span class="dn">↓</span></button>
-      <span class="mono text-[11px] text-xl-ink-3">tek kullanımlık · 10 dakika · makrosuz .xlsx</span>
+      <button class="btn" type="submit" data-demo-submit>Canlı Excel Demo Oluştur <span class="dn">↓</span></button>
+      <span class="mono text-[11px] text-xl-ink-3">makrosuz .xlsx · tek kullanımlık bağlantı · 10 dakika</span>
     </div>
 
     <p class="hidden text-xs leading-relaxed" role="status" aria-live="polite" data-demo-status></p>
   </form>
 
-  <div class="mt-5 grid gap-2 border-t border-xl-border pt-4 text-xs leading-relaxed text-ink-500 sm:grid-cols-3">
-    <p><strong class="text-ink-700">Kişisel iz:</strong> Her dosyada benzersiz Demo ID + geri döndürülemez e-posta parmak izi.</p>
-    <p><strong class="text-ink-700">IP koruması:</strong> Premium formüller ve tam karar motoru demoya hiç yazılmaz.</p>
-    <p><strong class="text-ink-700">Güvenli teslim:</strong> Statik public XLSX yok; kısa ömürlü, tek kullanımlık indirme yetkisi.</p>
-  </div>
+  <p class="mt-4 border-t border-xl-border pt-4 text-[11px] leading-relaxed text-ink-400">
+    Demo, satın alınan sürümün fikri mülkiyetini açığa çıkarmadan ürün deneyimini kanıtlamak için üretilir.
+    Tam sürümde üretim kapasitesi, tam karar motoru, senaryo/duyarlılık, anomali ve rapor katmanları açılır.
+  </p>
 </div>
 
 <script>
@@ -96,7 +101,7 @@ const { productSlug, name } = Astro.props;
       submit.setAttribute('aria-busy', 'true');
       status.classList.remove('hidden');
       status.className = 'text-xs leading-relaxed text-ink-500';
-      status.textContent = 'Kişisel Proof Demo hazırlanıyor…';
+      status.textContent = 'Canlı Excel demo hazırlanıyor…';
 
       try {
         const response = await fetch('/api/demo-request', {
