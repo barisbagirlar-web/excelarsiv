@@ -2,52 +2,40 @@
 import TemplateCard from '../catalog/TemplateCard.astro';
 import type { TemplateViewModel } from '../../lib/templates';
 
-interface Props {
-  templates: TemplateViewModel[];
-}
-
+interface Props { templates: TemplateViewModel[]; }
 const { templates } = Astro.props;
-
 const variants = ['sparkline', 'hm', 'bars', 'sparkline', 'hm', 'bars'] as const;
 ---
 
-<section class="site-section" aria-labelledby="featured-title">
-  <div class="site-container">
-    <div class="section-head section-head--row">
+<section class="site-section featured-section" aria-labelledby="featured-title">
+  <div class="site-container featured-container">
+    <div class="section-head section-head--row featured-head">
       <div>
         <span class="section-head__kicker">ÖNE ÇIKAN ŞABLONLAR</span>
         <h2 id="featured-title" class="section-head__title">En çok tercih edilenler</h2>
       </div>
-      <a class="section-head__link" href="/sablonlar">
-        Tümünü Gör <span aria-hidden="true">→</span>
-      </a>
+      <a class="section-head__link" href="/sablonlar">Tümünü Gör <span aria-hidden="true">→</span></a>
     </div>
-    {
-      templates.length > 0 ? (
-        <ul class="template-grid">
-          {
-            templates.map((template, index) => (
-              <li>
-                <TemplateCard
-                  slug={template.slug}
-                  name={template.name}
-                  summary={template.summary}
-                  sheetCount={template.sheetCount}
-                  priceTL={template.priceTL}
-                  category={template.categoryName}
-                  categorySlug={template.categorySlug}
-                  version={template.version}
-                  variant={variants[index % variants.length]}
-                  sheetMap={template.sheetMap}
-                />
-              </li>
-            ))
-          }
-        </ul>
-      ) : (
-        <p class="section-head__lead">Şablonlar yayına hazırlanıyor.</p>
-      )
-    }
+    {templates.length > 0 ? (
+      <ul class="template-grid">
+        {templates.map((template, index) => (
+          <li>
+            <TemplateCard
+              slug={template.slug}
+              name={template.name}
+              summary={template.summary}
+              sheetCount={template.sheetCount}
+              priceTL={template.priceTL}
+              category={template.categoryName}
+              categorySlug={template.categorySlug}
+              version={template.version}
+              variant={variants[index % variants.length]}
+              sheetMap={template.sheetMap}
+            />
+          </li>
+        ))}
+      </ul>
+    ) : <p class="section-head__lead">Şablonlar yayına hazırlanıyor.</p>}
   </div>
 </section>
 
@@ -60,20 +48,28 @@ const variants = ['sparkline', 'hm', 'bars', 'sparkline', 'hm', 'bars'] as const
     padding: 0;
     list-style: none;
   }
-  .template-grid > * {
-    min-width: 0;
-  }
-  .template-grid li {
-    min-width: 0;
-  }
+  .template-grid > *, .template-grid li { min-width: 0; }
   @media (max-width: 1024px) {
-    .template-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+    .template-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 680px) {
+    .featured-section { padding-block: 40px; overflow: hidden; }
+    .featured-head { align-items: flex-start; gap: 10px; margin-bottom: 20px; }
+    .featured-head :global(.section-head__title) { font-size: 29px; line-height: 1.04; }
+    .featured-head :global(.section-head__link) { font-size: 11.5px; }
     .template-grid {
-      grid-template-columns: 1fr;
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: min(84vw, 340px);
+      grid-template-columns: none;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 0 2px 8px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
     }
+    .template-grid::-webkit-scrollbar { display: none; }
+    .template-grid li { scroll-snap-align: start; }
   }
 </style>
