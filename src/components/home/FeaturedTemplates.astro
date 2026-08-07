@@ -1,75 +1,128 @@
 ---
-import TemplateCard from '../catalog/TemplateCard.astro';
 import type { TemplateViewModel } from '../../lib/templates';
 
 interface Props { templates: TemplateViewModel[]; }
 const { templates } = Astro.props;
-const variants = ['sparkline', 'hm', 'bars', 'sparkline', 'hm', 'bars'] as const;
+const focal = templates[0];
+const side = templates.slice(1, 3);
+const shelf = templates.slice(3, 6);
+const money = (value: number) => value.toLocaleString('tr-TR');
 ---
 
-<section class="site-section featured-section" aria-labelledby="featured-title">
-  <div class="site-container featured-container">
-    <div class="section-head section-head--row featured-head">
+<section class="product-stage" aria-labelledby="product-stage-title">
+  <div class="site-container">
+    <div class="product-stage__head">
       <div>
-        <span class="section-head__kicker">ÖNE ÇIKAN ŞABLONLAR</span>
-        <h2 id="featured-title" class="section-head__title">En çok tercih edilenler</h2>
+        <span class="section-head__kicker">KURULU EXCEL SİSTEMLERİ</span>
+        <h2 id="product-stage-title">Dosyayı değil, <em>hazır çalışma düzenini</em> alın.</h2>
+        <p>Girdi, hesap, kontrol ve yönetim çıktısı aynı yapıda. Önce demo ile görün, sonra ihtiyacınıza uyan sistemi seçin.</p>
       </div>
-      <a class="section-head__link" href="/sablonlar">Tümünü Gör <span aria-hidden="true">→</span></a>
+      <a href="/sablonlar" class="product-stage__all">Tüm sistemler <span aria-hidden="true">→</span></a>
     </div>
-    {templates.length > 0 ? (
-      <ul class="template-grid">
-        {templates.map((template, index) => (
-          <li>
-            <TemplateCard
-              slug={template.slug}
-              name={template.name}
-              summary={template.summary}
-              sheetCount={template.sheetCount}
-              priceTL={template.priceTL}
-              category={template.categoryName}
-              categorySlug={template.categorySlug}
-              version={template.version}
-              variant={variants[index % variants.length]}
-              sheetMap={template.sheetMap}
-            />
-          </li>
+
+    {focal ? (
+      <div class="product-stage__layout">
+        <article class="focal-product">
+          <div class="focal-product__copy">
+            <div class="focal-product__meta">
+              <span>{focal.categoryName}</span>
+              <span>{focal.sheetCount} sayfa</span>
+            </div>
+            <h3>{focal.name}</h3>
+            <p>{focal.summary}</p>
+            <ul class="focal-product__proof">
+              <li><span>✓</span> Demo ile ön inceleme</li>
+              <li><span>✓</span> KDV dahil fiyat</li>
+              <li><span>✓</span> Dijital teslimat</li>
+            </ul>
+            <div class="focal-product__foot">
+              <strong>{money(focal.priceTL)} TL</strong>
+              <a href={`/sablon/${focal.slug}`}>Sistemi inceleyin <span aria-hidden="true">→</span></a>
+            </div>
+          </div>
+
+          <div class="focal-product__workbook" aria-hidden="true">
+            <div class="mini-window">
+              <div class="mini-window__top"><i></i><i></i><i></i><span>Finans_Modeli.xlsx</span></div>
+              <div class="mini-window__tabs"><b>Dashboard</b><span>Girdi</span><span>Nakit</span></div>
+              <div class="mini-window__metrics">
+                <div><small>Nakit</small><strong>₺1,25M</strong><em>▲ %12</em></div>
+                <div><small>Net</small><strong>₺415K</strong><em>▲ %8</em></div>
+                <div><small>Tahsilat</small><strong>%92</strong><em>▲ %4</em></div>
+              </div>
+              <div class="mini-window__chart">
+                <svg viewBox="0 0 360 130" preserveAspectRatio="none"><path d="M0 106 L42 92 L84 98 L126 72 L168 80 L210 55 L252 62 L300 34 L360 20 L360 130 L0 130 Z" fill="rgba(16,124,65,.08)"/><polyline points="0,106 42,92 84,98 126,72 168,80 210,55 252,62 300,34 360,20" fill="none" stroke="#16864b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div class="mini-window__legend"><span>Gelir</span><span>Gider</span><span>Net</span></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <div class="side-products">
+          {side.map((template, index) => (
+            <article class={`side-product side-product--${index + 1}`}>
+              <div class="side-product__top">
+                <span>{template.categoryName}</span>
+                <strong>{money(template.priceTL)} TL</strong>
+              </div>
+              <h3>{template.name}</h3>
+              <p>{template.summary}</p>
+              <div class="side-product__visual" aria-hidden="true">
+                {index === 0 ? (
+                  <div class="cash-bars"><i style="height:38%"></i><i style="height:54%"></i><i style="height:47%"></i><i style="height:70%"></i><i style="height:62%"></i><i style="height:88%"></i></div>
+                ) : (
+                  <div class="risk-ledger"><span><b>Brüt kâr</b><em>▲ %24</em></span><span><b>Alacak günü</b><em>→ 42</em></span><span><b>Nakit</b><em>▲ Güçlü</em></span></div>
+                )}
+              </div>
+              <a href={`/sablon/${template.slug}`}>İncele <span aria-hidden="true">→</span></a>
+            </article>
+          ))}
+        </div>
+      </div>
+    ) : <p class="section-head__lead">Sistemler yayına hazırlanıyor.</p>}
+
+    {shelf.length > 0 && (
+      <div class="product-shelf" aria-label="Diğer öne çıkan sistemler">
+        {shelf.map((template) => (
+          <a class="shelf-item" href={`/sablon/${template.slug}`}>
+            <span class="shelf-item__category">{template.categoryName}</span>
+            <strong>{template.name}</strong>
+            <span class="shelf-item__price">{money(template.priceTL)} TL <i aria-hidden="true">→</i></span>
+          </a>
         ))}
-      </ul>
-    ) : <p class="section-head__lead">Şablonlar yayına hazırlanıyor.</p>}
+      </div>
+    )}
   </div>
 </section>
 
 <style>
-  .template-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .template-grid > *, .template-grid li { min-width: 0; }
-  @media (max-width: 1024px) {
-    .template-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
-  @media (max-width: 680px) {
-    .featured-section { padding-block: 40px; overflow: hidden; }
-    .featured-head { align-items: flex-start; gap: 10px; margin-bottom: 20px; }
-    .featured-head :global(.section-head__title) { font-size: 29px; line-height: 1.04; }
-    .featured-head :global(.section-head__link) { font-size: 11.5px; }
-    .template-grid {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: min(84vw, 340px);
-      grid-template-columns: none;
-      gap: 12px;
-      overflow-x: auto;
-      padding: 0 2px 8px;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-    }
-    .template-grid::-webkit-scrollbar { display: none; }
-    .template-grid li { scroll-snap-align: start; }
+  .product-stage { padding-block:clamp(72px,8vw,108px); background:#fff; border-bottom:1px solid var(--xl-grid); }
+  .product-stage__head { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:40px; align-items:end; margin-bottom:34px; }
+  .product-stage__head h2 { max-width:780px; margin:10px 0 0; font-family:var(--font-display); font-size:clamp(38px,4.8vw,66px); line-height:.98; letter-spacing:-.045em; color:var(--xl-ink-900); }
+  .product-stage__head h2 em { color:var(--xl-green); font-style:normal; }
+  .product-stage__head p { max-width:690px; margin:17px 0 0; font-size:15px; line-height:1.65; color:var(--xl-ink-3); }
+  .product-stage__all { align-self:end; color:var(--xl-green-dark); font-family:var(--font-mono); font-size:12px; font-weight:700; text-decoration:none; white-space:nowrap; }
+  .product-stage__layout { display:grid; grid-template-columns:minmax(0,1.62fr) minmax(320px,.78fr); gap:18px; align-items:stretch; }
+  .focal-product { display:grid; grid-template-columns:minmax(0,.92fr) minmax(360px,1.08fr); overflow:hidden; min-height:520px; border:1px solid #d7e2da; border-radius:28px; background:linear-gradient(135deg,#f6fbf8 0%,#edf7f1 52%,#f8fbf9 100%); box-shadow:0 24px 60px rgba(32,70,48,.09); }
+  .focal-product__copy { display:flex; flex-direction:column; padding:38px 34px 32px; min-width:0; }
+  .focal-product__meta { display:flex; gap:8px; flex-wrap:wrap; }
+  .focal-product__meta span { display:inline-flex; align-items:center; min-height:26px; padding:0 10px; border-radius:999px; background:#fff; border:1px solid rgba(16,124,65,.13); color:var(--xl-green-dark); font-family:var(--font-mono); font-size:9.5px; font-weight:700; }
+  .focal-product h3 { margin:20px 0 0; font-family:var(--font-display); font-size:clamp(30px,3vw,44px); line-height:1.02; letter-spacing:-.035em; color:var(--xl-ink-900); }
+  .focal-product__copy>p { margin:15px 0 0; font-size:13.5px; line-height:1.65; color:var(--xl-ink-3); }
+  .focal-product__proof { display:grid; gap:8px; margin:22px 0 0; padding:0; list-style:none; font-size:12px; color:#4f6257; }.focal-product__proof span{display:inline-grid;place-items:center;width:18px;height:18px;margin-right:7px;border-radius:6px;background:#dff2e6;color:#0d7540;font-size:9px;font-weight:800}
+  .focal-product__foot { display:flex; align-items:center; justify-content:space-between; gap:18px; margin-top:auto; padding-top:26px; }.focal-product__foot strong{font-family:var(--font-mono);font-size:27px;color:var(--xl-ink-900)}.focal-product__foot a{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 18px;border-radius:12px;background:var(--xl-green);color:#fff;font-family:var(--font-mono);font-size:11.5px;font-weight:700;text-decoration:none}
+  .focal-product__workbook { display:flex; align-items:center; padding:36px 28px 36px 6px; min-width:0; }
+  .mini-window { width:100%; overflow:hidden; border:1px solid #cfdad2; border-radius:18px; background:#fff; box-shadow:0 26px 55px rgba(38,75,53,.14); transform:rotate(-1.6deg); }
+  .mini-window__top { display:flex; align-items:center; gap:6px; min-height:36px; padding:0 12px; background:#e9eeea; border-bottom:1px solid #d9e1db; font-family:var(--font-mono); font-size:8px; color:#738077; }.mini-window__top i{width:7px;height:7px;border-radius:50%;background:#f06c65}.mini-window__top i:nth-child(2){background:#eab84b}.mini-window__top i:nth-child(3){background:#53ba71}.mini-window__top span{margin-left:5px}
+  .mini-window__tabs { display:flex; gap:4px; padding:9px 10px 0; border-bottom:1px solid #e4e9e5; }.mini-window__tabs>*{padding:7px 9px;font-family:var(--font-mono);font-size:8px;color:#728077}.mini-window__tabs b{border:1px solid #dde4df;border-bottom:0;border-radius:7px 7px 0 0;background:#f6faf7;color:#0d7540}
+  .mini-window__metrics { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:16px 16px 8px; }.mini-window__metrics>div{padding:10px;border:1px solid #e0e6e1;border-radius:10px;background:#fafcfb;display:flex;flex-direction:column;gap:3px}.mini-window__metrics small{font-size:7.5px;color:#77847b}.mini-window__metrics strong{font-family:var(--font-mono);font-size:13px}.mini-window__metrics em{font-family:var(--font-mono);font-size:7.5px;font-style:normal;color:#0e7c41}
+  .mini-window__chart { padding:10px 16px 16px; }.mini-window__chart svg{width:100%;height:145px}.mini-window__legend{display:flex;gap:14px;padding-top:8px;border-top:1px solid #edf0ee;font-family:var(--font-mono);font-size:7.5px;color:#758179}.mini-window__legend span::before{content:'';display:inline-block;width:6px;height:6px;margin-right:5px;border-radius:2px;background:#16864b}.mini-window__legend span:nth-child(2)::before{opacity:.45}.mini-window__legend span:nth-child(3)::before{background:#0a5e34}
+  .side-products { display:grid; grid-template-rows:1fr 1fr; gap:18px; }
+  .side-product { display:flex; flex-direction:column; min-height:0; padding:24px; border:1px solid var(--xl-border); border-radius:24px; background:#fbfaf7; overflow:hidden; }.side-product--2{background:#f5f8fb}.side-product__top{display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:var(--font-mono);font-size:9px;color:#6d7b72}.side-product__top span{color:var(--xl-green-dark);font-weight:700}.side-product__top strong{color:var(--xl-ink-900)}.side-product h3{margin:13px 0 0;font-size:20px;line-height:1.08;color:var(--xl-ink-900)}.side-product p{margin:8px 0 0;font-size:11.5px;line-height:1.5;color:var(--xl-ink-3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.side-product__visual{min-height:62px;margin:15px 0;padding:10px;border-radius:13px;background:rgba(255,255,255,.72)}.side-product>a{margin-top:auto;color:var(--xl-green-dark);font-family:var(--font-mono);font-size:10.5px;font-weight:700;text-decoration:none}
+  .cash-bars{height:55px;display:flex;align-items:flex-end;gap:6px}.cash-bars i{flex:1;border-radius:4px 4px 2px 2px;background:#1a8a4d;opacity:.42}.cash-bars i:nth-child(2),.cash-bars i:nth-child(5){opacity:.62}.cash-bars i:nth-child(4),.cash-bars i:nth-child(6){opacity:.9}.risk-ledger{display:grid;gap:5px}.risk-ledger span{display:flex;justify-content:space-between;gap:10px;padding:4px 7px;border-radius:7px;background:#fff;font-family:var(--font-mono);font-size:8.5px}.risk-ledger b{font-weight:500;color:#6e7a72}.risk-ledger em{font-style:normal;color:#0d7540;font-weight:700}
+  .product-shelf { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:18px; }.shelf-item{display:grid;grid-template-columns:1fr auto;gap:7px 14px;align-items:center;padding:17px 18px;border:1px solid var(--xl-border);border-radius:16px;background:#fff;text-decoration:none;transition:transform 160ms ease,border-color 160ms ease}.shelf-item:hover{transform:translateY(-2px);border-color:var(--xl-accent-border)}.shelf-item__category{grid-column:1/-1;font-family:var(--font-mono);font-size:8.5px;font-weight:700;color:var(--xl-green)}.shelf-item strong{font-size:13px;line-height:1.2;color:var(--xl-ink-900)}.shelf-item__price{font-family:var(--font-mono);font-size:10px;color:#65736a;white-space:nowrap}.shelf-item__price i{font-style:normal;color:var(--xl-green)}
+  @media(max-width:1050px){.product-stage__layout{grid-template-columns:1fr}.side-products{grid-template-columns:1fr 1fr;grid-template-rows:none}.focal-product{min-height:480px}.product-shelf{grid-template-columns:1fr 1fr}.product-shelf .shelf-item:last-child{grid-column:1/-1}}
+  @media(max-width:680px){
+    .product-stage{padding-block:46px}.product-stage__head{grid-template-columns:1fr;gap:14px;margin-bottom:22px}.product-stage__head h2{font-size:36px}.product-stage__head p{font-size:13px;line-height:1.55}.product-stage__all{justify-self:start}.focal-product{grid-template-columns:1fr;min-height:0;border-radius:20px}.focal-product__copy{padding:22px 18px 18px}.focal-product h3{font-size:29px}.focal-product__copy>p{font-size:12.5px}.focal-product__proof{grid-template-columns:1fr 1fr;font-size:10.5px}.focal-product__proof li:last-child{grid-column:1/-1}.focal-product__foot{padding-top:20px}.focal-product__foot strong{font-size:22px}.focal-product__foot a{min-height:40px;padding:0 13px;font-size:10px}.focal-product__workbook{padding:0 14px 20px}.mini-window{transform:none;border-radius:14px}.mini-window__chart svg{height:105px}.side-products{display:flex;overflow-x:auto;gap:10px;margin-top:10px;scroll-snap-type:x mandatory;scrollbar-width:none}.side-products::-webkit-scrollbar{display:none}.side-product{flex:0 0 82%;min-height:240px;padding:18px;border-radius:18px;scroll-snap-align:start}.product-shelf{display:none}
   }
 </style>
