@@ -1,7 +1,7 @@
 {
   "name": "excelarsiv-functions",
   "private": true,
-  "main": "index.js",
+  "main": "main.js",
   "engines": {
     "node": "22"
   },
