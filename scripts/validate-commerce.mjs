@@ -51,7 +51,15 @@ for (const slug of Object.keys(catalog.products)) {
 
 const firebaseConfig = JSON.parse(fs.readFileSync(path.join(root, 'firebase.json'), 'utf8'));
 const rewrites = firebaseConfig.hosting?.[0]?.rewrites ?? [];
-for (const route of ['/api/checkout', '/api/checkout-status', '/api/verify-order', '/api/download-token', '/api/download']) {
+const requiredRoutes = [
+  '/api/checkout',
+  '/api/checkout-status',
+  '/api/verify-order',
+  '/api/recover-purchase',
+  '/api/download-token',
+  '/api/download',
+];
+for (const route of requiredRoutes) {
   if (!rewrites.some((entry) => entry.source === route && entry.function?.functionId)) {
     errors.push(`${route}: Firebase Hosting function rewrite eksik.`);
   }
@@ -63,4 +71,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`Commerce validation OK: ${templateFiles.length} ürün, 4 Shopier seviyesi, 5 güvenli API rotası.`);
+console.log(`Commerce validation OK: ${templateFiles.length} ürün, 4 Shopier seviyesi, ${requiredRoutes.length} güvenli API rotası.`);
