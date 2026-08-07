@@ -24,6 +24,10 @@
           "function": { "functionId": "verifyShopierOrder", "region": "europe-west1" }
         },
         {
+          "source": "/api/recover-purchase",
+          "function": { "functionId": "recoverPurchase", "region": "europe-west1" }
+        },
+        {
           "source": "/api/download-token",
           "function": { "functionId": "createDownloadToken", "region": "europe-west1" }
         },
