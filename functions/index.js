@@ -475,7 +475,7 @@ exports.createDownloadToken = onRequest(functionDefaults, async (req, res) => {
 });
 
 exports.downloadFile = onRequest(
-  { ...functionDefaults, timeoutSeconds: 60, memory: '512MiB', maxInstances: 30 },
+  { ...functionDefaults, timeoutSeconds: 60, memory: '512MiB', maxInstances: 20 },
   async (req, res) => {
     if (req.method !== 'GET') return sendJson(res, 405, { error: 'METHOD_NOT_ALLOWED' });
 

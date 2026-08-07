@@ -1,6 +1,6 @@
 'use strict';
 
-const catalog = require('../commerce/catalog.json');
+const catalog = require('./commerce/catalog.json');
 
 const TIERS = Object.freeze(
   Object.fromEntries(
