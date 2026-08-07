@@ -1,4 +1,8 @@
 {
+  "functions": {
+    "source": "functions",
+    "runtime": "nodejs22"
+  },
   "hosting": [
     {
       "target": "excelarsiv",
@@ -6,10 +10,39 @@
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "cleanUrls": true,
       "trailingSlash": false,
+      "rewrites": [
+        {
+          "source": "/api/checkout",
+          "function": { "functionId": "createCheckout", "region": "europe-west1" }
+        },
+        {
+          "source": "/api/checkout-status",
+          "function": { "functionId": "checkoutStatus", "region": "europe-west1" }
+        },
+        {
+          "source": "/api/verify-order",
+          "function": { "functionId": "verifyShopierOrder", "region": "europe-west1" }
+        },
+        {
+          "source": "/api/download-token",
+          "function": { "functionId": "createDownloadToken", "region": "europe-west1" }
+        },
+        {
+          "source": "/api/download",
+          "function": { "functionId": "downloadFile", "region": "europe-west1" }
+        }
+      ],
       "headers": [
         {
           "source": "/**",
           "headers": [{ "key": "Cache-Control", "value": "no-cache, must-revalidate" }]
+        },
+        {
+          "source": "/api/**",
+          "headers": [
+            { "key": "Cache-Control", "value": "no-store" },
+            { "key": "X-Content-Type-Options", "value": "nosniff" }
+          ]
         },
         {
           "source": "/images/*.png",
