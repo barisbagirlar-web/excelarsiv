@@ -1,33 +1,31 @@
 ---
 const steps = [
-  { title: 'İhtiyaç analizi', description: 'Çözülecek iş problemi ve raporlama dönemi tanımlanır.', viz: 'cells' },
-  { title: 'Model kurulumu', description: 'Formül, adlandırılmış aralık ve veri doğrulama kurulur.', viz: 'fx' },
-  { title: 'Gerçek veriyle test', description: 'Farklı sürümlerde sonuçlar doğrulanır.', viz: 'tick' },
-  { title: 'Belgeleme', description: 'Girdi ve hesaplama mantığı dosyanın içinde açıklanır.', viz: 'docs' },
+  { code: '01', title: 'İhtiyaç analizi', description: 'Önce dosyanın çözeceği iş problemi, girdi alanları ve beklenen çıktı tanımlanır.', note: 'problem → çıktı' },
+  { code: '02', title: 'Model kurulumu', description: 'Formüller, adlandırılmış aralıklar, veri doğrulamaları ve sayfa ilişkileri kurulur.', note: 'girdi → hesap' },
+  { code: '03', title: 'Gerçek veriyle test', description: 'Farklı iş senaryolarında sonuçlar kontrol edilir; kritik hatalar ve uç durumlar gözden geçirilir.', note: 'senaryo → doğrulama' },
+  { code: '04', title: 'Belgeleme', description: 'Kullanıcının değiştireceği alanlar, hesap mantığı ve uyarılar dosyanın içinde açıklanır.', note: 'kullanım → kontrol' },
 ];
 ---
 
-<section class="site-section process-section" aria-labelledby="process-title">
-  <div class="site-container">
-    <div class="section-head process-head">
-      <span class="section-head__kicker">ÜRETİM SÜRECİ</span>
-      <h2 id="process-title" class="section-head__title">Bu dosyalar nasıl hazırlanıyor?</h2>
-      <p class="section-head__lead">Her şablon aynı dört adımla üretilir ve gerçek iş verisiyle test edilir.</p>
+<section class="process-story" aria-labelledby="process-title">
+  <div class="site-container process-story__layout">
+    <div class="process-story__intro">
+      <span class="section-head__kicker">ÜRETİM STANDARDI</span>
+      <h2 id="process-title">Bir dosya nasıl <em>satışa hazır sisteme</em> dönüşür?</h2>
+      <p>Premium değer yalnızca güzel bir dashboard değildir. Modelin çalışması, korunması, test edilmesi ve anlaşılır teslim edilmesi aynı sürecin parçalarıdır.</p>
+      <span class="process-story__seal">MODEL · TEST · BELGE</span>
     </div>
-    <ol class="process-grid">
-      {steps.map((step, index) => (
-        <li class="process-card">
-          <span class="process-card__viz" aria-hidden="true">
-            {step.viz === 'cells' && <svg viewBox="0 0 40 28"><rect x="1" y="1" width="38" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M13 1v26M27 1v26M1 14h38" stroke="var(--xl-grid)"/><rect x="4" y="5" width="6" height="6" rx="1" fill="currentColor"/></svg>}
-            {step.viz === 'fx' && <span class="process-card__fx">fx =B1+B2</span>}
-            {step.viz === 'tick' && <svg viewBox="0 0 40 28"><circle cx="20" cy="14" r="12" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M14 14l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>}
-            {step.viz === 'docs' && <svg viewBox="0 0 40 28"><path d="M8 3h16l8 8v14H8zM24 3v8h8M12 17h12M12 22h8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/></svg>}
-          </span>
-          <div class="process-card__body">
-            <span class="process-card__number">{String(index + 1).padStart(2, '0')}</span>
-            <h3 class="process-card__title">{step.title}</h3>
-            <p class="process-card__text">{step.description}</p>
+
+    <ol class="process-story__steps">
+      {steps.map((step) => (
+        <li class="process-story__step">
+          <div class="process-story__number">{step.code}</div>
+          <div class="process-story__content">
+            <span class="process-story__note">{step.note}</span>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
           </div>
+          <span class="process-story__marker" aria-hidden="true"></span>
         </li>
       ))}
     </ol>
@@ -35,111 +33,15 @@ const steps = [
 </section>
 
 <style>
-  .process-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .process-grid > * {
-    min-width: 0;
-  }
-  .process-card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    min-height: 185px;
-    padding: 20px;
-    border: 1px solid var(--xl-border);
-    border-radius: 18px;
-    background: #fff;
-    border-top: 3px solid var(--xl-green);
-  }
-  .process-card__viz {
-    display: grid;
-    place-items: center;
-    width: 100%;
-    min-height: 48px;
-    margin-bottom: 10px;
-    border-radius: 12px;
-    background: var(--xl-accent-soft);
-    color: var(--xl-green);
-  }
-  .process-card__viz svg {
-    width: 42px;
-    height: 28px;
-  }
-  .process-card__fx {
-    font-family: var(--font-mono);
-    font-size: 11px;
-  }
-  .process-card__number {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--xl-green);
-  }
-  .process-card__title {
-    margin: 6px 0 4px;
-    font-family: var(--font-body);
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--xl-ink-900);
-  }
-  .process-card__text {
-    margin: 0;
-    font-size: 12px;
-    line-height: 1.55;
-    color: var(--xl-ink-3);
-  }
-  @media (max-width: 1024px) {
-    .process-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-  @media (max-width: 560px) {
-    .process-section { padding-block: 40px; }
-    .process-head { margin-bottom: 20px; }
-    .process-head :global(.section-head__title) { font-size: 29px; line-height: 1.04; }
-    .process-head :global(.section-head__lead) { font-size: 13.5px; line-height: 1.5; }
-    .process-grid { display: grid; grid-template-columns: 1fr; gap: 0; position: relative; }
-    .process-card {
-      position: relative;
-      display: grid;
-      grid-template-columns: 38px minmax(0, 1fr);
-      gap: 12px;
-      padding: 14px 0;
-      border: 0;
-      border-radius: 0;
-      background: transparent;
-      min-height: 0;
-    }
-    .process-card:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      left: 18px;
-      top: 48px;
-      bottom: -2px;
-      width: 1px;
-      background: var(--xl-grid);
-    }
-    .process-card__viz {
-      width: 36px;
-      height: 36px;
-      min-height: 36px;
-      margin: 0;
-      border-radius: 10px;
-      z-index: 1;
-      background: #fff;
-      border: 1px solid var(--xl-accent-border);
-    }
-    .process-card__viz svg { width: 24px; height: 20px; }
-    .process-card__fx { font-size: 8px; }
-    .process-card__body { padding-top: 1px; }
-    .process-card__number { font-size: 9.5px; }
-    .process-card__title { margin: 3px 0; font-size: 15px; }
-    .process-card__text { font-size: 11.5px; line-height: 1.4; }
-  }
+  .process-story { padding-block:clamp(80px,9vw,126px); background:#fff; border-bottom:1px solid var(--xl-grid); }
+  .process-story__layout { display:grid; grid-template-columns:minmax(300px,.72fr) minmax(0,1.28fr); gap:80px; align-items:start; }
+  .process-story__intro { position:sticky; top:110px; min-width:0; }
+  .process-story__intro h2 { max-width:470px; margin:11px 0 0; font-family:var(--font-display); font-size:clamp(38px,4.2vw,58px); line-height:.98; letter-spacing:-.045em; color:var(--xl-ink-900); }.process-story__intro h2 em{font-style:normal;color:var(--xl-green)}
+  .process-story__intro p { max-width:440px; margin:18px 0 0; font-size:14px; line-height:1.7; color:var(--xl-ink-3); }
+  .process-story__seal { display:inline-flex; align-items:center; min-height:32px; margin-top:28px; padding:0 11px; border:1px solid #b7d9c4; border-radius:999px; background:#eff8f2; color:#0d6e3b; font-family:var(--font-mono); font-size:8.5px; font-weight:700; letter-spacing:.09em; }
+  .process-story__steps { position:relative; margin:0; padding:0; list-style:none; }.process-story__steps::before{content:'';position:absolute;left:56px;top:60px;bottom:60px;width:1px;background:linear-gradient(to bottom,#9cccb0,#dfe9e1)}
+  .process-story__step { position:relative; display:grid; grid-template-columns:112px minmax(0,1fr); gap:26px; min-height:180px; padding:28px 0 34px; border-bottom:1px solid #e5e8e5; }.process-story__step:last-child{border-bottom:0}.process-story__number{position:relative;z-index:2;font-family:var(--font-display);font-size:70px;line-height:.9;letter-spacing:-.07em;color:#d9eee1}.process-story__content{padding-top:4px;max-width:620px}.process-story__note{font-family:var(--font-mono);font-size:8.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#0f7c42}.process-story__content h3{margin:8px 0 0;font-size:27px;line-height:1.05;letter-spacing:-.025em;color:var(--xl-ink-900)}.process-story__content p{max-width:570px;margin:10px 0 0;font-size:13.5px;line-height:1.65;color:var(--xl-ink-3)}.process-story__marker{position:absolute;left:50px;top:57px;z-index:3;width:13px;height:13px;border:3px solid #fff;border-radius:50%;background:#128047;box-shadow:0 0 0 1px #8bc8a0}
+  .process-story__step:nth-child(2) .process-story__content{transform:translateX(24px)}.process-story__step:nth-child(3) .process-story__content{transform:translateX(8px)}.process-story__step:nth-child(4) .process-story__content{transform:translateX(34px)}
+  @media(max-width:940px){.process-story__layout{grid-template-columns:1fr;gap:36px}.process-story__intro{position:static}.process-story__intro h2{max-width:760px}.process-story__intro p{max-width:650px}.process-story__step:nth-child(n) .process-story__content{transform:none}}
+  @media(max-width:640px){.process-story{padding-block:50px}.process-story__layout{gap:24px}.process-story__intro h2{font-size:35px}.process-story__intro p{font-size:12.5px;line-height:1.55}.process-story__seal{margin-top:18px}.process-story__steps::before{left:20px;top:34px;bottom:34px}.process-story__step{grid-template-columns:42px minmax(0,1fr);gap:12px;min-height:0;padding:16px 0 20px}.process-story__number{font-size:28px;letter-spacing:-.04em}.process-story__marker{left:15px;top:28px;width:11px;height:11px}.process-story__content{padding-top:0}.process-story__note{font-size:7.5px}.process-story__content h3{font-size:18px;margin-top:5px}.process-story__content p{font-size:11.5px;line-height:1.5;margin-top:6px}}
 </style>
