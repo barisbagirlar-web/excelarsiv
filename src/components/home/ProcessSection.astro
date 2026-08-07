@@ -1,75 +1,35 @@
 ---
 const steps = [
-  {
-    title: 'İhtiyaç analizi',
-    description: 'Çözülecek iş problemi ve raporlama dönemi tanımlanır.',
-    viz: 'cells',
-  },
-  {
-    title: 'Model kurulumu',
-    description: 'Formül, adlandırılmış aralık ve veri doğrulama kurulur.',
-    viz: 'fx',
-  },
-  {
-    title: 'Gerçek veriyle test',
-    description: 'Farklı sürümlerde sonuçlar doğrulanır.',
-    viz: 'tick',
-  },
-  {
-    title: 'Belgeleme',
-    description: 'Girdi ve hesaplama mantığı dosyanın içinde açıklanır.',
-    viz: 'docs',
-  },
+  { title: 'İhtiyaç analizi', description: 'Çözülecek iş problemi ve raporlama dönemi tanımlanır.', viz: 'cells' },
+  { title: 'Model kurulumu', description: 'Formül, adlandırılmış aralık ve veri doğrulama kurulur.', viz: 'fx' },
+  { title: 'Gerçek veriyle test', description: 'Farklı sürümlerde sonuçlar doğrulanır.', viz: 'tick' },
+  { title: 'Belgeleme', description: 'Girdi ve hesaplama mantığı dosyanın içinde açıklanır.', viz: 'docs' },
 ];
 ---
 
-<section class="site-section" aria-labelledby="process-title">
+<section class="site-section process-section" aria-labelledby="process-title">
   <div class="site-container">
-    <div class="section-head">
+    <div class="section-head process-head">
       <span class="section-head__kicker">ÜRETİM SÜRECİ</span>
       <h2 id="process-title" class="section-head__title">Bu dosyalar nasıl hazırlanıyor?</h2>
-      <p class="section-head__lead">
-        Her şablon aynı dört adımla üretilir; çıktısı gerçek iş verisiyle test edilmiş dosyadır.
-      </p>
+      <p class="section-head__lead">Her şablon aynı dört adımla üretilir ve gerçek iş verisiyle test edilir.</p>
     </div>
     <ol class="process-grid">
-      {
-        steps.map((step, index) => (
-          <li class="process-card">
-            <span class="process-card__viz" aria-hidden="true">
-              {step.viz === 'cells' && (
-                <svg viewBox="0 0 40 28" class="process-card__svg">
-                  <rect x="1" y="1" width="38" height="26" rx="3" fill="none" stroke="var(--xl-green)" stroke-width="1.5" />
-                  <path d="M13 1v26M27 1v26M1 14h38" stroke="var(--xl-grid)" stroke-width="1" />
-                  <rect x="4" y="5" width="6" height="6" rx="1" fill="var(--xl-green)" />
-                  <rect x="4" y="17" width="6" height="6" rx="1" fill="var(--xl-accent-border)" />
-                </svg>
-              )}
-              {step.viz === 'fx' && (
-                <svg viewBox="0 0 40 28" class="process-card__svg">
-                  <path d="M4 22h32" stroke="var(--xl-grid)" stroke-width="1" />
-                  <text x="4" y="14" font-family="monospace" font-size="11" fill="var(--xl-green)">fx =B1+B2</text>
-                </svg>
-              )}
-              {step.viz === 'tick' && (
-                <svg viewBox="0 0 40 28" class="process-card__svg">
-                  <circle cx="20" cy="14" r="12" fill="none" stroke="var(--xl-green)" stroke-width="1.5" />
-                  <path d="M14 14l4 4 8-9" fill="none" stroke="var(--xl-green)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-              )}
-              {step.viz === 'docs' && (
-                <svg viewBox="0 0 40 28" class="process-card__svg">
-                  <path d="M8 3h16l8 8v14H8z" fill="none" stroke="var(--xl-green)" stroke-width="1.5" stroke-linejoin="round" />
-                  <path d="M24 3v8h8M12 17h12M12 22h8" stroke="var(--xl-green)" stroke-width="1.5" stroke-linecap="round" />
-                </svg>
-              )}
-            </span>
+      {steps.map((step, index) => (
+        <li class="process-card">
+          <span class="process-card__viz" aria-hidden="true">
+            {step.viz === 'cells' && <svg viewBox="0 0 40 28"><rect x="1" y="1" width="38" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M13 1v26M27 1v26M1 14h38" stroke="var(--xl-grid)"/><rect x="4" y="5" width="6" height="6" rx="1" fill="currentColor"/></svg>}
+            {step.viz === 'fx' && <span class="process-card__fx">fx =B1+B2</span>}
+            {step.viz === 'tick' && <svg viewBox="0 0 40 28"><circle cx="20" cy="14" r="12" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M14 14l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>}
+            {step.viz === 'docs' && <svg viewBox="0 0 40 28"><path d="M8 3h16l8 8v14H8zM24 3v8h8M12 17h12M12 22h8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/></svg>}
+          </span>
+          <div class="process-card__body">
             <span class="process-card__number">{String(index + 1).padStart(2, '0')}</span>
             <h3 class="process-card__title">{step.title}</h3>
             <p class="process-card__text">{step.description}</p>
-          </li>
-        ))
-      }
+          </div>
+        </li>
+      ))}
     </ol>
   </div>
 </section>
@@ -105,10 +65,15 @@ const steps = [
     margin-bottom: 10px;
     border-radius: 12px;
     background: var(--xl-accent-soft);
+    color: var(--xl-green);
   }
-  .process-card__svg {
+  .process-card__viz svg {
     width: 42px;
     height: 28px;
+  }
+  .process-card__fx {
+    font-family: var(--font-mono);
+    font-size: 11px;
   }
   .process-card__number {
     font-family: var(--font-mono);
@@ -134,9 +99,47 @@ const steps = [
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
-  @media (max-width: 680px) {
-    .process-grid {
-      grid-template-columns: 1fr;
+  @media (max-width: 560px) {
+    .process-section { padding-block: 40px; }
+    .process-head { margin-bottom: 20px; }
+    .process-head :global(.section-head__title) { font-size: 29px; line-height: 1.04; }
+    .process-head :global(.section-head__lead) { font-size: 13.5px; line-height: 1.5; }
+    .process-grid { display: grid; grid-template-columns: 1fr; gap: 0; position: relative; }
+    .process-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: 38px minmax(0, 1fr);
+      gap: 12px;
+      padding: 14px 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      min-height: 0;
     }
+    .process-card:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 18px;
+      top: 48px;
+      bottom: -2px;
+      width: 1px;
+      background: var(--xl-grid);
+    }
+    .process-card__viz {
+      width: 36px;
+      height: 36px;
+      min-height: 36px;
+      margin: 0;
+      border-radius: 10px;
+      z-index: 1;
+      background: #fff;
+      border: 1px solid var(--xl-accent-border);
+    }
+    .process-card__viz svg { width: 24px; height: 20px; }
+    .process-card__fx { font-size: 8px; }
+    .process-card__body { padding-top: 1px; }
+    .process-card__number { font-size: 9.5px; }
+    .process-card__title { margin: 3px 0; font-size: 15px; }
+    .process-card__text { font-size: 11.5px; line-height: 1.4; }
   }
 </style>

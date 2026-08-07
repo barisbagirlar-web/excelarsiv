@@ -9,7 +9,8 @@ const { message = 'Demo dosyaları satın almadan önce ücretsiz incelenebilir.
 <div class="announcement-bar" role="status">
   <div class="container-site announcement-bar-inner">
     <span class="announcement-bar-icon" aria-hidden="true">✓</span>
-    <span class="announcement-bar-text">{message}</span>
+    <span class="announcement-bar-text announcement-bar-text--desktop">{message}</span>
+    <span class="announcement-bar-text announcement-bar-text--mobile">Satın almadan önce ücretsiz demo</span>
   </div>
 </div>
 
@@ -34,9 +35,29 @@ const { message = 'Demo dosyaları satın almadan önce ücretsiz incelenebilir.
     place-items: center;
     width: 16px;
     height: 16px;
-    border-radius: 4px;
+    flex: 0 0 16px;
+    border-radius: 5px;
     background: rgba(255, 255, 255, 0.18);
     font-size: 10px;
     font-weight: 700;
+  }
+  .announcement-bar-text--mobile {
+    display: none;
+  }
+  @media (max-width: 640px) {
+    .announcement-bar {
+      font-size: 10.5px;
+    }
+    .announcement-bar-inner {
+      min-height: 28px;
+      padding-inline: 12px;
+      white-space: nowrap;
+    }
+    .announcement-bar-text--desktop {
+      display: none;
+    }
+    .announcement-bar-text--mobile {
+      display: inline;
+    }
   }
 </style>

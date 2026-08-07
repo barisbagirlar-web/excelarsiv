@@ -16,13 +16,13 @@ const { searchIndex } = Astro.props;
       <source media="(max-width: 720px)" srcset="/images/hero-mobile.jpg" />
       <img
         src="/images/hero.jpg"
-        alt="Akıllı Kasa Defteri — gerçek Excel şablonunun önizlemesi"
+        alt="Excel şablonları ve finansal işletme çözümleri"
         width="1600"
         height="533"
         fetchpriority="high"
       />
     </picture>
-    <div class="hero-search-rail">
+    <div class="hero-search-rail" id="hero-search">
       <HeroSearch searchIndex={searchIndex} />
     </div>
   </div>
@@ -46,7 +46,9 @@ const { searchIndex } = Astro.props;
     max-width: var(--container-wide);
     margin-inline: auto;
     aspect-ratio: 3 / 1;
+    border: 1px solid rgba(16, 124, 65, 0.12);
     border-radius: 24px;
+    background: #eef3f6;
     box-shadow: 0 24px 60px rgba(24, 55, 38, 0.13);
   }
   .hero-artwork img {
@@ -63,6 +65,7 @@ const { searchIndex } = Astro.props;
     z-index: 10;
     width: min(660px, calc(100% - 48px));
     transform: translateX(-50%);
+    scroll-margin-top: 90px;
   }
   @media (max-width: 720px) {
     .hero-section {
@@ -83,6 +86,7 @@ const { searchIndex } = Astro.props;
       transform: none;
       width: calc(100% - 24px);
       margin: -18px auto 0;
+      scroll-margin-top: 72px;
     }
   }
 </style>

@@ -2,14 +2,13 @@
 import CommerceLayout from '../layouts/CommerceLayout.astro';
 import HeroSection from '../components/home/HeroSection.astro';
 import TrustStrip from '../components/home/TrustStrip.astro';
-import CategorySection from '../components/home/CategorySection.astro';
 import FeaturedTemplates from '../components/home/FeaturedTemplates.astro';
+import CategorySection from '../components/home/CategorySection.astro';
 import ValueSection from '../components/home/ValueSection.astro';
 import GainSection from '../components/home/GainSection.astro';
 import ProcessSection from '../components/home/ProcessSection.astro';
 import PurchaseProcess from '../components/home/PurchaseProcess.astro';
 import FinalCTA from '../components/home/FinalCTA.astro';
-
 import { getFeaturedTemplates, getTemplateSearchIndex } from '../lib/templates';
 
 const featuredTemplates = await getFeaturedTemplates(6);
@@ -22,8 +21,8 @@ const searchIndex = await getTemplateSearchIndex();
 >
   <HeroSection searchIndex={searchIndex} />
   <TrustStrip />
-  <CategorySection />
   <FeaturedTemplates templates={featuredTemplates} />
+  <CategorySection />
   <ValueSection />
   <GainSection />
   <ProcessSection />
