@@ -8,6 +8,18 @@ const templatesDir = path.join(root, 'src/content/templates');
 const templateFiles = fs.readdirSync(templatesDir).filter((name) => name.endsWith('.mdx')).sort();
 const errors = [];
 
+// Cloud Functions uploads only the functions/ directory. Its local catalog mirror
+// must therefore stay byte-for-data equivalent to the commerce source of truth.
+const functionsCatalogPath = path.join(root, 'functions/catalog.json');
+if (!fs.existsSync(functionsCatalogPath)) {
+  errors.push('functions/catalog.json eksik; Cloud Functions ürün kataloğunu yükleyemez.');
+} else {
+  const functionsCatalog = JSON.parse(fs.readFileSync(functionsCatalogPath, 'utf8'));
+  if (JSON.stringify(functionsCatalog) !== JSON.stringify(catalog)) {
+    errors.push('functions/catalog.json commerce/catalog.json ile eşleşmiyor.');
+  }
+}
+
 const allowedPrices = new Set(Object.values(catalog.tiers).map((tier) => tier.priceTL));
 if (allowedPrices.size !== 4 || ![990, 1490, 2490, 7900].every((price) => allowedPrices.has(price))) {
   errors.push('Shopier fiyat seviyeleri 990/1490/2490/7900 TL olmalı.');

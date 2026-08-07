@@ -1,6 +1,9 @@
 'use strict';
 
-const catalog = require('./commerce/catalog.json');
+// The Functions source is deployed as the isolated `functions/` directory.
+// Keep a deployment-local catalog mirror so Cloud Functions never depends on
+// a parent-directory file that is omitted from the uploaded source package.
+const catalog = require('./catalog.json');
 
 const TIERS = Object.freeze(
   Object.fromEntries(
