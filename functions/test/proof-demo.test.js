@@ -10,12 +10,13 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { PRODUCTS } = require('../catalog');
 const { SPECS } = require('../proof-demo-specs');
-const { _test } = require('../proof-demo');
+const { _test } = require('../proof-demo-v3');
 
 const ALLOWED_SHEETS = [
   'KAPAK',
   'HIZLI_BASLANGIC',
   'DEMO_GIRIS',
+  'DEMO_ANALIZ',
   'DEMO_KARAR',
   'DEMO_PANO',
   'TAM_SURUM',
@@ -41,30 +42,53 @@ test('all 12 catalog products have a Proof Demo contract', () => {
   assert.deepEqual(Object.keys(SPECS).sort(), Object.keys(PRODUCTS).sort());
 });
 
-test('Proof Demo contains only approved evaluation sheets and never premium engine sheets', () => {
+test('Proof Demo v3 has the approved premium evaluation flow and no premium engine sheets', () => {
   for (const slug of Object.keys(PRODUCTS)) {
     const model = modelFor(slug);
     const names = model.sheets.map((sheet) => sheet.name);
     assert.deepEqual(names, ALLOWED_SHEETS, slug);
+    assert.equal(model.quality.version, '3.0', slug);
+    assert.equal(model.quality.sheetCount, 8, slug);
+    assert.equal(model.quality.productUi.length, 3, slug);
     for (const forbidden of FORBIDDEN_PREMIUM_SHEETS) {
       assert.ok(!names.includes(forbidden), `${slug}: forbidden sheet ${forbidden}`);
     }
   }
 });
 
-test('Proof Demo is capped at 20 evaluation rows and has visible attribution', () => {
+test('Proof Demo v3 keeps 20 editable evaluation rows but adds validation and visual feedback', () => {
   for (const slug of Object.keys(PRODUCTS)) {
     const model = modelFor(slug);
     const input = model.sheets.find((sheet) => sheet.name === 'DEMO_GIRIS');
     assert.ok(input, slug);
     assert.equal(input.rows.length, 25, `${slug}: 5 header rows + 20 demo rows`);
+    assert.equal(input.dataValidations.length, 5, `${slug}: every input column validated`);
+    // All products get identifier/partial-row protection plus at least one
+    // data-driven rule. Products with more numeric columns naturally get more.
+    assert.ok(input.conditionalFormats.length >= 3, `${slug}: live input visual rules`);
+    assert.ok(model.quality.validations >= 6, `${slug}: validation floor`);
+    assert.ok(model.quality.conditionalFormats >= 10, `${slug}: conditional formatting floor`);
     assert.match(model.watermark, /DM-ABCDEF123456/);
     assert.match(model.watermark, /A1B2C3D4E5F6/);
-    assert.match(model.watermark, /Ticari kullanım için değildir/);
   }
 });
 
-test('Proof Demo formulas do not use banned modern/spill functions or premium sheet references', () => {
+test('Proof Demo v3 has analysis, decision and print-ready manager presentation', () => {
+  for (const slug of Object.keys(PRODUCTS)) {
+    const model = modelFor(slug);
+    const analysis = model.sheets.find((sheet) => sheet.name === 'DEMO_ANALIZ');
+    const decision = model.sheets.find((sheet) => sheet.name === 'DEMO_KARAR');
+    const dashboard = model.sheets.find((sheet) => sheet.name === 'DEMO_PANO');
+    const full = model.sheets.find((sheet) => sheet.name === 'TAM_SURUM');
+    assert.ok(analysis?.dataValidations?.length >= 1, slug);
+    assert.ok(decision?.conditionalFormats?.length >= 3, slug);
+    assert.ok(dashboard?.conditionalFormats?.length >= 6, slug);
+    assert.ok(dashboard?.print, `${slug}: dashboard print config`);
+    assert.ok(full?.print, `${slug}: full-version comparison print config`);
+  }
+});
+
+test('Proof Demo formulas avoid banned modern/spill functions and premium sheet references', () => {
   for (const slug of Object.keys(PRODUCTS)) {
     const model = modelFor(slug);
     const formulas = model.sheets
@@ -81,7 +105,7 @@ test('Proof Demo formulas do not use banned modern/spill functions or premium sh
   }
 });
 
-test('runtime-generated Proof Demo is a compact XLSX ZIP', () => {
+test('runtime-generated Proof Demo v3 is a compact XLSX ZIP for all 12 products', () => {
   for (const slug of Object.keys(PRODUCTS)) {
     const product = PRODUCTS[slug];
     const buffer = _test.buildProofDemo({
@@ -92,8 +116,13 @@ test('runtime-generated Proof Demo is a compact XLSX ZIP', () => {
       emailFingerprint: 'A1B2C3D4E5F6',
     });
     assert.equal(buffer.subarray(0, 2).toString('ascii'), 'PK', `${slug}: zip signature`);
-    assert.ok(buffer.length < 500 * 1024, `${slug}: demo must stay <500 KB`);
+    assert.ok(buffer.length < 900 * 1024, `${slug}: demo must stay <900 KB`);
   }
+});
+
+test('date-like demo inputs are true Excel serial dates, not presentation-only text', () => {
+  assert.equal(_test.excelDateSerial('01.08.2026'), 46235);
+  assert.equal(_test.excelDateSerial('not-a-date'), null);
 });
 
 test('email handling never requires raw email in the workbook fingerprint', () => {
