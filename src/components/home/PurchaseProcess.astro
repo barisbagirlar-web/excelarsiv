@@ -2,7 +2,7 @@
 const steps = [
   { code: '01', title: 'Demo ile görün', description: 'Ürün sayfasındaki örnek dosyayı satın almadan önce inceleyin.', icon: '↓' },
   { code: '02', title: 'Shopier ile ödeyin', description: 'Ödeme Shopier altyapısında işlenir; kart bilgisi Excel Arşiv’de tutulmaz.', icon: '✓' },
-  { code: '03', title: 'E-postayla alın', description: 'Ödeme onayından sonra indirme bağlantısı e-postanıza iletilir.', icon: '→' },
+  { code: '03', title: 'Siteden indirin', description: 'Ödeme doğrulanınca ürün sayfasındaki Excel’i İndir butonu otomatik açılır.', icon: '→' },
 ];
 ---
 
@@ -13,7 +13,7 @@ const steps = [
         <span class="section-head__kicker">SATIN ALMA DENEYİMİ</span>
         <h2 id="purchase-title">Karar zor olabilir; <em>satın alma süreci değil.</em></h2>
       </div>
-      <p>Önce dosyayı görürsünüz. Ödemeyi güvenli ödeme sayfasında tamamlarsınız. Teslimatı dijital olarak alırsınız.</p>
+      <p>Önce dosyayı görürsünüz. Ödemeyi Shopier’de tamamlarsınız. Ödeme doğrulanınca dosyayı ExcelArşiv’den indirirsiniz.</p>
     </div>
 
     <ol class="purchase-band__rail">
@@ -32,7 +32,7 @@ const steps = [
     <div class="purchase-band__trust" aria-label="Satın alma güvenceleri">
       <span>✓ Shopier ile güvenli ödeme</span>
       <span>✓ KDV dahil fiyat</span>
-      <span>✓ Dijital teslimat</span>
+      <span>✓ Site üzerinden güvenli indirme</span>
       <a href="/teslimat-ve-iade">Teslimat ve iade koşulları <b aria-hidden="true">→</b></a>
     </div>
   </div>
