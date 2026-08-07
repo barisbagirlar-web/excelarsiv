@@ -1,5 +1,11 @@
 'use strict';
 
+process.env.GCLOUD_PROJECT = 'demo-excelarsiv';
+process.env.FIREBASE_CONFIG = JSON.stringify({
+  projectId: 'demo-excelarsiv',
+  storageBucket: 'demo-excelarsiv.appspot.com',
+});
+
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { TIERS, PRODUCTS, getTierByProductId } = require('../catalog');
