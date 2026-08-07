@@ -86,7 +86,7 @@ const jsonLd = {
 
 <CommerceLayout
   title={`${t.name} — Excel Arşiv`}
-  description={`${t.summary} Kişisel Proof Demo'yu ücretsiz inceleyin; Shopier ile güvenli ödeme sonrası ExcelArşiv üzerinden doğrudan indirin.`}
+  description={`${t.summary} Ücretsiz canlı Excel Proof Demo'da veri girişini, analizi, karar kapısını ve yönetici panosunu deneyin; Shopier ile güvenli ödeme sonrası tam sürümü ExcelArşiv üzerinden indirin.`}
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
@@ -131,10 +131,10 @@ const jsonLd = {
     </div>
 
     <section class="border-t border-rule-strong py-12">
-      <SectionLabel address="B2" label="Önizleme" />
-      <h2 class="mt-3 font-display text-2xl text-ink-700">Dosyanın içini görün</h2>
+      <SectionLabel address="B2" label="Canlı Demo" />
+      <h2 class="mt-3 font-display text-2xl text-ink-700">Satın almadan önce Excel içinde deneyin</h2>
       <p class="mt-2 max-w-2xl text-sm leading-relaxed text-ink-500">
-        Kişisel Proof Demo ile gerçek ürün akışını sınırlı kapasitede deneyin; ardından gerçek ekran görüntülerini inceleyin.
+        Örnek verileri değiştirin; doğrulamaların, KPI'ların, risk göstergelerinin, karar kapısının ve yönetici panosunun nasıl tepki verdiğini görün. Demo kontrollü kapasitededir; tam sürümün üretim motoru ve ticari analitik katmanları demo dosyasında bulunmaz.
       </p>
       <div class="mt-6">
         <DemoDownloadBox productSlug={template.id} name={t.name} />
