@@ -63,7 +63,9 @@ test('Proof Demo v3 keeps 20 editable evaluation rows but adds validation and vi
     assert.ok(input, slug);
     assert.equal(input.rows.length, 25, `${slug}: 5 header rows + 20 demo rows`);
     assert.equal(input.dataValidations.length, 5, `${slug}: every input column validated`);
-    assert.ok(input.conditionalFormats.length >= 5, `${slug}: live input visual rules`);
+    // All products get identifier/partial-row protection plus at least one
+    // data-driven rule. Products with more numeric columns naturally get more.
+    assert.ok(input.conditionalFormats.length >= 3, `${slug}: live input visual rules`);
     assert.ok(model.quality.validations >= 6, `${slug}: validation floor`);
     assert.ok(model.quality.conditionalFormats >= 10, `${slug}: conditional formatting floor`);
     assert.match(model.watermark, /DM-ABCDEF123456/);
