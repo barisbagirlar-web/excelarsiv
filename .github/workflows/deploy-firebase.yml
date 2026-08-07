@@ -154,27 +154,8 @@ jobs:
           set -euo pipefail
           firebase deploy \
             --project "$FIREBASE_PROJECT_ID" \
-            --only "functions:checkoutStatus,functions:verifyShopierOrder,functions:recoverPurchase,functions:createDownloadToken,functions:requestProofDemo,functions:downloadProofDemo" \
+            --only "functions:checkoutStatus,functions:verifyShopierOrder,functions:recoverPurchase,functions:createDownloadToken,functions:downloadFile,functions:requestProofDemo,functions:downloadProofDemo" \
             --non-interactive
-
-      - name: Deploy paid-file download Function within CPU quota
-        if: steps.backend.outputs.deploy_functions == 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          gcloud functions deploy downloadFile \
-            --project="$FIREBASE_PROJECT_ID" \
-            --gen2 \
-            --region="$FUNCTIONS_REGION" \
-            --runtime=nodejs22 \
-            --source=functions \
-            --entry-point=downloadFile \
-            --trigger-http \
-            --allow-unauthenticated \
-            --memory=512Mi \
-            --timeout=60s \
-            --max-instances=20 \
-            --quiet
 
       - name: Deploy checkout Function last
         if: steps.backend.outputs.deploy_functions == 'true'
@@ -187,17 +168,6 @@ jobs:
             --project "$FIREBASE_PROJECT_ID" \
             --only "functions:createCheckout" \
             --non-interactive
-
-      - name: Print Cloud Run startup logs on deployment failure
-        if: failure()
-        shell: bash
-        run: |
-          gcloud logging read \
-            'resource.type="cloud_run_revision" AND timestamp>="'"$(date -u -d '20 minutes ago' +%Y-%m-%dT%H:%M:%SZ)'"'"' \
-            --project="$FIREBASE_PROJECT_ID" \
-            --limit=120 \
-            --order=desc \
-            --format='table(timestamp,resource.labels.service_name,severity,textPayload,jsonPayload.message)' || true
 
       - name: Verify required Functions exist before Hosting release
         shell: bash
