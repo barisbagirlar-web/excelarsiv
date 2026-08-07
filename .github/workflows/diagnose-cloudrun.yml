@@ -19,43 +19,62 @@ jobs:
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
-      - name: Inspect Function and Cloud Run configuration
+      - name: Deploy isolated minimal HTTP function
         shell: bash
         run: |
           set -euo pipefail
-          for fn in checkoutStatus verifyShopierOrder recoverPurchase createDownloadToken requestProofDemo downloadProofDemo; do
-            echo "===== FUNCTION $fn ====="
-            gcloud functions describe "$fn" \
-              --project="carbon-web-1265b" \
-              --gen2 \
-              --region="europe-west1" \
-              --format='yaml(name,state,buildConfig.entryPoint,buildConfig.runtime,serviceConfig.availableMemory,serviceConfig.environmentVariables,serviceConfig.secretEnvironmentVariables,stateMessages)' || true
-          done
+          mkdir -p /tmp/minimal-function
+          cat >/tmp/minimal-function/package.json <<'JSON'
+          {
+            "name": "excelarsiv-minimal-probe",
+            "version": "1.0.0",
+            "main": "index.js",
+            "engines": {"node": "22"},
+            "dependencies": {"@google-cloud/functions-framework": "^5.0.5"}
+          }
+          JSON
+          cat >/tmp/minimal-function/index.js <<'JS'
+          const functions = require('@google-cloud/functions-framework');
+          functions.http('healthProbe', (req, res) => res.status(200).send('OK'));
+          JS
 
-          echo "===== CLOUD RUN SERVICE checkoutstatus ====="
+          gcloud functions deploy excelarsivHealthProbe \
+            --project="carbon-web-1265b" \
+            --gen2 \
+            --region="europe-west1" \
+            --runtime=nodejs22 \
+            --source=/tmp/minimal-function \
+            --entry-point=healthProbe \
+            --trigger-http \
+            --allow-unauthenticated \
+            --memory=256Mi \
+            --max-instances=1 \
+            --quiet
+
+          uri="$(gcloud functions describe excelarsivHealthProbe --project=carbon-web-1265b --gen2 --region=europe-west1 --format='value(serviceConfig.uri)')"
+          echo "Probe URI: $uri"
+          curl --fail --silent --show-error "$uri" | grep -Fx 'OK'
+
+      - name: Inspect production checkout Function
+        shell: bash
+        run: |
+          set -euo pipefail
+          gcloud functions describe checkoutStatus \
+            --project="carbon-web-1265b" \
+            --gen2 \
+            --region="europe-west1" \
+            --format='yaml(name,state,buildConfig.entryPoint,buildConfig.runtime,serviceConfig.environmentVariables,serviceConfig.secretEnvironmentVariables,stateMessages)'
           gcloud run services describe checkoutstatus \
             --project="carbon-web-1265b" \
             --region="europe-west1" \
-            --format='yaml(metadata.name,status.conditions,status.latestCreatedRevisionName,spec.template.spec.containers)' || true
+            --format='yaml(metadata.name,status.conditions,status.latestCreatedRevisionName,spec.template.spec.containers)'
 
-          echo "===== RECENT REVISIONS checkoutstatus ====="
-          gcloud run revisions list \
-            --project="carbon-web-1265b" \
-            --region="europe-west1" \
-            --service="checkoutstatus" \
-            --limit=5 \
-            --format='table(metadata.name,status.conditions[0].type,status.conditions[0].status,status.conditions[0].message)' || true
-
-      - name: Read failed Function revision logs when permitted
+      - name: Delete isolated probe
+        if: always()
         shell: bash
         run: |
-          set -euo pipefail
-          for service in checkoutstatus verifyshopierorder recoverpurchase createdownloadtoken requestproofdemo downloadproofdemo; do
-            echo "===== LOGS $service ====="
-            gcloud logging read "resource.type=\"cloud_run_revision\" AND resource.labels.service_name=\"$service\"" \
-              --project="carbon-web-1265b" \
-              --freshness=45m \
-              --limit=20 \
-              --order=desc \
-              --format='table(timestamp,severity,textPayload,jsonPayload.message)' || true
-          done
+          gcloud functions delete excelarsivHealthProbe \
+            --project="carbon-web-1265b" \
+            --gen2 \
+            --region="europe-west1" \
+            --quiet || true
