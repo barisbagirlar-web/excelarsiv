@@ -1808,7 +1808,7 @@ body::after {
   }
 
   .fx {
-    font-family: Georgia, serif;
+    font-family: var(--font-mono);
     font-style: italic;
     font-size: 14px;
     color: var(--xl-ink-3);
@@ -1931,7 +1931,7 @@ body::after {
     position: absolute;
     right: -30px;
     bottom: -90px;
-    font: italic 700 280px Georgia, serif;
+    font: italic 700 280px var(--font-mono);
     color: rgba(16, 124, 65, 0.05);
     pointer-events: none;
   }
