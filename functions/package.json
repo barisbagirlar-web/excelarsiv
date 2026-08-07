@@ -6,9 +6,11 @@
     "node": "22"
   },
   "scripts": {
+    "start": "functions-framework --target=${FUNCTION_TARGET:-createCheckout} --signature-type=http",
     "test": "node --test test/*.test.js"
   },
   "dependencies": {
+    "@google-cloud/functions-framework": "^5.0.5",
     "firebase-admin": "^13.4.0",
     "firebase-functions": "^6.4.0"
   }
