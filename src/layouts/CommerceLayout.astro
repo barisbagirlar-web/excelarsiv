@@ -4,6 +4,7 @@ import iconSprite from '../icons/sprite.svg?raw';
 import AnnouncementBar from '../components/AnnouncementBar.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import MobileCommerceBar from '../components/MobileCommerceBar.astro';
 
 interface Props {
   title: string;
@@ -11,25 +12,12 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
-
 const site = Astro.site ?? new URL('https://excelarsiv.com/');
-
 const orgLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@graph': [
-    {
-      '@type': 'WebSite',
-      '@id': new URL('#website', site).toString(),
-      name: 'Excel Arşiv',
-      url: site.toString(),
-      inLanguage: 'tr-TR',
-    },
-    {
-      '@type': 'Organization',
-      '@id': new URL('#organization', site).toString(),
-      name: 'Excel Arşiv',
-      url: site.toString(),
-    },
+    { '@type': 'WebSite', '@id': new URL('#website', site).toString(), name: 'Excel Arşiv', url: site.toString(), inLanguage: 'tr-TR' },
+    { '@type': 'Organization', '@id': new URL('#organization', site).toString(), name: 'Excel Arşiv', url: site.toString() },
   ],
 });
 ---
@@ -38,23 +26,22 @@ const orgLd = JSON.stringify({
 <html lang="tr">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta http-equiv="Cache-Control" content="no-store" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description ?? ''} />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="canonical" href={new URL(Astro.url.pathname, site)} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Excel Arşiv" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description ?? ''} />
-    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:url" content={new URL(Astro.url.pathname, site)} />
     <meta property="og:locale" content="tr_TR" />
-    <meta property="og:image" content={new URL('/og.png', Astro.site)} />
+    <meta property="og:image" content={new URL('/og.png', site)} />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preload" href="/images/excel-logo.png" as="image" />
-    <!-- Font preload — kritik ağırlıklar ve subsetler -->
     <link rel="preload" href="/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/inter-600-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/inter-tight-800-latin.woff2" as="font" type="font/woff2" crossorigin />
@@ -64,17 +51,11 @@ const orgLd = JSON.stringify({
   </head>
   <body class="font-body text-ink-700 antialiased">
     <Fragment set:html={iconSprite} />
-    <a
-      href="#icerik"
-      class="sr-only focus:not-sr-only focus:absolute focus:left-0 focus:top-0 focus:z-50 focus:bg-accent-primary focus:px-4 focus:py-3 focus:text-white"
-    >
-      İçeriğe geç
-    </a>
+    <a href="#icerik" class="sr-only focus:not-sr-only focus:absolute focus:left-0 focus:top-0 focus:z-50 focus:bg-accent-primary focus:px-4 focus:py-3 focus:text-white">İçeriğe geç</a>
     <AnnouncementBar />
     <SiteHeader pageTitle={title} />
-    <main id="icerik">
-      <slot />
-    </main>
+    <main id="icerik"><slot /></main>
     <SiteFooter />
+    <MobileCommerceBar />
   </body>
 </html>
