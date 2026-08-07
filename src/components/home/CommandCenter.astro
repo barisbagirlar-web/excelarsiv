@@ -1,0 +1,220 @@
+---
+const steps = [
+  {
+    key: 'input',
+    code: '01',
+    title: 'Kontrollü girdi',
+    text: 'Yalnızca değiştirilmesi gereken alanlar ayrışır; dosyanın geri kalanı korunur.',
+  },
+  {
+    key: 'calc',
+    code: '02',
+    title: 'Bağlı hesaplama',
+    text: 'Formüller, doğrulamalar ve adlandırılmış alanlar aynı model içinde birlikte çalışır.',
+  },
+  {
+    key: 'risk',
+    code: '03',
+    title: 'Risk sinyali',
+    text: 'Nakit, tahsilat ve sapma gibi kritik alanlar görünür uyarılara dönüşür.',
+  },
+  {
+    key: 'summary',
+    code: '04',
+    title: 'Yönetim özeti',
+    text: 'Dağınık hücreler yerine karar vermeyi kolaylaştıran tek bir finans görünümü oluşur.',
+  },
+];
+---
+
+<section class="command-center" aria-labelledby="command-center-title" data-command-center>
+  <div class="command-center__grid-bg" aria-hidden="true"></div>
+  <div class="command-center__inner">
+    <div class="command-center__copy">
+      <span class="command-center__kicker">EXCEL ARŞİV · COMMAND CENTER</span>
+      <h2 id="command-center-title">Ham veriden <em>karar ekranına.</em></h2>
+      <p class="command-center__lead">
+        Değer yalnızca dosyanın kendisinde değil; girdiyi, hesabı, kontrolü ve çıktıyı aynı düzende birleştiren yapıda.
+      </p>
+      <a class="command-center__link" href="/sablonlar">Sistemleri inceleyin <span aria-hidden="true">→</span></a>
+
+      <div class="command-center__steps" role="tablist" aria-label="Sistem katmanları">
+        {steps.map((step, index) => (
+          <button
+            type="button"
+            class={`command-step${index === 0 ? ' is-active' : ''}`}
+            data-command-step={step.key}
+            role="tab"
+            aria-selected={index === 0 ? 'true' : 'false'}
+          >
+            <span class="command-step__code">{step.code}</span>
+            <span class="command-step__body">
+              <strong>{step.title}</strong>
+              <span>{step.text}</span>
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <div class="command-center__visual-wrap">
+      <div class="command-center__visual" aria-live="polite">
+        <div class="workbook-chrome">
+          <div class="workbook-chrome__left">
+            <span class="workbook-dot is-red"></span>
+            <span class="workbook-dot is-amber"></span>
+            <span class="workbook-dot is-green"></span>
+          </div>
+          <span class="workbook-chrome__title">Yönetim_Finans_Sistemi.xlsx</span>
+          <span class="workbook-chrome__status">CANLI</span>
+        </div>
+
+        <div class="workbook-tabs" aria-hidden="true">
+          <span class="is-active">Dashboard</span>
+          <span>Girdi</span>
+          <span>Nakit</span>
+          <span>Risk</span>
+        </div>
+
+        <div class="command-panel is-active" data-command-panel="input">
+          <div class="command-panel__eyebrow">KONTROLLÜ GİRDİ</div>
+          <div class="input-sheet">
+            <div class="input-sheet__row"><span>Gelir</span><b>₺1.250.000</b><i>Girdi</i></div>
+            <div class="input-sheet__row"><span>Gider</span><b>₺835.000</b><i>Girdi</i></div>
+            <div class="input-sheet__row is-selected"><span>KDV</span><b>%20</b><i>Girdi</i></div>
+            <div class="input-sheet__row"><span>Net</span><b>₺415.000</b><i class="is-locked">Hesap</i></div>
+          </div>
+          <div class="command-note"><span>✓</span> Giriş alanları ayrışır; hesap hücreleri korunur.</div>
+        </div>
+
+        <div class="command-panel" data-command-panel="calc" hidden>
+          <div class="command-panel__eyebrow">BAĞLI HESAPLAMA</div>
+          <div class="formula-flow">
+            <div class="formula-cell"><small>Girdi</small><strong>B2</strong><span>₺1.250.000</span></div>
+            <span class="formula-arrow">→</span>
+            <div class="formula-cell is-formula"><small>Formül</small><strong>=B2-B3</strong><span>₺415.000</span></div>
+            <span class="formula-arrow">→</span>
+            <div class="formula-cell is-output"><small>Çıktı</small><strong>Net</strong><span>₺415.000</span></div>
+          </div>
+          <div class="formula-bar"><span>fx</span><code>=EĞER(B2&gt;0;B2-B3;0)</code></div>
+          <div class="command-note"><span>✓</span> Formül ve veri doğrulama aynı model içinde çalışır.</div>
+        </div>
+
+        <div class="command-panel" data-command-panel="risk" hidden>
+          <div class="command-panel__eyebrow">RİSK SİNYALİ</div>
+          <div class="risk-grid">
+            <div class="risk-metric is-good"><small>Nakit tamponu</small><strong>42 gün</strong><span>▲ Güçlü</span></div>
+            <div class="risk-metric is-warn"><small>Tahsilat gecikmesi</small><strong>18 gün</strong><span>● İzle</span></div>
+            <div class="risk-metric is-bad"><small>Vade baskısı</small><strong>₺285K</strong><span>▼ Kritik</span></div>
+          </div>
+          <div class="risk-strip"><span style="--w:78%"></span><span style="--w:54%"></span><span style="--w:32%"></span></div>
+          <div class="command-note"><span>!</span> Kritik alanlar tablo içinde kaybolmak yerine görünür hale gelir.</div>
+        </div>
+
+        <div class="command-panel" data-command-panel="summary" hidden>
+          <div class="command-panel__eyebrow">YÖNETİM ÖZETİ</div>
+          <div class="summary-top">
+            <div><small>Nakit</small><strong>₺1,25M</strong><span>▲ %12</span></div>
+            <div><small>Net kâr</small><strong>₺415K</strong><span>▲ %8</span></div>
+            <div><small>Tahsilat</small><strong>%92</strong><span>▲ %4</span></div>
+          </div>
+          <div class="summary-main">
+            <svg viewBox="0 0 360 120" preserveAspectRatio="none" aria-hidden="true">
+              <defs><linearGradient id="ccArea" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#69c38f" stop-opacity=".38"/><stop offset="100%" stop-color="#69c38f" stop-opacity="0"/></linearGradient></defs>
+              <path d="M0 96 L42 84 L84 90 L126 65 L168 74 L210 48 L252 55 L300 28 L360 18 L360 120 L0 120 Z" fill="url(#ccArea)"/>
+              <polyline points="0,96 42,84 84,90 126,65 168,74 210,48 252,55 300,28 360,18" fill="none" stroke="#62d294" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div class="summary-side"><span><i></i> Gelir <b>₺2,35M</b></span><span><i></i> Gider <b>₺1,93M</b></span><span><i></i> Net <b>₺415K</b></span></div>
+          </div>
+          <div class="command-note"><span>✓</span> Yönetim için tek bakışta okunabilir finans görünümü.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const roots = document.querySelectorAll<HTMLElement>('[data-command-center]');
+  roots.forEach((root) => {
+    const steps = [...root.querySelectorAll<HTMLButtonElement>('[data-command-step]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-command-panel]')];
+    const activate = (key: string) => {
+      steps.forEach((step) => {
+        const on = step.dataset.commandStep === key;
+        step.classList.toggle('is-active', on);
+        step.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      panels.forEach((panel) => {
+        const on = panel.dataset.commandPanel === key;
+        panel.classList.toggle('is-active', on);
+        panel.hidden = !on;
+      });
+    };
+    steps.forEach((step) => step.addEventListener('click', () => activate(step.dataset.commandStep ?? 'input')));
+  });
+</script>
+
+<style>
+  .command-center {
+    position: relative;
+    overflow: hidden;
+    color: #f5fff9;
+    background: #082d1f;
+    border-block: 1px solid rgba(255,255,255,.08);
+  }
+  .command-center__grid-bg {
+    position: absolute; inset: 0; pointer-events: none; opacity: .18;
+    background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+    background-size: 58px 58px;
+    mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+  }
+  .command-center::after {
+    content:''; position:absolute; inset:auto -10% -45% 30%; height:70%; pointer-events:none;
+    background:radial-gradient(circle, rgba(62,183,111,.22), transparent 66%);
+  }
+  .command-center__inner {
+    position:relative; z-index:1;
+    width:min(1240px, calc(100% - 48px)); margin-inline:auto;
+    display:grid; grid-template-columns:minmax(0,.88fr) minmax(520px,1.12fr); gap:72px;
+    padding:clamp(82px,9vw,132px) 0;
+  }
+  .command-center__copy { min-width:0; }
+  .command-center__kicker { font-family:var(--font-mono); font-size:11px; font-weight:700; letter-spacing:.12em; color:#85e3aa; }
+  .command-center h2 { margin:14px 0 0; max-width:540px; font-family:var(--font-display); font-size:clamp(42px,5vw,72px); line-height:.95; letter-spacing:-.045em; color:#fff; }
+  .command-center h2 em { color:#7de1a6; font-style:normal; }
+  .command-center__lead { max-width:520px; margin:22px 0 0; font-size:16px; line-height:1.7; color:rgba(238,255,246,.72); }
+  .command-center__link { display:inline-flex; gap:8px; align-items:center; margin-top:20px; color:#a9f0c5; font-family:var(--font-mono); font-size:12px; font-weight:700; text-decoration:none; }
+  .command-center__steps { display:grid; gap:8px; margin-top:46px; }
+  .command-step { appearance:none; width:100%; display:grid; grid-template-columns:40px 1fr; gap:14px; align-items:start; padding:15px 16px; text-align:left; border:1px solid transparent; border-radius:16px; background:transparent; color:inherit; cursor:pointer; transition:background 160ms ease,border-color 160ms ease,transform 160ms ease; }
+  .command-step:hover { background:rgba(255,255,255,.045); }
+  .command-step.is-active { background:rgba(255,255,255,.075); border-color:rgba(125,225,166,.24); transform:translateX(4px); }
+  .command-step__code { padding-top:2px; font-family:var(--font-mono); font-size:10px; color:#71c994; }
+  .command-step__body { display:flex; flex-direction:column; gap:4px; }
+  .command-step__body strong { font-size:14px; color:#fff; }
+  .command-step__body span { font-size:12px; line-height:1.5; color:rgba(238,255,246,.62); }
+  .command-center__visual-wrap { min-width:0; display:flex; align-items:center; }
+  .command-center__visual { width:100%; min-height:560px; overflow:hidden; border:1px solid rgba(255,255,255,.12); border-radius:26px; background:#f7fbf8; box-shadow:0 36px 90px rgba(0,0,0,.34); color:#14251c; }
+  .workbook-chrome { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; min-height:42px; padding:0 14px; background:#e9eee9; border-bottom:1px solid #d8e1da; font-family:var(--font-mono); font-size:9.5px; color:#66756c; }
+  .workbook-chrome__left { display:flex; gap:6px; }
+  .workbook-dot { width:8px; height:8px; border-radius:50%; background:#aab5ae; }.workbook-dot.is-red{background:#ef6f68}.workbook-dot.is-amber{background:#eab94e}.workbook-dot.is-green{background:#52b86f}
+  .workbook-chrome__title { justify-self:center; }
+  .workbook-chrome__status { justify-self:end; padding:4px 7px; border-radius:6px; background:#d8f1e2; color:#17653a; font-weight:700; }
+  .workbook-tabs { display:flex; gap:4px; padding:10px 14px 0; border-bottom:1px solid #dfe6e1; background:#fff; }
+  .workbook-tabs span { padding:8px 12px 9px; border:1px solid transparent; border-bottom:0; border-radius:8px 8px 0 0; font-family:var(--font-mono); font-size:9px; color:#6a766e; }
+  .workbook-tabs span.is-active { border-color:#dfe6e1; background:#f7fbf8; color:#0d6f3a; font-weight:700; }
+  .command-panel { min-height:470px; padding:28px; animation:cc-in .26s ease-out both; }
+  @keyframes cc-in { from { opacity:0; transform:translateY(8px); } }
+  .command-panel__eyebrow { margin-bottom:18px; font-family:var(--font-mono); font-size:9px; font-weight:700; letter-spacing:.12em; color:#6f7d74; }
+  .input-sheet { overflow:hidden; border:1px solid #dfe6e1; border-radius:14px; background:#fff; }
+  .input-sheet__row { display:grid; grid-template-columns:1fr 1fr 72px; align-items:center; min-height:58px; padding:0 16px; border-bottom:1px solid #e7ece8; font-family:var(--font-mono); font-size:11px; }.input-sheet__row:last-child{border-bottom:0}.input-sheet__row b{justify-self:end;font-size:12px}.input-sheet__row i{justify-self:end;padding:5px 7px;border-radius:6px;background:#dff4e7;color:#137341;font-style:normal;font-size:9px}.input-sheet__row i.is-locked{background:#eef1ef;color:#708078}.input-sheet__row.is-selected{outline:2px solid #1b8c4d; outline-offset:-2px; background:#f5fbf7}
+  .command-note { display:flex; align-items:center; gap:9px; margin-top:18px; padding:12px 14px; border-radius:12px; background:#eef7f1; font-size:11px; color:#4d6256; }.command-note>span{display:grid;place-items:center;width:22px;height:22px;border-radius:7px;background:#117c43;color:#fff;font-family:var(--font-mono);font-size:10px;font-weight:700}
+  .formula-flow { display:grid; grid-template-columns:1fr 28px 1.15fr 28px 1fr; gap:8px; align-items:center; padding-top:30px; }
+  .formula-cell { min-height:128px; display:flex; flex-direction:column; justify-content:center; gap:7px; padding:16px; border:1px solid #dfe6e1; border-radius:14px; background:#fff; }.formula-cell small{font-family:var(--font-mono);font-size:8px;color:#7b887f;text-transform:uppercase}.formula-cell strong{font-family:var(--font-mono);font-size:14px;color:#1b2a21}.formula-cell span{font-size:12px;color:#65736a}.formula-cell.is-formula{border-color:#83c8a0;background:#eff9f3}.formula-cell.is-output{background:#0e7440;color:#fff;border-color:#0e7440}.formula-cell.is-output small,.formula-cell.is-output strong,.formula-cell.is-output span{color:#fff}.formula-arrow{text-align:center;color:#7d8a82}.formula-bar{display:flex;align-items:center;gap:10px;margin-top:20px;padding:12px 14px;border:1px solid #dfe6e1;border-radius:10px;background:#fff;font-family:var(--font-mono);font-size:11px}.formula-bar span{color:#0e7440;font-weight:700}.formula-bar code{color:#4f5e55}
+  .risk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px}.risk-metric{min-height:150px;padding:16px;border:1px solid #dfe6e1;border-radius:14px;background:#fff;display:flex;flex-direction:column}.risk-metric small{font-size:9px;color:#748178}.risk-metric strong{margin-top:auto;font-family:var(--font-mono);font-size:23px}.risk-metric span{margin-top:8px;font-family:var(--font-mono);font-size:9px}.risk-metric.is-good strong,.risk-metric.is-good span{color:#0c7a40}.risk-metric.is-warn strong,.risk-metric.is-warn span{color:#916200}.risk-metric.is-bad strong,.risk-metric.is-bad span{color:#a01e23}.risk-strip{display:flex;gap:8px;height:42px;align-items:flex-end;margin-top:18px;padding:8px 12px;border-radius:12px;background:#fff;border:1px solid #dfe6e1}.risk-strip span{height:7px;width:var(--w);max-width:33%;border-radius:9px;background:#1b8c4d}.risk-strip span:nth-child(2){background:#e5b12e}.risk-strip span:nth-child(3){background:#d55e63}
+  .summary-top{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.summary-top>div{padding:14px;border:1px solid #dfe6e1;border-radius:12px;background:#fff;display:flex;flex-direction:column;gap:5px}.summary-top small{font-size:9px;color:#758279}.summary-top strong{font-family:var(--font-mono);font-size:18px}.summary-top span{font-family:var(--font-mono);font-size:9px;color:#0d7c41}.summary-main{display:grid;grid-template-columns:1.7fr .8fr;gap:14px;margin-top:14px;padding:16px;border:1px solid #dfe6e1;border-radius:14px;background:#fff}.summary-main svg{width:100%;height:180px}.summary-side{display:flex;flex-direction:column;justify-content:center;gap:11px}.summary-side span{display:grid;grid-template-columns:10px 1fr auto;gap:7px;align-items:center;font-size:10px;color:#68756d}.summary-side i{width:7px;height:7px;border-radius:2px;background:#45a96e}.summary-side span:nth-child(2) i{opacity:.55}.summary-side span:nth-child(3) i{background:#0d7540}.summary-side b{font-family:var(--font-mono);font-size:9px;color:#26352c}
+  @media(max-width:980px){.command-center__inner{grid-template-columns:1fr;gap:36px}.command-center__steps{grid-template-columns:repeat(2,1fr)}.command-center__visual{min-height:520px}}
+  @media(max-width:640px){
+    .command-center__inner{width:calc(100% - 28px);padding:56px 0;gap:26px}.command-center h2{font-size:39px}.command-center__lead{font-size:13.5px;line-height:1.6}.command-center__steps{display:flex;overflow-x:auto;gap:8px;margin-top:28px;padding-bottom:4px;scroll-snap-type:x mandatory;scrollbar-width:none}.command-center__steps::-webkit-scrollbar{display:none}.command-step{flex:0 0 74%;grid-template-columns:28px 1fr;scroll-snap-align:start;padding:12px;border-color:rgba(255,255,255,.08);background:rgba(255,255,255,.035)}.command-step__body span{font-size:10.5px}.command-center__visual{min-height:0;border-radius:20px}.workbook-chrome{grid-template-columns:1fr auto;min-height:36px}.workbook-chrome__title{display:none}.workbook-tabs{overflow-x:auto;padding-inline:9px}.workbook-tabs span{padding:7px 9px;font-size:8px}.command-panel{min-height:340px;padding:18px}.input-sheet__row{grid-template-columns:1fr 1fr 58px;min-height:47px;padding:0 10px;font-size:9.5px}.formula-flow{grid-template-columns:1fr;gap:7px;padding-top:0}.formula-arrow{transform:rotate(90deg)}.formula-cell{min-height:68px}.risk-grid{grid-template-columns:1fr;gap:7px;margin-top:0}.risk-metric{min-height:72px}.risk-metric strong{font-size:16px}.summary-top{grid-template-columns:repeat(3,1fr);gap:6px}.summary-top>div{padding:9px}.summary-top strong{font-size:12px}.summary-main{grid-template-columns:1fr;margin-top:8px}.summary-main svg{height:110px}.summary-side{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){.command-panel,.command-step{animation:none;transition:none}}
+</style>
