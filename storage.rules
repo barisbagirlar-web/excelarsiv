@@ -1,0 +1,15 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Paid Excel files are streamed only by Firebase Admin Cloud Functions.
+    match /paid-products/{allPaths=**} {
+      allow read, write: if false;
+    }
+
+    // No browser/client Storage API is used by ExcelArşiv.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

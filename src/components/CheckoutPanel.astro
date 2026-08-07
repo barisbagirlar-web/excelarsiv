@@ -1,0 +1,339 @@
+---
+import { getTierForPrice } from '../lib/shopier';
+
+interface Props {
+  productSlug: string;
+  name: string;
+  priceTL: number;
+}
+
+const { productSlug, name, priceTL } = Astro.props;
+const tierInfo = getTierForPrice(priceTL);
+const price = priceTL.toLocaleString('tr-TR');
+---
+
+<section
+  id="satin-al"
+  class="border border-rule-strong bg-surface-1 p-5 sm:p-6"
+  data-checkout-root
+  data-product-slug={productSlug}
+  data-product-name={name}
+>
+  <p class="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-400">Güvenli Satın Alma</p>
+  <h2 class="mt-2 font-display text-xl text-ink-800">Shopier ile öde, ExcelArşiv'den indir</h2>
+  <p class="mt-3 text-sm leading-relaxed text-ink-500">
+    Ödeme Shopier'de tamamlanır. Ödeme doğrulandığında bu sayfadaki indirme butonu otomatik açılır.
+  </p>
+
+  {
+    tierInfo ? (
+      <>
+        <div class="mt-5 flex items-end justify-between gap-4 border-y border-rule-hairline py-4">
+          <div>
+            <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-400">{tierInfo.name}</p>
+            <p class="mt-1 text-xs text-ink-400">Shopier ürün no: {tierInfo.tier.shopierProductId}</p>
+          </div>
+          <p class="price-numeric font-mono text-xl text-ink-900">{price} TL</p>
+        </div>
+
+        <form class="mt-5" data-checkout-form novalidate>
+          <label class="block" for={`checkout-email-${productSlug}`}>
+            <span class="font-mono text-xs text-ink-600">E-posta adresiniz</span>
+            <input
+              id={`checkout-email-${productSlug}`}
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              maxlength="254"
+              placeholder="ornek@firma.com"
+              class="mt-2 min-h-12 w-full border border-rule-strong bg-white px-3 font-mono text-sm text-ink-800 outline-none transition focus:border-accent-primary"
+              data-checkout-email
+            />
+          </label>
+          <p class="mt-2 text-xs leading-relaxed text-ink-400">
+            Shopier ödeme ekranında da aynı e-posta adresini kullanın. Ödeme eşleştirmesi bu bilgiyle güvenli biçimde yapılır.
+          </p>
+          <button
+            type="submit"
+            class="mt-4 inline-flex min-h-12 w-full items-center justify-center bg-accent-primary px-5 font-mono text-sm font-medium text-white transition-colors hover:bg-accent-hover disabled:cursor-wait disabled:opacity-60"
+            data-checkout-submit
+          >
+            Satın Al — Shopier ile öde
+          </button>
+        </form>
+
+        <div class="mt-5 hidden border-t border-rule-hairline pt-5" data-checkout-progress aria-live="polite">
+          <p class="font-mono text-xs text-ink-700" data-checkout-status></p>
+          <p class="mt-2 text-xs leading-relaxed text-ink-400" data-checkout-detail></p>
+          <div class="mt-4 flex flex-wrap gap-3">
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              class="hidden font-mono text-xs text-accent-primary underline underline-offset-4"
+              data-shopier-link
+            >
+              Shopier ödeme ekranını aç
+            </a>
+            <button
+              type="button"
+              class="hidden min-h-11 bg-accent-primary px-5 font-mono text-sm text-white hover:bg-accent-hover"
+              data-download-button
+            >
+              Excel'i İndir
+            </button>
+          </div>
+
+          <details class="mt-5 hidden border-t border-rule-hairline pt-4" data-manual-verify>
+            <summary class="cursor-pointer font-mono text-xs text-ink-500">Ödeme yaptım ama henüz doğrulanmadı</summary>
+            <form class="mt-3" data-order-form>
+              <label class="block">
+                <span class="text-xs text-ink-500">Shopier sipariş numarası</span>
+                <input
+                  type="text"
+                  inputmode="text"
+                  maxlength="80"
+                  class="mt-2 min-h-11 w-full border border-rule-strong bg-white px-3 font-mono text-sm text-ink-800 outline-none focus:border-accent-primary"
+                  data-order-id
+                />
+              </label>
+              <button type="submit" class="mt-3 min-h-11 border border-rule-strong px-4 font-mono text-xs text-ink-700 hover:border-accent-primary">
+                Siparişi Doğrula
+              </button>
+            </form>
+          </details>
+        </div>
+      </>
+    ) : (
+      <div class="mt-5 border border-signal-down/30 bg-surface-elevated p-4 text-sm text-ink-600">
+        Bu ürünün fiyat seviyesi Shopier ödeme kataloğuyla eşleşmiyor. Satış geçici olarak kapalıdır.
+      </div>
+    )
+  }
+</section>
+
+<script>
+  const STORAGE_KEY = 'excelarsiv:last-checkout:v1';
+  const POLL_MS = 7000;
+
+  function readStoredCheckout() {
+    try {
+      const value = localStorage.getItem(STORAGE_KEY);
+      return value ? JSON.parse(value) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  function writeStoredCheckout(value) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
+    } catch {
+      // Local storage may be unavailable in strict privacy modes; current tab still works.
+    }
+  }
+
+  async function postJson(url, body) {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      const error = new Error(payload?.error || 'REQUEST_FAILED');
+      error.code = payload?.error || 'REQUEST_FAILED';
+      throw error;
+    }
+    return payload;
+  }
+
+  function humanError(code) {
+    const messages = {
+      INVALID_EMAIL: 'Geçerli bir e-posta adresi girin.',
+      RATE_LIMITED: 'Çok fazla ödeme denemesi yapıldı. Bir süre sonra tekrar deneyin.',
+      CHECKOUT_NOT_FOUND: 'Bu ödeme oturumu bulunamadı. Satın alma işlemini yeniden başlatın.',
+      ORDER_DOES_NOT_MATCH: 'Sipariş bu ürün, fiyat seviyesi veya e-posta ile eşleşmedi.',
+      INVALID_ORDER_ID: 'Shopier sipariş numarasını kontrol edin.',
+      VERIFICATION_TEMPORARILY_UNAVAILABLE: 'Shopier doğrulaması geçici olarak gecikiyor. Birkaç saniye sonra yeniden deneyin.',
+      FILE_NOT_READY: 'Ödemeniz doğrulandı; ürün dosyasının teslim deposundaki satış sürümü henüz hazır değil.',
+      PAYMENT_NOT_CONFIRMED: 'Ödeme henüz doğrulanmadı.',
+    };
+    return messages[code] || 'İşlem tamamlanamadı. Lütfen yeniden deneyin.';
+  }
+
+  document.querySelectorAll('[data-checkout-root]').forEach((root) => {
+    const productSlug = root.getAttribute('data-product-slug');
+    const form = root.querySelector('[data-checkout-form]');
+    if (!productSlug || !form) return;
+
+    const emailInput = root.querySelector('[data-checkout-email]');
+    const submitButton = root.querySelector('[data-checkout-submit]');
+    const progress = root.querySelector('[data-checkout-progress]');
+    const status = root.querySelector('[data-checkout-status]');
+    const detail = root.querySelector('[data-checkout-detail]');
+    const shopierLink = root.querySelector('[data-shopier-link]');
+    const downloadButton = root.querySelector('[data-download-button]');
+    const manualVerify = root.querySelector('[data-manual-verify]');
+    const orderForm = root.querySelector('[data-order-form]');
+    const orderIdInput = root.querySelector('[data-order-id]');
+    let activeCheckout = null;
+    let pollTimer = null;
+    let pendingSince = 0;
+
+    const setProgress = (headline, description = '') => {
+      progress?.classList.remove('hidden');
+      if (status) status.textContent = headline;
+      if (detail) detail.textContent = description;
+    };
+
+    const showPending = (checkout) => {
+      activeCheckout = checkout;
+      pendingSince = pendingSince || Date.now();
+      setProgress('Ödeme bekleniyor', 'Shopier ödeme sekmesini tamamlayın. Ödeme onayı bu ekrana otomatik yansıyacak.');
+      if (shopierLink && checkout.shopierUrl) {
+        shopierLink.href = checkout.shopierUrl;
+        shopierLink.classList.remove('hidden');
+      }
+      downloadButton?.classList.add('hidden');
+      schedulePoll();
+    };
+
+    const showPaid = () => {
+      if (pollTimer) window.clearTimeout(pollTimer);
+      pollTimer = null;
+      setProgress('Ödeme onaylandı', 'Satın aldığınız Excel dosyasını doğrudan bilgisayarınıza indirebilirsiniz.');
+      shopierLink?.classList.add('hidden');
+      downloadButton?.classList.remove('hidden');
+      manualVerify?.classList.add('hidden');
+    };
+
+    const schedulePoll = () => {
+      if (pollTimer) window.clearTimeout(pollTimer);
+      pollTimer = window.setTimeout(checkStatus, POLL_MS);
+    };
+
+    const checkStatus = async () => {
+      if (!activeCheckout) return;
+      try {
+        const result = await postJson('/api/checkout-status', {
+          checkoutId: activeCheckout.checkoutId,
+          checkoutSecret: activeCheckout.checkoutSecret,
+        });
+        if (result.status === 'paid') {
+          showPaid();
+          return;
+        }
+        if (result.status === 'expired') {
+          setProgress('Ödeme oturumunun süresi doldu', 'Yeni bir satın alma işlemi başlatın.');
+          return;
+        }
+        if (Date.now() - pendingSince > 45000) manualVerify?.classList.remove('hidden');
+        setProgress(
+          'Ödeme bekleniyor',
+          result.verificationDelayed
+            ? 'Shopier doğrulaması birkaç saniye gecikiyor; otomatik kontrol devam ediyor.'
+            : 'Shopier ödeme onayı bekleniyor. Bu sayfayı kapatmanız gerekmez.',
+        );
+        schedulePoll();
+      } catch (error) {
+        if (Date.now() - pendingSince > 45000) manualVerify?.classList.remove('hidden');
+        setProgress('Doğrulama devam ediyor', humanError(error.code));
+        schedulePoll();
+      }
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const email = emailInput?.value?.trim() || '';
+      if (!emailInput?.checkValidity()) {
+        emailInput?.reportValidity();
+        return;
+      }
+
+      let paymentWindow = null;
+      try {
+        paymentWindow = window.open('about:blank', '_blank');
+        if (paymentWindow) {
+          paymentWindow.document.title = 'Shopier ödeme açılıyor';
+          paymentWindow.document.body.textContent = 'Shopier güvenli ödeme ekranı açılıyor…';
+        }
+      } catch {
+        paymentWindow = null;
+      }
+
+      submitButton?.setAttribute('disabled', '');
+      setProgress('Ödeme hazırlanıyor', 'Güvenli Shopier ödeme bağlantısı oluşturuluyor.');
+
+      try {
+        const checkout = await postJson('/api/checkout', { productSlug, email });
+        const stored = { ...checkout, savedAt: Date.now() };
+        writeStoredCheckout(stored);
+        showPending(stored);
+
+        if (paymentWindow) {
+          paymentWindow.location.href = checkout.shopierUrl;
+        } else {
+          window.location.href = checkout.shopierUrl;
+        }
+      } catch (error) {
+        if (paymentWindow && !paymentWindow.closed) paymentWindow.close();
+        setProgress('Ödeme başlatılamadı', humanError(error.code));
+      } finally {
+        submitButton?.removeAttribute('disabled');
+      }
+    });
+
+    downloadButton?.addEventListener('click', async () => {
+      if (!activeCheckout) return;
+      downloadButton.setAttribute('disabled', '');
+      setProgress('Dosya hazırlanıyor', 'Güvenli tek kullanımlık indirme bağlantısı oluşturuluyor.');
+      try {
+        const result = await postJson('/api/download-token', {
+          checkoutId: activeCheckout.checkoutId,
+          checkoutSecret: activeCheckout.checkoutSecret,
+        });
+        const link = document.createElement('a');
+        link.href = result.downloadUrl;
+        link.rel = 'nofollow';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setProgress('İndirme başladı', 'Dosya bilgisayarınıza indiriliyor. Gerekirse İndir butonunu yeniden kullanabilirsiniz.');
+        downloadButton.removeAttribute('disabled');
+        downloadButton.classList.remove('hidden');
+      } catch (error) {
+        setProgress('Dosya indirilemedi', humanError(error.code));
+        downloadButton.removeAttribute('disabled');
+        downloadButton.classList.remove('hidden');
+      }
+    });
+
+    orderForm?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!activeCheckout) return;
+      const shopierOrderId = orderIdInput?.value?.trim() || '';
+      if (!shopierOrderId) return;
+      setProgress('Sipariş doğrulanıyor', 'Shopier sipariş kaydı doğrudan kontrol ediliyor.');
+      try {
+        const result = await postJson('/api/verify-order', {
+          checkoutId: activeCheckout.checkoutId,
+          checkoutSecret: activeCheckout.checkoutSecret,
+          shopierOrderId,
+        });
+        if (result.status === 'paid') showPaid();
+      } catch (error) {
+        setProgress('Sipariş eşleşmedi', humanError(error.code));
+      }
+    });
+
+    const stored = readStoredCheckout();
+    if (stored?.productSlug === productSlug && stored?.checkoutId && stored?.checkoutSecret) {
+      activeCheckout = stored;
+      pendingSince = stored.savedAt || Date.now();
+      showPending(stored);
+      checkStatus();
+    }
+  });
+</script>

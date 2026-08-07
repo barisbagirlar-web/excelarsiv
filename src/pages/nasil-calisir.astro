@@ -6,26 +6,26 @@ import Button from '../components/Button.astro';
 const steps = [
   {
     title: 'Satın alma',
-    description: 'Ürün sayfasındaki "Satın Al — Shopier ile öde" düğmesi sizi Shopier güvenli ödeme sayfasına götürür. Sitede sepet ve hesap yoktur; ödeme Shopier altyapısında tamamlanır.',
+    description: 'Ürün sayfasında e-posta adresinizi girip “Satın Al — Shopier ile öde” düğmesine basarsınız. ExcelArşiv seçtiğiniz gerçek ürünü ödeme oturumuna bağlar ve Shopier güvenli ödeme ekranını açar.',
+  },
+  {
+    title: 'Ödeme doğrulama',
+    description: 'Kart bilgileri ExcelArşiv’de tutulmaz. Ödeme Shopier’de tamamlandıktan sonra ExcelArşiv sipariş kaydını ürün seviyesi, tutar ve e-posta bilgileriyle sunucu tarafında doğrular.',
   },
   {
     title: 'Teslimat',
-    description: 'Ödeme onaylandığında indirme bağlantısı satın alma e-postanıza gönderilir. Kesin teslim süresi Shopier dijital teslimat ayarına bağlıdır ve yayın öncesi test siparişiyle doğrulanır.',
+    description: 'Ödeme doğrulandığında ürün sayfasındaki “Excel’i İndir” düğmesi açılır. Aynı satın alma kaydına /teslimat ekranından da erişebilir ve dosyayı doğrudan bilgisayarınıza indirebilirsiniz.',
   },
   {
-    title: 'Lisans',
-    description: 'Tek lisans tek kullanıcı içindir. Aynı kullanıcının makul sayıdaki cihazında kullanılabilir; yeniden satış ve şirket dışı paylaşım yasaktır.',
-  },
-  {
-    title: 'Güncelleme',
-    description: 'Mevzuata bağlı ürünlerde oran veya kural değişince güncel sürüm, ürünün güncelleme politikasında yazılı süre boyunca ücretsiz sunulur.',
+    title: 'Lisans ve güncelleme',
+    description: 'Tek lisans tek kullanıcı içindir. Güncelleme koşulları ürün sayfasında belirtilir; yeni satış sürümleri satın alma kaydına bağlı olarak güvenli teslim edilir.',
   },
 ];
 
 const howToLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'HowTo',
-  name: 'Excel Arşiv şablonu satın alma ve teslim alma',
+  name: 'Excel Arşiv şablonu satın alma ve güvenli indirme',
   step: steps.map((step, index) => ({
     '@type': 'HowToStep',
     position: index + 1,
@@ -37,7 +37,7 @@ const howToLd = JSON.stringify({
 
 <CommerceLayout
   title="Nasıl Çalışır — Excel Arşiv"
-  description="Satın alma, teslimat, lisans ve güncelleme adımları — Excel şablonlarını nasıl satın alır ve alırsınız."
+  description="Excel şablonunu seçme, Shopier ile ödeme, ödeme doğrulama ve ExcelArşiv üzerinden güvenli indirme adımları."
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={howToLd} />
@@ -46,7 +46,7 @@ const howToLd = JSON.stringify({
     <SectionLabel address="A1" label="Akış" />
     <h1 class="display mt-6">Nasıl çalışır</h1>
     <p class="lead mt-6 max-w-xl">
-      Satın alma, teslimat, lisans ve güncelleme sürecinin tamamı dört adımda.
+      Ürünü seçersiniz, Shopier’de ödersiniz, ödeme doğrulanır ve Excel dosyanızı ExcelArşiv’den indirirsiniz.
     </p>
     <ol class="mt-10 space-y-8">
       {

@@ -1,0 +1,297 @@
+---
+import CommerceLayout from '../layouts/CommerceLayout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import { shopierCatalog } from '../lib/shopier';
+
+const recoveryProducts = Object.entries(shopierCatalog.products)
+  .map(([slug, product]) => ({
+    slug,
+    name: product.name,
+    priceTL: shopierCatalog.tiers[product.tier].priceTL,
+  }))
+  .sort((a, b) => a.name.localeCompare(b.name, 'tr'));
+---
+
+<CommerceLayout
+  title="Satın Aldıklarım ve İndirme — Excel Arşiv"
+  description="Shopier ödemenizi doğrulayın ve satın aldığınız Excel dosyasını güvenli şekilde ExcelArşiv üzerinden indirin."
+>
+  <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
+    <SectionLabel number={1} label="Teslimat" />
+    <h1 class="display mt-6">Satın aldığınız Excel'i indirin</h1>
+    <p class="lead mt-5 max-w-2xl">
+      Shopier ödeme kaydı doğrulandığında dosyanız bu ekrandan doğrudan bilgisayarınıza indirilir.
+    </p>
+
+    <div class="mt-10 border border-rule-strong bg-surface-1 p-6" data-delivery-root>
+      <div data-empty-state>
+        <h2 class="font-display text-xl text-ink-800">Bu tarayıcıda aktif satın alma bulunamadı</h2>
+        <p class="mt-3 text-sm leading-relaxed text-ink-500">
+          Satın alma işlemini bu cihazda başlattıysanız kayıt normalde otomatik bulunur. Başka bir cihazdan ödeme yaptıysanız veya tarayıcı verileri silindiyse Shopier siparişinizle erişimi geri yükleyebilirsiniz.
+        </p>
+
+        <details class="mt-6 border-t border-rule-hairline pt-5" open>
+          <summary class="cursor-pointer font-mono text-xs text-ink-600">Satın almamı geri yükle</summary>
+          <form class="mt-4 grid gap-4" data-recovery-form>
+            <label class="block">
+              <span class="font-mono text-xs text-ink-600">Satın aldığınız Excel</span>
+              <select required class="mt-2 min-h-12 w-full border border-rule-strong bg-white px-3 text-sm text-ink-800 outline-none focus:border-accent-primary" data-recovery-product>
+                <option value="">Ürün seçin</option>
+                {recoveryProducts.map((product) => (
+                  <option value={product.slug}>{product.name} — {product.priceTL.toLocaleString('tr-TR')} TL</option>
+                ))}
+              </select>
+            </label>
+            <label class="block">
+              <span class="font-mono text-xs text-ink-600">Shopier'de kullandığınız e-posta</span>
+              <input required type="email" autocomplete="email" maxlength="254" class="mt-2 min-h-12 w-full border border-rule-strong bg-white px-3 font-mono text-sm text-ink-800 outline-none focus:border-accent-primary" data-recovery-email />
+            </label>
+            <label class="block">
+              <span class="font-mono text-xs text-ink-600">Shopier sipariş numarası</span>
+              <input required type="text" maxlength="80" class="mt-2 min-h-12 w-full border border-rule-strong bg-white px-3 font-mono text-sm text-ink-800 outline-none focus:border-accent-primary" data-recovery-order />
+            </label>
+            <button type="submit" class="min-h-12 bg-accent-primary px-5 font-mono text-sm text-white hover:bg-accent-hover disabled:opacity-60" data-recovery-submit>
+              Satın Almamı Doğrula
+            </button>
+            <p class="text-xs leading-relaxed text-ink-400" data-recovery-message aria-live="polite"></p>
+          </form>
+        </details>
+
+        <a href="/sablonlar" class="mt-6 inline-flex min-h-11 items-center border border-rule-strong px-5 font-mono text-sm text-ink-700 hover:border-accent-primary">
+          Şablonlara Git
+        </a>
+      </div>
+
+      <div class="hidden" data-active-state aria-live="polite">
+        <p class="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-400">Satın Alma</p>
+        <h2 class="mt-2 font-display text-xl text-ink-800" data-product-name></h2>
+        <p class="mt-2 font-mono text-sm text-ink-600" data-amount></p>
+        <div class="mt-5 border-t border-rule-hairline pt-5">
+          <p class="font-mono text-sm text-ink-700" data-status></p>
+          <p class="mt-2 text-xs leading-relaxed text-ink-400" data-detail></p>
+          <button
+            type="button"
+            class="mt-5 hidden min-h-12 bg-accent-primary px-6 font-mono text-sm text-white hover:bg-accent-hover disabled:opacity-60"
+            data-download
+          >
+            Excel'i İndir
+          </button>
+          <a href="#" target="_blank" rel="noopener noreferrer sponsored" class="mt-4 hidden font-mono text-xs text-accent-primary underline underline-offset-4" data-shopier-link>
+            Shopier ödeme ekranını tekrar aç
+          </a>
+        </div>
+
+        <details class="mt-6 hidden border-t border-rule-hairline pt-4" data-manual>
+          <summary class="cursor-pointer font-mono text-xs text-ink-500">Ödeme yaptım ama doğrulama bekliyor</summary>
+          <form class="mt-4" data-order-form>
+            <label class="block">
+              <span class="text-xs text-ink-500">Shopier sipariş numarası</span>
+              <input type="text" maxlength="80" class="mt-2 min-h-11 w-full border border-rule-strong bg-white px-3 font-mono text-sm outline-none focus:border-accent-primary" data-order-id />
+            </label>
+            <button type="submit" class="mt-3 min-h-11 border border-rule-strong px-4 font-mono text-xs text-ink-700 hover:border-accent-primary">
+              Siparişi Doğrula
+            </button>
+          </form>
+        </details>
+      </div>
+    </div>
+  </section>
+</CommerceLayout>
+
+<script>
+  const STORAGE_KEY = 'excelarsiv:last-checkout:v1';
+  const root = document.querySelector('[data-delivery-root]');
+  const emptyState = root?.querySelector('[data-empty-state]');
+  const activeState = root?.querySelector('[data-active-state]');
+  const productName = root?.querySelector('[data-product-name]');
+  const amount = root?.querySelector('[data-amount]');
+  const status = root?.querySelector('[data-status]');
+  const detail = root?.querySelector('[data-detail]');
+  const download = root?.querySelector('[data-download]');
+  const shopierLink = root?.querySelector('[data-shopier-link]');
+  const manual = root?.querySelector('[data-manual]');
+  const orderForm = root?.querySelector('[data-order-form]');
+  const orderId = root?.querySelector('[data-order-id]');
+  const recoveryForm = root?.querySelector('[data-recovery-form]');
+  const recoveryProduct = root?.querySelector('[data-recovery-product]');
+  const recoveryEmail = root?.querySelector('[data-recovery-email]');
+  const recoveryOrder = root?.querySelector('[data-recovery-order]');
+  const recoverySubmit = root?.querySelector('[data-recovery-submit]');
+  const recoveryMessage = root?.querySelector('[data-recovery-message]');
+
+  let checkout = null;
+  let startedAt = Date.now();
+  let timer = null;
+
+  function loadStored() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+    } catch {
+      return null;
+    }
+  }
+
+  function saveStored(value) {
+    checkout = value;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
+    } catch {
+      // Strict privacy modes may block storage; current page still remains usable.
+    }
+  }
+
+  checkout = loadStored();
+
+  async function postJson(url, body) {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      const error = new Error(payload?.error || 'REQUEST_FAILED');
+      error.code = payload?.error || 'REQUEST_FAILED';
+      throw error;
+    }
+    return payload;
+  }
+
+  function setStatus(headline, description = '') {
+    if (status) status.textContent = headline;
+    if (detail) detail.textContent = description;
+  }
+
+  function activateCheckout(value) {
+    saveStored(value);
+    startedAt = Date.now();
+    emptyState?.classList.add('hidden');
+    activeState?.classList.remove('hidden');
+    if (productName) productName.textContent = value.productName || 'Excel ürünü';
+    if (amount) amount.textContent = value.amountTL ? `${Number(value.amountTL).toLocaleString('tr-TR')} TL` : '';
+    if (shopierLink && value.shopierUrl) {
+      shopierLink.href = value.shopierUrl;
+      shopierLink.classList.remove('hidden');
+    } else {
+      shopierLink?.classList.add('hidden');
+    }
+  }
+
+  function showPaid() {
+    if (timer) window.clearTimeout(timer);
+    timer = null;
+    setStatus('Ödeme onaylandı', 'Dosyanız indirmeye hazır. İndirme bağlantısı tek kullanımlık ve kısa sürelidir.');
+    download?.classList.remove('hidden');
+    shopierLink?.classList.add('hidden');
+    manual?.classList.add('hidden');
+  }
+
+  function schedule() {
+    if (timer) window.clearTimeout(timer);
+    timer = window.setTimeout(checkStatus, 7000);
+  }
+
+  async function checkStatus() {
+    if (!checkout?.checkoutId || !checkout?.checkoutSecret) return;
+    try {
+      const result = await postJson('/api/checkout-status', {
+        checkoutId: checkout.checkoutId,
+        checkoutSecret: checkout.checkoutSecret,
+      });
+      if (result.status === 'paid') return showPaid();
+      if (result.status === 'expired') {
+        setStatus('Ödeme oturumunun süresi doldu', 'Ödeme yapmadıysanız ürünü yeniden seçerek yeni işlem başlatın. Ödeme yaptıysanız Shopier sipariş numarasıyla erişimi geri yükleyebilirsiniz.');
+        manual?.classList.remove('hidden');
+        return;
+      }
+      setStatus('Ödeme doğrulaması bekleniyor', result.verificationDelayed
+        ? 'Shopier API doğrulaması geçici olarak gecikiyor; otomatik kontrol devam ediyor.'
+        : 'Ödeme yaptıysanız onay birkaç saniye içinde bu ekrana yansır.');
+      if (Date.now() - startedAt > 45000) manual?.classList.remove('hidden');
+      schedule();
+    } catch {
+      setStatus('Doğrulama devam ediyor', 'Shopier bağlantısı geçici olarak yanıt vermedi. Otomatik kontrol yeniden denenecek.');
+      if (Date.now() - startedAt > 45000) manual?.classList.remove('hidden');
+      schedule();
+    }
+  }
+
+  if (checkout?.checkoutId && checkout?.checkoutSecret) {
+    activateCheckout(checkout);
+    setStatus('Shopier ödeme kaydı kontrol ediliyor', 'Bu sayfayı açık bırakabilirsiniz.');
+    checkStatus();
+  }
+
+  download?.addEventListener('click', async () => {
+    if (!checkout) return;
+    download.setAttribute('disabled', '');
+    setStatus('Dosya hazırlanıyor', 'Güvenli indirme bağlantısı oluşturuluyor.');
+    try {
+      const result = await postJson('/api/download-token', {
+        checkoutId: checkout.checkoutId,
+        checkoutSecret: checkout.checkoutSecret,
+      });
+      const link = document.createElement('a');
+      link.href = result.downloadUrl;
+      link.rel = 'nofollow';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setStatus('İndirme başladı', 'Dosya bilgisayarınıza indiriliyor.');
+    } catch (error) {
+      setStatus(
+        'Dosya indirilemedi',
+        error.code === 'FILE_NOT_READY'
+          ? 'Ödemeniz kayıtlı; satış dosyasının özel teslim deposuna yüklenmesi bekleniyor.'
+          : 'Geçici bir hata oluştu. İndirme butonunu yeniden kullanabilirsiniz.',
+      );
+    } finally {
+      download.removeAttribute('disabled');
+    }
+  });
+
+  orderForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const shopierOrderId = orderId?.value?.trim() || '';
+    if (!checkout || !shopierOrderId) return;
+    setStatus('Sipariş doğrudan doğrulanıyor', 'Shopier sipariş kaydı kontrol ediliyor.');
+    try {
+      const result = await postJson('/api/verify-order', {
+        checkoutId: checkout.checkoutId,
+        checkoutSecret: checkout.checkoutSecret,
+        shopierOrderId,
+      });
+      if (result.status === 'paid') showPaid();
+    } catch {
+      setStatus('Sipariş eşleşmedi', 'Sipariş numarası, e-posta, ürün seviyesi ve tutarın aynı olması gerekir.');
+    }
+  });
+
+  recoveryForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const productSlug = recoveryProduct?.value || '';
+    const email = recoveryEmail?.value?.trim() || '';
+    const shopierOrderId = recoveryOrder?.value?.trim() || '';
+    if (!productSlug || !email || !shopierOrderId) return;
+
+    recoverySubmit?.setAttribute('disabled', '');
+    if (recoveryMessage) recoveryMessage.textContent = 'Shopier siparişi doğrulanıyor…';
+    try {
+      const result = await postJson('/api/recover-purchase', { productSlug, email, shopierOrderId });
+      const restored = { ...result, savedAt: Date.now() };
+      activateCheckout(restored);
+      showPaid();
+    } catch (error) {
+      const messages = {
+        ORDER_DOES_NOT_MATCH: 'Sipariş; seçilen ürünün fiyat seviyesi, e-posta veya tutarıyla eşleşmedi.',
+        ORDER_ALREADY_USED: 'Bu Shopier siparişi başka bir Excel ürünü için daha önce kullanılmış.',
+        INVALID_ORDER_ID: 'Shopier sipariş numarasını kontrol edin.',
+        RATE_LIMITED: 'Çok fazla doğrulama denemesi yapıldı. Bir süre sonra yeniden deneyin.',
+        VERIFICATION_TEMPORARILY_UNAVAILABLE: 'Shopier doğrulaması geçici olarak kullanılamıyor. Birkaç dakika sonra yeniden deneyin.',
+      };
+      if (recoveryMessage) recoveryMessage.textContent = messages[error.code] || 'Satın alma geri yüklenemedi. Bilgileri kontrol edip yeniden deneyin.';
+    } finally {
+      recoverySubmit?.removeAttribute('disabled');
+    }
+  });
+</script>
