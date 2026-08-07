@@ -25,12 +25,15 @@ const isActive = (href: string) =>
       <img
         src="/images/excel-logo.png"
         alt="Excel Arşiv"
-        width="32"
-        height="30"
+        width="34"
+        height="32"
         loading="eager"
         class="site-header__logo"
       />
-      <span class="site-header__wordmark">Excel Arşiv</span>
+      <span class="site-header__brand-text">
+        <span class="site-header__wordmark">Excel Arşiv</span>
+        <span class="site-header__tagline">Hazır Excel işletme çözümleri</span>
+      </span>
     </a>
     <nav class="site-header__nav" aria-label="Ana menü">
       {
@@ -68,7 +71,7 @@ const isActive = (href: string) =>
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    min-height: 64px;
+    min-height: 68px;
   }
   .site-header__brand {
     display: inline-flex;
@@ -80,6 +83,11 @@ const isActive = (href: string) =>
   .site-header__logo {
     border-radius: 6px;
   }
+  .site-header__brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
   .site-header__wordmark {
     font-family: var(--font-display);
     font-size: 18px;
@@ -87,15 +95,20 @@ const isActive = (href: string) =>
     letter-spacing: -0.01em;
     color: var(--xl-ink-900);
   }
+  .site-header__tagline {
+    font-size: 9px;
+    letter-spacing: 0.02em;
+    color: var(--xl-ink-3);
+  }
   .site-header__nav {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     margin-inline: auto;
   }
   .site-header__link {
-    padding: 8px 14px;
-    border-radius: 10px;
+    padding: 9px 11px;
+    border-radius: 9px;
     font-size: 14px;
     font-weight: 500;
     color: var(--xl-ink-3);
@@ -114,9 +127,9 @@ const isActive = (href: string) =>
     flex-shrink: 0;
     display: inline-flex;
     align-items: center;
-    min-height: 40px;
-    padding: 0 20px;
-    border-radius: 12px;
+    height: 42px;
+    padding-inline: 16px;
+    border-radius: 11px;
     background: var(--xl-green);
     color: #fff;
     font-family: var(--font-mono);

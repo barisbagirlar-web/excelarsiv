@@ -78,7 +78,7 @@ const steps = [
   .process-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 18px;
+    gap: 16px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -90,9 +90,10 @@ const steps = [
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    min-height: 185px;
     padding: 20px;
     border: 1px solid var(--xl-border);
-    border-radius: 20px;
+    border-radius: 18px;
     background: #fff;
     border-top: 3px solid var(--xl-green);
   }
@@ -111,29 +112,29 @@ const steps = [
   }
   .process-card__number {
     font-family: var(--font-mono);
-    font-size: 11.5px;
+    font-size: 11px;
     font-weight: 700;
     color: var(--xl-green);
   }
   .process-card__title {
     margin: 6px 0 4px;
     font-family: var(--font-body);
-    font-size: 15.5px;
+    font-size: 17px;
     font-weight: 700;
     color: var(--xl-ink-900);
   }
   .process-card__text {
     margin: 0;
-    font-size: 12.5px;
-    line-height: 1.5;
+    font-size: 12px;
+    line-height: 1.55;
     color: var(--xl-ink-3);
   }
-  @media (max-width: 900px) {
+  @media (max-width: 1024px) {
     .process-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
-  @media (max-width: 520px) {
+  @media (max-width: 680px) {
     .process-grid {
       grid-template-columns: 1fr;
     }

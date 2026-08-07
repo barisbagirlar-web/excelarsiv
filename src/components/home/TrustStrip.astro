@@ -102,7 +102,7 @@ const deliverySteps = ['Satın alma', 'E-posta', 'Dosya'];
   .trust-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 18px;
+    gap: 16px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -112,10 +112,10 @@ const deliverySteps = ['Satın alma', 'E-posta', 'Dosya'];
   }
   .trust-card {
     min-width: 0;
-    min-height: 180px;
-    padding: 22px;
+    min-height: 150px;
+    padding: 20px;
     border: 1px solid var(--xl-border);
-    border-radius: 20px;
+    border-radius: 18px;
     background: #fff;
     display: flex;
     flex-direction: column;
@@ -129,7 +129,7 @@ const deliverySteps = ['Satın alma', 'E-posta', 'Dosya'];
   .trust-card__badge {
     display: inline-flex;
     align-items: center;
-    min-height: 26px;
+    height: 26px;
     padding: 0 10px;
     border-radius: 999px;
     background: var(--xl-accent-soft);
@@ -147,32 +147,32 @@ const deliverySteps = ['Satın alma', 'E-posta', 'Dosya'];
   .trust-card__stamp {
     display: inline-grid;
     place-items: center;
-    width: 46px;
-    height: 46px;
+    width: 44px;
+    height: 44px;
     border: 2px solid var(--xl-green);
     border-radius: 50%;
     color: var(--xl-green);
     font-family: var(--font-mono);
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
     line-height: 1.15;
     text-align: center;
   }
   .trust-card__flow-icon {
-    font-size: 26px;
+    font-size: 24px;
     line-height: 1;
     color: var(--xl-green);
   }
   .trust-card__title {
     margin: 0 0 10px;
     font-family: var(--font-body);
-    font-size: 15.5px;
+    font-size: 15px;
     font-weight: 700;
     color: var(--xl-ink-900);
   }
   .trust-card__text {
     margin: auto 0 0;
-    font-size: 12.5px;
+    font-size: 12px;
     line-height: 1.5;
     color: var(--xl-ink-3);
   }
@@ -253,7 +253,7 @@ const deliverySteps = ['Satın alma', 'E-posta', 'Dosya'];
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
-  @media (max-width: 560px) {
+  @media (max-width: 680px) {
     .trust-grid {
       grid-template-columns: 1fr;
     }

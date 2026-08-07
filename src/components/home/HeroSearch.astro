@@ -33,8 +33,7 @@ const quickLinks = [
       aria-expanded="false"
     />
     <button type="submit" class="hero-search__button" aria-label="Ara">
-      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-        <path
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">        <path
           d="M10.5 3a7.5 7.5 0 0 1 6.05 12.02l4.22 4.21-1.42 1.42-4.2-4.22A7.5 7.5 0 1 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"
           fill="currentColor"
         />
@@ -71,16 +70,16 @@ const quickLinks = [
   }
   .hero-search__form {
     display: grid;
-    grid-template-columns: 24px minmax(0, 1fr) 44px;
+    grid-template-columns: 22px minmax(0, 1fr) 44px;
     align-items: center;
     min-height: 58px;
-    padding: 6px 8px 6px 18px;
+    padding: 6px 7px 6px 18px;
     border: 1px solid rgba(16, 124, 65, 0.18);
     border-radius: 16px;
     background: rgba(255, 255, 255, 0.98);
     box-shadow:
-      0 18px 44px rgba(24, 55, 38, 0.13),
-      0 3px 9px rgba(24, 55, 38, 0.05);
+      0 16px 38px rgba(24, 55, 38, 0.12),
+      0 3px 8px rgba(24, 55, 38, 0.05);
   }
   .hero-search__icon {
     color: var(--xl-ink-3);
@@ -88,6 +87,8 @@ const quickLinks = [
   .hero-search__input {
     width: 100%;
     min-width: 0;
+    height: 46px;
+    padding-inline: 12px;
     border: 0;
     outline: 0;
     background: transparent;
@@ -182,5 +183,18 @@ const quickLinks = [
   }
   .hero-search__quick-link:hover {
     color: var(--xl-green-dark);
+  }
+  @media (max-width: 720px) {
+    .hero-search__form {
+      min-height: 54px;
+    }
+    .hero-search__input {
+      height: 42px;
+      font-size: 15px;
+    }
+    .hero-search__button {
+      width: 40px;
+      height: 40px;
+    }
   }
 </style>

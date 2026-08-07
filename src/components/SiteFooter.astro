@@ -61,18 +61,6 @@ const trustSignals = ['Shopier ile güvenli ödeme', 'KDV dahil fiyat', 'E-posta
           }
         </ul>
       </nav>
-      <nav class="site-footer__col" aria-label="Yasal">
-        <h3 class="site-footer__heading">Yasal</h3>
-        <ul>
-          {
-            legalLinks.map((link) => (
-              <li>
-                <a href={link.href}>{link.label}</a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
     </div>
     <div class="site-footer__bottom">
       <ul class="site-footer__signals">
@@ -81,6 +69,15 @@ const trustSignals = ['Shopier ile güvenli ödeme', 'KDV dahil fiyat', 'E-posta
             <li>
               <span class="site-footer__check" aria-hidden="true">✓</span>
               {signal}
+            </li>
+          ))
+        }
+      </ul>
+      <ul class="site-footer__legal" aria-label="Yasal">
+        {
+          legalLinks.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
             </li>
           ))
         }
@@ -94,12 +91,12 @@ const trustSignals = ['Shopier ile güvenli ödeme', 'KDV dahil fiyat', 'E-posta
   .site-footer {
     border-top: 1px solid var(--xl-grid);
     background: var(--xl-paper);
-    padding-block: clamp(40px, 5vw, 64px) 24px;
+    padding-block: 48px 28px;
   }
   .site-footer__grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));
-    gap: 32px;
+    grid-template-columns: 1.2fr .8fr .8fr;
+    gap: 36px;
   }
   .site-footer__logo {
     display: flex;
@@ -117,7 +114,7 @@ const trustSignals = ['Shopier ile güvenli ödeme', 'KDV dahil fiyat', 'E-posta
   .site-footer__desc {
     max-width: 300px;
     margin: 12px 0 0;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.6;
     color: var(--xl-ink-3);
   }
@@ -139,7 +136,8 @@ const trustSignals = ['Shopier ile güvenli ödeme', 'KDV dahil fiyat', 'E-posta
     gap: 10px;
   }
   .site-footer__col a {
-    font-size: 13.5px;
+    font-size: 12px;
+    line-height: 1.6;
     color: var(--xl-ink-900);
     text-decoration: none;
     transition: color 150ms ease-out;
@@ -152,9 +150,9 @@ const trustSignals = ['Shopier ile güvenli ödeme', 'KDV dahil fiyat', 'E-posta
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    margin-top: 40px;
-    padding-top: 20px;
+    gap: 10px 24px;
+    margin-top: 36px;
+    padding-top: 18px;
     border-top: 1px solid var(--xl-grid);
   }
   .site-footer__signals {
@@ -173,6 +171,24 @@ const trustSignals = ['Shopier ile güvenli ödeme', 'KDV dahil fiyat', 'E-posta
     font-weight: 700;
     margin-right: 6px;
   }
+  .site-footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+  .site-footer__legal a {
+    color: var(--xl-ink-3);
+    text-decoration: none;
+    transition: color 150ms ease-out;
+  }
+  .site-footer__legal a:hover {
+    color: var(--xl-green-dark);
+  }
   .site-footer__copy {
     margin: 0;
     font-family: var(--font-mono);
@@ -187,7 +203,7 @@ const trustSignals = ['Shopier ile güvenli ödeme', 'KDV dahil fiyat', 'E-posta
       grid-column: 1 / -1;
     }
   }
-  @media (max-width: 520px) {
+  @media (max-width: 680px) {
     .site-footer__grid {
       grid-template-columns: 1fr;
     }

@@ -321,6 +321,16 @@
   --space-24: 6rem; /* 96px */
   --space-32: 8rem; /* 128px */
   --space-40: 10rem; /* 160px */
+
+  /* Kompakt Premium ölçü sistemi (final standardı) */
+  --container-main: 1180px;
+  --container-wide: 1320px;
+  --page-pad-desktop: 24px;
+  --page-pad-tablet: 20px;
+  --page-pad-mobile: 16px;
+  --section-gap: 56px;
+  --section-gap-large: 68px;
+  --section-gap-mobile: 40px;
 }
 
 @theme inline {
@@ -3189,16 +3199,16 @@ body::after {
 
 /* ===== Commerce / katalog ortak düzen (site-container, section-head) ===== */
 .site-container {
-  width: min(1240px, calc(100% - 40px));
+  width: min(var(--container-main), calc(100% - 48px));
   margin-inline: auto;
 }
 
 .site-section {
-  padding-block: 56px;
+  padding-block: var(--section-gap);
 }
 
 .site-section--large {
-  padding-block: 68px;
+  padding-block: var(--section-gap-large);
 }
 
 .site-section--alt {
@@ -3207,8 +3217,8 @@ body::after {
 }
 
 .section-head {
-  max-width: 640px;
-  margin-bottom: clamp(24px, 3vw, 32px);
+  max-width: 620px;
+  margin-bottom: 30px;
 }
 
 .section-head--row {
@@ -3221,9 +3231,9 @@ body::after {
 
 .section-head__kicker {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.1em;
   color: var(--xl-green);
 }
 
@@ -3234,10 +3244,10 @@ body::after {
 .section-head__title {
   margin: 10px 0 0;
   font-family: var(--font-display);
-  font-size: clamp(24px, 2.8vw, 34px);
+  font-size: clamp(32px, 2.8vw, 44px);
   font-weight: 800;
   letter-spacing: -0.02em;
-  line-height: 1.08;
+  line-height: 1.05;
   color: var(--xl-ink-900);
 }
 
@@ -3245,6 +3255,7 @@ body::after {
   margin: 10px 0 0;
   font-size: 15px;
   line-height: 1.65;
+  max-width: 620px;
   color: var(--xl-ink-3);
 }
 
@@ -3274,7 +3285,7 @@ body::after {
 @media (max-width: 768px) {
   .site-section,
   .site-section--large {
-    padding-block: 40px;
+    padding-block: var(--section-gap-mobile);
   }
 }
 

@@ -32,6 +32,7 @@ const icons: Record<string, string> = {
                 </svg>
               </span>
               <span class="category-card__name">{category.name}</span>
+              <span class="category-card__desc">{category.description}</span>
               <span class="category-card__arrow" aria-hidden="true">→</span>
             </a>
           </li>
@@ -45,7 +46,7 @@ const icons: Record<string, string> = {
   .category-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 18px;
+    gap: 16px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -57,12 +58,11 @@ const icons: Record<string, string> = {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
-    min-height: 170px;
+    min-height: 164px;
     height: 100%;
-    padding: 22px;
+    padding: 20px;
     border: 1px solid var(--xl-border);
-    border-radius: 20px;
+    border-radius: 18px;
     background: #fff;
     text-decoration: none;
     transition:
@@ -73,30 +73,38 @@ const icons: Record<string, string> = {
   .category-card:hover {
     border-color: var(--xl-accent-border);
     transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(24, 55, 38, 0.08);
+    box-shadow: 0 10px 24px rgba(24, 55, 38, 0.07);
   }
   .category-card__icon {
     display: inline-grid;
     place-items: center;
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
     background: var(--xl-accent-soft);
     color: var(--xl-green-dark);
   }
   .category-card__icon svg {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
   }
   .category-card__name {
+    margin-top: 15px;
     font-family: var(--font-body);
-    font-size: 14.5px;
+    font-size: 17px;
     font-weight: 700;
+    line-height: 1.2;
     color: var(--xl-ink-900);
   }
+  .category-card__desc {
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--xl-ink-3);
+  }
   .category-card__arrow {
-    margin-top: auto;
-    font-size: 16px;
+    margin-top: 14px;
+    font-size: 11px;
     color: var(--xl-ink-3);
   }
   @media (max-width: 1024px) {
@@ -104,7 +112,7 @@ const icons: Record<string, string> = {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
-  @media (max-width: 520px) {
+  @media (max-width: 680px) {
     .category-grid {
       grid-template-columns: 1fr;
     }
