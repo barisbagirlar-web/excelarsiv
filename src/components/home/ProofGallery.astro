@@ -1,0 +1,182 @@
+---
+const proofs = [
+  {
+    key: 'cashflow',
+    code: '01',
+    kicker: 'NAKİT GÖRÜNÜRLÜĞÜ',
+    title: '13 Haftalık Nakit Akışı',
+    text: 'Kritik haftayı yalnızca tahmin etmeyin; giriş, çıkış ve kümülatif bakiyeyi aynı karar ekranında görün.',
+    image: '/screenshots/13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi-3.png',
+    alt: '13 Haftalık Nakit Akışı sisteminin kritik hafta uyarıları ve ödeme planı ekranı',
+    href: '/sablon/13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi',
+    price: '2.490 TL',
+    outcome: 'Kritik haftayı önceden görün',
+  },
+  {
+    key: 'owner',
+    code: '02',
+    kicker: 'YÖNETİM ÖZETİ',
+    title: 'Aylık Patron Finans Paneli',
+    text: 'Ciro, net kâr, nakit ve tahsilat göstergelerini ayrı raporlardan toplamak yerine tek yönetim görünümünde okuyun.',
+    image: '/screenshots/aylik-patron-finans-paneli-3.png',
+    alt: 'Aylık Patron Finans Paneli yönetim özeti ve trend ekranı',
+    href: '/sablon/aylik-patron-finans-paneli',
+    price: '2.490 TL',
+    outcome: 'Karar için tek bakış',
+  },
+  {
+    key: 'cash',
+    code: '03',
+    kicker: 'GÜNLÜK KONTROL',
+    title: 'Akıllı Kasa Defteri',
+    text: 'Günlük hareket, kapanış bakiyesi ve fiili sayım farkını aynı yapıda izleyin; dönem sonu kontrolünü son güne bırakmayın.',
+    image: '/screenshots/akilli-kasa-defteri-ve-nakit-kontrol-sistemi-3.png',
+    alt: 'Akıllı Kasa Defteri sisteminin aylık özet ve dönem sonu kontrol ekranı',
+    href: '/sablon/akilli-kasa-defteri-ve-nakit-kontrol-sistemi',
+    price: '990 TL',
+    outcome: 'Farkı aynı gün yakalayın',
+  },
+];
+---
+
+<section class="proof-gallery" aria-labelledby="proof-gallery-title" data-proof-gallery>
+  <div class="site-container">
+    <div class="proof-gallery__head">
+      <div>
+        <span class="section-head__kicker">GERÇEK ÜRÜN EKRANLARI</span>
+        <h2 id="proof-gallery-title">Satın almadan önce <em>ne aldığınızı görün.</em></h2>
+      </div>
+      <p>Mockup değil. Katalogdaki gerçek Excel sistemlerinin çıktı ekranlarından seçilmiş görünümler. Her ürünün amacı, sonucu ve fiyatı aynı sahnede.</p>
+    </div>
+
+    <div class="proof-gallery__shell">
+      <div class="proof-gallery__tabs" role="tablist" aria-label="Ürün kanıtları">
+        {proofs.map((proof, index) => (
+          <button
+            type="button"
+            class={`proof-tab${index === 0 ? ' is-active' : ''}`}
+            data-proof-tab={proof.key}
+            role="tab"
+            id={`proof-tab-${proof.key}`}
+            aria-controls={`proof-panel-${proof.key}`}
+            aria-selected={index === 0 ? 'true' : 'false'}
+            tabindex={index === 0 ? 0 : -1}
+          >
+            <span>{proof.code}</span>
+            <strong>{proof.title}</strong>
+            <small>{proof.outcome}</small>
+          </button>
+        ))}
+      </div>
+
+      <div class="proof-gallery__stage">
+        {proofs.map((proof, index) => (
+          <article
+            class={`proof-panel${index === 0 ? ' is-active' : ''}`}
+            data-proof-panel={proof.key}
+            id={`proof-panel-${proof.key}`}
+            role="tabpanel"
+            aria-labelledby={`proof-tab-${proof.key}`}
+            hidden={index !== 0}
+          >
+            <div class="proof-panel__visual">
+              <div class="proof-window">
+                <div class="proof-window__bar">
+                  <span class="proof-window__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+                  <span>{proof.title}.xlsx</span>
+                  <b>GERÇEK EKRAN</b>
+                </div>
+                <button type="button" class="proof-window__zoom" data-proof-zoom={proof.key} aria-label={`${proof.title} ekranını büyüt`}>
+                  <img src={proof.image} alt={proof.alt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+                  <span>Büyüt <b aria-hidden="true">↗</b></span>
+                </button>
+              </div>
+            </div>
+
+            <div class="proof-panel__copy">
+              <span class="proof-panel__kicker">{proof.kicker}</span>
+              <h3>{proof.title}</h3>
+              <p>{proof.text}</p>
+              <div class="proof-panel__meta">
+                <span><small>Sonuç</small><strong>{proof.outcome}</strong></span>
+                <span><small>Fiyat</small><strong>{proof.price}</strong></span>
+              </div>
+              <a href={proof.href} class="proof-panel__cta">Sistemi ayrıntılı inceleyin <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <dialog class="proof-dialog" data-proof-dialog aria-label="Ürün ekranı büyütülmüş görünüm">
+    <div class="proof-dialog__inner">
+      <button type="button" class="proof-dialog__close" data-proof-close aria-label="Görseli kapat">×</button>
+      <img data-proof-dialog-image src="" alt="" />
+      <div class="proof-dialog__caption" data-proof-dialog-caption></div>
+    </div>
+  </dialog>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-proof-gallery]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[data-proof-tab]')];
+    const panels = [...root.querySelectorAll<HTMLElement>('[data-proof-panel]')];
+    const dialog = root.querySelector<HTMLDialogElement>('[data-proof-dialog]');
+    const dialogImage = root.querySelector<HTMLImageElement>('[data-proof-dialog-image]');
+    const dialogCaption = root.querySelector<HTMLElement>('[data-proof-dialog-caption]');
+
+    const activate = (key: string, focus = false) => {
+      tabs.forEach((tab) => {
+        const on = tab.dataset.proofTab === key;
+        tab.classList.toggle('is-active', on);
+        tab.setAttribute('aria-selected', on ? 'true' : 'false');
+        tab.tabIndex = on ? 0 : -1;
+        if (on && focus) tab.focus();
+      });
+      panels.forEach((panel) => {
+        const on = panel.dataset.proofPanel === key;
+        panel.classList.toggle('is-active', on);
+        panel.hidden = !on;
+      });
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => activate(tab.dataset.proofTab ?? 'cashflow'));
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        let next = index;
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = (index + 1) % tabs.length;
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = (index - 1 + tabs.length) % tabs.length;
+        if (event.key === 'Home') next = 0;
+        if (event.key === 'End') next = tabs.length - 1;
+        activate(tabs[next].dataset.proofTab ?? 'cashflow', true);
+      });
+    });
+
+    root.querySelectorAll<HTMLButtonElement>('[data-proof-zoom]').forEach((button) => {
+      button.addEventListener('click', () => {
+        if (!dialog || !dialogImage || !dialogCaption) return;
+        const img = button.querySelector<HTMLImageElement>('img');
+        if (!img) return;
+        dialogImage.src = img.currentSrc || img.src;
+        dialogImage.alt = img.alt;
+        dialogCaption.textContent = img.alt;
+        dialog.showModal();
+      });
+    });
+
+    root.querySelector<HTMLButtonElement>('[data-proof-close]')?.addEventListener('click', () => dialog?.close());
+    dialog?.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  });
+</script>
+
+<style>
+  .proof-gallery{position:relative;padding-block:clamp(82px,9vw,128px);overflow:hidden;background:#eef3f0;border-bottom:1px solid #dbe4de}.proof-gallery:before{content:'';position:absolute;inset:-220px auto auto 58%;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(16,124,65,.10),transparent 68%);pointer-events:none}.proof-gallery__head{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);gap:56px;align-items:end;margin-bottom:34px}.proof-gallery__head h2{max-width:780px;margin:10px 0 0;font-family:var(--font-display);font-size:clamp(40px,4.8vw,66px);line-height:.97;letter-spacing:-.045em;color:var(--xl-ink-900)}.proof-gallery__head h2 em{font-style:normal;color:var(--xl-green)}.proof-gallery__head>p{margin:0;font-size:14px;line-height:1.72;color:var(--xl-ink-3)}.proof-gallery__shell{position:relative;display:grid;grid-template-columns:250px minmax(0,1fr);gap:16px}.proof-gallery__tabs{display:flex;flex-direction:column;gap:9px}.proof-tab{appearance:none;display:grid;grid-template-columns:34px 1fr;column-gap:10px;row-gap:4px;width:100%;padding:16px;border:1px solid #d3ded7;border-radius:17px;background:rgba(255,255,255,.68);text-align:left;color:var(--xl-ink-900);cursor:pointer;transition:transform .18s ease,border-color .18s ease,background .18s ease,box-shadow .18s ease}.proof-tab:hover{transform:translateX(3px);border-color:#a9cdb7}.proof-tab.is-active{background:#fff;border-color:#77b691;box-shadow:0 16px 34px rgba(36,82,54,.10)}.proof-tab>span{grid-row:1/3;font-family:var(--font-mono);font-size:9px;font-weight:700;color:var(--xl-green);padding-top:2px}.proof-tab strong{font-size:13px;line-height:1.2}.proof-tab small{font-size:10.5px;line-height:1.35;color:var(--xl-ink-3)}.proof-gallery__stage{min-width:0}.proof-panel{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:0;min-height:560px;overflow:hidden;border:1px solid #cedbd3;border-radius:28px;background:#fff;box-shadow:0 30px 70px rgba(35,74,49,.11);animation:proof-in .26s ease-out both}@keyframes proof-in{from{opacity:0;transform:translateY(7px)}}.proof-panel__visual{display:flex;align-items:center;min-width:0;padding:28px;background:linear-gradient(145deg,#e7efea,#f5f8f6)}.proof-window{width:100%;overflow:hidden;border:1px solid #c9d5cd;border-radius:18px;background:#fff;box-shadow:0 22px 54px rgba(33,69,46,.15)}.proof-window__bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;min-height:40px;padding:0 12px;border-bottom:1px solid #dce4df;background:#edf1ee;font-family:var(--font-mono);font-size:8.5px;color:#6b756f}.proof-window__bar>span:nth-child(2){justify-self:center}.proof-window__bar>b{justify-self:end;padding:4px 7px;border-radius:6px;background:#dff1e6;color:#0e713c;font-size:7.5px}.proof-window__dots{display:flex;gap:5px}.proof-window__dots i{display:block;width:7px;height:7px;border-radius:50%;background:#b5beb8}.proof-window__dots i:first-child{background:#e66e68}.proof-window__dots i:nth-child(2){background:#e9b84e}.proof-window__dots i:last-child{background:#4db56b}.proof-window__zoom{appearance:none;position:relative;display:block;width:100%;padding:0;border:0;background:#fff;cursor:zoom-in;overflow:hidden}.proof-window__zoom img{display:block;width:100%;height:auto;max-height:470px;object-fit:contain;background:#fff;transition:transform .32s ease}.proof-window__zoom:hover img{transform:scale(1.012)}.proof-window__zoom>span{position:absolute;right:12px;bottom:12px;display:inline-flex;align-items:center;gap:6px;padding:8px 10px;border:1px solid rgba(255,255,255,.45);border-radius:10px;background:rgba(8,45,31,.88);backdrop-filter:blur(10px);color:#fff;font-family:var(--font-mono);font-size:8.5px;font-weight:700;box-shadow:0 8px 22px rgba(0,0,0,.16)}.proof-panel__copy{display:flex;flex-direction:column;padding:34px;background:#0b3a28;color:#fff}.proof-panel__kicker{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:.1em;color:#8be0ad}.proof-panel__copy h3{margin:14px 0 0;font-family:var(--font-display);font-size:clamp(27px,3vw,40px);line-height:1;letter-spacing:-.035em}.proof-panel__copy>p{margin:17px 0 0;font-size:13px;line-height:1.65;color:rgba(244,255,249,.72)}.proof-panel__meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto;padding-top:28px}.proof-panel__meta>span{display:flex;flex-direction:column;gap:5px;padding:12px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:rgba(255,255,255,.055)}.proof-panel__meta small{font-family:var(--font-mono);font-size:7.5px;color:rgba(238,255,246,.52)}.proof-panel__meta strong{font-size:11.5px;line-height:1.25}.proof-panel__cta{display:inline-flex;justify-content:space-between;align-items:center;margin-top:12px;padding:12px 13px;border-radius:12px;background:#fff;color:#0b3a28;font-family:var(--font-mono);font-size:9.5px;font-weight:700;text-decoration:none;transition:transform .18s ease,box-shadow .18s ease}.proof-panel__cta:hover{transform:translateY(-1px);box-shadow:0 12px 24px rgba(0,0,0,.18)}.proof-dialog{width:min(1180px,calc(100% - 32px));max-width:none;padding:0;border:0;border-radius:22px;background:#0a2118;color:#fff;box-shadow:0 40px 120px rgba(0,0,0,.46)}.proof-dialog::backdrop{background:rgba(4,16,11,.78);backdrop-filter:blur(8px)}.proof-dialog__inner{position:relative;padding:48px 16px 16px}.proof-dialog__close{position:absolute;right:12px;top:10px;width:32px;height:32px;border:1px solid rgba(255,255,255,.16);border-radius:50%;background:rgba(255,255,255,.08);color:#fff;font-size:22px;line-height:1;cursor:pointer}.proof-dialog__inner img{display:block;width:100%;max-height:76vh;object-fit:contain;border-radius:12px;background:#fff}.proof-dialog__caption{padding:12px 4px 2px;font-size:11px;color:rgba(255,255,255,.7)}
+  @media(max-width:980px){.proof-gallery__shell{grid-template-columns:1fr}.proof-gallery__tabs{display:grid;grid-template-columns:repeat(3,1fr)}.proof-tab{grid-template-columns:24px 1fr;padding:13px}.proof-panel{grid-template-columns:1fr;min-height:0}.proof-panel__copy{min-height:270px}.proof-panel__visual{padding:18px}}
+  @media(max-width:680px){.proof-gallery{padding-block:52px}.proof-gallery__head{grid-template-columns:1fr;gap:12px;margin-bottom:22px}.proof-gallery__head h2{font-size:35px}.proof-gallery__head>p{font-size:12.5px;line-height:1.55}.proof-gallery__tabs{display:flex;flex-direction:row;overflow-x:auto;gap:8px;padding-bottom:3px;scroll-snap-type:x mandatory;scrollbar-width:none}.proof-gallery__tabs::-webkit-scrollbar{display:none}.proof-tab{flex:0 0 78%;scroll-snap-align:start;padding:13px 14px}.proof-panel{border-radius:20px}.proof-panel__visual{padding:10px}.proof-window{border-radius:12px}.proof-window__bar{min-height:34px;font-size:7px}.proof-window__zoom img{max-height:310px}.proof-panel__copy{min-height:0;padding:22px}.proof-panel__copy h3{font-size:28px}.proof-panel__copy>p{font-size:12px}.proof-panel__meta{margin-top:22px;padding-top:0}.proof-panel__cta{font-size:9px}.proof-dialog{width:calc(100% - 18px);border-radius:16px}.proof-dialog__inner{padding:42px 8px 8px}.proof-dialog__caption{font-size:9px}}
+  @media(prefers-reduced-motion:reduce){.proof-panel,.proof-tab,.proof-window__zoom img,.proof-panel__cta{animation:none;transition:none}}
+</style>
