@@ -14,66 +14,79 @@ jobs:
   diagnose:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
-      - name: Deploy isolated minimal HTTP function
+      - name: Deploy production-module probe
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p /tmp/minimal-function
-          cat >/tmp/minimal-function/package.json <<'JSON'
-          {
-            "name": "excelarsiv-minimal-probe",
-            "version": "1.0.0",
-            "main": "index.js",
-            "engines": {"node": "22"},
-            "dependencies": {"@google-cloud/functions-framework": "^5.0.5"}
+          rm -rf /tmp/module-probe
+          cp -R functions /tmp/module-probe
+          cat >/tmp/module-probe/main.js <<'JS'
+          'use strict';
+
+          const ff = require('@google-cloud/functions-framework');
+
+          process.env.FIREBASE_CONFIG = JSON.stringify({
+            projectId: 'carbon-web-1265b',
+            storageBucket: 'carbon-web-1265b.firebasestorage.app',
+          });
+          process.env.GCLOUD_PROJECT = 'carbon-web-1265b';
+          process.env.GOOGLE_CLOUD_PROJECT = 'carbon-web-1265b';
+
+          const results = {};
+          for (const name of ['./index', './safe-checkout', './recover', './proof-demo']) {
+            try {
+              require(name);
+              results[name] = { ok: true };
+            } catch (error) {
+              results[name] = {
+                ok: false,
+                name: error?.name || null,
+                message: error?.message || String(error),
+                stack: error?.stack || null,
+              };
+            }
           }
-          JSON
-          cat >/tmp/minimal-function/index.js <<'JS'
-          const functions = require('@google-cloud/functions-framework');
-          functions.http('healthProbe', (req, res) => res.status(200).send('OK'));
+
+          ff.http('moduleProbe', (req, res) => {
+            res.status(200).json(results);
+          });
           JS
 
-          gcloud functions deploy excelarsivHealthProbe \
+          gcloud functions deploy excelarsivModuleProbe \
             --project="carbon-web-1265b" \
             --gen2 \
             --region="europe-west1" \
             --runtime=nodejs22 \
-            --source=/tmp/minimal-function \
-            --entry-point=healthProbe \
+            --source=/tmp/module-probe \
+            --entry-point=moduleProbe \
             --trigger-http \
             --allow-unauthenticated \
             --memory=256Mi \
             --max-instances=1 \
             --quiet
 
-          uri="$(gcloud functions describe excelarsivHealthProbe --project=carbon-web-1265b --gen2 --region=europe-west1 --format='value(serviceConfig.uri)')"
+          uri="$(gcloud functions describe excelarsivModuleProbe --project=carbon-web-1265b --gen2 --region=europe-west1 --format='value(serviceConfig.uri)')"
           echo "Probe URI: $uri"
-          curl --fail --silent --show-error "$uri" | grep -Fx 'OK'
-
-      - name: Inspect production checkout Function
-        shell: bash
-        run: |
-          set -euo pipefail
-          gcloud functions describe checkoutStatus \
-            --project="carbon-web-1265b" \
-            --gen2 \
-            --region="europe-west1" \
-            --format='yaml(name,state,buildConfig.entryPoint,buildConfig.runtime,serviceConfig.environmentVariables,serviceConfig.secretEnvironmentVariables,stateMessages)'
-          gcloud run services describe checkoutstatus \
-            --project="carbon-web-1265b" \
-            --region="europe-west1" \
-            --format='yaml(metadata.name,status.conditions,status.latestCreatedRevisionName,spec.template.spec.containers)'
+          curl --fail --silent --show-error "$uri" | tee /tmp/module-probe-result.json
+          node - <<'NODE'
+          const fs = require('fs');
+          const result = JSON.parse(fs.readFileSync('/tmp/module-probe-result.json', 'utf8'));
+          console.log(JSON.stringify(result, null, 2));
+          NODE
 
       - name: Delete isolated probe
         if: always()
         shell: bash
         run: |
-          gcloud functions delete excelarsivHealthProbe \
+          gcloud functions delete excelarsivModuleProbe \
             --project="carbon-web-1265b" \
             --gen2 \
             --region="europe-west1" \
