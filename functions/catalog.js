@@ -3,6 +3,8 @@
 // The Functions source is deployed as the isolated `functions/` directory.
 // Keep a deployment-local catalog mirror so Cloud Functions never depends on
 // a parent-directory file that is omitted from the uploaded source package.
+// This module is part of the production deployment boundary; catalog changes
+// must therefore trigger a backend redeploy before checkout is released.
 const catalog = require('./catalog.json');
 if (!catalog?.tiers || !catalog?.products) {
   throw new Error('Packaged commerce catalog is incomplete');
