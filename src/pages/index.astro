@@ -4,12 +4,12 @@ import HeroSection from '../components/home/HeroSection.astro';
 import TrustStrip from '../components/home/TrustStrip.astro';
 import FeaturedTemplates from '../components/home/FeaturedTemplates.astro';
 import CommandCenter from '../components/home/CommandCenter.astro';
+import ProofGallery from '../components/home/ProofGallery.astro';
 import CategorySection from '../components/home/CategorySection.astro';
-import ValueSection from '../components/home/ValueSection.astro';
 import GainSection from '../components/home/GainSection.astro';
-import ProcessSection from '../components/home/ProcessSection.astro';
 import PurchaseProcess from '../components/home/PurchaseProcess.astro';
 import FinalCTA from '../components/home/FinalCTA.astro';
+import ExperienceRail from '../components/home/ExperienceRail.astro';
 import { getFeaturedTemplates, getTemplateSearchIndex } from '../lib/templates';
 
 const featuredTemplates = await getFeaturedTemplates(6);
@@ -18,16 +18,38 @@ const searchIndex = await getTemplateSearchIndex();
 
 <CommerceLayout
   title="Excel Şablonları ve İşletme Çözümleri | Excel Arşiv"
-  description="Kasa, nakit akışı, cari hesap, stok ve kârlılık işleriniz için hazır Excel sistemleri. Demo dosyayla inceleyin, Shopier ile ödeyin, e-postayla alın."
+  description="Kasa, nakit akışı, cari hesap, stok ve kârlılık işleriniz için hazır Excel sistemleri. Gerçek ürün ekranlarını inceleyin, demo ile görün, Shopier ile ödeyin."
 >
   <HeroSection searchIndex={searchIndex} />
   <TrustStrip />
-  <FeaturedTemplates templates={featuredTemplates} />
-  <CommandCenter />
-  <CategorySection />
-  <ValueSection />
-  <GainSection />
-  <ProcessSection />
-  <PurchaseProcess />
-  <FinalCTA />
+  <ExperienceRail />
+
+  <div id="urunler" data-experience-stage>
+    <FeaturedTemplates templates={featuredTemplates} />
+  </div>
+
+  <div id="sistem" data-experience-stage>
+    <CommandCenter />
+  </div>
+
+  <div id="kanit" data-experience-stage>
+    <ProofGallery />
+  </div>
+
+  <div id="kategoriler" data-experience-stage>
+    <CategorySection />
+  </div>
+
+  <div id="deger" data-experience-stage>
+    <GainSection />
+  </div>
+
+  <div id="satin-alma" data-experience-stage>
+    <PurchaseProcess />
+    <FinalCTA />
+  </div>
 </CommerceLayout>
+
+<style>
+  [data-experience-stage] { scroll-margin-top: 92px; }
+</style>
