@@ -4,13 +4,15 @@ const crypto = require('node:crypto');
 const { onRequest } = require('firebase-functions/v2/https');
 const { getApps, initializeApp } = require('firebase-admin/app');
 const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
+const { getStorage } = require('firebase-admin/storage');
 const { TIERS, PRODUCTS } = require('./catalog');
 
 if (getApps().length === 0) initializeApp();
 const db = getFirestore();
+const bucket = getStorage().bucket();
 
 const REGION = 'europe-west1';
-const CHECKOUT_TTL_MS = 2 * 60 * 60 * 1000;
+const CHECKOUT_TTL_MS = 30 * 60 * 1000;
 const MAX_CHECKOUTS_PER_IP_HOUR = 20;
 
 const functionDefaults = {
@@ -91,6 +93,19 @@ const createCheckout = onRequest(functionDefaults, async (req, res) => {
   if (!tier || tier.priceTL !== product.priceTL) {
     console.error('commerce catalog mismatch', productSlug);
     return sendJson(res, 500, { error: 'CATALOG_MISMATCH' });
+  }
+
+  // Fail closed before opening Shopier: never accept payment for a product whose
+  // private sale file is not already present in Firebase Storage.
+  try {
+    const [fileReady] = await bucket.file(product.storageKey).exists();
+    if (!fileReady) {
+      console.warn('checkout blocked: paid file missing', product.storageKey);
+      return sendJson(res, 409, { error: 'PRODUCT_NOT_READY' });
+    }
+  } catch (error) {
+    console.error('checkout readiness check failed', error?.message);
+    return sendJson(res, 503, { error: 'PRODUCT_READINESS_UNAVAILABLE' });
   }
 
   const checkoutId = crypto.randomBytes(16).toString('hex');
