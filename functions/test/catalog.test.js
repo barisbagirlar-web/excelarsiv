@@ -2,6 +2,8 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 const { PRODUCTS } = require('../catalog');
 
 test('satışa açık ürünlerin tamamı satista bayrağı taşır', () => {
@@ -34,3 +36,14 @@ test('yüklenen 6 hedef ürün satista=true ile satışa açıktır', () => {
     assert.ok(PRODUCTS[slug]?.satista !== false, `${slug} satışa açık olmalı`);
   }
 });
+
+test('production createCheckout satista gate içerir', () => {
+  const source = fs.readFileSync(path.join(__dirname, '..', 'safe-checkout.js'), 'utf8');
+  assert.match(source, /satista\s*===\s*false/, 'safe-checkout.js PRODUCT_NOT_FOR_SALE kapısı olmalı');
+  assert.match(source, /PRODUCT_NOT_FOR_SALE/, 'safe-checkout.js PRODUCT_NOT_FOR_SALE yanıtı içermeli');
+  assert.ok(
+    source.indexOf('PRODUCT_NOT_FOR_SALE') < source.indexOf('PRODUCT_NOT_READY'),
+    'satista kapısı storage kapısından önce çalışmalı',
+  );
+});
+

@@ -95,6 +95,13 @@ const createCheckout = onRequest(functionDefaults, async (req, res) => {
     return sendJson(res, 500, { error: 'CATALOG_MISMATCH' });
   }
 
+  // Fail closed before opening Shopier: catalog-driven sale switch. Products not
+  // marked for sale must never reach the payment provider.
+  if (product.satista === false) {
+    console.warn('checkout blocked: product not for sale', productSlug);
+    return sendJson(res, 409, { error: 'PRODUCT_NOT_FOR_SALE' });
+  }
+
   // Fail closed before opening Shopier: never accept payment for a product whose
   // private sale file is not already present in Firebase Storage.
   try {
