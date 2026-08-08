@@ -5,8 +5,8 @@ category: 'satis-ve-fiyatlama'
 priceTL: 2490
 vatIncluded: true
 fileFormat: xlsx
-sizeMB: 0.1
-sheetCount: 3
+sizeMB: 0.13
+sheetCount: 14
 hasMacros: false
 minExcelVersion: 'Excel 2016 ve üzeri'
 macCompatible: true
@@ -14,14 +14,47 @@ sheetsCompatibility: full
 version: '1.0.0'
 updatedAt: '2026-08-06'
 sheetMap: 
-  - name: 'Girdi'
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası ve dosya kimliği'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç rehberi'
+    kind: 'output'
+  - name: 'IS_GIRILERI'
     purpose: 'İş ve gelir-gider girişleri'
     kind: 'input'
-  - name: 'Hesap'
-    purpose: 'İş bazlı kârlılık'
+  - name: 'HESAP'
+    purpose: 'İş bazlı kârlılık hesapları'
     kind: 'calculation'
-  - name: 'Çıktı'
-    purpose: 'İş öncelik raporu'
+  - name: 'KONTROLLER'
+    purpose: 'Girdi tutarlılık kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Kârlılık karar bildirimi'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Yönetim panosu özeti'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Dönem raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
     kind: 'output'
 inputs: 
   - 'İş adı ve toplam geliri'
@@ -57,11 +90,11 @@ faq:
 demoFile: /demo/proje-ve-is-bazinda-gercek-karlilik-sistemi.xlsx
 screenshots: 
   - src: '/screenshots/proje-ve-is-bazinda-gercek-karlilik-sistemi-1.png'
-    alt: 'Proje ve İş Bazında Gerçek Kârlılık Sistemi dosyasının Girdi sayfası — İş ve gelir-gider girişleri'
+    alt: 'Proje ve İş Bazında Gerçek Kârlılık Sistemi dosyasının IS_GIRILERI sayfası — İş ve gelir-gider girişleri'
   - src: '/screenshots/proje-ve-is-bazinda-gercek-karlilik-sistemi-2.png'
-    alt: 'Proje ve İş Bazında Gerçek Kârlılık Sistemi dosyasının Hesap sayfası — İş bazlı kârlılık'
+    alt: 'Proje ve İş Bazında Gerçek Kârlılık Sistemi dosyasının HESAP sayfası — İş bazlı kârlılık hesapları'
   - src: '/screenshots/proje-ve-is-bazinda-gercek-karlilik-sistemi-3.png'
-    alt: 'Proje ve İş Bazında Gerçek Kârlılık Sistemi dosyasının Çıktı sayfası — İş öncelik raporu'
+    alt: 'Proje ve İş Bazında Gerçek Kârlılık Sistemi dosyasının PANO sayfası — Yönetim panosu özeti'
 related: 
   - 'gunluk-gelir-gider-ve-gercek-karlilik-sistemi'
   - 'aylik-patron-finans-paneli'

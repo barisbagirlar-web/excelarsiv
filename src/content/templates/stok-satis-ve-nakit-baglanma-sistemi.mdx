@@ -5,8 +5,8 @@ category: 'stok-ve-uretim'
 priceTL: 1490
 vatIncluded: true
 fileFormat: xlsx
-sizeMB: 0.1
-sheetCount: 3
+sizeMB: 0.14
+sheetCount: 14
 hasMacros: false
 minExcelVersion: 'Excel 2016 ve üzeri'
 macCompatible: true
@@ -14,14 +14,47 @@ sheetsCompatibility: full
 version: '1.0.0'
 updatedAt: '2026-08-06'
 sheetMap: 
-  - name: 'Girdi'
-    purpose: 'Stok hareket girişleri'
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası ve dosya kimliği'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç rehberi'
+    kind: 'output'
+  - name: 'STOK_HAREKETLER'
+    purpose: 'Stok hareketi girişleri'
     kind: 'input'
-  - name: 'Hesap'
-    purpose: 'Ortalama maliyet ve bağlanan nakit'
+  - name: 'HESAP'
+    purpose: 'Ortalama maliyet ve bağlanan nakit hesapları'
     kind: 'calculation'
-  - name: 'Çıktı'
-    purpose: 'Stok ve devir raporu'
+  - name: 'KONTROLLER'
+    purpose: 'Negatif stok ve tutarlılık kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Stok ve nakit bağlanma karar bildirimi'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Yönetim panosu özeti'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Dönem raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
     kind: 'output'
 inputs: 
   - 'Stok giriş ve çıkış adetleri'
@@ -57,11 +90,11 @@ faq:
 demoFile: /demo/stok-satis-ve-nakit-baglanma-sistemi.xlsx
 screenshots: 
   - src: '/screenshots/stok-satis-ve-nakit-baglanma-sistemi-1.png'
-    alt: 'Stok, Satış ve Nakit Bağlanma Sistemi dosyasının Girdi sayfası — Stok hareket girişleri'
+    alt: 'Stok, Satış ve Nakit Bağlanma Sistemi dosyasının STOK_HAREKETLER sayfası — Stok hareketi girişleri'
   - src: '/screenshots/stok-satis-ve-nakit-baglanma-sistemi-2.png'
-    alt: 'Stok, Satış ve Nakit Bağlanma Sistemi dosyasının Hesap sayfası — Ortalama maliyet ve bağlanan nakit'
+    alt: 'Stok, Satış ve Nakit Bağlanma Sistemi dosyasının HESAP sayfası — Ortalama maliyet ve bağlanan nakit hesapları'
   - src: '/screenshots/stok-satis-ve-nakit-baglanma-sistemi-3.png'
-    alt: 'Stok, Satış ve Nakit Bağlanma Sistemi dosyasının Çıktı sayfası — Stok ve devir raporu'
+    alt: 'Stok, Satış ve Nakit Bağlanma Sistemi dosyasının PANO sayfası — Yönetim panosu özeti'
 related: 
   - 'gunluk-gelir-gider-ve-gercek-karlilik-sistemi'
   - 'kobi-finans-yonetim-paketi'

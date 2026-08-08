@@ -1,12 +1,30 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
+import { spawnSync } from 'node:child_process';
 
 const root = process.cwd();
 const catalog = JSON.parse(fs.readFileSync(path.join(root, 'commerce/catalog.json'), 'utf8'));
 const templatesDir = path.join(root, 'src/content/templates');
 const templateFiles = fs.readdirSync(templatesDir).filter((name) => name.endsWith('.mdx')).sort();
 const errors = [];
+
+// GERÇEK TESLİMAT METADATA KAYNAĞI.
+// Tüm teknik metadata iddiaları delivery/paid-products/<slug>/current.xlsx içindeki
+// gerçek satış dosyasından deterministik olarak okunur. Dosya eksikse veya mdx
+// değerleri gerçek dosyayla uyuşmuyorsa build aşağıda FAIL eder; web'e
+// doğrulanmamış bilgi çıkmaz.
+const deliveryProc = spawnSync(
+  process.execPath,
+  [path.join('scripts', 'read-delivery-metadata.mjs'), '--json'],
+  { cwd: root, encoding: 'utf8' },
+);
+if (deliveryProc.status !== 0) {
+  errors.push(
+    `Teslimat metadata okunamadı: ${(deliveryProc.stderr || deliveryProc.stdout || '').trim() || 'bilinmeyen hata'}`,
+  );
+}
+const delivery = deliveryProc.status === 0 ? JSON.parse(deliveryProc.stdout) : {};
 
 // Cloud Functions uploads only the functions/ directory. Its local catalog mirror
 // must therefore stay byte-for-data equivalent to the commerce source of truth.
@@ -55,6 +73,26 @@ for (const file of templateFiles) {
     errors.push(`${slug}: private storageKey standarda uymuyor.`);
   }
   if (!product.storageKey.includes(`/${slug}/`)) errors.push(`${slug}: storageKey yanlış ürüne işaret ediyor.`);
+
+  const real = delivery[slug];
+  if (!real) {
+    errors.push(`${slug}: delivery/paid-products/${slug}/current.xlsx bulunamadı; teknik metadata doğrulanamaz.`);
+  } else {
+    const sheetCount = Number(source.match(/^sheetCount:\s*(\d+)\s*$/m)?.[1]);
+    const sizeMB = Number(source.match(/^sizeMB:\s*([\d.]+)\s*$/m)?.[1]);
+    const fileFormat = source.match(/^fileFormat:\s*['"]?(xlsx|xlsm)['"]?\s*$/m)?.[1];
+    const hasMacros = source.match(/^hasMacros:\s*(true|false)\s*$/m)?.[1] === 'true';
+    const sheetNames = [...source.matchAll(/^\s*- name:\s*'(.+?)'\s*$/gm)].map((m) => m[1]);
+
+    if (sheetCount !== real.sheetCount) errors.push(`${slug}: sheetCount ${sheetCount}, gerçek dosya ${real.sheetCount}.`);
+    if (sizeMB !== real.sizeMB) errors.push(`${slug}: sizeMB ${sizeMB}, gerçek dosya ${real.sizeMB}.`);
+    if (fileFormat !== real.fileFormat) errors.push(`${slug}: fileFormat ${fileFormat}, gerçek dosya ${real.fileFormat}.`);
+    if (hasMacros !== real.hasMacros) errors.push(`${slug}: hasMacros ${hasMacros}, gerçek dosya ${real.hasMacros}.`);
+    if (product.fileFormat !== real.fileFormat) errors.push(`${slug}: katalog fileFormat ${product.fileFormat}, gerçek dosya ${real.fileFormat}.`);
+    if (JSON.stringify(sheetNames) !== JSON.stringify(real.sheetNames)) {
+      errors.push(`${slug}: sheetMap gerçek dosya sheet'leriyle birebir eşleşmiyor.`);
+    }
+  }
 }
 
 for (const slug of Object.keys(catalog.products)) {

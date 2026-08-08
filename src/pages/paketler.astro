@@ -10,61 +10,17 @@ const packageHref = packageEntry ? `/sablon/${packageEntry.id}` : '/sablonlar';
 const demoHref = packageEntry?.data.demoFile ?? '/sablonlar';
 const packageScreens = packageEntry?.data.screenshots ?? [];
 const heroShot = packageScreens[2] ?? packageScreens[0];
+const sheetCount = packageEntry?.data.sheetCount ?? 14;
 
-const moduleList = [
-  {
-    slug: 'akilli-kasa-defteri-ve-nakit-kontrol-sistemi',
-    title: 'Kasa ve Nakit Kontrolü',
-    short: 'Günlük hareket ve fiili bakiye kontrolü',
-  },
-  {
-    slug: 'banka-kredi-ve-taksit-takip-sistemi',
-    title: 'Banka ve Kredi',
-    short: 'Hesap, taksit ve ödeme görünümü',
-  },
-  {
-    slug: 'cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi',
-    title: 'Cari ve Tahsilat',
-    short: 'Bakiye, vade ve tahsilat takibi',
-  },
-  {
-    slug: '13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi',
-    title: '13 Haftalık Nakit Akışı',
-    short: 'Yaklaşan nakit baskısını önceden görün',
-  },
-  {
-    slug: 'cek-senet-ve-vade-risk-sistemi',
-    title: 'Vade ve Risk',
-    short: 'Çek-senet ve ödeme yoğunluğu kontrolü',
-  },
-  {
-    slug: 'stok-satis-ve-nakit-baglanma-sistemi',
-    title: 'Stok ve Sermaye',
-    short: 'Stokta bağlanan nakdi izleyin',
-  },
-  {
-    slug: 'aylik-patron-finans-paneli',
-    title: 'Yönetim Özeti',
-    short: 'Kritik göstergeleri tek ekranda okuyun',
-  },
-];
-
-const modules = moduleList.map((module, index) => {
-  const entry = templates.find((t) => t.id === module.slug);
-  return {
-    ...module,
-    code: String(index + 1).padStart(2, '0'),
-    name: entry?.data.name ?? module.title,
-    priceTL: entry?.data.priceTL ?? 0,
-    outputs: entry?.data.outputs?.slice(0, 2) ?? [],
-    url: entry ? `/sablon/${entry.id}` : '/sablonlar',
-  };
-});
-
-const individualTotal = modules.reduce((sum, module) => sum + module.priceTL, 0);
-const savings = Math.max(0, individualTotal - packagePriceTL);
-const individualTotalText = individualTotal.toLocaleString('tr-TR');
-const savingsText = savings.toLocaleString('tr-TR');
+const flowNames = ['AYLIK_VERI', 'HESAP', 'KONTROLLER', 'KARAR', 'PANO', 'SENARYO_DUYARLILIK', 'RAPOR'];
+const flowItems = flowNames
+  .map((name) => {
+    const sheet = packageEntry?.data.sheetMap?.find((s) => s.name === name);
+    return sheet
+      ? { code: String(flowNames.indexOf(name) + 1).padStart(2, '0'), name: sheet.name, purpose: sheet.purpose }
+      : null;
+  })
+  .filter(Boolean);
 
 const faq = packageEntry?.data.faq ?? [
   { question: 'Pakette hangi sistemler var?', answer: 'Paket kapsamı ürün sayfasında ayrıntılı olarak gösterilir.' },
@@ -73,15 +29,15 @@ const faq = packageEntry?.data.faq ?? [
 
 <CommerceLayout
   title="KOBİ Finans Yönetim Paketi | Excel Arşiv"
-  description="Kasa, banka, cari, nakit akışı, vade riski, stok ve yönetim özetini tek finans zincirinde bir araya getiren KOBİ Finans Yönetim Paketi."
+  description="Kasa, banka, cari ve POS bakiyeleri ile stok alışı, operasyon, maaş ve kredi kalemlerini tek dosyada konsolide eden aylık yönetim modeli."
 >
   <main class="pkg-page">
     <section class="pkg-hero">
       <div class="site-container pkg-hero__grid">
         <div class="pkg-hero__copy">
           <span class="pkg-eyebrow">KOBİ FİNANS YÖNETİM PAKETİ</span>
-          <h1>Dağınık finans dosyalarını <em>tek karar sistemine</em> dönüştürün.</h1>
-          <p class="pkg-hero__lead">Kasa, banka, cari hesap, nakit akışı, vade riski, stok ve yönetim özetini birbirinden kopuk dosyalarda değil; aynı finans zincirinin parçaları olarak yönetin.</p>
+          <h1>Kasa, banka, cari ve POS bakiyelerini <em>tek karar dosyasında</em> yönetin.</h1>
+          <p class="pkg-hero__lead">Kasa, banka, cari ve POS bakiyeleri ile nakit girişi, stok alışı, operasyon, maaş ve kredi kalemleri AYLIK_VERI sayfasında toplanır; HESAP net nakit değişimi, kapanış, kâr tahmini ve risk skorunu üretir.</p>
 
           <div class="pkg-hero__price">
             <strong>{packagePrice} TL</strong>
@@ -94,7 +50,7 @@ const faq = packageEntry?.data.faq ?? [
           </div>
 
           <div class="pkg-proofline" aria-label="Satın alma güvenceleri">
-            <span>7 finans sistemi</span>
+            <span>{sheetCount} sayfa tek dosya</span>
             <span>Excel 2016+</span>
             <span>Shopier ile ödeme</span>
             <span>Dijital teslimat</span>
@@ -113,8 +69,7 @@ const faq = packageEntry?.data.faq ?? [
               </div>
             )}
           </div>
-          <div class="pkg-float pkg-float--systems"><small>Kapsam</small><strong>7 sistem</strong></div>
-          {savings > 0 && <div class="pkg-float pkg-float--saving"><small>Tek tek alıma göre</small><strong>{savingsText} TL fark</strong></div>}
+          <div class="pkg-float pkg-float--systems"><small>Dosya kapsamı</small><strong>{sheetCount} sayfa</strong></div>
         </div>
       </div>
     </section>
@@ -122,9 +77,9 @@ const faq = packageEntry?.data.faq ?? [
     <section class="pkg-decision">
       <div class="site-container pkg-decision__grid">
         <div class="pkg-decision__intro">
-          <span class="pkg-eyebrow">NEDEN BU PAKET?</span>
+          <span class="pkg-eyebrow">NEDEN BU DOSYA?</span>
           <h2>Sorun Excel kullanmak değil. <em>Karar için gereken bilginin dağınık olması.</em></h2>
-          <p>Kasa başka yerde, banka başka dosyada, tahsilat başka listede olduğunda yönetici bütün resmi görmek için önce veriyi birleştirmek zorunda kalır.</p>
+          <p>Kasa bakiyesi bir yerde, banka ve cari hesap başka yerlerde, stok alışı ve kredi ödemesi ayrı listelerde olduğunda yönetici bütün resmi görmek için önce veriyi birleştirmek zorunda kalır.</p>
         </div>
 
         <div class="pkg-decision__compare">
@@ -137,11 +92,11 @@ const faq = packageEntry?.data.faq ?? [
             </ul>
           </div>
           <div class="pkg-state pkg-state--after">
-            <span>TEK FİNANS ZİNCİRİ</span>
+            <span>TEK KARAR DOSYASI</span>
             <ul>
-              <li>Birbirini tamamlayan hazır sistemler</li>
-              <li>İşlev bazında net görev ayrımı</li>
-              <li>Yönetim özetine uzanan ortak yaklaşım</li>
+              <li>Konsolide aylık gösterge girişi</li>
+              <li>Hesap ve kontrol katmanları hazır</li>
+              <li>Karar, panel ve senaryo aynı dosyada</li>
             </ul>
           </div>
         </div>
@@ -152,29 +107,28 @@ const faq = packageEntry?.data.faq ?? [
       <div class="site-container">
         <div class="pkg-section-head pkg-section-head--light">
           <div>
-            <span class="pkg-eyebrow">7 SİSTEM · TEK FİNANS ZİNCİRİ</span>
-            <h2>Her sistem ayrı bir işi çözer. <em>Birlikte işletmenin finansal akışını görünür kılar.</em></h2>
+            <span class="pkg-eyebrow">{sheetCount} SAYFA · TEK KARAR DOSYASI</span>
+            <h2>Her sayfa karar zincirinin bir halkası. <em>Birlikte aylık finans durumunu görünür kılar.</em></h2>
           </div>
-          <p>Bu paket yedi rastgele dosyanın bir araya gelmesi değildir. Günlük hareketten yönetim özetine kadar birbirini tamamlayan kontrol noktalarıdır.</p>
+          <p>Bu paket rastgele dosyaların bir araya gelmesi değildir. Aylık gösterge girişinden risk kararına uzanan tek dosyadır; her sayfa zincirin kontrol noktalarından biridir.</p>
         </div>
 
         <ol class="pkg-chain__rail">
-          {modules.map((module) => (
+          {flowItems.map((item) => (
             <li>
-              <a href={module.url} aria-label={`${module.name} sistemini incele`}>
-                <span class="pkg-chain__num">{module.code}</span>
-                <strong>{module.title}</strong>
-                <small>{module.short}</small>
-              </a>
+              <span class="pkg-chain__num">{item.code}</span>
+              <strong>{item.name}</strong>
+              <small>{item.purpose}</small>
             </li>
           ))}
         </ol>
 
         <div class="pkg-chain__value">
-          <div><span>Tek tek toplam</span><strong>{individualTotalText} TL</strong></div>
+          <div><span>Tek dosya fiyatı</span><strong>{packagePrice} TL</strong></div>
           <i aria-hidden="true">→</i>
-          <div class="is-focus"><span>Paket fiyatı</span><strong>{packagePrice} TL</strong></div>
-          {savings > 0 && <div><span>Aradaki fark</span><strong>{savingsText} TL</strong></div>}
+          <div class="is-focus"><span>Dosya kapsamı</span><strong>{sheetCount} sayfa</strong></div>
+          <i aria-hidden="true">→</i>
+          <div><span>Excel uyumu</span><strong>2016+</strong></div>
         </div>
       </div>
     </section>
@@ -186,7 +140,7 @@ const faq = packageEntry?.data.faq ?? [
             <span class="pkg-eyebrow">ÜRÜNÜ GÖRÜN</span>
             <h2>Satın almadan önce <em>gerçek dosya ekranlarını</em> inceleyin.</h2>
           </div>
-          <p>Girdi, hesap ve çıktı yapısı soyut vaatlerle değil, ürünün kendi ekranlarıyla gösterilir. Demo dosyası da satın almadan önce indirilebilir.</p>
+          <p>Dosya yapısı soyut vaatlerle değil, ürünün kendi ekranlarıyla gösterilir. Demo dosyası da satın almadan önce indirilebilir.</p>
         </div>
 
         <div class="pkg-proof__gallery">
@@ -220,7 +174,7 @@ const faq = packageEntry?.data.faq ?? [
         <div class="pkg-value__matrix">
           <div><span>01</span><strong>Hazır başlangıç</strong><p>Boş sayfadan sistem tasarlamak yerine doğrudan iş akışına geçin.</p></div>
           <div><span>02</span><strong>Görev ayrımı</strong><p>Her sistem belirli bir finans sorusuna odaklanır.</p></div>
-          <div><span>03</span><strong>Bütünlük</strong><p>Kasa, tahsilat, nakit, risk ve yönetim görünümü aynı çerçevede okunur.</p></div>
+          <div><span>03</span><strong>Bütünlük</strong><p>Kasa, banka, cari, POS, stok ve kredi göstergeleri aynı dosyada okunur.</p></div>
           <div><span>04</span><strong>Önce görme</strong><p>Demo ve ekran görüntüleriyle ne aldığınızı satın almadan önce kontrol edin.</p></div>
         </div>
       </div>
@@ -249,16 +203,14 @@ const faq = packageEntry?.data.faq ?? [
         <div class="pkg-offer__copy">
           <span class="pkg-eyebrow">KİMLER İÇİN?</span>
           <h2>Birden fazla finans sürecini birlikte kontrol etmek isteyen işletmeler için.</h2>
-          <p>Yalnızca tek bir basit ihtiyacınız varsa bireysel sistemlerden biri daha ekonomik olabilir. Bu paket; kasa, banka, tahsilat, nakit, risk, stok ve yönetim görünümünü birlikte ele almak isteyen kullanıcılar içindir.</p>
+          <p>Yalnızca tek bir basit ihtiyacınız varsa bireysel sistemlerden biri daha ekonomik olabilir. Bu dosya; kasa, banka, cari ve POS bakiyeleri ile stok alışı, operasyon, maaş ve kredi göstergelerini konsolide yönetmek isteyen kullanıcılar içindir.</p>
           <a href="/sablonlar" class="pkg-text-link">Tekil sistemleri incele <span aria-hidden="true">→</span></a>
         </div>
 
         <div class="pkg-offer__card">
           <span class="pkg-offer__label">KOBİ FİNANS YÖNETİM PAKETİ</span>
-          {individualTotal > packagePriceTL && <span class="pkg-offer__total">Tek tek toplam: {individualTotalText} TL</span>}
           <strong class="pkg-offer__price">{packagePrice} <small>TL</small></strong>
           <span class="pkg-offer__meta">KDV dahil · tek ödeme · abonelik yok</span>
-          {savings > 0 && <div class="pkg-offer__saving">Tek tek alıma göre <strong>{savingsText} TL</strong> daha düşük toplam fiyat</div>}
           <a class="pkg-btn pkg-btn--primary pkg-btn--wide" href={packageHref}>Paketi satın al <span aria-hidden="true">→</span></a>
           <a class="pkg-offer__demo" href={demoHref}>Önce demo dosyasını incele</a>
           <div class="pkg-offer__trust"><span>Shopier ile ödeme</span><span>Dijital teslimat</span><span>Excel 2016+</span></div>

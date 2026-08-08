@@ -5,8 +5,8 @@ category: 'satis-ve-fiyatlama'
 priceTL: 990
 vatIncluded: true
 fileFormat: xlsx
-sizeMB: 0.1
-sheetCount: 3
+sizeMB: 0.13
+sheetCount: 14
 hasMacros: false
 minExcelVersion: 'Excel 2016 ve üzeri'
 macCompatible: true
@@ -14,14 +14,47 @@ sheetsCompatibility: full
 version: '1.0.0'
 updatedAt: '2026-08-06'
 sheetMap: 
-  - name: 'Girdi'
-    purpose: 'POS kanal hareketleri'
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası ve dosya kimliği'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç rehberi'
+    kind: 'output'
+  - name: 'POS_HAREKETLER'
+    purpose: 'POS kanal hareketi girişleri'
     kind: 'input'
-  - name: 'Hesap'
-    purpose: 'Kanal bazlı net tahsilat'
+  - name: 'HESAP'
+    purpose: 'Kanal bazlı net tahsilat hesapları'
     kind: 'calculation'
-  - name: 'Çıktı'
-    purpose: 'Kanal maliyet raporu'
+  - name: 'KONTROLLER'
+    purpose: 'Girdi tutarlılık ve mutabakat kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Mutabakat farkı karar bildirimi'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Yönetim panosu özeti'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Dönem raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
     kind: 'output'
 inputs: 
   - 'Kanal adı ve brüt satış'
@@ -57,11 +90,11 @@ faq:
 demoFile: /demo/pos-komisyon-ve-net-tahsilat-kontrol-sistemi.xlsx
 screenshots: 
   - src: '/screenshots/pos-komisyon-ve-net-tahsilat-kontrol-sistemi-1.png'
-    alt: 'POS, Komisyon ve Net Tahsilat Kontrol Sistemi dosyasının Girdi sayfası — POS kanal hareketleri'
+    alt: 'POS, Komisyon ve Net Tahsilat Kontrol Sistemi dosyasının POS_HAREKETLER sayfası — POS kanal hareketi girişleri'
   - src: '/screenshots/pos-komisyon-ve-net-tahsilat-kontrol-sistemi-2.png'
-    alt: 'POS, Komisyon ve Net Tahsilat Kontrol Sistemi dosyasının Hesap sayfası — Kanal bazlı net tahsilat'
+    alt: 'POS, Komisyon ve Net Tahsilat Kontrol Sistemi dosyasının HESAP sayfası — Kanal bazlı net tahsilat hesapları'
   - src: '/screenshots/pos-komisyon-ve-net-tahsilat-kontrol-sistemi-3.png'
-    alt: 'POS, Komisyon ve Net Tahsilat Kontrol Sistemi dosyasının Çıktı sayfası — Kanal maliyet raporu'
+    alt: 'POS, Komisyon ve Net Tahsilat Kontrol Sistemi dosyasının PANO sayfası — Yönetim panosu özeti'
 related: 
   - 'gunluk-gelir-gider-ve-gercek-karlilik-sistemi'
   - 'akilli-kasa-defteri-ve-nakit-kontrol-sistemi'

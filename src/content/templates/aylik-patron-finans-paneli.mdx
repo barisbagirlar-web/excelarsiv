@@ -5,8 +5,8 @@ category: 'finansal-analiz'
 priceTL: 2490
 vatIncluded: true
 fileFormat: xlsx
-sizeMB: 0.1
-sheetCount: 3
+sizeMB: 0.24
+sheetCount: 15
 hasMacros: false
 minExcelVersion: 'Excel 2016 ve üzeri'
 macCompatible: true
@@ -14,14 +14,50 @@ sheetsCompatibility: full
 version: '1.0.0'
 updatedAt: '2026-08-06'
 sheetMap: 
-  - name: 'Girdi'
-    purpose: 'Aylık finansal veri girişleri'
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası ve dosya kimliği'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç rehberi'
+    kind: 'output'
+  - name: 'AYLIK_GELIR_GIDER'
+    purpose: 'Aylık gelir ve gider girişleri'
     kind: 'input'
-  - name: 'Hesap'
-    purpose: 'Finansal göstergeler'
+  - name: 'BORC_VE_ALACAK'
+    purpose: 'Borç ve alacak girişleri'
+    kind: 'input'
+  - name: 'FINANS_MOTORU'
+    purpose: 'Finansal gösterge hesapları'
     kind: 'calculation'
-  - name: 'Çıktı'
-    purpose: 'Yönetim özeti ve trend'
+  - name: 'KONTROLLER'
+    purpose: 'Girdi tutarlılık kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Finansal durum karar bildirimi'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Yönetim özeti panosu'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Dönem raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
     kind: 'output'
 inputs: 
   - 'Aylık satış, tahsilat ve gider tutarları'
@@ -57,11 +93,11 @@ faq:
 demoFile: /demo/aylik-patron-finans-paneli.xlsx
 screenshots: 
   - src: '/screenshots/aylik-patron-finans-paneli-1.png'
-    alt: 'Aylık Patron Finans Paneli dosyasının Girdi sayfası — Aylık finansal veri girişleri'
+    alt: 'Aylık Patron Finans Paneli dosyasının AYLIK_GELIR_GIDER sayfası — Aylık gelir ve gider girişleri'
   - src: '/screenshots/aylik-patron-finans-paneli-2.png'
-    alt: 'Aylık Patron Finans Paneli dosyasının Hesap sayfası — Finansal göstergeler'
+    alt: 'Aylık Patron Finans Paneli dosyasının FINANS_MOTORU sayfası — Finansal gösterge hesapları'
   - src: '/screenshots/aylik-patron-finans-paneli-3.png'
-    alt: 'Aylık Patron Finans Paneli dosyasının Çıktı sayfası — Yönetim özeti ve trend'
+    alt: 'Aylık Patron Finans Paneli dosyasının PANO sayfası — Yönetim özeti panosu'
 related: 
   - 'kobi-finans-yonetim-paketi'
   - 'gunluk-gelir-gider-ve-gercek-karlilik-sistemi'

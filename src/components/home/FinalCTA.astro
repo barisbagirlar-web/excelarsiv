@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 
-const modules = ['Kasa ve nakit kontrolü', '13 haftalık nakit akışı', 'Cari ve tahsilat takibi', 'Banka / kredi / taksit', 'Çek–senet ve vade riski', 'Dönem sonu karşılıklar', 'Patron finans paneli'];
+const modules = ['Kasa + banka + cari + POS bakiyeleri', 'Nakit girişi', 'Stok alışı ve operasyon gideri', 'Maaş ve kredi ödemeleri', 'Net nakit değişimi ve kapanış', 'Kâr tahmini', 'Risk skoru ve karar'];
 const templates = await getCollection('templates');
 const packageEntry = templates.find((entry) => entry.id === 'kobi-finans-yonetim-paketi');
 const packagePrice = packageEntry?.data.priceTL.toLocaleString('tr-TR') ?? '7.900';
@@ -12,9 +12,9 @@ const packageHref = packageEntry ? `/sablon/${packageEntry.id}` : '/paketler';
   <div class="site-container">
     <div class="premium-close__shell">
       <div class="premium-close__copy">
-        <span class="premium-close__kicker">TEK DOSYA DEĞİL, BÜTÜN DÜZEN</span>
-        <h2 id="final-cta-title">Finans işlerinizi parça parça kurmak yerine <em>hazır bir sistem ailesiyle</em> başlayın.</h2>
-        <p>Tek bir ihtiyacınız varsa bireysel sistemi seçin. Kasa, nakit, cari, banka ve yönetim raporlamasını birlikte yürütmek istiyorsanız paket yapısını inceleyin.</p>
+        <span class="premium-close__kicker">TEK DOSYA · BÜTÜN DÜZEN</span>
+        <h2 id="final-cta-title">Finans işlerinizi parça parça kurmak yerine <em>konsolide bir düzenle</em> başlayın.</h2>
+        <p>Tek bir ihtiyacınız varsa bireysel sistemi seçin. Kasa, banka, cari ve POS göstergelerini birlikte konsolide yönetmek istiyorsanız paket yapısını inceleyin.</p>
         <div class="premium-close__actions">
           <a class="premium-close__primary" href={packageHref}>KOBİ Finans Paketini İncele <span aria-hidden="true">→</span></a>
           <a class="premium-close__secondary" href="/sablonlar">Tekil sistemler</a>
@@ -29,7 +29,7 @@ const packageHref = packageEntry ? `/sablon/${packageEntry.id}` : '/paketler';
           <span>KOBİ FİNANS YÖNETİM PAKETİ</span>
           <b>Excel Arşiv</b>
         </div>
-        <div class="package-preview__headline">Birbirinden kopuk dosyalar yerine aynı çalışma mantığında sistem ailesi.</div>
+        <div class="package-preview__headline">Birbirinden kopuk dosyalar yerine kasa, banka, cari ve POS göstergelerini tek dosyada konsolide eden düzen.</div>
         <div class="package-preview__price"><strong>{packagePrice} TL</strong><span>KDV dahil · tek ödeme</span></div>
         <ul>
           {modules.map((module, index) => <li><span>{String(index + 1).padStart(2, '0')}</span><b>{module}</b><i>✓</i></li>)}
