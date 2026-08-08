@@ -14,31 +14,27 @@ const price = priceTL.toLocaleString('tr-TR');
 
 <section
   id="satin-al"
-  class="border border-rule-strong bg-surface-1 p-5 sm:p-6"
+  class="checkout-card"
   data-checkout-root
   data-product-slug={productSlug}
   data-product-name={name}
 >
-  <p class="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-400">Güvenli Satın Alma</p>
-  <h2 class="mt-2 font-display text-xl text-ink-800">Shopier ile öde, ExcelArşiv'den indir</h2>
-  <p class="mt-3 text-sm leading-relaxed text-ink-500">
-    Ödeme Shopier'de tamamlanır. Ödeme doğrulandığında bu sayfadaki indirme butonu otomatik açılır.
-  </p>
+  <div class="checkout-card__head">
+    <div>
+      <p class="checkout-card__kicker">SATIN AL</p>
+      <h2>Shopier ile güvenli ödeme</h2>
+    </div>
+    <p class="checkout-card__price">{price} <small>TL</small></p>
+  </div>
+
+  <p class="checkout-card__meta">KDV dahil · Tek ödeme · Abonelik yok</p>
 
   {
     tierInfo ? (
       <>
-        <div class="mt-5 flex items-end justify-between gap-4 border-y border-rule-hairline py-4">
-          <div>
-            <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-400">{tierInfo.name}</p>
-            <p class="mt-1 text-xs text-ink-400">Shopier ürün no: {tierInfo.tier.shopierProductId}</p>
-          </div>
-          <p class="price-numeric font-mono text-xl text-ink-900">{price} TL</p>
-        </div>
-
-        <form class="mt-5" data-checkout-form novalidate>
-          <label class="block" for={`checkout-email-${productSlug}`}>
-            <span class="font-mono text-xs text-ink-600">E-posta adresiniz</span>
+        <form class="checkout-card__form" data-checkout-form novalidate>
+          <label for={`checkout-email-${productSlug}`}>
+            <span>E-posta adresiniz</span>
             <input
               id={`checkout-email-${productSlug}`}
               name="email"
@@ -47,68 +43,35 @@ const price = priceTL.toLocaleString('tr-TR');
               required
               maxlength="254"
               placeholder="ornek@firma.com"
-              class="mt-2 min-h-12 w-full border border-rule-strong bg-white px-3 font-mono text-sm text-ink-800 outline-none transition focus:border-accent-primary"
               data-checkout-email
             />
           </label>
-          <p class="mt-2 text-xs leading-relaxed text-ink-400">
-            Shopier ödeme ekranında da aynı e-posta adresini kullanın. Ödeme eşleştirmesi bu bilgiyle güvenli biçimde yapılır.
-          </p>
-          <button
-            type="submit"
-            class="mt-4 inline-flex min-h-12 w-full items-center justify-center bg-accent-primary px-5 font-mono text-sm font-medium text-white transition-colors hover:bg-accent-hover disabled:cursor-wait disabled:opacity-60"
-            data-checkout-submit
-          >
-            Satın Al — Shopier ile öde
+          <button type="submit" data-checkout-submit>
+            Shopier'de Ödemeye Geç <span aria-hidden="true">→</span>
           </button>
         </form>
 
-        <div class="mt-5 hidden border-t border-rule-hairline pt-5" data-checkout-progress aria-live="polite">
-          <p class="font-mono text-xs text-ink-700" data-checkout-status></p>
-          <p class="mt-2 text-xs leading-relaxed text-ink-400" data-checkout-detail></p>
-          <div class="mt-4 flex flex-wrap gap-3">
-            <a
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer sponsored"
-              class="hidden font-mono text-xs text-accent-primary underline underline-offset-4"
-              data-shopier-link
-            >
-              Shopier ödeme ekranını aç
-            </a>
-            <button
-              type="button"
-              class="hidden min-h-11 bg-accent-primary px-5 font-mono text-sm text-white hover:bg-accent-hover"
-              data-download-button
-            >
-              Excel'i İndir
-            </button>
+        <p class="checkout-card__hint">Shopier'de de aynı e-posta adresini kullanın. Ödeme eşleşmesi otomatik yapılır.</p>
+
+        <div class="checkout-card__progress hidden" data-checkout-progress aria-live="polite">
+          <p class="checkout-card__status" data-checkout-status></p>
+          <p class="checkout-card__detail" data-checkout-detail></p>
+          <div class="checkout-card__progress-actions">
+            <a href="#" class="hidden" data-shopier-link>Shopier ödeme ekranını aç →</a>
+            <button type="button" class="hidden" data-download-button>Excel'i İndir ↓</button>
           </div>
 
-          <details class="mt-5 hidden border-t border-rule-hairline pt-4" data-manual-verify>
-            <summary class="cursor-pointer font-mono text-xs text-ink-500">Ödeme yaptım ama henüz doğrulanmadı</summary>
-            <form class="mt-3" data-order-form>
-              <label class="block">
-                <span class="text-xs text-ink-500">Shopier sipariş numarası</span>
-                <input
-                  type="text"
-                  inputmode="text"
-                  maxlength="80"
-                  class="mt-2 min-h-11 w-full border border-rule-strong bg-white px-3 font-mono text-sm text-ink-800 outline-none focus:border-accent-primary"
-                  data-order-id
-                />
-              </label>
-              <button type="submit" class="mt-3 min-h-11 border border-rule-strong px-4 font-mono text-xs text-ink-700 hover:border-accent-primary">
-                Siparişi Doğrula
-              </button>
+          <details class="hidden" data-manual-verify>
+            <summary>Ödeme yaptım ama doğrulanmadı</summary>
+            <form data-order-form>
+              <input type="text" inputmode="text" maxlength="80" placeholder="Shopier sipariş numarası" data-order-id />
+              <button type="submit">Siparişi Doğrula</button>
             </form>
           </details>
         </div>
       </>
     ) : (
-      <div class="mt-5 border border-signal-down/30 bg-surface-elevated p-4 text-sm text-ink-600">
-        Bu ürünün fiyat seviyesi Shopier ödeme kataloğuyla eşleşmiyor. Satış geçici olarak kapalıdır.
-      </div>
+      <div class="checkout-card__unavailable">Bu ürünün ödeme bağlantısı geçici olarak kullanılamıyor.</div>
     )
   }
 </section>
@@ -130,7 +93,7 @@ const price = priceTL.toLocaleString('tr-TR');
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
     } catch {
-      // Local storage may be unavailable in strict privacy modes; current tab still works.
+      // Strict privacy modes can disable localStorage; the active tab still works.
     }
   }
 
@@ -153,11 +116,13 @@ const price = priceTL.toLocaleString('tr-TR');
     const messages = {
       INVALID_EMAIL: 'Geçerli bir e-posta adresi girin.',
       RATE_LIMITED: 'Çok fazla ödeme denemesi yapıldı. Bir süre sonra tekrar deneyin.',
+      PRODUCT_NOT_READY: 'Bu ürün geçici olarak satışa hazırlanıyor. Lütfen kısa süre sonra tekrar deneyin.',
+      PRODUCT_READINESS_UNAVAILABLE: 'Satış sistemi geçici olarak kontrol edilemiyor. Lütfen kısa süre sonra tekrar deneyin.',
       CHECKOUT_NOT_FOUND: 'Bu ödeme oturumu bulunamadı. Satın alma işlemini yeniden başlatın.',
       ORDER_DOES_NOT_MATCH: 'Sipariş bu ürün, fiyat seviyesi veya e-posta ile eşleşmedi.',
       INVALID_ORDER_ID: 'Shopier sipariş numarasını kontrol edin.',
       VERIFICATION_TEMPORARILY_UNAVAILABLE: 'Shopier doğrulaması geçici olarak gecikiyor. Birkaç saniye sonra yeniden deneyin.',
-      FILE_NOT_READY: 'Ödemeniz doğrulandı; ürün dosyasının teslim deposundaki satış sürümü henüz hazır değil.',
+      FILE_NOT_READY: 'Ödemeniz doğrulandı; ürün dosyasının teslim sürümü henüz hazır değil.',
       PAYMENT_NOT_CONFIRMED: 'Ödeme henüz doğrulanmadı.',
     };
     return messages[code] || 'İşlem tamamlanamadı. Lütfen yeniden deneyin.';
@@ -191,7 +156,7 @@ const price = priceTL.toLocaleString('tr-TR');
     const showPending = (checkout) => {
       activeCheckout = checkout;
       pendingSince = pendingSince || Date.now();
-      setProgress('Ödeme bekleniyor', 'Shopier ödeme sekmesini tamamlayın. Ödeme onayı bu ekrana otomatik yansıyacak.');
+      setProgress('Ödeme bekleniyor', 'Shopier ödeme ekranını tamamlayın. Onay bu sayfaya otomatik yansır.');
       if (shopierLink && checkout.shopierUrl) {
         shopierLink.href = checkout.shopierUrl;
         shopierLink.classList.remove('hidden');
@@ -203,7 +168,7 @@ const price = priceTL.toLocaleString('tr-TR');
     const showPaid = () => {
       if (pollTimer) window.clearTimeout(pollTimer);
       pollTimer = null;
-      setProgress('Ödeme onaylandı', 'Satın aldığınız Excel dosyasını doğrudan bilgisayarınıza indirebilirsiniz.');
+      setProgress('Ödeme onaylandı', 'Excel dosyanız indirilmeye hazır.');
       shopierLink?.classList.add('hidden');
       downloadButton?.classList.remove('hidden');
       manualVerify?.classList.add('hidden');
@@ -234,7 +199,7 @@ const price = priceTL.toLocaleString('tr-TR');
           'Ödeme bekleniyor',
           result.verificationDelayed
             ? 'Shopier doğrulaması birkaç saniye gecikiyor; otomatik kontrol devam ediyor.'
-            : 'Shopier ödeme onayı bekleniyor. Bu sayfayı kapatmanız gerekmez.',
+            : 'Shopier ödeme onayı bekleniyor.',
         );
         schedulePoll();
       } catch (error) {
@@ -252,33 +217,16 @@ const price = priceTL.toLocaleString('tr-TR');
         return;
       }
 
-      let paymentWindow = null;
-      try {
-        paymentWindow = window.open('about:blank', '_blank');
-        if (paymentWindow) {
-          paymentWindow.document.title = 'Shopier ödeme açılıyor';
-          paymentWindow.document.body.textContent = 'Shopier güvenli ödeme ekranı açılıyor…';
-        }
-      } catch {
-        paymentWindow = null;
-      }
-
       submitButton?.setAttribute('disabled', '');
-      setProgress('Ödeme hazırlanıyor', 'Güvenli Shopier ödeme bağlantısı oluşturuluyor.');
+      setProgress('Ödeme hazırlanıyor', 'Shopier güvenli ödeme bağlantısı oluşturuluyor.');
 
       try {
         const checkout = await postJson('/api/checkout', { productSlug, email });
         const stored = { ...checkout, savedAt: Date.now() };
         writeStoredCheckout(stored);
-        showPending(stored);
-
-        if (paymentWindow) {
-          paymentWindow.location.href = checkout.shopierUrl;
-        } else {
-          window.location.href = checkout.shopierUrl;
-        }
+        activeCheckout = stored;
+        window.location.assign(checkout.shopierUrl);
       } catch (error) {
-        if (paymentWindow && !paymentWindow.closed) paymentWindow.close();
         setProgress('Ödeme başlatılamadı', humanError(error.code));
       } finally {
         submitButton?.removeAttribute('disabled');
@@ -288,7 +236,7 @@ const price = priceTL.toLocaleString('tr-TR');
     downloadButton?.addEventListener('click', async () => {
       if (!activeCheckout) return;
       downloadButton.setAttribute('disabled', '');
-      setProgress('Dosya hazırlanıyor', 'Güvenli tek kullanımlık indirme bağlantısı oluşturuluyor.');
+      setProgress('Dosya hazırlanıyor', 'Güvenli indirme bağlantısı oluşturuluyor.');
       try {
         const result = await postJson('/api/download-token', {
           checkoutId: activeCheckout.checkoutId,
@@ -300,7 +248,7 @@ const price = priceTL.toLocaleString('tr-TR');
         document.body.appendChild(link);
         link.click();
         link.remove();
-        setProgress('İndirme başladı', 'Dosya bilgisayarınıza indiriliyor. Gerekirse İndir butonunu yeniden kullanabilirsiniz.');
+        setProgress('İndirme başladı', 'Dosya bilgisayarınıza indiriliyor.');
         downloadButton.removeAttribute('disabled');
         downloadButton.classList.remove('hidden');
       } catch (error) {
@@ -315,7 +263,7 @@ const price = priceTL.toLocaleString('tr-TR');
       if (!activeCheckout) return;
       const shopierOrderId = orderIdInput?.value?.trim() || '';
       if (!shopierOrderId) return;
-      setProgress('Sipariş doğrulanıyor', 'Shopier sipariş kaydı doğrudan kontrol ediliyor.');
+      setProgress('Sipariş doğrulanıyor', 'Shopier sipariş kaydı kontrol ediliyor.');
       try {
         const result = await postJson('/api/verify-order', {
           checkoutId: activeCheckout.checkoutId,
@@ -337,3 +285,9 @@ const price = priceTL.toLocaleString('tr-TR');
     }
   });
 </script>
+
+<style>
+  .checkout-card{height:100%;padding:22px;border:1px solid #cfddd4;border-radius:18px;background:#fff;box-shadow:0 12px 32px rgba(21,70,44,.07)}
+  .checkout-card__head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}.checkout-card__kicker{margin:0;font-family:var(--font-mono);font-size:9px;font-weight:800;letter-spacing:.12em;color:#0b7440}.checkout-card h2{margin:6px 0 0;font-family:var(--font-display);font-size:22px;line-height:1.08;letter-spacing:-.025em;color:#14271d}.checkout-card__price{margin:0;white-space:nowrap;font-family:var(--font-mono);font-size:25px;font-weight:800;letter-spacing:-.04em;color:#10271b}.checkout-card__price small{font-size:12px}.checkout-card__meta{margin:9px 0 0;font-size:11px;color:#6a776f}.checkout-card__form{display:grid;gap:12px;margin-top:20px}.checkout-card__form label{display:grid;gap:7px}.checkout-card__form label span{font-size:11px;font-weight:700;color:#4d5d53}.checkout-card input{width:100%;min-height:46px;padding:0 12px;border:1px solid #cbd8d0;border-radius:10px;background:#fff;color:#16261d;font-size:13px;outline:none}.checkout-card input:focus{border-color:#0b7a42;box-shadow:0 0 0 3px rgba(11,122,66,.08)}.checkout-card__form>button,.checkout-card__progress-actions button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:0;border-radius:10px;background:#0b743f;padding:0 18px;color:#fff;font-family:var(--font-mono);font-size:12px;font-weight:800;cursor:pointer}.checkout-card__form>button:hover,.checkout-card__progress-actions button:hover{background:#075f34}.checkout-card__form>button:disabled{cursor:wait;opacity:.62}.checkout-card__hint{margin:10px 0 0;font-size:10.5px;line-height:1.45;color:#77837c}.checkout-card__progress{margin-top:15px;padding-top:14px;border-top:1px solid #e1e8e3}.checkout-card__status{margin:0;font-size:12px;font-weight:800;color:#20352a}.checkout-card__detail{margin:5px 0 0;font-size:10.5px;line-height:1.5;color:#6e7b73}.checkout-card__progress-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:11px}.checkout-card__progress-actions a{font-size:11px;font-weight:700;color:#0b743f;text-decoration:none}.checkout-card details{margin-top:13px;padding-top:12px;border-top:1px solid #e1e8e3}.checkout-card summary{cursor:pointer;font-size:10.5px;color:#5f6e65}.checkout-card details form{display:grid;gap:8px;margin-top:10px}.checkout-card details button{min-height:40px;border:1px solid #cbd8d0;border-radius:9px;background:#fff;color:#234331;font-size:11px;font-weight:700}.checkout-card__unavailable{margin-top:18px;padding:12px;border-radius:10px;background:#fff3e8;color:#815528;font-size:12px}.hidden{display:none!important}
+  @media(max-width:620px){.checkout-card{padding:18px}.checkout-card__head{align-items:flex-end}.checkout-card h2{font-size:20px}.checkout-card__price{font-size:22px}}
+</style>
