@@ -7,33 +7,27 @@ interface Props {
 const { productSlug, name } = Astro.props;
 ---
 
-<div
-  class="border border-xl-border bg-xl-canvas p-5"
-  style="border-radius:6px"
-  data-proof-demo
-  data-product-slug={productSlug}
->
-  <div class="flex flex-col gap-2">
-    <p class="kicker">ÜCRETSİZ CANLI EXCEL DEMOSU</p>
-    <h3 class="font-display text-lg text-ink-700">{name}</h3>
-    <p class="max-w-2xl text-sm leading-relaxed text-xl-ink-2">
-      Dosyayı yalnız seyretmeyin: sarı hücrelerde örnek verileri değiştirin, analizin nasıl tepki verdiğini,
-      karar kapısını ve yönetici panosunu doğrudan Excel içinde görün.
-    </p>
+<section class="demo-card" data-proof-demo data-product-slug={productSlug}>
+  <div class="demo-card__head">
+    <div>
+      <p class="demo-card__kicker">ÜCRETSİZ DEMO</p>
+      <h2>Önce deneyin, sonra karar verin</h2>
+    </div>
+    <span class="demo-card__badge">.XLSX</span>
   </div>
 
-  <div class="mt-4 grid gap-2 text-xs leading-relaxed text-ink-500 sm:grid-cols-3">
-    <p class="border border-xl-border bg-white p-3"><strong class="text-ink-700">Canlı giriş</strong><br />20 kayıtlık kontrollü veri alanı, doğrulamalar ve görsel uyarılar.</p>
-    <p class="border border-xl-border bg-white p-3"><strong class="text-ink-700">Canlı karar</strong><br />KPI'lar, veri kalitesi, risk önizlemesi ve UYGUN / İNCELE / DURDUR kapısı.</p>
-    <p class="border border-xl-border bg-white p-3"><strong class="text-ink-700">Yönetici pano</strong><br />Tek ekranda karar, risk şeridi ve ilk aksiyonları inceleyin.</p>
-  </div>
+  <p class="demo-card__lead">{name} için 20 kayıtlık canlı değerlendirme sürümünü bilgisayarınıza indirin.</p>
 
-  <form class="mt-5 grid gap-3" data-demo-form>
-    <label class="grid gap-1 text-sm text-ink-700">
-      <span>E-posta</span>
+  <ul class="demo-card__benefits" aria-label="Demo kapsamı">
+    <li><span>✓</span>Sarı giriş hücrelerini değiştirin</li>
+    <li><span>✓</span>Risk ve karar çıktısını görün</li>
+    <li><span>✓</span>Premium motor açığa çıkmaz</li>
+  </ul>
+
+  <form class="demo-card__form" data-demo-form>
+    <label>
+      <span>E-posta adresiniz</span>
       <input
-        class="w-full border border-xl-border bg-white px-3 py-2 text-sm outline-none focus:border-accent-primary"
-        style="border-radius:4px"
         type="email"
         name="email"
         autocomplete="email"
@@ -42,36 +36,22 @@ const { productSlug, name } = Astro.props;
         placeholder="ornek@firma.com"
         required
       />
-      <span class="text-[11px] leading-relaxed text-ink-400">
-        E-posta yalnız güvenli demo üretimi ve kötüye kullanım sınırı için kullanılır; Excel dosyasına ham e-posta yazılmaz.
-        <a class="underline underline-offset-2" href="/kvkk-aydinlatma" target="_blank" rel="noopener noreferrer">KVKK Aydınlatma Metni</a>
-      </span>
     </label>
 
-    <label class="flex items-start gap-2 text-xs leading-relaxed text-ink-500">
-      <input class="mt-0.5" type="checkbox" name="terms" required />
+    <label class="demo-card__terms">
+      <input type="checkbox" name="terms" required />
       <span>
-        Demo'nun değerlendirme amaçlı olduğunu ve
-        <a class="underline underline-offset-2" href="/demo-kullanim-kosullari" target="_blank" rel="noopener noreferrer">
-          Demo Kullanım Koşulları'nı
-        </a>
-        kabul ediyorum.
+        <a href="/demo-kullanim-kosullari" target="_blank" rel="noopener noreferrer">Demo Kullanım Koşulları</a>'nı kabul ediyorum.
       </span>
     </label>
 
-    <div class="flex flex-wrap items-center gap-3">
-      <button class="btn" type="submit" data-demo-submit>Canlı Excel Demo Oluştur <span class="dn">↓</span></button>
-      <span class="mono text-[11px] text-xl-ink-3">makrosuz .xlsx · tek kullanımlık bağlantı · 10 dakika</span>
-    </div>
-
-    <p class="hidden text-xs leading-relaxed" role="status" aria-live="polite" data-demo-status></p>
+    <button type="submit" data-demo-submit>
+      Ücretsiz Demo İndir <span aria-hidden="true">↓</span>
+    </button>
+    <p class="demo-card__privacy">Tek kullanımlık bağlantı · 10 dakika · Ham e-posta dosyaya yazılmaz</p>
+    <p class="hidden demo-card__status" role="status" aria-live="polite" data-demo-status></p>
   </form>
-
-  <p class="mt-4 border-t border-xl-border pt-4 text-[11px] leading-relaxed text-ink-400">
-    Demo, satın alınan sürümün fikri mülkiyetini açığa çıkarmadan ürün deneyimini kanıtlamak için üretilir.
-    Tam sürümde üretim kapasitesi, tam karar motoru, senaryo/duyarlılık, anomali ve rapor katmanları açılır.
-  </p>
-</div>
+</section>
 
 <script>
   const ERROR_TEXT: Record<string, string> = {
@@ -100,8 +80,8 @@ const { productSlug, name } = Astro.props;
       submit.disabled = true;
       submit.setAttribute('aria-busy', 'true');
       status.classList.remove('hidden');
-      status.className = 'text-xs leading-relaxed text-ink-500';
-      status.textContent = 'Canlı Excel demo hazırlanıyor…';
+      status.className = 'demo-card__status';
+      status.textContent = 'Demo hazırlanıyor…';
 
       try {
         const response = await fetch('/api/demo-request', {
@@ -115,12 +95,12 @@ const { productSlug, name } = Astro.props;
           throw new Error(code);
         }
 
-        status.className = 'text-xs leading-relaxed text-positive-700';
-        status.textContent = `Demo ${payload.demoId ?? ''} hazır. İndirme başlatılıyor…`;
+        status.className = 'demo-card__status demo-card__status--ok';
+        status.textContent = 'Demo hazır. İndirme başlatılıyor…';
         window.location.assign(String(payload.downloadUrl));
       } catch (error) {
         const code = error instanceof Error ? error.message : 'INTERNAL_ERROR';
-        status.className = 'text-xs leading-relaxed text-negative-700';
+        status.className = 'demo-card__status demo-card__status--error';
         status.textContent = ERROR_TEXT[code] ?? ERROR_TEXT.INTERNAL_ERROR;
       } finally {
         submit.disabled = false;
@@ -129,3 +109,8 @@ const { productSlug, name } = Astro.props;
     });
   });
 </script>
+
+<style>
+  .demo-card{height:100%;padding:22px;border:1px solid #cfddd4;border-radius:18px;background:#f7faf8;box-shadow:0 12px 32px rgba(21,70,44,.05)}.demo-card__head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}.demo-card__kicker{margin:0;font-family:var(--font-mono);font-size:9px;font-weight:800;letter-spacing:.12em;color:#476b57}.demo-card h2{margin:6px 0 0;font-family:var(--font-display);font-size:22px;line-height:1.08;letter-spacing:-.025em;color:#14271d}.demo-card__badge{flex:0 0 auto;padding:6px 8px;border:1px solid #c9d9cf;border-radius:8px;background:#fff;font-family:var(--font-mono);font-size:9px;font-weight:800;color:#2f6948}.demo-card__lead{margin:12px 0 0;font-size:11.5px;line-height:1.55;color:#68776e}.demo-card__benefits{display:grid;gap:7px;margin:16px 0 0;padding:0;list-style:none}.demo-card__benefits li{display:flex;align-items:flex-start;gap:8px;font-size:11px;color:#3f5046}.demo-card__benefits span{color:#0b7440;font-weight:800}.demo-card__form{display:grid;gap:11px;margin-top:18px}.demo-card__form>label:first-child{display:grid;gap:7px}.demo-card__form>label:first-child>span{font-size:11px;font-weight:700;color:#4d5d53}.demo-card input[type="email"]{width:100%;min-height:46px;padding:0 12px;border:1px solid #cbd8d0;border-radius:10px;background:#fff;color:#16261d;font-size:13px;outline:none}.demo-card input[type="email"]:focus{border-color:#0b7a42;box-shadow:0 0 0 3px rgba(11,122,66,.08)}.demo-card__terms{display:flex;align-items:flex-start;gap:8px;font-size:10px;line-height:1.4;color:#66736c}.demo-card__terms input{margin-top:2px}.demo-card__terms a{color:#315c43;text-underline-offset:2px}.demo-card__form>button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:1px solid #0b743f;border-radius:10px;background:#fff;padding:0 18px;color:#0b743f;font-family:var(--font-mono);font-size:12px;font-weight:800;cursor:pointer}.demo-card__form>button:hover{background:#edf7f1}.demo-card__form>button:disabled{cursor:wait;opacity:.6}.demo-card__privacy{margin:0;font-size:9.5px;line-height:1.4;color:#7c8881}.demo-card__status{margin:0;padding-top:4px;font-size:10.5px;line-height:1.4;color:#5e6b64}.demo-card__status--ok{color:#167044}.demo-card__status--error{color:#a53e35}.hidden{display:none!important}
+  @media(max-width:620px){.demo-card{padding:18px}.demo-card h2{font-size:20px}}
+</style>
