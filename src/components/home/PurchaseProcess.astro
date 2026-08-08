@@ -1,8 +1,8 @@
 ---
 const steps = [
-  { code: '01', title: 'Demo ile görün', description: 'Ürün sayfasındaki örnek dosyayı satın almadan önce inceleyin.', icon: '↓' },
-  { code: '02', title: 'Shopier ile ödeyin', description: 'Ödeme Shopier altyapısında işlenir; kart bilgisi Excel Arşiv’de tutulmaz.', icon: '✓' },
-  { code: '03', title: 'Siteden indirin', description: 'Ödeme doğrulanınca ürün sayfasındaki Excel’i İndir butonu otomatik açılır.', icon: '→' },
+  { code: '01', title: 'Ürünü seçin', description: 'Satın alma alanında e-postanızı girin ve Shopier güvenli ödeme ekranına geçin.', icon: '→' },
+  { code: '02', title: 'Shopier’de ödeyin', description: 'Ödemeyi Shopier’de tamamlayın. Ödeme sonrası ekrandaki ExcelArşiv’e Dön ve Dosyanı İndir bağlantısını kullanın.', icon: '✓' },
+  { code: '03', title: 'ExcelArşiv’den indirin', description: 'Teslimat sayfası ödemenizi otomatik doğrular; onaylanınca Excel’i İndir butonu açılır.', icon: '↓' },
 ];
 ---
 
@@ -11,9 +11,9 @@ const steps = [
     <div class="purchase-band__head">
       <div>
         <span class="section-head__kicker">SATIN ALMA DENEYİMİ</span>
-        <h2 id="purchase-title">Karar zor olabilir; <em>satın alma süreci değil.</em></h2>
+        <h2 id="purchase-title">Ödeme Shopier’de, <em>teslimat ExcelArşiv’de.</em></h2>
       </div>
-      <p>Önce dosyayı görürsünüz. Ödemeyi Shopier’de tamamlarsınız. Ödeme doğrulanınca dosyayı ExcelArşiv’den indirirsiniz.</p>
+      <p>Shopier yalnızca güvenli ödeme adımıdır. Ödeme tamamlandıktan sonra Excel dosyanızı ExcelArşiv teslimat ekranından bilgisayarınıza indirirsiniz.</p>
     </div>
 
     <ol class="purchase-band__rail">
@@ -31,9 +31,9 @@ const steps = [
 
     <div class="purchase-band__trust" aria-label="Satın alma güvenceleri">
       <span>✓ Shopier ile güvenli ödeme</span>
-      <span>✓ KDV dahil fiyat</span>
+      <span>✓ Ödeme sonrası ExcelArşiv’e dönüş</span>
       <span>✓ Site üzerinden güvenli indirme</span>
-      <a href="/teslimat-ve-iade">Teslimat ve iade koşulları <b aria-hidden="true">→</b></a>
+      <a href="/teslimat">Ödeme sonrası indirme ekranı <b aria-hidden="true">→</b></a>
     </div>
   </div>
 </section>
