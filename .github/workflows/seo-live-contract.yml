@@ -73,11 +73,12 @@ jobs:
               echo "P0: deprecated/noisy sitemap fields in $name"
               exit 1
             fi
-            grep -oE '<loc>https://excelarsiv\.com/[^<]+</loc>' "$TMP/$name" | sed -E 's#</?loc>##g' >> "$TMP/urls.txt"
+            grep -oE '<loc>https://excelarsiv\.com/[^<]*</loc>' "$TMP/$name" | sed -E 's#</?loc>##g' >> "$TMP/urls.txt"
           done
 
           total_urls="$(wc -l < "$TMP/urls.txt" | tr -d ' ')"
           [[ "$total_urls" -gt 0 ]] || { echo 'P0: sitemap has zero URLs'; exit 1; }
+          grep -Fxq "$ORIGIN/" "$TMP/urls.txt" || { echo 'P0: homepage missing from sitemap contract'; exit 1; }
 
           duplicates="$(sort "$TMP/urls.txt" | uniq -d)"
           [[ -z "$duplicates" ]] || { echo "P0: duplicate sitemap URLs"; echo "$duplicates"; exit 1; }
@@ -123,4 +124,4 @@ jobs:
           NODE
           done < "$TMP/urls.txt"
 
-          echo "SEO LIVE CONTRACT PASS — $total_urls canonical 200/indexable URL across ${#children[@]} child sitemap(s)."
+          echo "SEO LIVE CONTRACT PASS — $total_urls canonical 200/indexable URL across ${#children[@]} child sitemap(s), homepage included."
