@@ -4,29 +4,23 @@ interface Props {
   priceTL: number;
 }
 
-import Icon from '../components/Icon.astro';
-
 const { name, priceTL } = Astro.props;
 const price = priceTL.toLocaleString('tr-TR');
 ---
 
-<div class="fixed inset-x-0 bottom-0 z-40 border-t border-rule-hairline bg-surface-elevated/95 p-3 backdrop-blur-sm sm:hidden">
-  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4">
-    <div class="min-w-0">
-      <p class="truncate font-mono text-xs text-ink-500">{name}</p>
-      <p class="price-numeric font-mono text-sm text-ink-700">{price} <span class="acronym">TL</span></p>
+<div class="mobile-action-bar sm:hidden" aria-label="Ürün işlemleri">
+  <div class="mobile-action-bar__inner">
+    <div class="mobile-action-bar__price">
+      <span>{name}</span>
+      <b>{price} TL</b>
     </div>
-    <div class="flex shrink-0 flex-col items-end gap-1.5">
-      <a
-        href="#satin-al"
-        class="inline-flex min-h-11 shrink-0 items-center bg-accent-primary px-5 font-mono text-sm text-white transition-colors duration-150 ease-out hover:bg-accent-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
-      >
-        Satın Al
-      </a>
-      <p class="flex items-center gap-1 font-mono text-[11px] text-ink-400">
-        <Icon name="excel-lock" size={12} />
-        Shopier ile Güvenli Ödeme
-      </p>
+    <div class="mobile-action-bar__actions">
+      <a href="#demo-indir" class="mobile-action-bar__demo">Demo</a>
+      <a href="#satin-al" class="mobile-action-bar__buy">Satın Al</a>
     </div>
   </div>
 </div>
+
+<style>
+  .mobile-action-bar{position:fixed;inset:auto 0 0;z-index:50;padding:9px 10px calc(9px + env(safe-area-inset-bottom));border-top:1px solid rgba(25,63,40,.12);background:rgba(250,252,250,.94);backdrop-filter:blur(18px);box-shadow:0 -12px 30px rgba(19,52,33,.08)}.mobile-action-bar__inner{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:760px;margin-inline:auto}.mobile-action-bar__price{min-width:0}.mobile-action-bar__price span{display:block;max-width:142px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:8.5px;color:#6d7972}.mobile-action-bar__price b{display:block;margin-top:2px;font-family:var(--font-mono);font-size:12px;color:#173023}.mobile-action-bar__actions{display:grid;grid-template-columns:auto auto;gap:7px;flex:0 0 auto}.mobile-action-bar__actions a{display:inline-flex;align-items:center;justify-content:center;min-height:40px;border-radius:9px;padding:0 13px;font-family:var(--font-mono);font-size:10px;font-weight:800;text-decoration:none}.mobile-action-bar__demo{border:1px solid #0b743f;background:#fff;color:#0b743f}.mobile-action-bar__buy{border:1px solid #0b743f;background:#0b743f;color:#fff}
+</style>
