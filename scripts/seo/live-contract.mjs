@@ -18,13 +18,17 @@ async function get(url) {
       const timer = setTimeout(() => controller.abort(), 20_000);
       const res = await fetch(url, { signal: controller.signal, redirect: 'follow' });
       clearTimeout(timer);
-      return { status: res.status, text: await res.text() };
+      return {
+        status: res.status,
+        contentType: res.headers.get('content-type') ?? '',
+        text: await res.text(),
+      };
     } catch {
-      if (attempt === RETRY) return { status: 0, text: '' };
+      if (attempt === RETRY) return { status: 0, contentType: '', text: '' };
       await new Promise((r) => setTimeout(r, RETRY_DELAY_MS));
     }
   }
-  return { status: 0, text: '' };
+  return { status: 0, contentType: '', text: '' };
 }
 
 function check(ok, message) {
@@ -54,6 +58,11 @@ check(robots.text.includes(`Sitemap: ${BASE}/sitemap.xml`), 'robots.txt sitemap.
 const indexRes = await get(`${BASE}/sitemap.xml`);
 check(indexRes.status === 200, `sitemap.xml HTTP ${indexRes.status}`);
 check(indexRes.text.includes('<sitemapindex'), 'sitemap.xml sitemapindex köküne sahip değil');
+const indexContentType = (indexRes.contentType ?? '').split(';')[0].trim().toLowerCase();
+check(
+  ['application/xml', 'text/xml'].includes(indexContentType),
+  `sitemap.xml Content-Type uygun değil: ${indexRes.contentType || 'yok'}`,
+);
 
 const indexEntries = indexRes.status === 200 ? parseIndex(indexRes.text) : [];
 check(indexEntries.length > 0, 'sitemap index boş');
