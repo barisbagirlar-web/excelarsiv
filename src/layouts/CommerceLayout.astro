@@ -10,15 +10,43 @@ import MobileCommerceBar from '../components/MobileCommerceBar.astro';
 interface Props {
   title: string;
   description?: string;
+  robots?: string;
 }
 
-const { title, description } = Astro.props;
+const {
+  title,
+  description,
+  robots = 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1',
+} = Astro.props;
 const site = Astro.site ?? new URL('https://excelarsiv.com/');
+const canonical = new URL(Astro.url.pathname, site).toString();
+const ogImage = new URL('/og.png', site).toString();
 const orgLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@graph': [
-    { '@type': 'WebSite', '@id': new URL('#website', site).toString(), name: 'Excel Arşiv', url: site.toString(), inLanguage: 'tr-TR' },
-    { '@type': 'Organization', '@id': new URL('#organization', site).toString(), name: 'Excel Arşiv', url: site.toString() },
+    {
+      '@type': 'Organization',
+      '@id': new URL('/#organization', site).toString(),
+      name: 'Excel Arşiv',
+      url: site.toString(),
+    },
+    {
+      '@type': 'WebSite',
+      '@id': new URL('/#website', site).toString(),
+      name: 'Excel Arşiv',
+      url: site.toString(),
+      inLanguage: 'tr-TR',
+      publisher: { '@id': new URL('/#organization', site).toString() },
+    },
+    {
+      '@type': 'WebPage',
+      '@id': `${canonical}#webpage`,
+      url: canonical,
+      name: title,
+      description: description ?? '',
+      inLanguage: 'tr-TR',
+      isPartOf: { '@id': new URL('/#website', site).toString() },
+    },
   ],
 });
 ---
@@ -28,18 +56,23 @@ const orgLd = JSON.stringify({
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta http-equiv="Cache-Control" content="no-store" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description ?? ''} />
-    <link rel="canonical" href={new URL(Astro.url.pathname, site)} />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Excel Arşiv" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description ?? ''} />
-    <meta property="og:url" content={new URL(Astro.url.pathname, site)} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="tr_TR" />
-    <meta property="og:image" content={new URL('/og.png', site)} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content="Excel Arşiv — işletmeler için finansal Excel çalışma sistemleri" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description ?? ''} />
+    <meta name="twitter:image" content={ogImage} />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
     <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
