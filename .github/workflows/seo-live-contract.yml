@@ -1,0 +1,80 @@
+name: SEO Live Contract
+
+on:
+  workflow_run:
+    workflows:
+      - Deploy Firebase Production
+    types:
+      - completed
+  schedule:
+    - cron: '27 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: seo-live-contract
+  cancel-in-progress: true
+
+jobs:
+  verify-live-seo:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Verify canonical SEO discovery artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          ORIGIN='https://excelarsiv.com'
+          TMP="$(mktemp -d)"
+          trap 'rm -rf "$TMP"' EXIT
+
+          fetch_with_retry() {
+            local path="$1"
+            local out="$2"
+            local ok='false'
+            for attempt in $(seq 1 12); do
+              code="$(curl --silent --show-error --location \
+                --connect-timeout 10 --max-time 30 \
+                --output "$out" --write-out '%{http_code}' \
+                "$ORIGIN/$path" || true)"
+              if [[ "$code" == '200' && -s "$out" ]]; then
+                ok='true'
+                break
+              fi
+              echo "Attempt $attempt failed for /$path (HTTP $code); retrying..."
+              sleep 10
+            done
+            [[ "$ok" == 'true' ]] || { echo "P0: /$path live contract failed"; exit 1; }
+          }
+
+          fetch_with_retry 'robots.txt' "$TMP/robots.txt"
+          fetch_with_retry 'sitemap.xml' "$TMP/sitemap.xml"
+          fetch_with_retry 'llms.txt' "$TMP/llms.txt"
+          fetch_with_retry 'llms-full.txt' "$TMP/llms-full.txt"
+
+          grep -Fq 'Sitemap: https://excelarsiv.com/sitemap.xml' "$TMP/robots.txt"
+          grep -Fq '<sitemapindex' "$TMP/sitemap.xml"
+          grep -Fq 'https://excelarsiv.com/sitemap.xml' "$TMP/llms.txt"
+          grep -Fq 'https://excelarsiv.com/sitemap.xml' "$TMP/llms-full.txt"
+
+          mapfile -t children < <(grep -oE '<loc>https://excelarsiv\.com/[^<]+\.xml</loc>' "$TMP/sitemap.xml" | sed -E 's#</?loc>##g')
+          [[ "${#children[@]}" -gt 0 ]] || { echo 'P0: sitemap index has no child sitemaps'; exit 1; }
+
+          total_urls=0
+          for child in "${children[@]}"; do
+            name="${child#${ORIGIN}/}"
+            fetch_with_retry "$name" "$TMP/$name"
+            grep -Fq '<urlset' "$TMP/$name"
+            if grep -Eq '<priority>|<changefreq>' "$TMP/$name"; then
+              echo "P0: deprecated/noisy sitemap fields in $name"
+              exit 1
+            fi
+            count="$(grep -o '<url>' "$TMP/$name" | wc -l | tr -d ' ')"
+            total_urls=$((total_urls + count))
+          done
+
+          [[ "$total_urls" -gt 0 ]] || { echo 'P0: sitemap has zero URLs'; exit 1; }
+          echo "SEO LIVE CONTRACT PASS — $total_urls URLs across ${#children[@]} child sitemap(s)."
