@@ -1,6 +1,5 @@
 ---
 import CommerceLayout from '../layouts/CommerceLayout.astro';
-import CatalogHero from '../components/catalog/CatalogHero.astro';
 import CatalogSearch from '../components/catalog/CatalogSearch.astro';
 import CatalogFilters from '../components/catalog/CatalogFilters.astro';
 import TemplateGrid from '../components/catalog/TemplateGrid.astro';
@@ -19,66 +18,21 @@ const categoryCounts = Object.fromEntries(
 
 <CommerceLayout
   title="Excel Şablonları ve İşletme Karar Sistemleri — Excel Arşiv"
-  description="Nakit akışı, kârlılık, tahsilat, stok ve finans yönetimi için hazır Excel sistemleri. Gerçek ürün ekranlarını görün, ihtiyacınıza göre filtreleyin ve demo ile inceleyin."
+  description="Nakit akışı, kârlılık, tahsilat, stok ve finans yönetimi için hazır Excel sistemleri. Ürünleri karşılaştırın, filtreleyin ve demo ile inceleyin."
 >
-  <CatalogHero
-    templateCount={templates.length}
-    categoryCount={categories.length}
-    minPriceTL={minPriceTL}
-  />
-
-  <section class="catalog-proof" aria-label="Alışveriş güvenceleri">
-    <div class="site-container catalog-proof__grid">
-      <div class="catalog-proof__item">
-        <span class="catalog-proof__icon" aria-hidden="true">01</span>
-        <div><strong>Gerçek ürün ekranları</strong><span>Temsilî görsel yerine dosyanın kendi ekranlarını görün.</span></div>
-      </div>
-      <div class="catalog-proof__item">
-        <span class="catalog-proof__icon" aria-hidden="true">02</span>
-        <div><strong>Demo ile karar verin</strong><span>Satın almadan önce çalışma mantığını inceleyin.</span></div>
-      </div>
-      <div class="catalog-proof__item">
-        <span class="catalog-proof__icon" aria-hidden="true">03</span>
-        <div><strong>Shopier ile güvenli ödeme</strong><span>Ödeme adımı ürün incelemesinden ayrı ve nettir.</span></div>
-      </div>
-      <div class="catalog-proof__item">
-        <span class="catalog-proof__icon" aria-hidden="true">04</span>
-        <div><strong>Excel odaklı teslimat</strong><span>Excel içinde açılan, işletme kullanımına uygun çalışma dosyaları.</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="catalog-paths" aria-labelledby="catalog-paths-title">
-    <div class="site-container">
-      <div class="catalog-paths__head">
-        <div>
-          <span>İHTİYAÇTAN BAŞLAYIN</span>
-          <h2 id="catalog-paths-title">Şablon adı aramayın. Çözmek istediğiniz problemi seçin.</h2>
-        </div>
-        <p>Excel Arşiv’i klasik bir dosya listesi gibi değil, işletme problemlerine göre çalışan bir karar araçları kataloğu olarak kullanın.</p>
+  <section class="catalog-intro" aria-labelledby="catalog-title">
+    <div class="site-container catalog-intro__inner">
+      <div class="catalog-intro__copy">
+        <span>EXCEL ARŞİV · İŞLETME SİSTEMLERİ</span>
+        <h1 id="catalog-title">Excel Şablonları</h1>
+        <p>Finans, nakit, tahsilat, stok ve operasyon için kullanıma hazır Excel karar sistemleri.</p>
       </div>
 
-      <div class="catalog-paths__grid">
-        <a class="catalog-path" href="/sablonlar?kategori=nakit-akisi#katalog">
-          <span class="catalog-path__number">01</span>
-          <div><strong>Önümüzdeki haftalarda para yeter mi?</strong><span>Nakit akışı, ödeme planı ve kasa kontrolü.</span></div>
-          <b aria-hidden="true">→</b>
-        </a>
-        <a class="catalog-path" href="/sablonlar?q=karlilik#katalog">
-          <span class="catalog-path__number">02</span>
-          <div><strong>Gerçekte ne kadar kâr ediyorum?</strong><span>Gelir-gider, proje ve fiyatlama kârlılığı.</span></div>
-          <b aria-hidden="true">→</b>
-        </a>
-        <a class="catalog-path" href="/sablonlar?q=tahsilat#katalog">
-          <span class="catalog-path__number">03</span>
-          <div><strong>Kimden, ne zaman tahsil edeceğim?</strong><span>Cari risk, vade ve tahsilat görünürlüğü.</span></div>
-          <b aria-hidden="true">→</b>
-        </a>
-        <a class="catalog-path" href="/sablonlar?kategori=stok-ve-uretim#katalog">
-          <span class="catalog-path__number">04</span>
-          <div><strong>Stok ve operasyon nerede aksıyor?</strong><span>Stok, üretim ve operasyon kontrolü.</span></div>
-          <b aria-hidden="true">→</b>
-        </a>
+      <div class="catalog-intro__proof" aria-label="Katalog güvenceleri">
+        <div><b>{templates.length}</b><span>satışta sistem</span></div>
+        <div><b>{categories.length}</b><span>işletme alanı</span></div>
+        {minPriceTL && <div><b>{minPriceTL.toLocaleString('tr-TR')} TL</b><span>başlayan fiyat</span></div>}
+        <div class="catalog-intro__trust"><i>✓</i><span>Demo + gerçek ürün ekranları</span></div>
       </div>
     </div>
   </section>
@@ -88,13 +42,15 @@ const categoryCounts = Object.fromEntries(
       <div class="catalog-command">
         <div class="catalog-command__head">
           <div>
-            <span class="catalog-command__eyebrow">TÜM SİSTEMLER</span>
-            <h2 id="catalog-list-title">İhtiyacınıza en yakın Excel sistemini bulun.</h2>
+            <span class="catalog-command__eyebrow">ÜRÜNLER</span>
+            <h2 id="catalog-list-title">İhtiyacınıza uygun sistemi bulun.</h2>
           </div>
-          <p class="catalog-command__result" aria-live="polite"><strong data-result-count>{templates.length}</strong> sistem gösteriliyor</p>
+          <p class="catalog-command__result" aria-live="polite"><strong data-result-count>{templates.length}</strong> ürün</p>
         </div>
 
-        <CatalogSearch />
+        <div class="catalog-command__search">
+          <CatalogSearch />
+        </div>
 
         <div class="catalog-command__filters">
           <CatalogFilters counts={categoryCounts} totalCount={templates.length} />
@@ -104,259 +60,206 @@ const categoryCounts = Object.fromEntries(
 
       <TemplateGrid templates={templates} />
 
-      <aside class="catalog-help" aria-label="Şablon seçme yardımı">
-        <div>
-          <span>KARAR VEREMEDİNİZ Mİ?</span>
-          <h2>Önce dosyayı değil, iş problemini netleştirin.</h2>
-          <p>Ürün sayfasındaki “Kimler için?”, gerçek ekranlar ve demo bölümleri yanlış şablon satın alma riskini azaltmak için birlikte tasarlandı.</p>
-        </div>
-        <a href="/nasil-calisir">Nasıl çalıştığını görün <span aria-hidden="true">→</span></a>
+      <aside class="catalog-help" aria-label="Satın alma güvenceleri">
+        <div class="catalog-help__item"><span>01</span><div><strong>Ürüne özel katalog önizlemesi</strong><p>Her ürün kartı kendi iş mantığını anlatan benzersiz görsel yapıya sahiptir.</p></div></div>
+        <div class="catalog-help__item"><span>02</span><div><strong>Detayda gerçek Excel ekranları</strong><p>Ürün sayfasında gerçek çalışma ekranlarını ve demo akışını ayrıca inceleyebilirsiniz.</p></div></div>
+        <div class="catalog-help__item"><span>03</span><div><strong>Shopier ile güvenli ödeme</strong><p>Fiyat, teslimat ve ödeme adımları ürün sayfasında açık biçimde gösterilir.</p></div></div>
       </aside>
     </div>
   </section>
 </CommerceLayout>
 
 <style>
-  .catalog-proof {
+  .catalog-intro {
     border-bottom: 1px solid var(--xl-grid);
-    background: #fff;
+    background:
+      radial-gradient(720px 220px at 84% 0%, rgba(16,124,65,.08), transparent 72%),
+      #fff;
   }
-  .catalog-proof__grid {
+  .catalog-intro__inner {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-  .catalog-proof__item {
-    display: grid;
-    grid-template-columns: 34px 1fr;
-    gap: 12px;
-    min-width: 0;
-    padding: 20px 18px;
-    border-right: 1px solid var(--xl-grid);
-  }
-  .catalog-proof__item:first-child { padding-left: 0; }
-  .catalog-proof__item:last-child { border-right: 0; padding-right: 0; }
-  .catalog-proof__icon {
-    display: grid;
-    place-items: center;
-    width: 32px;
-    height: 32px;
-    border: 1px solid var(--xl-accent-border);
-    border-radius: 10px;
-    background: var(--xl-accent-soft);
-    font-family: var(--font-mono);
-    font-size: 9px;
-    font-weight: 800;
-    color: var(--xl-green-dark);
-  }
-  .catalog-proof__item div { display: grid; gap: 4px; min-width: 0; }
-  .catalog-proof__item strong { font-size: 12px; color: var(--xl-ink-900); }
-  .catalog-proof__item div span { font-size: 10.5px; line-height: 1.45; color: var(--xl-ink-3); }
-
-  .catalog-paths {
-    padding-block: clamp(54px, 7vw, 86px);
-    background: var(--xl-paper);
-    border-bottom: 1px solid var(--xl-grid);
-  }
-  .catalog-paths__head {
-    display: grid;
-    grid-template-columns: minmax(0, 1.12fr) minmax(280px, .68fr);
-    gap: clamp(28px, 5vw, 72px);
+    grid-template-columns: minmax(0,1fr) auto;
+    gap: 36px;
     align-items: end;
+    padding-block: clamp(26px,4vw,42px) 24px;
   }
-  .catalog-paths__head > div > span,
-  .catalog-command__eyebrow,
-  .catalog-help > div > span {
+  .catalog-intro__copy > span,
+  .catalog-command__eyebrow {
     font-family: var(--font-mono);
-    font-size: 9px;
+    font-size: 8.5px;
     font-weight: 800;
-    letter-spacing: .12em;
+    letter-spacing: .1em;
     color: var(--xl-green-dark);
   }
-  .catalog-paths__head h2,
-  .catalog-command__head h2,
-  .catalog-help h2 {
-    margin: 10px 0 0;
+  .catalog-intro h1 {
+    margin: 7px 0 0;
     font-family: var(--font-display);
-    font-weight: 800;
+    font-size: clamp(30px,4vw,44px);
+    line-height: 1;
     letter-spacing: -.035em;
     color: var(--xl-ink-900);
   }
-  .catalog-paths__head h2 { max-width: 760px; font-size: clamp(30px, 3.8vw, 46px); line-height: 1.02; }
-  .catalog-paths__head > p {
-    margin: 0;
+  .catalog-intro__copy p {
+    max-width: 720px;
+    margin: 10px 0 0;
     font-size: 13px;
-    line-height: 1.7;
+    line-height: 1.55;
     color: var(--xl-ink-3);
   }
-  .catalog-paths__grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 28px;
+  .catalog-intro__proof {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    border: 1px solid var(--xl-grid);
+    border-radius: 14px;
+    background: rgba(255,255,255,.9);
+    overflow: hidden;
   }
-  .catalog-path {
+  .catalog-intro__proof > div {
     display: grid;
-    grid-template-columns: 40px minmax(0, 1fr) 22px;
-    gap: 14px;
+    align-content: center;
+    min-width: 112px;
+    min-height: 58px;
+    padding: 9px 14px;
+    border-right: 1px solid var(--xl-grid);
+  }
+  .catalog-intro__proof > div:last-child { border-right: 0; }
+  .catalog-intro__proof b { font: 800 13px var(--font-mono); color: var(--xl-ink-900); }
+  .catalog-intro__proof span { margin-top: 3px; font-size: 8.5px; color: var(--xl-ink-3); }
+  .catalog-intro__proof .catalog-intro__trust {
+    grid-template-columns: 18px 1fr;
+    gap: 7px;
     align-items: center;
-    min-height: 112px;
-    padding: 20px;
-    border: 1px solid var(--xl-border);
-    border-radius: 18px;
-    background: #fff;
-    color: inherit;
-    text-decoration: none;
-    transition: transform 170ms ease-out, border-color 170ms ease-out, box-shadow 170ms ease-out;
+    min-width: 170px;
   }
-  .catalog-path:hover {
-    transform: translateY(-2px);
-    border-color: var(--xl-accent-border);
-    box-shadow: 0 16px 34px rgba(20, 54, 35, .08);
-  }
-  .catalog-path__number {
+  .catalog-intro__trust i {
     display: grid;
     place-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: #0d3d2a;
-    font-family: var(--font-mono);
+    width: 18px;
+    height: 18px;
+    border-radius: 6px;
+    background: #e3f3e9;
+    color: var(--xl-green-dark);
     font-size: 10px;
+    font-style: normal;
     font-weight: 800;
-    color: #fff;
   }
-  .catalog-path div { display: grid; gap: 6px; min-width: 0; }
-  .catalog-path strong { font-size: 15px; line-height: 1.3; color: var(--xl-ink-900); }
-  .catalog-path div span { font-size: 11.5px; line-height: 1.5; color: var(--xl-ink-3); }
-  .catalog-path > b { font-size: 18px; color: var(--xl-green); transition: transform 170ms ease-out; }
-  .catalog-path:hover > b { transform: translateX(3px); }
+  .catalog-intro__trust span { margin: 0; line-height: 1.35; }
 
   .catalog-section {
-    padding-block: clamp(54px, 7vw, 84px) clamp(76px, 9vw, 116px);
+    padding-block: 26px clamp(72px,8vw,104px);
     background:
-      linear-gradient(rgba(16, 124, 65, .025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(16, 124, 65, .025) 1px, transparent 1px),
-      #fff;
-    background-size: 28px 28px;
+      linear-gradient(rgba(16,124,65,.018) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(16,124,65,.018) 1px,transparent 1px),
+      #fbfcfb;
+    background-size: 30px 30px;
   }
   .catalog-command {
-    padding: clamp(20px, 3vw, 30px);
+    padding: 18px;
     border: 1px solid var(--xl-border);
-    border-radius: 24px;
-    background: rgba(255,255,255,.94);
-    box-shadow: 0 20px 50px rgba(20, 54, 35, .07);
-    backdrop-filter: blur(12px);
+    border-radius: 18px;
+    background: rgba(255,255,255,.96);
+    box-shadow: 0 12px 34px rgba(20,54,35,.055);
   }
   .catalog-command__head {
     display: flex;
     align-items: end;
     justify-content: space-between;
-    gap: 28px;
-    margin-bottom: 20px;
+    gap: 24px;
+    margin-bottom: 14px;
   }
-  .catalog-command__head h2 { max-width: 700px; font-size: clamp(25px, 3vw, 36px); line-height: 1.05; }
+  .catalog-command__head h2 {
+    margin: 5px 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(21px,2.4vw,29px);
+    line-height: 1.05;
+    letter-spacing: -.03em;
+    color: var(--xl-ink-900);
+  }
   .catalog-command__result {
     flex: 0 0 auto;
     margin: 0;
-    padding: 8px 11px;
+    padding: 7px 10px;
     border: 1px solid var(--xl-grid);
     border-radius: 999px;
     background: var(--xl-paper);
-    font-family: var(--font-mono);
-    font-size: 10px;
+    font: 700 9px var(--font-mono);
     color: var(--xl-ink-3);
   }
   .catalog-command__result strong { color: var(--xl-ink-900); }
+  .catalog-command__search { max-width: 760px; }
   .catalog-command__filters {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 16px;
-    margin-top: 16px;
+    gap: 14px;
+    margin-top: 12px;
   }
   .catalog-command__clear {
     flex: 0 0 auto;
-    min-height: 38px;
-    padding: 0 12px;
+    min-height: 36px;
+    padding: 0 10px;
     border: 0;
     background: transparent;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    font-weight: 700;
+    font: 700 9px var(--font-mono);
     color: var(--xl-green-dark);
     cursor: pointer;
   }
   .catalog-command__clear:hover { text-decoration: underline; }
-  .catalog-section > .site-container > :global(.template-grid-wrap) { margin-top: 28px; }
+  .catalog-section > .site-container > :global(.template-grid-wrap) { margin-top: 20px; }
 
   .catalog-help {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 32px;
-    align-items: center;
-    margin-top: 44px;
-    padding: clamp(26px, 4vw, 38px);
-    border-radius: 24px;
-    background: #0b3727;
-    color: #fff;
-    box-shadow: 0 24px 52px rgba(6, 36, 23, .18);
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    gap: 1px;
+    margin-top: 28px;
+    overflow: hidden;
+    border: 1px solid var(--xl-grid);
+    border-radius: 18px;
+    background: var(--xl-grid);
   }
-  .catalog-help h2 { max-width: 720px; font-size: clamp(25px, 3vw, 36px); line-height: 1.05; color: #fff; }
-  .catalog-help p { max-width: 760px; margin: 10px 0 0; font-size: 12px; line-height: 1.65; color: rgba(245,255,249,.68); }
-  .catalog-help > div > span { color: #89d9aa; }
-  .catalog-help > a {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    min-height: 46px;
-    padding: 0 17px;
-    border: 1px solid rgba(255,255,255,.22);
-    border-radius: 12px;
-    background: rgba(255,255,255,.08);
-    color: #fff;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 700;
-    text-decoration: none;
-    white-space: nowrap;
+  .catalog-help__item {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 10px;
+    padding: 18px;
+    background: #fff;
   }
-  .catalog-help > a:hover { background: #fff; color: #0b3727; }
+  .catalog-help__item > span {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
+    background: #e7f4ec;
+    font: 800 8px var(--font-mono);
+    color: var(--xl-green-dark);
+  }
+  .catalog-help__item strong { display:block; font-size: 11px; color: var(--xl-ink-900); }
+  .catalog-help__item p { margin: 5px 0 0; font-size: 9.5px; line-height: 1.5; color: var(--xl-ink-3); }
 
-  @media (max-width: 980px) {
-    .catalog-proof__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .catalog-proof__item:nth-child(2) { border-right: 0; }
-    .catalog-proof__item:nth-child(-n+2) { border-bottom: 1px solid var(--xl-grid); }
-    .catalog-proof__item:first-child,
-    .catalog-proof__item:nth-child(3) { padding-left: 0; }
-    .catalog-proof__item:nth-child(2),
-    .catalog-proof__item:last-child { padding-right: 0; }
-    .catalog-paths__head { grid-template-columns: 1fr; gap: 12px; }
+  @media(max-width:1050px) {
+    .catalog-intro__inner { grid-template-columns: 1fr; gap: 16px; }
+    .catalog-intro__proof { width: 100%; }
+    .catalog-intro__proof > div { flex: 1; }
   }
-  @media (max-width: 760px) {
-    .catalog-paths__grid { grid-template-columns: 1fr; }
-    .catalog-command { padding: 18px; border-radius: 20px; }
-    .catalog-command__head { align-items: flex-start; flex-direction: column; gap: 12px; }
-    .catalog-command__filters { flex-direction: column; }
-    .catalog-help { grid-template-columns: 1fr; gap: 20px; }
-    .catalog-help > a { justify-self: start; }
+  @media(max-width:780px) {
+    .catalog-intro__proof { display:grid; grid-template-columns:repeat(2,1fr); }
+    .catalog-intro__proof > div { min-width:0; border-bottom:1px solid var(--xl-grid); }
+    .catalog-intro__proof > div:nth-child(2n) { border-right:0; }
+    .catalog-intro__proof > div:nth-last-child(-n+2) { border-bottom:0; }
+    .catalog-help { grid-template-columns:1fr; }
+    .catalog-command__head { align-items:flex-start; }
   }
-  @media (max-width: 560px) {
-    .catalog-proof__grid { grid-template-columns: 1fr; }
-    .catalog-proof__item,
-    .catalog-proof__item:first-child,
-    .catalog-proof__item:nth-child(2),
-    .catalog-proof__item:nth-child(3),
-    .catalog-proof__item:last-child {
-      padding: 15px 0;
-      border-right: 0;
-      border-bottom: 1px solid var(--xl-grid);
-    }
-    .catalog-proof__item:last-child { border-bottom: 0; }
-    .catalog-path { min-height: 100px; padding: 16px; border-radius: 16px; }
-    .catalog-paths__head h2 { font-size: 30px; }
-    .catalog-section { padding-top: 42px; }
-    .catalog-command { margin-inline: -4px; }
-    .catalog-command__head h2 { font-size: 27px; }
-    .catalog-help { margin-inline: -4px; border-radius: 20px; }
+  @media(max-width:620px) {
+    .catalog-intro__inner { padding-block:22px 18px; }
+    .catalog-intro h1 { font-size:32px; }
+    .catalog-intro__proof { display:none; }
+    .catalog-section { padding-top:16px; }
+    .catalog-command { padding:14px; border-radius:16px; }
+    .catalog-command__head { gap:12px; }
+    .catalog-command__head h2 { font-size:22px; }
+    .catalog-command__filters { display:block; overflow:hidden; }
+    .catalog-command__clear { margin-top:6px; }
   }
 </style>

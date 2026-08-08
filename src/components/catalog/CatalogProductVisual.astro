@@ -1,0 +1,218 @@
+---
+interface Props {
+  slug: string;
+  name: string;
+}
+
+const { slug, name } = Astro.props;
+
+type VisualConfig = {
+  variant: string;
+  eyebrow: string;
+  accent: string;
+  accent2: string;
+  surface: string;
+  metricA: string;
+  metricB: string;
+  metricC: string;
+};
+
+const visuals: Record<string, VisualConfig> = {
+  '13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi': {
+    variant: 'cashflow', eyebrow: '13 HAFTALIK NAKİT', accent: '#087a43', accent2: '#d6a31a', surface: '#f5fbf7',
+    metricA: '₺1,84M', metricB: '₺1,61M', metricC: '+₺230K',
+  },
+  'akilli-kasa-defteri-ve-nakit-kontrol-sistemi': {
+    variant: 'cashbook', eyebrow: 'KASA KONTROL', accent: '#0e6b57', accent2: '#19a77d', surface: '#f2faf8',
+    metricA: '₺428K', metricB: '₺421K', metricC: '₺7,2K',
+  },
+  'aylik-patron-finans-paneli': {
+    variant: 'executive', eyebrow: 'PATRON PANELİ', accent: '#183a59', accent2: '#2f8b66', surface: '#eef3f7',
+    metricA: '₺3,25M', metricB: '%28,7', metricC: '1.250',
+  },
+  'banka-kredi-ve-taksit-takip-sistemi': {
+    variant: 'debt', eyebrow: 'KREDİ & TAKSİT', accent: '#315e9d', accent2: '#6f87bc', surface: '#f3f6fb',
+    metricA: '₺2,14M', metricB: '18 ay', metricC: '₺164K',
+  },
+  'cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi': {
+    variant: 'receivables', eyebrow: 'CARİ RİSK', accent: '#d06d0d', accent2: '#f2a23e', surface: '#fff8ef',
+    metricA: '₺1,24M', metricB: '₺312K', metricC: '%74,8',
+  },
+  'cek-senet-ve-vade-risk-sistemi': {
+    variant: 'maturity', eyebrow: 'VADE RİSKİ', accent: '#8b3a3a', accent2: '#d16b55', surface: '#fff5f3',
+    metricA: '47 adet', metricB: '₺886K', metricC: '6 kritik',
+  },
+  'gunluk-gelir-gider-ve-gercek-karlilik-sistemi': {
+    variant: 'profit', eyebrow: 'GERÇEK KÂRLILIK', accent: '#126a4b', accent2: '#31a56e', surface: '#f3faf6',
+    metricA: '₺985K', metricB: '₺742K', metricC: '%24,7',
+  },
+  'kobi-finans-yonetim-paketi': {
+    variant: 'suite', eyebrow: 'KOBİ FİNANS', accent: '#0c5139', accent2: '#1aa26c', surface: '#edf8f2',
+    metricA: '12 modül', metricB: '7 kontrol', metricC: '1 pano',
+  },
+  'pos-komisyon-ve-net-tahsilat-kontrol-sistemi': {
+    variant: 'pos', eyebrow: 'POS MUTABAKAT', accent: '#6a4f99', accent2: '#9a7cc5', surface: '#f7f3fb',
+    metricA: '₺684K', metricB: '₺17,8K', metricC: '₺666K',
+  },
+  'proje-ve-is-bazinda-gercek-karlilik-sistemi': {
+    variant: 'project', eyebrow: 'PROJE KÂRLILIĞI', accent: '#14669c', accent2: '#32a0c8', surface: '#f1f8fb',
+    metricA: '8 proje', metricB: '%31,4', metricC: '2 riskli',
+  },
+  'stok-satis-ve-nakit-baglanma-sistemi': {
+    variant: 'stock', eyebrow: 'STOK & NAKİT', accent: '#216b8f', accent2: '#4b9cc4', surface: '#f1f8fb',
+    metricA: '2.450', metricB: '₺1,24M', metricC: '18 düşük',
+  },
+  'vergi-sgk-ve-maas-karsilik-ayirma-sistemi': {
+    variant: 'payroll', eyebrow: 'VERGİ · SGK · MAAŞ', accent: '#74508f', accent2: '#b07ac9', surface: '#faf5fc',
+    metricA: '₺286K', metricB: '₺91K', metricC: '24 kişi',
+  },
+};
+
+const config = visuals[slug] ?? {
+  variant: 'generic', eyebrow: 'EXCEL SİSTEMİ', accent: '#107c41', accent2: '#45a873', surface: '#f4faf6',
+  metricA: 'CANLI', metricB: 'KONTROL', metricC: 'RAPOR',
+};
+---
+
+<div
+  class={`product-visual product-visual--${config.variant}`}
+  style={`--pv-accent:${config.accent};--pv-accent-2:${config.accent2};--pv-surface:${config.surface}`}
+  aria-label={`${name} katalog önizlemesi`}
+>
+  <div class="product-visual__window">
+    <div class="product-visual__bar">
+      <div class="product-visual__dots" aria-hidden="true"><i></i><i></i><i></i></div>
+      <span>{config.eyebrow}</span>
+      <b>EXCEL ARŞİV</b>
+    </div>
+
+    <div class="product-visual__metrics">
+      <div><small>TOPLAM</small><strong>{config.metricA}</strong></div>
+      <div><small>KONTROL</small><strong>{config.metricB}</strong></div>
+      <div><small>DURUM</small><strong>{config.metricC}</strong></div>
+    </div>
+
+    {config.variant === 'cashflow' && (
+      <div class="pv-layout pv-cashflow">
+        <div class="pv-chart pv-chart--line"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="pv-bars"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="pv-side"><span>H01</span><span>H05</span><span>H09</span><span>H13</span></div>
+      </div>
+    )}
+
+    {config.variant === 'cashbook' && (
+      <div class="pv-layout pv-cashbook">
+        <div class="pv-ledger"><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="pv-ring"><b>%98</b></div>
+        <div class="pv-balance"><i></i><i></i><i></i></div>
+      </div>
+    )}
+
+    {config.variant === 'executive' && (
+      <div class="pv-layout pv-executive">
+        <div class="pv-dark-panel"><span></span><span></span><span></span><span></span></div>
+        <div class="pv-spark"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="pv-donut"><b>28,7</b></div>
+      </div>
+    )}
+
+    {config.variant === 'debt' && (
+      <div class="pv-layout pv-debt">
+        <div class="pv-amort"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="pv-debt-bars"><i></i><i></i><i></i><i></i></div>
+        <div class="pv-debt-badge">DSCR 1,42</div>
+      </div>
+    )}
+
+    {config.variant === 'receivables' && (
+      <div class="pv-layout pv-receivables">
+        <div class="pv-aging"><i></i><i></i><i></i><i></i></div>
+        <div class="pv-aging-list"><span>0–30</span><span>31–60</span><span>61–90</span><span>90+</span></div>
+        <div class="pv-mini-table"><i></i><i></i><i></i><i></i></div>
+      </div>
+    )}
+
+    {config.variant === 'maturity' && (
+      <div class="pv-layout pv-maturity">
+        <div class="pv-timeline"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="pv-risk-grid"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="pv-risk-label">VADE YOĞUNLUĞU</div>
+      </div>
+    )}
+
+    {config.variant === 'profit' && (
+      <div class="pv-layout pv-profit">
+        <div class="pv-waterfall"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="pv-profit-cards"><span>BRÜT</span><span>NET</span><span>MARJ</span></div>
+        <div class="pv-profit-line"></div>
+      </div>
+    )}
+
+    {config.variant === 'suite' && (
+      <div class="pv-layout pv-suite">
+        <div class="pv-suite-grid"><span></span><span></span><span></span><span></span></div>
+        <div class="pv-suite-nav"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="pv-suite-status"><b>✓</b><b>✓</b><b>!</b></div>
+      </div>
+    )}
+
+    {config.variant === 'pos' && (
+      <div class="pv-layout pv-pos">
+        <div class="pv-pos-cards"><span>VISA</span><span>MC</span><span>TROY</span></div>
+        <div class="pv-settlement"><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="pv-fee"><b>%2,61</b><small>ORT. KOMİSYON</small></div>
+      </div>
+    )}
+
+    {config.variant === 'project' && (
+      <div class="pv-layout pv-project">
+        <div class="pv-gantt"><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="pv-project-margin"><i></i><i></i><i></i></div>
+        <div class="pv-project-score">72%</div>
+      </div>
+    )}
+
+    {config.variant === 'stock' && (
+      <div class="pv-layout pv-stock">
+        <div class="pv-stock-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="pv-stock-table"><span></span><span></span><span></span><span></span></div>
+        <div class="pv-alerts"><b>18</b><small>KRİTİK SKU</small></div>
+      </div>
+    )}
+
+    {config.variant === 'payroll' && (
+      <div class="pv-layout pv-payroll">
+        <div class="pv-payroll-ring"><b>₺91K</b></div>
+        <div class="pv-payroll-list"><span></span><span></span><span></span><span></span></div>
+        <div class="pv-payroll-bars"><i></i><i></i><i></i><i></i></div>
+      </div>
+    )}
+
+    {config.variant === 'generic' && (
+      <div class="pv-layout pv-generic"><span></span><span></span><span></span><span></span></div>
+    )}
+  </div>
+</div>
+
+<style>
+  .product-visual { width: 100%; height: 100%; padding: 12px; background: linear-gradient(135deg,var(--pv-surface),#fff 72%); }
+  .product-visual__window { height: 100%; overflow: hidden; border: 1px solid color-mix(in srgb,var(--pv-accent) 18%,#dfe6e2); border-radius: 13px; background: #fff; box-shadow: 0 14px 30px color-mix(in srgb,var(--pv-accent) 10%,transparent); }
+  .product-visual__bar { display:flex;align-items:center;gap:8px;height:30px;padding:0 10px;background:var(--pv-accent);color:#fff;font-family:var(--font-mono);font-size:7px;font-weight:800;letter-spacing:.06em; }
+  .product-visual__bar>b{margin-left:auto;font-size:6.5px;opacity:.85}.product-visual__dots{display:flex;gap:3px}.product-visual__dots i{width:5px;height:5px;border-radius:999px;background:rgba(255,255,255,.62)}
+  .product-visual__metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:8px 9px 6px}.product-visual__metrics>div{min-width:0;padding:6px 7px;border:1px solid #e8ece9;border-radius:8px;background:#fbfcfb}.product-visual__metrics small{display:block;font-family:var(--font-mono);font-size:5.5px;font-weight:800;letter-spacing:.08em;color:#87928b}.product-visual__metrics strong{display:block;margin-top:3px;font-family:var(--font-mono);font-size:9px;color:var(--pv-accent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pv-layout{position:relative;height:calc(100% - 82px);min-height:80px;margin:0 9px 9px;border:1px solid #edf0ee;border-radius:9px;background:linear-gradient(#edf2ef 1px,transparent 1px),linear-gradient(90deg,#edf2ef 1px,transparent 1px),#fff;background-size:18px 18px;overflow:hidden}
+  .pv-chart--line{position:absolute;left:9px;right:80px;top:15px;height:42px;border-bottom:1px solid #e6ebe8}.pv-chart--line i{position:absolute;width:28%;height:2px;border-radius:99px;background:var(--pv-accent);transform-origin:left center}.pv-chart--line i:nth-child(1){left:2%;top:31px;transform:rotate(-12deg)}.pv-chart--line i:nth-child(2){left:22%;top:25px;transform:rotate(10deg)}.pv-chart--line i:nth-child(3){left:42%;top:27px;transform:rotate(-23deg)}.pv-chart--line i:nth-child(4){left:61%;top:16px;transform:rotate(16deg)}.pv-chart--line i:nth-child(5){left:77%;top:19px;transform:rotate(-19deg)}.pv-chart--line i:nth-child(6){left:90%;top:10px;width:9%;transform:rotate(0)}.pv-bars{position:absolute;left:12px;right:82px;bottom:9px;display:flex;gap:5px;align-items:flex-end;height:31px}.pv-bars i{flex:1;border-radius:3px 3px 0 0;background:var(--pv-accent-2);opacity:.5}.pv-bars i:nth-child(1){height:34%}.pv-bars i:nth-child(2){height:62%}.pv-bars i:nth-child(3){height:45%}.pv-bars i:nth-child(4){height:78%}.pv-bars i:nth-child(5){height:54%}.pv-bars i:nth-child(6){height:92%}.pv-side{position:absolute;right:9px;top:10px;bottom:9px;width:62px;display:grid;gap:4px}.pv-side span{display:grid;place-items:center;border-radius:5px;background:var(--pv-surface);font:700 6px var(--font-mono);color:var(--pv-accent)}
+  .pv-ledger{position:absolute;left:8px;top:9px;bottom:9px;width:58%;display:grid;gap:4px}.pv-ledger span{border-radius:4px;background:linear-gradient(90deg,var(--pv-surface) 20%,#fff 20% 42%,var(--pv-surface) 42% 62%,#fff 62%);border:1px solid #edf0ee}.pv-ring,.pv-donut,.pv-payroll-ring{position:absolute;right:12px;top:12px;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--pv-accent) 0 78%,#e7ece9 78% 100%)}.pv-ring:after,.pv-donut:after,.pv-payroll-ring:after{content:'';position:absolute;width:35px;height:35px;border-radius:50%;background:#fff}.pv-ring b,.pv-donut b,.pv-payroll-ring b{z-index:2;font:800 7px var(--font-mono);color:var(--pv-accent)}.pv-balance{position:absolute;right:10px;bottom:10px;width:60px;display:flex;gap:4px;align-items:flex-end;height:28px}.pv-balance i{flex:1;background:var(--pv-accent-2);border-radius:3px 3px 0 0}.pv-balance i:nth-child(1){height:45%}.pv-balance i:nth-child(2){height:80%}.pv-balance i:nth-child(3){height:62%}
+  .pv-executive{background:#102233}.pv-dark-panel{position:absolute;left:9px;top:9px;width:54%;height:42px;display:grid;grid-template-columns:1fr 1fr;gap:5px}.pv-dark-panel span{border:1px solid rgba(255,255,255,.09);border-radius:6px;background:rgba(255,255,255,.06)}.pv-spark{position:absolute;left:10px;bottom:10px;width:57%;height:32px;display:flex;align-items:flex-end;gap:4px}.pv-spark i{flex:1;background:linear-gradient(var(--pv-accent-2),#1b5260);border-radius:2px 2px 0 0}.pv-spark i:nth-child(1){height:24%}.pv-spark i:nth-child(2){height:48%}.pv-spark i:nth-child(3){height:38%}.pv-spark i:nth-child(4){height:72%}.pv-spark i:nth-child(5){height:58%}.pv-spark i:nth-child(6){height:90%}.pv-executive .pv-donut{right:14px;top:20px;background:conic-gradient(var(--pv-accent-2) 0 29%,#284559 29% 100%)}.pv-executive .pv-donut:after{background:#102233}.pv-executive .pv-donut b{color:#fff}
+  .pv-amort{position:absolute;left:9px;right:74px;top:9px;bottom:9px;display:grid;gap:4px}.pv-amort span{border-radius:3px;border:1px solid #e8edf4;background:linear-gradient(90deg,#eaf0f8 18%,#fff 18% 42%,#f5f8fc 42% 64%,#fff 64%)}.pv-debt-bars{position:absolute;right:10px;top:9px;width:52px;height:54px;display:flex;gap:4px;align-items:flex-end}.pv-debt-bars i{flex:1;border-radius:3px 3px 0 0;background:var(--pv-accent)}.pv-debt-bars i:nth-child(1){height:94%}.pv-debt-bars i:nth-child(2){height:76%}.pv-debt-bars i:nth-child(3){height:57%}.pv-debt-bars i:nth-child(4){height:39%}.pv-debt-badge{position:absolute;right:10px;bottom:10px;padding:6px 7px;border-radius:6px;background:var(--pv-surface);font:800 6.5px var(--font-mono);color:var(--pv-accent)}
+  .pv-aging{position:absolute;left:13px;top:15px;width:62px;height:62px;border-radius:50%;background:conic-gradient(var(--pv-accent) 0 42%,var(--pv-accent-2) 42% 70%,#f4c782 70% 87%,#f7e6cc 87%)}.pv-aging:after{content:'';position:absolute;inset:16px;border-radius:50%;background:#fff}.pv-aging-list{position:absolute;left:86px;top:14px;display:grid;gap:5px}.pv-aging-list span{font:700 6px var(--font-mono);color:#6a716c}.pv-mini-table{position:absolute;right:9px;top:10px;bottom:10px;width:46%;display:grid;gap:4px}.pv-mini-table i{border-radius:4px;border:1px solid #f1e7d9;background:linear-gradient(90deg,#fff5e8 35%,#fff 35%)}
+  .pv-timeline{position:absolute;left:10px;right:10px;top:14px;height:30px;display:flex;align-items:center;justify-content:space-between}.pv-timeline:before{content:'';position:absolute;left:6px;right:6px;height:2px;background:#ead8d3}.pv-timeline i{z-index:2;width:10px;height:10px;border:3px solid #fff;border-radius:50%;background:var(--pv-accent);box-shadow:0 0 0 1px #ead8d3}.pv-risk-grid{position:absolute;left:11px;right:11px;bottom:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}.pv-risk-grid span{height:17px;border-radius:4px;background:color-mix(in srgb,var(--pv-accent) 16%,#fff)}.pv-risk-grid span:nth-child(3),.pv-risk-grid span:nth-child(6){background:color-mix(in srgb,var(--pv-accent) 52%,#fff)}.pv-risk-grid span:nth-child(7){background:var(--pv-accent)}.pv-risk-label{position:absolute;right:10px;top:49px;font:800 5.5px var(--font-mono);letter-spacing:.08em;color:var(--pv-accent)}
+  .pv-waterfall{position:absolute;left:9px;right:9px;bottom:12px;height:57px;display:flex;align-items:flex-end;gap:7px}.pv-waterfall i{flex:1;border-radius:3px 3px 0 0;background:var(--pv-accent)}.pv-waterfall i:nth-child(1){height:84%}.pv-waterfall i:nth-child(2){height:61%;background:#dd7c5b}.pv-waterfall i:nth-child(3){height:74%;background:var(--pv-accent-2)}.pv-waterfall i:nth-child(4){height:48%;background:#dd7c5b}.pv-waterfall i:nth-child(5){height:68%}.pv-profit-cards{position:absolute;left:10px;right:10px;top:8px;display:flex;gap:5px}.pv-profit-cards span{flex:1;padding:5px;border:1px solid #e5eee8;border-radius:5px;background:#fff;font:800 5.5px var(--font-mono);text-align:center;color:var(--pv-accent)}.pv-profit-line{position:absolute;left:12px;right:12px;bottom:43px;height:2px;background:linear-gradient(90deg,transparent,var(--pv-accent-2),transparent);transform:rotate(-8deg)}
+  .pv-suite-grid{position:absolute;left:9px;right:54px;top:9px;bottom:9px;display:grid;grid-template-columns:1fr 1fr;gap:5px}.pv-suite-grid span{border-radius:6px;border:1px solid #dcece2;background:linear-gradient(135deg,#fff,var(--pv-surface))}.pv-suite-nav{position:absolute;right:9px;top:9px;display:grid;gap:5px;width:37px}.pv-suite-nav i{height:11px;border-radius:4px;background:color-mix(in srgb,var(--pv-accent) 17%,#fff)}.pv-suite-nav i:nth-child(2),.pv-suite-nav i:nth-child(5){background:color-mix(in srgb,var(--pv-accent) 38%,#fff)}.pv-suite-status{position:absolute;right:9px;bottom:9px;display:flex;gap:3px}.pv-suite-status b{display:grid;place-items:center;width:10px;height:10px;border-radius:50%;background:#e2f3e8;font:800 6px var(--font-mono);color:var(--pv-accent)}.pv-suite-status b:last-child{background:#fff0d6;color:#ae7514}
+  .pv-pos-cards{position:absolute;left:10px;top:10px;display:flex;gap:5px}.pv-pos-cards span{padding:5px 8px;border-radius:5px;background:var(--pv-accent);font:800 5.5px var(--font-mono);color:#fff}.pv-pos-cards span:nth-child(2){background:var(--pv-accent-2)}.pv-pos-cards span:nth-child(3){background:#32363d}.pv-settlement{position:absolute;left:11px;right:72px;bottom:12px;height:43px;display:flex;align-items:flex-end;gap:5px}.pv-settlement i{flex:1;border-radius:3px 3px 0 0;background:color-mix(in srgb,var(--pv-accent) 65%,#fff)}.pv-settlement i:nth-child(1){height:42%}.pv-settlement i:nth-child(2){height:70%}.pv-settlement i:nth-child(3){height:55%}.pv-settlement i:nth-child(4){height:88%}.pv-settlement i:nth-child(5){height:76%}.pv-fee{position:absolute;right:10px;top:14px;bottom:13px;width:52px;display:grid;place-content:center;text-align:center;border-radius:7px;background:var(--pv-surface)}.pv-fee b{font:800 10px var(--font-mono);color:var(--pv-accent)}.pv-fee small{margin-top:4px;font:800 4.8px var(--font-mono);color:#7f738b}
+  .pv-gantt{position:absolute;left:10px;right:52px;top:12px;bottom:10px;display:grid;align-content:space-around}.pv-gantt span{height:7px;border-radius:99px;background:linear-gradient(90deg,transparent 8%,var(--pv-accent) 8% 52%,transparent 52%)}.pv-gantt span:nth-child(2){background:linear-gradient(90deg,transparent 25%,var(--pv-accent-2) 25% 69%,transparent 69%)}.pv-gantt span:nth-child(3){background:linear-gradient(90deg,transparent 14%,var(--pv-accent) 14% 80%,transparent 80%)}.pv-gantt span:nth-child(4){background:linear-gradient(90deg,transparent 43%,var(--pv-accent-2) 43% 91%,transparent 91%)}.pv-gantt span:nth-child(5){background:linear-gradient(90deg,transparent 31%,var(--pv-accent) 31% 62%,transparent 62%)}.pv-project-margin{position:absolute;right:9px;bottom:9px;display:flex;gap:3px;align-items:flex-end;width:37px;height:34px}.pv-project-margin i{flex:1;background:var(--pv-accent);border-radius:2px 2px 0 0}.pv-project-margin i:nth-child(1){height:55%}.pv-project-margin i:nth-child(2){height:88%}.pv-project-margin i:nth-child(3){height:69%}.pv-project-score{position:absolute;right:9px;top:9px;width:38px;height:28px;display:grid;place-items:center;border-radius:6px;background:var(--pv-surface);font:800 8px var(--font-mono);color:var(--pv-accent)}
+  .pv-stock-bars{position:absolute;left:10px;right:90px;top:10px;height:49px;display:flex;gap:4px;align-items:flex-end}.pv-stock-bars i{flex:1;border-radius:2px 2px 0 0;background:var(--pv-accent)}.pv-stock-bars i:nth-child(1){height:44%}.pv-stock-bars i:nth-child(2){height:76%}.pv-stock-bars i:nth-child(3){height:59%}.pv-stock-bars i:nth-child(4){height:91%}.pv-stock-bars i:nth-child(5){height:52%}.pv-stock-bars i:nth-child(6){height:69%}.pv-stock-bars i:nth-child(7){height:36%}.pv-stock-table{position:absolute;left:10px;right:90px;bottom:10px;display:grid;gap:3px}.pv-stock-table span{height:7px;border-radius:3px;background:linear-gradient(90deg,#e9f1f5 28%,#fff 28% 52%,#e9f1f5 52% 73%,#fff 73%);border:1px solid #edf2f4}.pv-alerts{position:absolute;right:10px;top:12px;bottom:10px;width:67px;display:grid;place-content:center;text-align:center;border-radius:7px;background:#fff4e9;border:1px solid #f3dcc8}.pv-alerts b{font:800 15px var(--font-mono);color:#c56a24}.pv-alerts small{margin-top:4px;font:800 5px var(--font-mono);color:#9b6d4a}
+  .pv-payroll-ring{left:13px;right:auto;top:18px;background:conic-gradient(var(--pv-accent) 0 32%,var(--pv-accent-2) 32% 67%,#eadff0 67%)}.pv-payroll-list{position:absolute;left:82px;right:10px;top:11px;display:grid;gap:4px}.pv-payroll-list span{height:12px;border-radius:4px;background:linear-gradient(90deg,var(--pv-surface) 38%,#fff 38% 61%,var(--pv-surface) 61% 77%,#fff 77%);border:1px solid #eee7f1}.pv-payroll-bars{position:absolute;left:82px;right:10px;bottom:10px;display:flex;gap:4px;align-items:flex-end;height:26px}.pv-payroll-bars i{flex:1;border-radius:2px 2px 0 0;background:var(--pv-accent-2)}.pv-payroll-bars i:nth-child(1){height:50%}.pv-payroll-bars i:nth-child(2){height:80%}.pv-payroll-bars i:nth-child(3){height:66%}.pv-payroll-bars i:nth-child(4){height:92%}
+  .pv-generic{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:9px}.pv-generic span{border-radius:7px;background:var(--pv-surface);border:1px solid #e2ebe5}
+  @media(max-width:680px){.product-visual{padding:10px}.product-visual__bar{height:28px}.product-visual__metrics{padding:7px}.product-visual__metrics strong{font-size:8.5px}}
+</style>
