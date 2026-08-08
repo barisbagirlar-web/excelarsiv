@@ -70,9 +70,13 @@ for (const file of htmlFiles) {
   const html = readFileSync(file, 'utf8');
   const pathname = builtPathname(file);
   const expectedCanonical = new URL(pathname, SITE_ORIGIN).toString();
+  const robots = extractMeta(html, 'robots');
+  const indexable = !hasNoindex(robots);
   const rawCanonical = extractCanonical(html);
+
   if (!rawCanonical) {
-    fail(`${pathname}: canonical eksik`);
+    if (indexable) fail(`${pathname}: canonical eksik`);
+    pages.push({ file, html, pathname, canonical: null, robots, indexable });
     continue;
   }
 
@@ -81,22 +85,25 @@ for (const file of htmlFiles) {
     fail(`${pathname}: canonical geçersiz veya canonical host dışı -> ${rawCanonical}`);
     continue;
   }
-  if (canonical !== expectedCanonical) {
+
+  if (indexable && canonical !== expectedCanonical) {
     fail(`SELF_CANONICAL_DRIFT: ${pathname} -> ${canonical}, beklenen ${expectedCanonical}`);
   }
 
-  const existing = canonicalOwners.get(canonical);
-  if (existing) fail(`DUPLICATE_CANONICAL_OWNER: ${canonical} -> ${existing}, ${pathname}`);
-  else canonicalOwners.set(canonical, pathname);
+  if (indexable) {
+    const existing = canonicalOwners.get(canonical);
+    if (existing) fail(`DUPLICATE_CANONICAL_OWNER: ${canonical} -> ${existing}, ${pathname}`);
+    else canonicalOwners.set(canonical, pathname);
+  }
 
-  const robots = extractMeta(html, 'robots');
-  pages.push({ file, html, pathname, canonical, robots, indexable: !hasNoindex(robots) });
+  pages.push({ file, html, pathname, canonical, robots, indexable });
 }
 
-const pageByCanonical = new Map(pages.map((page) => [page.canonical, page]));
-const graph = new Map(pages.map((page) => [page.canonical, new Set()]));
+const routablePages = pages.filter((page) => page.canonical);
+const pageByCanonical = new Map(routablePages.map((page) => [page.canonical, page]));
+const graph = new Map(routablePages.map((page) => [page.canonical, new Set()]));
 
-for (const page of pages) {
+for (const page of routablePages) {
   for (const tag of page.html.match(/<a\b[^>]*>/gi) ?? []) {
     const target = canonicalFromHref(extractAttr(tag, 'href'), page.canonical);
     if (target && pageByCanonical.has(target)) graph.get(page.canonical).add(target);
