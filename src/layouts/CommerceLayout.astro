@@ -78,6 +78,14 @@ const orgLd = JSON.stringify({
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <script type="application/ld+json" set:html={orgLd} />
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-N2HLKS660W"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-N2HLKS660W');
+    </script>
     <slot name="head" />
   </head>
   <body class="font-body text-ink-700 antialiased">
