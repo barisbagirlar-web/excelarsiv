@@ -30,52 +30,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Detect runtime changes
-        id: changes
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          backend_changed=false
-          hosting_changed=false
-
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
-            backend_changed=true
-            hosting_changed=true
-          elif ! git rev-parse HEAD^ >/dev/null 2>&1; then
-            backend_changed=true
-            hosting_changed=true
-          else
-            if ! git diff --quiet HEAD^ HEAD -- functions/; then
-              backend_changed=true
-            fi
-
-            if ! git diff --quiet HEAD^ HEAD -- \
-              src/ \
-              public/ \
-              commerce/ \
-              firebase.json \
-              .firebaserc \
-              astro.config.mjs \
-              tsconfig.json \
-              package-lock.json \
-              scripts/seo/generate-artifacts.mjs \
-              scripts/seo/lib.mjs \
-              .github/workflows/deploy-firebase.yml; then
-              hosting_changed=true
-            fi
-          fi
-
-          runtime_changed=false
-          if [[ "$backend_changed" == "true" || "$hosting_changed" == "true" ]]; then
-            runtime_changed=true
-          fi
-
-          echo "backend_changed=$backend_changed" >> "$GITHUB_OUTPUT"
-          echo "hosting_changed=$hosting_changed" >> "$GITHUB_OUTPUT"
-          echo "runtime_changed=$runtime_changed" >> "$GITHUB_OUTPUT"
-          echo "Runtime decision: backend=$backend_changed hosting=$hosting_changed runtime=$runtime_changed"
-
       - name: Use Node.js 22
         uses: actions/setup-node@v4
         with:
@@ -96,6 +50,17 @@ jobs:
 
       - name: Validate commerce, build and smoke test
         run: npm test
+
+      - name: Finalize sitemap index (canlı baseline ile)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if grep -Eq 'SEO_SITEMAP_INDEX_MIGRATION[^#]*1' .github/workflows/deploy-firebase.yml; then
+            echo "KALDI: migration flag workflow'a kalıcı yazılmış — ayrı tetikleme gerekir."
+            exit 1
+          fi
+          node scripts/seo/finalize-sitemap-index.mjs
+          node scripts/seo/validate-artifacts.mjs
 
       - name: Smoke test Functions HTTP runtime
         shell: bash
@@ -130,22 +95,15 @@ jobs:
           fi
           echo "Functions runtime listens on PORT=8080 even when Firebase config omits storageBucket."
 
-      - name: Runtime unchanged — deployment skipped
-        if: steps.changes.outputs.runtime_changed != 'true'
-        run: echo "Runtime output unchanged; production deployment intentionally skipped."
-
       - name: Authenticate to Google Cloud
-        if: steps.changes.outputs.runtime_changed == 'true'
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
       - name: Install Firebase CLI
-        if: steps.changes.outputs.runtime_changed == 'true'
         run: npm install --global firebase-tools@latest
 
       - name: Firebase deployment identity
-        if: steps.changes.outputs.runtime_changed == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -160,7 +118,6 @@ jobs:
           NODE
 
       - name: Decide backend deployment
-        if: steps.changes.outputs.runtime_changed == 'true'
         id: backend
         shell: bash
         run: |
@@ -177,6 +134,11 @@ jobs:
             createCheckout
           )
 
+          functions_changed=true
+          if git rev-parse HEAD^ >/dev/null 2>&1 && git diff --quiet HEAD^ HEAD -- functions/; then
+            functions_changed=false
+          fi
+
           functions_missing=false
           for name in "${required_functions[@]}"; do
             if ! gcloud functions describe "$name" \
@@ -189,7 +151,7 @@ jobs:
             fi
           done
 
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" || "${{ steps.changes.outputs.backend_changed }}" == "true" || "$functions_missing" == "true" ]]; then
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" || "$functions_changed" == "true" || "$functions_missing" == "true" ]]; then
             echo "deploy_functions=true" >> "$GITHUB_OUTPUT"
             echo "Backend deployment required."
           else
@@ -198,7 +160,7 @@ jobs:
           fi
 
       - name: Deploy verification and delivery Functions with Firebase
-        if: steps.changes.outputs.runtime_changed == 'true' && steps.backend.outputs.deploy_functions == 'true'
+        if: steps.backend.outputs.deploy_functions == 'true'
         env:
           CI: "true"
         shell: bash
@@ -210,7 +172,7 @@ jobs:
             --non-interactive
 
       - name: Deploy checkout Function last
-        if: steps.changes.outputs.runtime_changed == 'true' && steps.backend.outputs.deploy_functions == 'true'
+        if: steps.backend.outputs.deploy_functions == 'true'
         env:
           CI: "true"
         shell: bash
@@ -221,8 +183,7 @@ jobs:
             --only "functions:createCheckout" \
             --non-interactive
 
-      - name: Verify required Functions exist before production release
-        if: steps.changes.outputs.runtime_changed == 'true'
+      - name: Verify required Functions exist before Hosting release
         shell: bash
         run: |
           set -euo pipefail
@@ -236,13 +197,11 @@ jobs:
           echo "All required production Functions are present."
 
       - name: Deploy Firebase Hosting
-        if: steps.changes.outputs.hosting_changed == 'true'
         env:
           CI: "true"
         run: firebase deploy --project "$FIREBASE_PROJECT_ID" --only "hosting:$FIREBASE_HOSTING_SITE" --non-interactive
 
       - name: Verify checkout API is live
-        if: steps.changes.outputs.runtime_changed == 'true'
         env:
           BASE_URL: https://excelarsiv.web.app
         shell: bash
@@ -258,7 +217,6 @@ jobs:
           rm -f /tmp/checkout-probe.json
 
       - name: Verify real paid product returns HTTP 201
-        if: steps.changes.outputs.runtime_changed == 'true'
         env:
           BASE_URL: https://excelarsiv.web.app
         shell: bash
@@ -284,7 +242,6 @@ jobs:
           rm -f "$response_file"
 
       - name: Verify paid product storage readiness (satışa açık set)
-        if: steps.changes.outputs.runtime_changed == 'true'
         env:
           GCLOUD_PROJECT: ${{ env.FIREBASE_PROJECT_ID }}
           GOOGLE_CLOUD_PROJECT: ${{ env.FIREBASE_PROJECT_ID }}
@@ -296,12 +253,13 @@ jobs:
           echo "Paid product storage readiness gate passed (tüm satışa açık ürünler READY)."
 
       - name: Verify no catalog product is in sale-disabled state
-        if: steps.changes.outputs.runtime_changed == 'true'
         env:
           BASE_URL: https://excelarsiv.web.app
         shell: bash
         run: |
           set -euo pipefail
+          # Kapalı ürün kapısı backend'de korunur (functions test: createCheckout satista gate).
+          # Katalog tarafında tüm ürünler satışa açık olmalı; biri kapatılırsa bu adım yakalar.
           node - <<'NODE'
           const fs = require('fs');
           const catalog = JSON.parse(fs.readFileSync('commerce/catalog.json', 'utf8'));
@@ -314,7 +272,6 @@ jobs:
           NODE
 
       - name: Verify production Proof Demo flow
-        if: steps.changes.outputs.runtime_changed == 'true'
         env:
           BASE_URL: https://excelarsiv.web.app
         shell: bash
@@ -354,5 +311,9 @@ jobs:
           rm -f /tmp/demo-response.json /tmp/demo-headers.txt /tmp/proof-demo.xlsx /tmp/demo-second.json
 
       - name: Verify custom domain
-        if: steps.changes.outputs.runtime_changed == 'true'
         run: curl --fail --silent --show-error --retry 5 --retry-delay 3 --retry-all-errors https://excelarsiv.com/ >/dev/null
+
+      - name: SEO live contract
+        env:
+          SEO_BASE_URL: https://excelarsiv.com
+        run: node scripts/seo/live-contract.mjs

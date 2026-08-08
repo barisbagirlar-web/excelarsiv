@@ -7,15 +7,18 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run guard:source && astro build && npm run seo:generate && npm run seo:validate && npm run seo:guard",
+    "build": "npm run guard:source && astro build && npm run seo:generate && npm run seo:validate && npm run seo:test && npm run seo:guard",
     "preview": "astro preview",
     "astro": "astro",
     "generate": "node scripts/validate-commerce.mjs",
     "validate:commerce": "node scripts/validate-commerce.mjs",
     "guard:source": "node scripts/guard-source-language.mjs",
     "seo:generate": "node scripts/seo/generate-artifacts.mjs",
+    "seo:finalize": "node scripts/seo/finalize-sitemap-index.mjs",
     "seo:validate": "node scripts/seo/validate-artifacts.mjs",
+    "seo:test": "node scripts/seo/test-sitemap-index-semantics.mjs",
     "seo:guard": "node scripts/seo/enterprise-guard.mjs",
+    "seo:live": "node scripts/seo/live-contract.mjs",
     "test": "node scripts/validate-commerce.mjs && npm run build && node scripts/smoke-test.mjs"
   },
   "dependencies": {

@@ -1,231 +1,190 @@
-import { existsSync, renameSync, rmSync, writeFileSync } from 'node:fs';
-import { basename, join } from 'node:path';
-import {
-  DIST_DIR,
-  SITE_ORIGIN,
-  assertNotFuture,
-  discoverBuiltPages,
-  getTemplateRecords,
-  markdownEscape,
-  semanticLastModified,
-  xmlEscape,
-} from './lib.mjs';
+// Deterministik child sitemap üretimi.
+// Astro build sonrası dist/ HTML'lerinden canonical sayfaları keşfeder,
+// sitemap-pages.xml ve sitemap-products.xml üretir, URL seviyesinde semantic
+// lastmod atar, her child için SHA-256 hesaplar ve manifest yazar.
+// Aynı girdi -> aynı byte çıktısı -> aynı SHA-256 (madde 5-6).
+import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync, copyFileSync } from 'node:fs';
+import { join, relative, resolve, sep } from 'node:path';
 
-const MAX_URLS_PER_SITEMAP = 40_000;
-const MAX_UNCOMPRESSED_BYTES = 45 * 1024 * 1024;
-const artifacts = new Set(['sitemap.xml', 'llms.txt', 'llms-full.txt']);
+const ROOT = resolve(import.meta.dirname, '..', '..');
+const DIST = join(ROOT, 'dist');
+const PAGES_DIR = join(ROOT, 'src', 'pages');
+const TEMPLATES_DIR = join(ROOT, 'src', 'content', 'templates');
+const PUBLIC_DIR = join(ROOT, 'public');
+const SITE = 'https://excelarsiv.com';
 
-function atomicWrite(name, content) {
-  const target = join(DIST_DIR, name);
-  const temporary = `${target}.tmp-${process.pid}`;
-  writeFileSync(temporary, content, 'utf8');
-  renameSync(temporary, target);
-  artifacts.add(name);
-}
+const ISO_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
-function cleanLegacyArtifacts() {
-  const legacy = ['sitemap-index.xml', 'sitemap-0.xml'];
-  for (const name of legacy) {
-    const path = join(DIST_DIR, name);
-    if (existsSync(path)) rmSync(path, { force: true });
+function isDir(path) {
+  try {
+    return statSync(path).isDirectory();
+  } catch {
+    return false;
   }
 }
 
-function sitemapUrlNode(entry) {
-  const lastmod = entry.lastmod ? `\n    <lastmod>${xmlEscape(entry.lastmod)}</lastmod>` : '';
-  return `  <url>\n    <loc>${xmlEscape(entry.loc)}</loc>${lastmod}\n  </url>`;
-}
-
-function sitemapDocument(entries) {
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.map(sitemapUrlNode).join('\n')}\n</urlset>\n`;
-}
-
-function sitemapIndexDocument(children) {
-  const body = children
-    .map((child) => {
-      const lastmod = child.lastmod ? `\n    <lastmod>${xmlEscape(child.lastmod)}</lastmod>` : '';
-      return `  <sitemap>\n    <loc>${xmlEscape(`${SITE_ORIGIN}/${child.name}`)}</loc>${lastmod}\n  </sitemap>`;
-    })
-    .join('\n');
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</sitemapindex>\n`;
-}
-
-function chunkByProtocolLimits(entries) {
-  const chunks = [];
-  let current = [];
-  let estimatedBytes = 0;
-
-  for (const entry of entries) {
-    const nodeBytes = Buffer.byteLength(sitemapUrlNode(entry), 'utf8') + 1;
-    const wouldOverflow =
-      current.length >= MAX_URLS_PER_SITEMAP ||
-      (current.length > 0 && estimatedBytes + nodeBytes > MAX_UNCOMPRESSED_BYTES);
-    if (wouldOverflow) {
-      chunks.push(current);
-      current = [];
-      estimatedBytes = 0;
+function walkHtmlDirs(dir, out = []) {
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry);
+    if (isDir(full)) {
+      walkHtmlDirs(full, out);
+    } else if (entry === 'index.html') {
+      out.push(dir);
     }
-    current.push(entry);
-    estimatedBytes += nodeBytes;
   }
-  if (current.length > 0) chunks.push(current);
-  return chunks;
+  return out;
 }
 
-function maxLastmod(entries) {
-  const values = entries.map((entry) => entry.lastmod).filter(Boolean).sort();
-  return values.at(-1) ?? null;
+// Kaynak .astro dosyasını route'a göre bulur; [param] segmentlerini destekler.
+function findSource(route, dir = PAGES_DIR) {
+  const segs = route.split('/').filter(Boolean);
+  const direct = join(dir, ...segs) + '.astro';
+  if (existsSync(direct)) return direct;
+  const directIndex = join(dir, ...segs, 'index.astro');
+  if (existsSync(directIndex)) return directIndex;
+  if (segs.length === 0) return null;
+  const [head, ...rest] = segs;
+  const headDir = join(dir, head);
+  if (isDir(headDir)) {
+    const found = findSource(rest.join('/'), headDir);
+    if (found) return found;
+  }
+  for (const entry of readdirSync(dir)) {
+    if (!isDir(join(dir, entry)) || !/^\[[^\]]+\]$/.test(entry)) continue;
+    const found = findSource(rest.join('/'), join(dir, entry));
+    if (found) return found;
+  }
+  for (const entry of readdirSync(dir)) {
+    if (isDir(join(dir, entry)) || !/^\[[^\]]+\]\.astro$/.test(entry)) continue;
+    return join(dir, entry);
+  }
+  return null;
 }
 
-function writeSitemapGroup(label, entries) {
-  if (entries.length === 0) return [];
-  const chunks = chunkByProtocolLimits(entries);
-  return chunks.map((chunk, index) => {
-    const name = chunks.length === 1 ? `sitemap-${label}.xml` : `sitemap-${label}-${index + 1}.xml`;
-    const content = sitemapDocument(chunk);
-    if (Buffer.byteLength(content, 'utf8') > 50 * 1024 * 1024) {
-      throw new Error(`SITEMAP_SIZE_LIMIT: ${name}`);
-    }
-    atomicWrite(name, content);
-    return { name, lastmod: maxLastmod(chunk), count: chunk.length };
-  });
+function gitCommitTime(file) {
+  try {
+    const out = execFileSync('git', ['log', '-1', '--format=%cI', '--', file], {
+      cwd: ROOT,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+    if (!out) return null;
+    const iso = new Date(out).toISOString();
+    return ISO_RE.test(iso) ? iso : null;
+  } catch {
+    return null;
+  }
 }
 
-function formatPrice(value) {
-  if (!Number.isFinite(value)) return '';
-  return new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 0 }).format(value) + ' TL';
+function frontmatterValue(file, key) {
+  try {
+    const src = readFileSync(file, 'utf8');
+    const m = src.match(new RegExp(`^${key}:\\s*['"]?([^'"\\n]+)['"]?\\s*$`, 'm'));
+    return m ? m[1].trim() : null;
+  } catch {
+    return null;
+  }
 }
 
-function buildLlmsShort(indexablePages, templateRecords) {
-  const products = indexablePages.filter((page) => page.pathname.startsWith('/sablon/'));
-  const navigation = indexablePages.filter((page) => !page.pathname.startsWith('/sablon/'));
+export function renderUrlset(entries) {
   const lines = [
-    '# Excel Arşiv',
-    '',
-    '> Excel Arşiv, Türkiye’deki işletmeler için finans, muhasebe ve operasyon odaklı Excel çalışma sistemleri sunar. Bu dosya public ve canonical sayfalardan her build sırasında otomatik üretilir.',
-    '',
-    `- Site: ${SITE_ORIGIN}/`,
-    `- Sitemap: ${SITE_ORIGIN}/sitemap.xml`,
-    `- Tam LLM rehberi: ${SITE_ORIGIN}/llms-full.txt`,
-    '- Dil: Türkçe (tr-TR)',
-    '- Para birimi: Türk Lirası (TL)',
-    '',
-    '## Ana kaynaklar',
-    '',
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
   ];
-
-  for (const page of navigation) {
-    lines.push(`- [${markdownEscape(page.title)}](${page.canonical})${page.description ? ` — ${markdownEscape(page.description)}` : ''}`);
+  for (const e of entries) {
+    lines.push('  <url>');
+    lines.push(`    <loc>${e.loc}</loc>`);
+    if (e.lastmod) lines.push(`    <lastmod>${e.lastmod}</lastmod>`);
+    lines.push('  </url>');
   }
-
-  lines.push('', '## Ürünler', '');
-  for (const page of products) {
-    const slug = page.pathname.split('/').at(-1);
-    const product = templateRecords.get(slug);
-    const price = product?.priceTL ? ` · ${formatPrice(product.priceTL)}` : '';
-    lines.push(`- [${markdownEscape(product?.name || page.title)}](${page.canonical})${price}${product?.summary ? ` — ${markdownEscape(product.summary)}` : ''}`);
-  }
-
-  lines.push(
-    '',
-    '## Keşif ve kullanım notu',
-    '',
-    '- Bu dosya bir indeksleme garantisi veya robots direktifi değildir.',
-    '- Canonical, indexlenebilir ve public sayfalar kaynak alınır; noindex sayfalar dahil edilmez.',
-    '- Ürün veya sayfa eklendiğinde build pipeline sitemap ve LLM dosyalarını yeniden üretir.',
-    ''
-  );
+  lines.push('</urlset>');
   return lines.join('\n');
 }
 
-function buildLlmsFull(indexablePages, templateRecords) {
-  const products = indexablePages.filter((page) => page.pathname.startsWith('/sablon/'));
-  const pages = indexablePages.filter((page) => !page.pathname.startsWith('/sablon/'));
-  const lines = [
-    '# Excel Arşiv — Tam LLM ve AI Keşif Rehberi',
-    '',
-    'Bu belge yalnızca canlı build içinde üretilen, indexlenebilir ve canonical public sayfalardan türetilir. Manuel ürün listesi tutulmaz; kaynak içerik değişince dosya otomatik yenilenir.',
-    '',
-    '## Site kimliği',
-    '',
-    '- Marka: Excel Arşiv',
-    '- Canonical origin: https://excelarsiv.com',
-    '- Dil: Türkçe (tr-TR)',
-    '- İş modeli: Türkiye’deki işletmeler için hazır Excel çalışma sistemleri',
-    '- Dosya türleri: .xlsx / .xlsm (ürüne göre)',
-    '- Sitemap: https://excelarsiv.com/sitemap.xml',
-    '- Robots: https://excelarsiv.com/robots.txt',
-    '',
-    '## Public sayfalar',
-    '',
+function sha256(bytes) {
+  return createHash('sha256').update(bytes).digest('hex');
+}
+
+function normalizePath(p) {
+  return p.split(sep).join('/');
+}
+
+export function generateArtifacts() {
+  if (!isDir(DIST)) {
+    throw new Error(`dist/ bulunamadı: ${DIST}. Önce "astro build" çalıştırın.`);
+  }
+
+  const htmlDirs = walkHtmlDirs(DIST);
+  const routes = htmlDirs
+    .map((dir) => normalizePath(relative(DIST, dir)))
+    .filter((route) => route !== '404' && route !== 'demo' && !route.startsWith('demo/') && !route.startsWith('og'));
+
+  const pages = [];
+  const products = [];
+  for (const route of routes) {
+    const loc = route === '' ? `${SITE}/` : `${SITE}/${route}`;
+    let lastmod = null;
+    if (route.startsWith('sablon/')) {
+      const slug = route.slice('sablon/'.length);
+      const mdx = join(TEMPLATES_DIR, `${slug}.mdx`);
+      if (existsSync(mdx)) {
+        const updatedAt = frontmatterValue(mdx, 'updatedAt');
+        if (updatedAt && DATE_RE.test(updatedAt)) lastmod = updatedAt;
+      }
+      products.push({ loc, lastmod });
+    } else {
+      const source = findSource(route);
+      if (source) lastmod = gitCommitTime(source);
+      pages.push({ loc, lastmod });
+    }
+  }
+
+  const sortEntries = (entries) => entries.sort((a, b) => a.loc.localeCompare(b.loc, 'en'));
+
+  const pagesEntries = sortEntries(pages);
+  const productsEntries = sortEntries(products);
+
+  const children = [
+    { file: 'sitemap-pages.xml', entries: pagesEntries },
+    { file: 'sitemap-products.xml', entries: productsEntries },
   ];
 
-  for (const page of pages) {
-    lines.push(`### ${page.title}`);
-    lines.push(`- URL: ${page.canonical}`);
-    if (page.description) lines.push(`- Açıklama: ${page.description}`);
-    lines.push('');
+  const manifestChildren = [];
+  for (const child of children) {
+    const xml = renderUrlset(child.entries);
+    const hash = sha256(Buffer.from(xml, 'utf8'));
+    writeFileSync(join(DIST, child.file), xml);
+    manifestChildren.push({
+      file: child.file,
+      urlCount: child.entries.length,
+      sha256: hash,
+    });
   }
 
-  lines.push('## Ürün kataloğu', '');
-  for (const page of products) {
-    const slug = page.pathname.split('/').at(-1);
-    const product = templateRecords.get(slug);
-    lines.push(`### ${product?.name || page.title}`);
-    lines.push(`- URL: ${page.canonical}`);
-    if (product?.summary) lines.push(`- Açıklama: ${product.summary}`);
-    if (product?.category) lines.push(`- Kategori kodu: ${product.category}`);
-    if (product?.priceTL) lines.push(`- Fiyat: ${formatPrice(product.priceTL)}${product.vatIncluded ? ' (KDV dahil)' : ''}`);
-    if (product?.fileFormat) lines.push(`- Dosya biçimi: ${product.fileFormat}`);
-    if (product?.sheetCount) lines.push(`- Çalışma sayfası sayısı: ${product.sheetCount}`);
-    if (product?.version) lines.push(`- Sürüm: ${product.version}`);
-    if (product?.updatedAt) lines.push(`- İçerik güncelleme tarihi: ${product.updatedAt}`);
-    lines.push('');
+  for (const llms of ['llms.txt', 'llms-full.txt']) {
+    if (!existsSync(join(DIST, llms)) && existsSync(join(PUBLIC_DIR, llms))) {
+      copyFileSync(join(PUBLIC_DIR, llms), join(DIST, llms));
+    }
   }
 
-  lines.push(
-    '## Teknik keşif politikası',
-    '',
-    '- Sitemap yalnız self-canonical, indexlenebilir build sayfalarını içerir.',
-    '- priority ve changefreq üretilmez.',
-    '- lastmod build zamanı değildir; ürünlerde içerik updatedAt alanı, diğer sayfalarda kaynak dosyanın Git değişiklik tarihi kullanılır.',
-    '- Query parametreli, dış host canonical’lı, noindex veya duplicate canonical sayfalar sitemap üretiminde reddedilir.',
-    '- llms.txt ve llms-full.txt deneysel keşif yardımcılarıdır; sitemap, canonical veya robots.txt yerine geçmez.',
-    ''
-  );
-  return lines.join('\n');
+  const manifest = { site: SITE, children: manifestChildren };
+  writeFileSync(join(DIST, 'seo-artifacts.json'), JSON.stringify(manifest, null, 2));
+
+  for (const c of manifestChildren) {
+    console.log(`${c.file}\tsha256=${c.sha256}\turlCount=${c.urlCount}`);
+  }
+  return manifest;
 }
 
-cleanLegacyArtifacts();
-
-const pages = discoverBuiltPages();
-const indexablePages = pages.filter((page) => page.indexable);
-if (indexablePages.length === 0) {
-  throw new Error('FAIL_SAFE_EMPTY_DATASET: indexlenebilir canonical URL bulunamadı; mevcut production deploy korunmalı.');
+if (process.argv[1] && resolve(process.argv[1]) === resolve(import.meta.filename ?? '')) {
+  try {
+    const manifest = generateArtifacts();
+    console.log(`SEO ARTIFACTS GEÇTİ — ${manifest.children.length} child, ${manifest.children.reduce((s, c) => s + c.urlCount, 0)} URL`);
+  } catch (err) {
+    console.error(`SEO ARTIFACTS KALDI: ${err.message}`);
+    process.exit(1);
+  }
 }
-
-const templates = getTemplateRecords();
-const entries = indexablePages.map((page) => {
-  const lastModified = semanticLastModified(page, templates);
-  assertNotFuture(lastModified, page.canonical);
-  return {
-    loc: page.canonical,
-    lastmod: lastModified ? lastModified.toISOString() : null,
-    product: page.pathname.startsWith('/sablon/'),
-  };
-});
-
-const products = entries.filter((entry) => entry.product);
-const generalPages = entries.filter((entry) => !entry.product);
-const children = [
-  ...writeSitemapGroup('pages', generalPages),
-  ...writeSitemapGroup('products', products),
-];
-
-if (children.length === 0) throw new Error('FAIL_SAFE_EMPTY_SITEMAP_INDEX');
-atomicWrite('sitemap.xml', sitemapIndexDocument(children));
-atomicWrite('llms.txt', buildLlmsShort(indexablePages, templates));
-atomicWrite('llms-full.txt', buildLlmsFull(indexablePages, templates));
-
-console.log(`SEO ARTIFACTS GENERATED — ${indexablePages.length} canonical URL, ${children.length} child sitemap, ${templates.size} product record`);
-console.log(`Generated: ${[...artifacts].sort().join(', ')}`);
