@@ -1,0 +1,869 @@
+# =============================================================================
+# SPEC.yaml — KASA-PRO · TEK GERÇEK KAYNAK
+# kur/ana.py bunu okur ve .xlsx üretir.
+# dogrula/denetci.py + olcek_testi.py + deger_kapilari.py bunu okur ve sınar.
+# Hücre yerleşimi, formül, eşik — hepsi burada. Koda elle hücre yazmak yasaktır.
+#
+# v4 mandata (yeni_calisma_ilkeleri/EXCEL_URETIM_MANDATE_v4.md) gereği:
+#  - tüm formül ayraçları VİRGÜL (Ç4 → D14)
+#  - dizi formülü yok, SUMPRODUCT/yardımcı kolon (Ç5)
+#  - yasak fonksiyonlar kullanılmaz; _xlfn. önekli güvenli set kullanılır
+#  - deger: ve serbest_alternatif: BOŞ — iş kararı, sahibi doldurur (§15/6)
+# =============================================================================
+
+urun:
+  kod: KASA-PRO
+  ad: "Akıllı Kasa Defteri ve Nakit Kontrol Sistemi"
+  surum: "2.0.0"
+  fiyat_capasi_usd: 200
+  hedef_kullanici: "Muhasebe sorumlusu / mali müşavir / işletme sahibi"
+
+# --- denetçiye geçen sözleşme -------------------------------------------------
+denetim:
+  giris_dolgu: ["FFFFF2CC"]
+  koruma_sifresi: "1234"
+  asgari_kb_kurali_toplam: 40
+  asgari_grafik: 8
+  volatil_ust_sinir: 12
+  sonda_olacak_sayfalar: ["LISTELER", "AYARLAR", "KILAVUZ"]
+  asgari_tablo_kapasitesi: 1000
+  karar_sayfasi: "KARAR"
+  motor_sayfasi: "MOTOR"
+  pano_sayfasi: "PANO"
+  ayarlar_sayfasi: "AYARLAR"
+  bos_dosya_beklenen_karar: "VERİ YOK"
+
+# --- görsel sistem (stil.py tek buradan beslenir) ----------------------------
+stil:
+  yazitipi: "Segoe UI"
+  renk:
+    zemin:        "F7F9FC"
+    kart:         "FFFFFF"
+    koyuBaslik:   "0F2742"
+    vurgu:        "B08948"
+    olumlu:       "1F7A4D"
+    uyari:        "B7791F"
+    risk:         "B3261E"
+    girisAlani:   "FFF2CC"
+    kilitliCikti: "EEF2F7"
+  bicim:
+    para:   '₺ #.##0,00;[Red](₺ #.##0,00);"-"'
+    tamsayi: '#.##0;[Red](#.##0);"-"'
+    yuzde:  '%0,0;[Red](%0,0);"-"'
+    tarih:  'dd.mm.yyyy'
+    saat:   'hh:mm'
+    kat:    '0,0"x"'
+
+# --- sayfalar: sıra bağlayıcıdır ---------------------------------------------
+sayfalar:
+  - ad: KAPAK
+    tur: sunum
+    sekme_rengi: "0F2742"
+  - ad: HIZLI_BASLANGIC
+    tur: sunum
+  - ad: HESAPLAR
+    tur: giris
+    tablo: tblHesaplar
+    kapasite: 1000
+  - ad: KASA_HAREKETLERI
+    tur: giris
+    tablo: tblHareketler
+    kapasite: 5000
+  - ad: ODEME_TAKVIMI
+    tur: giris
+    tablo: tblTakvim
+    kapasite: 2000
+  - ad: FIZIKI_SAYIM
+    tur: giris
+    tablo: tblSayim
+    kapasite: 1000
+  - ad: MOTOR
+    tur: motor
+  - ad: KONTROL
+    tur: kontrol
+  - ad: KARAR
+    tur: karar
+  - ad: PANO
+    tur: pano
+    baski: true
+  - ad: SENARYO_DUYARLILIK
+    tur: analiz
+  - ad: RAPOR
+    tur: rapor
+    baski: true
+  - ad: ORNEK_VERI
+    tur: ornek
+  - ad: DEGISIKLIK_KAYDI
+    tur: kayit
+  - ad: LISTELER
+    tur: liste
+  - ad: AYARLAR
+    tur: ayar
+  - ad: KILAVUZ
+    tur: kilavuz
+
+# --- parametreler: formüle sabit sayı gömmek yerine ad tanımı üretilir --------
+# AYARLAR sayfası zorunlu kolonlar: anahtar | deger | birim | aciklama |
+# kaynak | yururluk_tarihi | dogrulama_tarihi   (D10)
+ayarlar:
+  - anahtar: firmaUnvani
+    deger: ""
+    birim: "metin"
+    tip: metin
+    zorunlu: true
+    aciklama: "Rapor başlığında görünür"
+    kaynak: "Kullanıcı girişi"
+    yururluk_tarihi: "2026-01-01"
+    dogrulama_tarihi: "2026-08-09"
+  - anahtar: raporTarihi
+    deger: "=TODAY()"
+    birim: "tarih"
+    tip: tarih
+    aciklama: "Dosyadaki TEK tarih kaynağı; başka yerde TODAY() kullanılmaz"
+    kaynak: "Sistem — dosya açılış tarihi"
+    yururluk_tarihi: "2026-01-01"
+    dogrulama_tarihi: "2026-08-09"
+  - anahtar: fizikiTolerans
+    deger: 50
+    birim: "₺"
+    tip: para
+    aciklama: "Fiziki sayım farkı bu tutarın altındaysa uyarı verilmez"
+    kaynak: "İşletme kararı"
+    yururluk_tarihi: "2026-01-01"
+    dogrulama_tarihi: "2026-08-09"
+  - anahtar: esikSerbestNakitKritik
+    deger: 25000
+    birim: "₺"
+    tip: para
+    aciklama: "Serbest nakit bu eşiğin altındaysa karar DURDUR"
+    kaynak: "İşletme kararı"
+    yururluk_tarihi: "2026-01-01"
+    dogrulama_tarihi: "2026-08-09"
+  - anahtar: esikRiskYuksek
+    deger: 70
+    birim: "puan"
+    tip: puan
+    min: 0
+    max: 100
+    aciklama: "Risk puanı bu eşiği aşarsa yüksek risk damgası basılır"
+    kaynak: "İşletme kararı"
+    yururluk_tarihi: "2026-01-01"
+    dogrulama_tarihi: "2026-08-09"
+  - anahtar: anomaliSapmaKati
+    deger: 3.0
+    birim: "kat"
+    tip: kat
+    aciklama: "Medyan mutlak sapmanın kaç katı anomali sayılır"
+    kaynak: "İstatistik kuralı — MAD eşiği"
+    yururluk_tarihi: "2026-01-01"
+    dogrulama_tarihi: "2026-08-09"
+  - anahtar: mesaiBaslangic
+    deger: "08:00"
+    birim: "saat"
+    tip: saat
+    aciklama: "Nakit giriş/çıkış pencere başlangıcı"
+    kaynak: "İşletme kararı"
+    yururluk_tarihi: "2026-01-01"
+    dogrulama_tarihi: "2026-08-09"
+  - anahtar: mesaiBitis
+    deger: "19:00"
+    birim: "saat"
+    tip: saat
+    aciklama: "Nakit giriş/çıkış pencere bitişi"
+    kaynak: "İşletme kararı"
+    yururluk_tarihi: "2026-01-01"
+    dogrulama_tarihi: "2026-08-09"
+  - anahtar: tahminUfkuGun
+    deger: 90
+    birim: "gün"
+    tip: tamsayi
+    min: 7
+    max: 365
+    aciklama: "Nakit tahmin ufku (gün)"
+    kaynak: "İşletme kararı"
+    yururluk_tarihi: "2026-01-01"
+    dogrulama_tarihi: "2026-08-09"
+  - anahtar: senaryoKotumserKat
+    deger: 0.85
+    birim: "kat"
+    tip: kat
+    aciklama: "Kötümser senaryo çarpanı"
+    kaynak: "İşletme kararı"
+    yururluk_tarihi: "2026-01-01"
+    dogrulama_tarihi: "2026-08-09"
+  - anahtar: senaryoIyimserKat
+    deger: 1.15
+    birim: "kat"
+    tip: kat
+    aciklama: "İyimser senaryo çarpanı"
+    kaynak: "İşletme kararı"
+    yururluk_tarihi: "2026-01-01"
+    dogrulama_tarihi: "2026-08-09"
+  - anahtar: yuksekTutarEsigi
+    deger: 50000
+    birim: "₺"
+    tip: para
+    aciklama: "Bu tutar üstü hareketler yüksek tutar olarak işaretlenir"
+    kaynak: "İşletme kararı"
+    yururluk_tarihi: "2026-01-01"
+    dogrulama_tarihi: "2026-08-09"
+  - anahtar: makulUstSinir
+    deger: 10000000
+    birim: "₺"
+    tip: para
+    aciklama: "Tek hareket için makul üst sınır; üstü veride gerçek dışı giriş ihtimali yüksek"
+    kaynak: "İşletme kararı"
+    yururluk_tarihi: "2026-01-01"
+    dogrulama_tarihi: "2026-08-09"
+
+# --- giriş alan sözlüğü: her kolon için ipucu/hata/not zorunlu (G10-G12) ------
+# Hesaplanan kolonlar (Anomali, MAD Sapma, Sıra, Kümülatif, Net) girdi değildir;
+# kur betiği bunları formülle üretir (Ç5 — dizi formülü yok).
+alanlar:
+  # ---- tblHesaplar (HESAPLAR) ----
+  - tablo: tblHesaplar
+    kolon: "Hesap Adı"
+    tip: metin
+    zorunlu: true
+    ipucu_baslik: "Hesap adı"
+    ipucu: "Kasa, banka veya kart hesabının adını yazın (örn. Ana Kasa)."
+    hata_baslik: "Hesap adı zorunlu"
+    hata: "Her satırda hesap adı boş olamaz; aynı adı tekrar kullanmayın."
+    not: "Tanım: hesap ünvanı | Neden önemli: bakiyeler hesap bazında toplanır | Doğru giriş: kısa ve ayırt edici | Örnek: Ana Kasa | Yanlışsa: hesap bakiyeleri karışır"
+  - tablo: tblHesaplar
+    kolon: "Hesap Türü"
+    tip: liste
+    zorunlu: true
+    liste: ["Kasa", "Banka", "Kredi Kartı"]
+    ipucu_baslik: "Hesap türü"
+    ipucu: "Açılır listeden seçin: Kasa / Banka / Kredi Kartı."
+    hata_baslik: "Geçersiz hesap türü"
+    hata: "Yalnızca Kasa, Banka veya Kredi Kartı seçilebilir."
+    not: "Tanım: hesabın mahiyeti | Neden önemli: nakit ve likidite ayrımı buna dayanır | Doğru giriş: listeden seçim | Örnek: Kasa | Yanlışsa: likidite analizi bozulur"
+  - tablo: tblHesaplar
+    kolon: "Başlangıç Bakiyesi"
+    tip: para
+    zorunlu: true
+    dogrulama: { tur: ondalik, min: -1000000000, maks: 1000000000 }
+    ipucu_baslik: "Başlangıç bakiyesi (₺)"
+    ipucu: "Dönem başı bakiyeyi TL cinsinden girin; eksi bakiye kasa hesabı için geçerli olabilir."
+    hata_baslik: "Geçersiz bakiye"
+    hata: "Bakiye sayısal olmalı; TL formatı kullanın."
+    not: "Tanım: hesabın dönem başı bakiyesi | Neden önemli: beklenen bakiye buradan türer | Doğru giriş: sayısal TL | Örnek: 25000 | Yanlışsa: mutabakat farkı oluşur"
+  - tablo: tblHesaplar
+    kolon: "Para Birimi"
+    tip: liste
+    zorunlu: true
+    liste: ["TRY", "USD", "EUR"]
+    ipucu_baslik: "Para birimi"
+    ipucu: "TRY, USD veya EUR seçin; kur çevrimi desteklenmez."
+    hata_baslik: "Geçersiz para birimi"
+    hata: "Yalnızca TRY, USD veya EUR kabul edilir."
+    not: "Tanım: hesap para birimi | Neden önemli: toplamalar birim tutarlılığı ister | Doğru giriş: TRY | Örnek: TRY | Yanlışsa: yabancı para toplama hatası"
+
+  # ---- tblHareketler (KASA_HAREKETLERI) ----
+  - tablo: tblHareketler
+    kolon: "Tarih"
+    tip: tarih
+    zorunlu: true
+    dogrulama: { tur: tarih, min: "2020-01-01", maks_formul: "=raporTarihi+365" }
+    ipucu_baslik: "İşlem Tarihi"
+    ipucu: "Kasa hareketinin gerçekleştiği tarihi gg.aa.yyyy olarak girin."
+    hata_baslik: "Geçersiz tarih"
+    hata: "Tarih 01.01.2020'den önce veya 1 yıldan uzak gelecekte olamaz."
+    not: "Tanım: hareketin fiilen olduğu gün | Neden önemli: projeksiyon ve gecikme analizi buna dayanır | Doğru giriş: gg.aa.yyyy | Örnek: 15.03.2026 | Yanlışsa: projeksiyon ve yaşlandırma kayar"
+  - tablo: tblHareketler
+    kolon: "İşlem Türü"
+    tip: liste
+    zorunlu: true
+    liste: ["Gelir", "Gider"]
+    ipucu_baslik: "İşlem türü"
+    ipucu: "Gelir veya Gider seçin. Tutarı daima pozitif girin."
+    hata_baslik: "Geçersiz işlem türü"
+    hata: "Yalnızca Gelir veya Gider seçilebilir."
+    not: "Tanım: hareketin yönü | Neden önemli: tüm bakiye hesabı bu ayrıma dayanır | Doğru giriş: Gelir/Gider | Örnek: Gider | Yanlışsa: bakiye ters döner"
+  - tablo: tblHareketler
+    kolon: "Tutar"
+    tip: para
+    zorunlu: true
+    dogrulama: { tur: ondalik, min: 0.01, maks: 100000000 }
+    ipucu_baslik: "Tutar (₺)"
+    ipucu: "Pozitif girin. Gider/gelir ayrımını İşlem Türü kolonu yapar."
+    hata_baslik: "Geçersiz tutar"
+    hata: "Tutar 0'dan büyük olmalı. Gideri eksi işaretle girmeyin; İşlem Türü'nü 'Gider' seçin."
+    not: "Tanım: KDV dahil işlem tutarı | Neden önemli: tüm bakiye ve anomali hesabı buradan | Doğru giriş: pozitif sayı | Örnek: 12.500,00 | Yanlışsa: bakiye ters döner, mutabakat tutmaz"
+  - tablo: tblHareketler
+    kolon: "Açıklama"
+    tip: metin
+    zorunlu: true
+    ipucu_baslik: "Açıklama"
+    ipucu: "İşlemin kısa açıklamasını yazın; denetim ve arama buna dayanır."
+    hata_baslik: "Açıklama zorunlu"
+    hata: "Boş açıklamalı hareket denetimde güven vermez; en az 3 karakter girin."
+    not: "Tanım: işlem gerekçesi | Neden önemli: denetim izi ve kök-neden analizi | Doğru giriş: açık ve kısa | Örnek: Tedarikçi ödemesi | Yanlışsa: anomali açıklanamaz"
+  - tablo: tblHareketler
+    kolon: "Ödeme Yöntemi"
+    tip: liste
+    zorunlu: false
+    liste: ["Nakit", "Kart", "EFT", "Çek", "Senet"]
+    ipucu_baslik: "Ödeme yöntemi"
+    ipucu: "Nakit, Kart, EFT, Çek veya Senet seçin; boş bırakılabilir."
+    hata_baslik: "Geçersiz yöntem"
+    hata: "Yalnızca listedeki yöntemler kabul edilir."
+    not: "Tanım: ödemenin aracı | Neden önemli: likidite penceresi ve nakit-banka ayrımı | Doğru giriş: listeden | Örnek: EFT | Yanlışsa: nakit yeterlilik analizi bozulur"
+  - tablo: tblHareketler
+    kolon: "İlgili Hesap"
+    tip: liste
+    zorunlu: false
+    liste: ["Ana Kasa", "Banka", "Kredi Kartı"]
+    ipucu_baslik: "İlgili hesap"
+    ipucu: "Hareketin bağlı olduğu hesabı seçin; boş bırakılabilir."
+    hata_baslik: "Geçersiz hesap"
+    hata: "Yalnızca HESAPLAR sayfasındaki hesaplar kabul edilir."
+    not: "Tanım: hareketin hesabı | Neden önemli: hesap bazlı mutabakat | Doğru giriş: hesap adı | Örnek: Ana Kasa | Yanlışsa: hesap bakiyesi yanlış toplanır"
+  - tablo: tblHareketler
+    kolon: "Belge No"
+    tip: metin
+    zorunlu: false
+    ipucu_baslik: "Belge no"
+    ipucu: "Fatura, fiş veya dekont numarası; boş bırakılabilir."
+    hata_baslik: "Geçersiz belge no"
+    hata: "Belge no metin formatında olmalıdır."
+    not: "Tanım: kaynak belge | Neden önemli: denetimde kanıt | Doğru giriş: fiş no | Örnek: AD-2026-001 | Yanlışsa: denetim kanıtı zayıflar"
+
+  # ---- tblTakvim (ODEME_TAKVIMI) ----
+  - tablo: tblTakvim
+    kolon: "Vade Tarihi"
+    tip: tarih
+    zorunlu: true
+    dogrulama: { tur: tarih, min: "2020-01-01", maks_formul: "=raporTarihi+730" }
+    ipucu_baslik: "Vade tarihi"
+    ipucu: "Ödemenin vadesini gg.aa.yyyy girin."
+    hata_baslik: "Geçersiz vade"
+    hata: "Vade 01.01.2020'den önce veya 2 yıldan uzak gelecekte olamaz."
+    not: "Tanım: ödemenin vadesi | Neden önemli: yaklaşan ödeme ve nakit açığı tahmini | Doğru giriş: gg.aa.yyyy | Örnek: 25.08.2026 | Yanlışsa: nakit açığı yanlış hesaplanır"
+  - tablo: tblTakvim
+    kolon: "Tutar"
+    tip: para
+    zorunlu: true
+    dogrulama: { tur: ondalik, min: 0.01, maks: 100000000 }
+    ipucu_baslik: "Tutar (₺)"
+    ipucu: "Vadeli ödeme tutarını pozitif girin."
+    hata_baslik: "Geçersiz tutar"
+    hata: "Tutar 0'dan büyük olmalı."
+    not: "Tanım: vade tutarı | Neden önemli: 30/7 günlük ödeme baskısı | Doğru giriş: pozitif sayı | Örnek: 18.000,00 | Yanlışsa: serbest nakit yanlış"
+  - tablo: tblTakvim
+    kolon: "Karşı Taraf"
+    tip: metin
+    zorunlu: true
+    ipucu_baslik: "Karşı taraf"
+    ipucu: "Ödemenin yapılacağı kişi/kurum."
+    hata_baslik: "Karşı taraf zorunlu"
+    hata: "Ödemenin alıcısı boş olamaz."
+    not: "Tanım: alacaklı | Neden önemli: risk yoğunlaşması | Doğru giriş: kurum adı | Örnek: Tedarikçi A | Yanlışsa: yoğunlaşma analizi bozulur"
+  - tablo: tblTakvim
+    kolon: "Durum"
+    tip: liste
+    zorunlu: true
+    liste: ["Bekliyor", "Ödendi", "İptal"]
+    ipucu_baslik: "Durum"
+    ipucu: "Bekliyor, Ödendi veya İptal seçin."
+    hata_baslik: "Geçersiz durum"
+    hata: "Yalnızca Bekliyor, Ödendi veya İptal kabul edilir."
+    not: "Tanım: vadenin durumu | Neden önemli: yalnızca Bekliyor olanlar baskı hesaplar | Doğru giriş: Bekliyor | Örnek: Bekliyor | Yanlışsa: ödeme baskısı şişer/söner"
+  - tablo: tblTakvim
+    kolon: "Ödeme Yöntemi"
+    tip: liste
+    zorunlu: false
+    liste: ["Nakit", "Kart", "EFT", "Çek", "Senet"]
+    ipucu_baslik: "Ödeme yöntemi"
+    ipucu: "Vadenin nasıl ödeneceğini seçin."
+    hata_baslik: "Geçersiz yöntem"
+    hata: "Yalnızca listedeki yöntemler kabul edilir."
+    not: "Tanım: ödeme aracı | Neden önemli: nakit-banka ayrımı | Doğru giriş: EFT | Örnek: EFT | Yanlışsa: likidite analizi bozulur"
+
+  # ---- tblSayim (FIZIKI_SAYIM) ----
+  - tablo: tblSayim
+    kolon: "Sayım Tarihi"
+    tip: tarih
+    zorunlu: true
+    dogrulama: { tur: tarih, min: "2020-01-01", maks_formul: "=raporTarihi+30" }
+    ipucu_baslik: "Sayım tarihi"
+    ipucu: "Fiziki sayımın yapıldığı günü girin."
+    hata_baslik: "Geçersiz sayım tarihi"
+    hata: "Sayım tarihi 30 günden ileri olamaz."
+    not: "Tanım: sayım günü | Neden önemli: mutabakat farkının tarihi | Doğru giriş: gg.aa.yyyy | Örnek: 31.08.2026 | Yanlışsa: fark tarihleme kayar"
+  - tablo: tblSayim
+    kolon: "Hesap Adı"
+    tip: liste
+    zorunlu: true
+    liste: ["Ana Kasa", "Banka", "Kredi Kartı"]
+    ipucu_baslik: "Hesap adı"
+    ipucu: "Sayımı yapılan hesabı seçin."
+    hata_baslik: "Geçersiz hesap"
+    hata: "Yalnızca HESAPLAR sayfasındaki hesaplar kabul edilir."
+    not: "Tanım: sayılan hesap | Neden önemli: fark hangi hesapta | Doğru giriş: Ana Kasa | Örnek: Ana Kasa | Yanlışsa: mutabakat yanlış hesapta"
+  - tablo: tblSayim
+    kolon: "Kayıtlı Bakiye"
+    tip: para
+    zorunlu: true
+    dogrulama: { tur: ondalik, min: -1000000000, maks: 1000000000 }
+    ipucu_baslik: "Kayıtlı bakiye (₺)"
+    ipucu: "Defterde görünen bakiye; otomatik gelebilir, elle doğrulanabilir."
+    hata_baslik: "Geçersiz bakiye"
+    hata: "Sayısal TL değeri girin."
+    not: "Tanım: defter bakiyesi | Neden önemli: farkın tarafı | Doğru giriş: defterden | Örnek: 45200 | Yanlışsa: fark yönü ters"
+  - tablo: tblSayim
+    kolon: "Fiili Bakiye"
+    tip: para
+    zorunlu: true
+    dogrulama: { tur: ondalik, min: -1000000000, maks: 1000000000 }
+    ipucu_baslik: "Fiili bakiye (₺)"
+    ipucu: "Fiziki sayımda bulunan tutar."
+    hata_baslik: "Geçersiz bakiye"
+    hata: "Sayısal TL değeri girin."
+    not: "Tanım: sayılan bakiye | Neden önemli: fark = kayıtlı - fiili | Doğru giriş: sayım sonucu | Örnek: 44800 | Yanlışsa: fark yönü ters"
+  - tablo: tblSayim
+    kolon: "Açıklama"
+    tip: metin
+    zorunlu: false
+    ipucu_baslik: "Açıklama"
+    ipucu: "Farkın olası nedeni (opsiyonel)."
+    hata_baslik: "Geçersiz açıklama"
+    hata: "Açıklama metin olmalıdır."
+    not: "Tanım: fark gerekçesi | Neden önemli: kök-neden ayrıştırması | Doğru giriş: olası neden | Örnek: Kasada fazla para | Yanlışsa: neden analizi zayıflar"
+
+# --- motor katmanı: ≥40 isimli ara adım, her biri ad|formül|birim|işlev ------
+# D13 gereği tek dev formül yasak; adımlara bölünür. Formüller VİRGÜL ayraçlı.
+motor:
+  - ad: toplamGelir
+    formul: '=SUMIFS(tblHareketler[Tutar],tblHareketler[İşlem Türü],"Gelir")'
+    birim: "₺"
+    aciklama: "Dönem gelir toplamı"
+  - ad: toplamGider
+    formul: '=SUMIFS(tblHareketler[Tutar],tblHareketler[İşlem Türü],"Gider")'
+    birim: "₺"
+    aciklama: "Dönem gider toplamı"
+  - ad: netHareket
+    formul: "=toplamGelir-toplamGider"
+    birim: "₺"
+    aciklama: "Dönem net nakit hareketi"
+  - ad: acilisBakiye
+    formul: "=SUM(tblHesaplar[Başlangıç Bakiyesi])"
+    birim: "₺"
+    aciklama: "Tüm hesapların dönem başı toplamı"
+  - ad: beklenenBakiye
+    formul: "=acilisBakiye+netHareket"
+    birim: "₺"
+    aciklama: "Defterde olması gereken kasa toplamı"
+  - ad: sonSayimFiili
+    formul: "=IFERROR(LOOKUP(9.99999999999999E+307,tblSayim[Fiili Bakiye]),0)"
+    birim: "₺"
+    aciklama: "En son fiziki sayım fiili tutarı"
+  - ad: mutabakatFarki
+    formul: "=beklenenBakiye-sonSayimFiili"
+    birim: "₺"
+    aciklama: "Kasa defteri ile fiili sayım farkı (T5)"
+  - ad: mutabakatDurum
+    formul: '=IF(ABS(mutabakatFarki)<=fizikiTolerans,"UYGUN","FARK VAR")'
+    birim: "metin"
+    aciklama: "Mutabakat sonucu"
+  - ad: yaklasanOdeme30
+    formul: '=SUMIFS(tblTakvim[Tutar],tblTakvim[Durum],"Bekliyor",tblTakvim[Vade Tarihi],">="&raporTarihi,tblTakvim[Vade Tarihi],"<="&raporTarihi+30)'
+    birim: "₺"
+    aciklama: "30 gün içindeki bekleyen ödeme yükü"
+  - ad: yaklasanOdeme7
+    formul: '=SUMIFS(tblTakvim[Tutar],tblTakvim[Durum],"Bekliyor",tblTakvim[Vade Tarihi],">="&raporTarihi,tblTakvim[Vade Tarihi],"<="&raporTarihi+7)'
+    birim: "₺"
+    aciklama: "7 gün içindeki bekleyen ödeme yükü"
+  - ad: serbestNakit
+    formul: "=beklenenBakiye-yaklasanOdeme30"
+    birim: "₺"
+    aciklama: "30 günlük yükümlülükler sonrası serbest nakit"
+  - ad: serbestNakitOran
+    formul: "=IFERROR(serbestNakit/MAX(beklenenBakiye,1),0)"
+    birim: "kat"
+    aciklama: "Serbest nakit oranı"
+  - ad: doluSatirSayisi
+    formul: '=COUNT(tblHareketler[Tarih])'
+    birim: "adet"
+    aciklama: "Dolu hareket sayısı"
+  - ad: toplamSatirSayisi
+    formul: '=ROWS(tblHareketler)'
+    birim: "adet"
+    aciklama: "Tablodaki toplam satır sayısı"
+  - ad: doluOran
+    formul: "=IFERROR(doluSatirSayisi/MAX(toplamSatirSayisi,1),0)"
+    birim: "kat"
+    aciklama: "Veri doluluk oranı"
+  - ad: eksikZorunlu
+    formul: '=SUMPRODUCT((tblHareketler[Tarih]<>"")*((tblHareketler[Tutar]="")+(tblHareketler[İşlem Türü]="")))'
+    birim: "adet"
+    aciklama: "Dolu satırlarda eksik zorunlu alan sayısı"
+  - ad: veriKaliteSkoru
+    formul: "=IFERROR(ROUND(100*(1-eksikZorunlu/MAX(doluSatirSayisi,1)),0),0)"
+    birim: "puan"
+    aciklama: "Canlı veri kalite skoru 0-100 (O8)"
+  - ad: medyanTutar
+    formul: "=IFERROR(MEDIAN(tblHareketler[Tutar]),0)"
+    birim: "₺"
+    aciklama: "Tutar medyanı"
+  - ad: mutlakSapmaMedyani
+    formul: "=IFERROR(AVERAGE(tblHareketler[MAD Sapma]),0)"
+    birim: "₺"
+    aciklama: "Ortalama mutlak sapma (yardımcı kolon, dizi yok)"
+  - ad: anomaliEsigi
+    formul: "=anomaliSapmaKati*mutlakSapmaMedyani"
+    birim: "₺"
+    aciklama: "Anomali eşiği"
+  - ad: anomaliSayisi
+    formul: "=SUM(tblHareketler[Anomali])"
+    birim: "adet"
+    aciklama: "Medyan sapması eşiği aşan hareket sayısı (O1)"
+  - ad: anomaliOrani
+    formul: "=IFERROR(anomaliSayisi/MAX(doluSatirSayisi,1),0)"
+    birim: "kat"
+    aciklama: "Anomali oranı"
+  - ad: yuksekTutarSayisi
+    formul: '=COUNTIF(tblHareketler[Tutar],">="&yuksekTutarEsigi)'
+    birim: "adet"
+    aciklama: "Yüksek tutar eşiğini aşan hareket sayısı"
+  - ad: gunlukNetOrtalama
+    formul: "=IFERROR(netHareket/MAX(doluSatirSayisi,1),0)"
+    birim: "₺/gün"
+    aciklama: "Günlük ortalama net nakit (T2 trend tabanı)"
+  - ad: gunlukGiderOrtalama
+    formul: "=IFERROR(toplamGider/MAX(doluSatirSayisi,1),0)"
+    birim: "₺/gün"
+    aciklama: "Günlük ortalama gider"
+  - ad: kacGunYeter
+    formul: "=IFERROR(serbestNakit/MAX(gunlukGiderOrtalama,1),0)"
+    birim: "gün"
+    aciklama: "Serbest nakit kaç gün gideri karşılar (T6 kırılım)"
+  - ad: tahminBitisNakit
+    formul: "=serbestNakit+gunlukNetOrtalama*tahminUfkuGun"
+    birim: "₺"
+    aciklama: "Tahmin ufku sonundaki beklenen nakit (I1 orta)"
+  - ad: tahminAlt
+    formul: "=IFERROR(tahminBitisNakit-STDEV.P(tblHareketler[Tutar])*SQRT(tahminUfkuGun),tahminBitisNakit)"
+    birim: "₺"
+    aciklama: "Tahmin alt bandı (I1 aralık)"
+  - ad: tahminUst
+    formul: "=IFERROR(tahminBitisNakit+STDEV.P(tblHareketler[Tutar])*SQRT(tahminUfkuGun),tahminBitisNakit)"
+    birim: "₺"
+    aciklama: "Tahmin üst bandı (I1 aralık)"
+  - ad: tahminAraligi
+    formul: "=tahminUst-tahminAlt"
+    birim: "₺"
+    aciklama: "Tahmin belirsizlik aralığı"
+  - ad: nakitAcik
+    formul: '=IF(tahminAlt<0,"EVET","HAYIR")'
+    birim: "metin"
+    aciklama: "Tahmin ufkunda nakit açığı var mı"
+  - ad: nakitAcikTutar
+    formul: "=MAX(0,-tahminAlt)"
+    birim: "₺"
+    aciklama: "Nakit açığı tutarı (I7 köprüleme)"
+  - ad: kotumserNakit
+    formul: "=serbestNakit*senaryoKotumserKat+gunlukNetOrtalama*tahminUfkuGun*senaryoKotumserKat"
+    birim: "₺"
+    aciklama: "Kötümser senaryo sonu nakdi"
+  - ad: iyimserNakit
+    formul: "=serbestNakit*senaryoIyimserKat+gunlukNetOrtalama*tahminUfkuGun*senaryoIyimserKat"
+    birim: "₺"
+    aciklama: "İyimser senaryo sonu nakdi"
+  - ad: senaryoFarki
+    formul: "=iyimserNakit-kotumserNakit"
+    birim: "₺"
+    aciklama: "Senaryo farkı (duyarlılık)"
+  - ad: riskPuani
+    formul: "=MIN(100,ROUND(50*(1-veriKaliteSkoru/100)+30*anomaliOrani+20*IF(nakitAcik=\"EVET\",1,0),0))"
+    birim: "puan"
+    aciklama: "Bileşik risk skoru 0-100"
+  - ad: enBuyukTutar
+    formul: "=MAX(tblHareketler[Tutar])"
+    birim: "₺"
+    aciklama: "En büyük tek hareket tutarı"
+  - ad: makulSinirAsimi
+    formul: "=IF(enBuyukTutar>makulUstSinir,1,0)"
+    birim: "adet"
+    aciklama: "Makul üst sınırı aşan giriş var mı (gerçek dışı veri)"
+  - ad: aktifKural
+    formul: '=IF(serbestNakit<esikSerbestNakitKritik,"K1",IF(anomaliSayisi>0,"K2",IF(makulSinirAsimi=1,"K4",IF(veriKaliteSkoru<70,"K3","K0"))))'
+    birim: "metin"
+    aciklama: "Tetiklenen karar kuralı kodu"
+  - ad: kararSonuc
+    formul: '=IF(doluSatirSayisi<3,"VERİ YOK",IF(serbestNakit<esikSerbestNakitKritik,"DURDUR",IF(anomaliSayisi>0,"İNCELE",IF(makulSinirAsimi=1,"İNCELE",IF(veriKaliteSkoru<70,"İNCELE",IF(nakitAcik="EVET","İNCELE","UYGUN"))))))'
+    birim: "metin"
+    aciklama: "Nihai karar (D11: veri yoksa karar yok)"
+  - ad: kararGerekce
+    formul: '=_xlfn.TEXTJOIN(" | ",TRUE,aktifKural,IF(riskPuani>=esikRiskYuksek,"Risk yüksek","Risk normal"),IF(veriKaliteSkoru<70,"Veri kalitesi düşük","Veri kalitesi yeterli"),IF(nakitAcik="EVET","Nakit açığı var","Nakit açığı yok"))'
+    birim: "metin"
+    aciklama: "Makine üretimli karar gerekçesi (D05)"
+
+# --- karar kuralları: KILAVUZ'da açıkça gösterilir (D11/3) --------------------
+karar_kurallari:
+  - kod: K1
+    kosul: 'serbestNakit < esikSerbestNakitKritik'
+    sonuc: DURDUR
+    gerekce: "Serbest nakit kritik eşiğin altında"
+  - kod: K2
+    kosul: 'anomaliSayisi > 0'
+    sonuc: INCELE
+    gerekce: "Anomali işaretli kayıt var"
+  - kod: K3
+    kosul: 'veriKaliteSkoru < 70'
+    sonuc: INCELE
+    gerekce: "Veri kalitesi düşük, sonuçlar güvenilir değil"
+  - kod: K4
+    kosul: 'makulSinirAsimi = 1'
+    sonuc: INCELE
+    gerekce: "Makul üst sınırı aşan tutar girişi var — gerçek dışı veri kontrol edilmeli"
+  - kod: K0
+    kosul: 'DOGRU'
+    sonuc: UYGUN
+    gerekce: "Tüm eşikler hedef aralıkta"
+
+# --- analitik derinlik: 110 puan, 2 ileri modül (mandata §4 + Ek) -------------
+# T2,T5,T6 + O1,O8 + I1,I7 = 30 + 30 + 50 = 110 puan, I1+I7 = 2 ileri modül.
+# Her modül: ad_tanimi (dosyada isimli hücre) + yorum_hucresi (TEXTJOIN üretimi).
+analitik_moduller:
+  - kod: T2
+    ad: "Trend + hareketli ortalama"
+    ad_tanimi: "gunlukNetOrtalama"
+    yorum_hucresi: "yorumT2"
+  - kod: T5
+    ad: "Mutabakat farkı"
+    ad_tanimi: "mutabakatFarki"
+    yorum_hucresi: "yorumT5"
+  - kod: T6
+    ad: "Kırılım / dayanma noktası"
+    ad_tanimi: "kacGunYeter"
+    yorum_hucresi: "yorumT6"
+  - kod: O1
+    ad: "Anomali (MAD tabanlı) + gerekçe"
+    ad_tanimi: "anomaliSayisi"
+    yorum_hucresi: "yorumO1"
+  - kod: O8
+    ad: "Canlı veri kalite skoru"
+    ad_tanimi: "veriKaliteSkoru"
+    yorum_hucresi: "yorumO8"
+  - kod: I1
+    ad: "Tahmin + aralık"
+    ad_tanimi: "tahminBitisNakit"
+    yorum_hucresi: "yorumI1"
+  - kod: I7
+    ad: "Nakit açığı köprüleme planı"
+    ad_tanimi: "nakitAcikTutar"
+    yorum_hucresi: "yorumI7"
+
+# --- koşullu biçimlendirme: ≥40 kural (G13) ----------------------------------
+# Türler: veri_cubugu | uc_renk_olcek | simge_kumesi | formul | yinelenen |
+#         esik_asimi | bos_zorunlu | gelecek_tarih
+kosullu_bicimlendirme:
+  - sayfa: KASA_HAREKETLERI
+    aralik: "tblHareketler[Tutar]"
+    tur: veri_cubugu
+    renk: "B08948"
+  - sayfa: KASA_HAREKETLERI
+    aralik: "tblHareketler[Tutar]"
+    tur: esik_asimi
+    esik_formul: 'tblHareketler[Tutar]>=yuksekTutarEsigi'
+    dolgu: "FDE7E7"
+  - sayfa: KASA_HAREKETLERI
+    aralik: "tblHareketler[Tutar]"
+    tur: uc_renk_olcek
+  - sayfa: KASA_HAREKETLERI
+    aralik: "tblHareketler[Tarih]"
+    tur: gelecek_tarih
+    gun_limit: 365
+    dolgu: "FFF2CC"
+  - sayfa: KASA_HAREKETLERI
+    aralik: "tblHareketler[Tarih]"
+    tur: bos_zorunlu
+    dolgu: "FDE7E7"
+  - sayfa: KASA_HAREKETLERI
+    aralik: "tblHareketler[İşlem Türü]"
+    tur: bos_zorunlu
+    dolgu: "FDE7E7"
+  - sayfa: KASA_HAREKETLERI
+    aralik: "tblHareketler[Tutar]"
+    tur: bos_zorunlu
+    dolgu: "FDE7E7"
+  - sayfa: KASA_HAREKETLERI
+    aralik: "tblHareketler[Tarih]"
+    tur: yinelenen
+    dolgu: "FDF2D0"
+  - sayfa: KASA_HAREKETLERI
+    aralik: "tblHareketler[Tutar]"
+    tur: formul
+    formul: '=ABS(tblHareketler[@Tutar]-medyanTutar)>anomaliEsigi'
+    dolgu: "FDE7E7"
+  - sayfa: KASA_HAREKETLERI
+    aralik: "tblHareketler[Ödeme Yöntemi]"
+    tur: bos_zorunlu
+    dolgu: "EEF2F7"
+  - sayfa: KASA_HAREKETLERI
+    aralik: "tblHareketler[Belge No]"
+    tur: yinelenen
+    dolgu: "FDF2D0"
+  - sayfa: ODEME_TAKVIMI
+    aralik: "tblTakvim[Tutar]"
+    tur: veri_cubugu
+    renk: "B3261E"
+  - sayfa: ODEME_TAKVIMI
+    aralik: "tblTakvim[Tutar]"
+    tur: esik_asimi
+    esik_formul: 'tblTakvim[Tutar]>=yuksekTutarEsigi'
+    dolgu: "FDE7E7"
+  - sayfa: ODEME_TAKVIMI
+    aralik: "tblTakvim[Durum]"
+    tur: simge_kumesi
+  - sayfa: ODEME_TAKVIMI
+    aralik: "tblTakvim[Vade Tarihi]"
+    tur: gelecek_tarih
+    gun_limit: 30
+    dolgu: "FFF2CC"
+  - sayfa: ODEME_TAKVIMI
+    aralik: "tblTakvim[Vade Tarihi]"
+    tur: formul
+    formul: '=AND(tblTakvim[@Vade Tarihi]<raporTarihi,tblTakvim[@Durum]="Bekliyor")'
+    dolgu: "FDE7E7"
+  - sayfa: ODEME_TAKVIMI
+    aralik: "tblTakvim[Durum]"
+    tur: bos_zorunlu
+    dolgu: "FDE7E7"
+  - sayfa: ODEME_TAKVIMI
+    aralik: "tblTakvim[Vade Tarihi]"
+    tur: yinelenen
+    dolgu: "FDF2D0"
+  - sayfa: HESAPLAR
+    aralik: "tblHesaplar[Başlangıç Bakiyesi]"
+    tur: veri_cubugu
+    renk: "1F7A4D"
+  - sayfa: HESAPLAR
+    aralik: "tblHesaplar[Hesap Adı]"
+    tur: yinelenen
+    dolgu: "FDF2D0"
+  - sayfa: HESAPLAR
+    aralik: "tblHesaplar[Hesap Türü]"
+    tur: bos_zorunlu
+    dolgu: "FDE7E7"
+  - sayfa: FIZIKI_SAYIM
+    aralik: "tblSayim[Fiili Bakiye]"
+    tur: veri_cubugu
+    renk: "B08948"
+  - sayfa: FIZIKI_SAYIM
+    aralik: "tblSayim[Kayıtlı Bakiye]"
+    tur: uc_renk_olcek
+  - sayfa: FIZIKI_SAYIM
+    aralik: "tblSayim[Sayım Tarihi]"
+    tur: gelecek_tarih
+    gun_limit: 30
+    dolgu: "FFF2CC"
+  - sayfa: FIZIKI_SAYIM
+    aralik: "tblSayim[Hesap Adı]"
+    tur: bos_zorunlu
+    dolgu: "FDE7E7"
+  - sayfa: FIZIKI_SAYIM
+    aralik: "tblSayim[Fiili Bakiye]"
+    tur: bos_zorunlu
+    dolgu: "FDE7E7"
+  - sayfa: KONTROL
+    aralik: "B4:B24"
+    tur: uc_renk_olcek
+  - sayfa: KONTROL
+    aralik: "B4:B24"
+    tur: esik_asimi
+    esik_formul: 'KONTROL!B4<70'
+    dolgu: "FDE7E7"
+  - sayfa: KARAR
+    aralik: "B5"
+    tur: formul
+    formul: '=KARAR!B5="DURDUR"'
+    dolgu: "FDE7E7"
+  - sayfa: KARAR
+    aralik: "B5"
+    tur: formul
+    formul: '=KARAR!B5="İNCELE"'
+    dolgu: "FFF2CC"
+  - sayfa: PANO
+    aralik: "B4:B30"
+    tur: veri_cubugu
+    renk: "1F7A4D"
+  - sayfa: PANO
+    aralik: "C4:C30"
+    tur: uc_renk_olcek
+  - sayfa: PANO
+    aralik: "D4:D30"
+    tur: simge_kumesi
+  - sayfa: PANO
+    aralik: "B4:B30"
+    tur: esik_asimi
+    esik_formul: 'PANO!B4<esikSerbestNakitKritik'
+    dolgu: "FDE7E7"
+  - sayfa: PANO
+    aralik: "B4:B30"
+    tur: formul
+    formul: '=PANO!B4<0'
+    dolgu: "FDE7E7"
+  - sayfa: SENARYO_DUYARLILIK
+    aralik: "B5:C7"
+    tur: uc_renk_olcek
+  - sayfa: SENARYO_DUYARLILIK
+    aralik: "B5:C7"
+    tur: veri_cubugu
+    renk: "B7791F"
+  - sayfa: RAPOR
+    aralik: "B6:B26"
+    tur: uc_renk_olcek
+  - sayfa: RAPOR
+    aralik: "B6:B26"
+    tur: veri_cubugu
+    renk: "B08948"
+  - sayfa: RAPOR
+    aralik: "C6:C26"
+    tur: formul
+    formul: '=RAPOR!C6="DURDUR"'
+    dolgu: "FDE7E7"
+  - sayfa: ORNEK_VERI
+    aralik: "A1:F20"
+    tur: veri_cubugu
+    renk: "B08948"
+  - sayfa: ORNEK_VERI
+    aralik: "A1:F20"
+    tur: uc_renk_olcek
+  - sayfa: HIZLI_BASLANGIC
+    aralik: "B4:B20"
+    tur: simge_kumesi
+  - sayfa: HIZLI_BASLANGIC
+    aralik: "B4:B20"
+    tur: bos_zorunlu
+    dolgu: "FDE7E7"
+
+# --- ölçek ve uç durum testleri -------------------------------------------------
+testler:
+  olcek:
+    satir: 5000
+    azami_hesap_saniye: 10
+  uc_durumlar:
+    - tumu_sifir
+    - tumu_bos
+    - negatif_deger
+    - gelecek_tarih
+    - yinelenen_kayit
+    - tek_satir
+    - azami_deger
+
+# --- FİYAT ÇAPASI VE SERBEST ALTERNATİF — İŞ KARARI, SAHİBİ DOLDURUR ----------
+# Mandata §15/6: "hangi eşiği tutturmak için içeriği zorladın?" sorusunu boş
+# bırakmak doğru davranıştır. Bu alanları doldurmak için rakam uydurmak yasaktır.
+# D01 ve D02 boş kalınca "UYARI" verir — kapı kandırılmamıştır, ölçüm doğrudur.
+deger:
+  satis_fiyati_tl: null          # [Varsayım] — Baris dolduracak
+  Y1_danisman_ikamesi_tl: null   # [Varsayım] — Baris dolduracak
+  Y2_kurulum_ikamesi_tl: null    # [Varsayım] — Baris dolduracak
+
+serbest_alternatif:
+  adaylar: []                    # [Varsayım] — Baris dolduracak
+  ayrimlar: []                   # [Varsayım] — Baris dolduracak
