@@ -3,23 +3,32 @@ import { categories } from '../../lib/categories';
 
 interface Props {
   active?: string;
+  counts?: Record<string, number>;
+  totalCount?: number;
 }
-const { active = '' } = Astro.props;
+const { active = '', counts = {}, totalCount = 0 } = Astro.props;
 ---
 
 <nav class="catalog-filters" aria-label="Kategoriye göre filtrele">
-  <button type="button" class="catalog-filters__chip" data-category-filter data-category="">
-    Tümü
+  <button
+    type="button"
+    class={`catalog-filters__chip ${active === '' ? 'is-active' : ''}`}
+    data-category-filter
+    data-category=""
+    aria-pressed={active === '' ? 'true' : 'false'}
+  >
+    <span>Tümü</span><b>{totalCount}</b>
   </button>
   {
     categories.map((category) => (
       <button
         type="button"
-        class="catalog-filters__chip"
+        class={`catalog-filters__chip ${active === category.slug ? 'is-active' : ''}`}
         data-category-filter
         data-category={category.slug}
+        aria-pressed={active === category.slug ? 'true' : 'false'}
       >
-        {category.name}
+        <span>{category.name}</span><b>{counts[category.slug] ?? 0}</b>
       </button>
     ))
   }
@@ -29,31 +38,43 @@ const { active = '' } = Astro.props;
   .catalog-filters {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
+    min-width: 0;
   }
   .catalog-filters__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     min-height: 38px;
-    padding: 0 16px;
+    padding: 0 8px 0 13px;
     border: 1px solid var(--xl-border);
-    border-radius: 999px;
+    border-radius: 10px;
     background: #fff;
     font-family: var(--font-mono);
-    font-size: 12.5px;
-    font-weight: 600;
+    font-size: 10.5px;
+    font-weight: 700;
     color: var(--xl-ink-3);
     cursor: pointer;
-    transition:
-      border-color 150ms ease-out,
-      background 150ms ease-out,
-      color 150ms ease-out;
+    transition: border-color 150ms ease-out, background 150ms ease-out, color 150ms ease-out, transform 150ms ease-out;
   }
-  .catalog-filters__chip:hover {
-    border-color: var(--xl-accent-border);
-    color: var(--xl-ink-900);
+  .catalog-filters__chip b {
+    display: grid;
+    place-items: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 5px;
+    border-radius: 7px;
+    background: var(--xl-paper);
+    font-size: 9px;
+    font-weight: 700;
+    color: #7b887f;
   }
-  .catalog-filters__chip.is-active {
-    border-color: var(--xl-green);
-    background: var(--xl-green);
-    color: #fff;
+  .catalog-filters__chip:hover { transform: translateY(-1px); border-color: var(--xl-accent-border); color: var(--xl-ink-900); }
+  .catalog-filters__chip.is-active { border-color: #0b7040; background: #0d7040; color: #fff; box-shadow: 0 8px 18px rgba(13,112,64,.14); }
+  .catalog-filters__chip.is-active b { background: rgba(255,255,255,.16); color: #fff; }
+  @media (max-width: 560px) {
+    .catalog-filters { flex-wrap: nowrap; width: calc(100% + 18px); margin-right: -18px; padding-right: 18px; overflow-x: auto; scrollbar-width: none; }
+    .catalog-filters::-webkit-scrollbar { display: none; }
+    .catalog-filters__chip { flex: 0 0 auto; }
   }
 </style>
