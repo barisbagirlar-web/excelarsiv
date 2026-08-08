@@ -1,0 +1,16 @@
+name: Delivery Metadata Snapshot
+
+on:
+  push:
+    branches: [security/public-paid-workbooks-hotfix]
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Print deterministic delivery metadata
+        run: node scripts/read-delivery-metadata.mjs --json
