@@ -7,12 +7,14 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && npm run seo:generate && npm run seo:validate",
     "preview": "astro preview",
     "astro": "astro",
     "generate": "node scripts/validate-commerce.mjs",
     "validate:commerce": "node scripts/validate-commerce.mjs",
-    "test": "node scripts/validate-commerce.mjs && astro build && node scripts/smoke-test.mjs"
+    "seo:generate": "node scripts/seo/generate-artifacts.mjs",
+    "seo:validate": "node scripts/seo/validate-artifacts.mjs",
+    "test": "node scripts/validate-commerce.mjs && npm run build && node scripts/smoke-test.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.5",

@@ -1,16 +1,19 @@
 User-agent: *
 Allow: /
-Disallow: /demo/
 Disallow: /api/
+Disallow: /demo/
 
-# LLM ve yapay zeka botları için açık erişim
+# AI ve LLM crawler erişimi — genel Allow kuralını açıkça belgelendirir.
+User-agent: OAI-SearchBot
+Allow: /
+
 User-agent: GPTBot
 Allow: /
 
-User-agent: ClaudeBot
+User-agent: ChatGPT-User
 Allow: /
 
-User-agent: Claude-Web
+User-agent: ClaudeBot
 Allow: /
 
 User-agent: PerplexityBot
@@ -22,7 +25,8 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://excelarsiv.com/sitemap-index.xml
+Sitemap: https://excelarsiv.com/sitemap.xml
 
-# LLM keşfi
+# Deneysel AI keşif yardımcıları:
 # https://excelarsiv.com/llms.txt
+# https://excelarsiv.com/llms-full.txt
