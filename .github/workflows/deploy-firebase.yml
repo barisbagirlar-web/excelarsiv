@@ -241,23 +241,24 @@ jobs:
           node scripts/check-paid-products.mjs --strict
           echo "Paid product storage readiness gate passed (tüm satışa açık ürünler READY)."
 
-      - name: Verify sale-disabled product is blocked at checkout
+      - name: Verify no catalog product is in sale-disabled state
         env:
           BASE_URL: https://excelarsiv.web.app
         shell: bash
         run: |
           set -euo pipefail
-          blocked_email="deploy-blocked+${GITHUB_RUN_ID}@excelarsiv.com"
-          response_file="/tmp/checkout-blocked.json"
-          code="$(curl --silent --show-error -o "$response_file" -w '%{http_code}' \
-            -X POST "$BASE_URL/api/checkout" \
-            -H 'Content-Type: application/json' \
-            --data "{\"productSlug\":\"aylik-patron-finans-paneli\",\"email\":\"$blocked_email\"}")"
-          cat "$response_file"
-          test "$code" = '409'
-          grep -Fq 'PRODUCT_NOT_FOR_SALE' "$response_file"
-          echo "SALE-DISABLED PRODUCT BLOCKED OK (409 PRODUCT_NOT_FOR_SALE)."
-          rm -f "$response_file"
+          # Kapalı ürün kapısı backend'de korunur (functions test: createCheckout satista gate).
+          # Katalog tarafında tüm ürünler satışa açık olmalı; biri kapatılırsa bu adım yakalar.
+          node - <<'NODE'
+          const fs = require('fs');
+          const catalog = JSON.parse(fs.readFileSync('commerce/catalog.json', 'utf8'));
+          const kapali = Object.entries(catalog.products).filter(([, p]) => p.satista === false);
+          if (kapali.length) {
+            console.error('Satışa kapalı ürün bulundu:', kapali.map(([s]) => s).join(', '));
+            process.exit(1);
+          }
+          console.log(`KATALOG TAMAM: ${Object.keys(catalog.products).length}/${Object.keys(catalog.products).length} ürün satışa açık.`);
+          NODE
 
       - name: Verify production Proof Demo flow
         env:
