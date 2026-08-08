@@ -14,4 +14,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: Print deterministic delivery metadata
         run: node scripts/read-delivery-metadata.mjs --json
+      - name: Print paid product SHA256
+        run: find delivery/paid-products -type f \( -name 'current.xlsx' -o -name 'current.xlsm' \) -print0 | sort -z | xargs -0 sha256sum
 # temporary extraction workflow; removed by the hotfix
