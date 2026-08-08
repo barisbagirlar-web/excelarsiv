@@ -1,16 +1,13 @@
 // Sitemap-index finalizer.
-// Üretim: dist/seo-artifacts.json'daki child hash'lerini canlı production baseline
-// ile karşılaştırır (SHA-256), her child için NEW/CHANGED/UNCHANGED/REMOVED kararı
-// üretir, doğru index <lastmod> değerini atomik olarak yazar ve kanıt raporu üretir.
-// Saf karar fonksiyonları test dosyaları tarafından offline import edilir.
+// dist/seo-artifacts.json'daki child hash'lerini canlı production baseline ile
+// karşılaştırır (SHA-256), her child için NEW/CHANGED/UNCHANGED/REMOVED kararı üretir,
+// doğru index <lastmod> değerini atomik olarak yazar ve kanıt raporu üretir.
+// Saf karar fonksiyonları offline test dosyası tarafından import edilir.
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-
-const ROOT = resolve(import.meta.dirname, '..', '..');
-const DIST = join(ROOT, 'dist');
-const SITE = 'https://excelarsiv.com';
+import { DIST_DIR, SITE_ORIGIN } from './lib.mjs';
 
 const RETRY_ATTEMPTS = 8;
 const CONNECT_TIMEOUT_MS = 10_000;
@@ -141,7 +138,7 @@ async function fetchWithRetry(url, { attempts, timeoutMs, delayMs }) {
 }
 
 export async function fetchLiveBaseline({
-  baseUrl,
+  baseUrl = SITE_ORIGIN,
   logger = console,
   attempts = RETRY_ATTEMPTS,
   timeoutMs = REQUEST_TIMEOUT_MS,
@@ -206,15 +203,22 @@ function atomicWriteIndex(indexXml, dist) {
   renameSync(tmp, final);
 }
 
-export async function finalize({ baseline, nowIso, migration = false, logger = console }) {
-  const manifestFile = join(DIST, 'seo-artifacts.json');
+export async function finalize({
+  baseline,
+  nowIso,
+  migration = false,
+  logger = console,
+  dist = DIST_DIR,
+  site = SITE_ORIGIN,
+}) {
+  const manifestFile = join(dist, 'seo-artifacts.json');
   if (!existsSync(manifestFile)) {
     throw new Error('dist/seo-artifacts.json yok. Önce generate-artifacts.mjs çalıştırın.');
   }
   const manifest = JSON.parse(readFileSync(manifestFile, 'utf8'));
   const children = manifest.children.map((child) => ({
     file: child.file,
-    loc: `${SITE}/${child.file}`,
+    loc: `${site}/${child.file}`,
     sha256: child.sha256,
   }));
 
@@ -224,16 +228,15 @@ export async function finalize({ baseline, nowIso, migration = false, logger = c
     { nowIso, migration },
   );
 
-  atomicWriteIndex(indexXml, DIST);
+  atomicWriteIndex(indexXml, dist);
 
   const report = {
     finalizedAt: nowIso,
-    baselineSource: 'baseline',
     migrationReset: migration,
     children: decisions,
     removed,
   };
-  writeFileSync(join(DIST, 'seo-finalize-report.json'), JSON.stringify(report, null, 2));
+  writeFileSync(join(dist, 'seo-finalize-report.json'), JSON.stringify(report, null, 2));
 
   logger.log('SITEMAP INDEX SEMANTIC CONTRACT');
   for (const d of decisions) {
@@ -247,7 +250,7 @@ export async function finalize({ baseline, nowIso, migration = false, logger = c
   for (const loc of removed) {
     logger.log(`REMOVED: ${loc}`);
   }
-  logger.log(`SITEMAP INDEX YAZILDI: dist/sitemap.xml`);
+  logger.log(`SITEMAP INDEX YAZILDI: ${join(dist, 'sitemap.xml')}`);
   return report;
 }
 
@@ -261,7 +264,7 @@ async function main() {
     baseline = loadBaselineFile(baselineFile);
     console.log(`BASELINE: dosyadan okundu — ${baselineFile}`);
   } else {
-    baseline = await fetchLiveBaseline({ baseUrl: SITE });
+    baseline = await fetchLiveBaseline({ baseUrl: SITE_ORIGIN });
   }
 
   try {
