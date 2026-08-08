@@ -41,7 +41,7 @@
       "tier": "ENTERPRISE",
       "fileFormat": "xlsx",
       "storageKey": "paid-products/aylik-patron-finans-paneli/current.xlsx",
-      "satista": false
+      "satista": true
     },
     "banka-kredi-ve-taksit-takip-sistemi": {
       "name": "Banka, Kredi ve Taksit Takip Sistemi",
@@ -76,35 +76,35 @@
       "tier": "EXCLUSIVE",
       "fileFormat": "xlsx",
       "storageKey": "paid-products/kobi-finans-yonetim-paketi/current.xlsx",
-      "satista": false
+      "satista": true
     },
     "pos-komisyon-ve-net-tahsilat-kontrol-sistemi": {
       "name": "POS, Komisyon ve Net Tahsilat Kontrol Sistemi",
       "tier": "PRO",
       "fileFormat": "xlsx",
       "storageKey": "paid-products/pos-komisyon-ve-net-tahsilat-kontrol-sistemi/current.xlsx",
-      "satista": false
+      "satista": true
     },
     "proje-ve-is-bazinda-gercek-karlilik-sistemi": {
       "name": "Proje ve İş Bazında Gerçek Kârlılık Sistemi",
       "tier": "ENTERPRISE",
       "fileFormat": "xlsx",
       "storageKey": "paid-products/proje-ve-is-bazinda-gercek-karlilik-sistemi/current.xlsx",
-      "satista": false
+      "satista": true
     },
     "stok-satis-ve-nakit-baglanma-sistemi": {
       "name": "Stok, Satış ve Nakit Bağlanma Sistemi",
       "tier": "PREMIUM",
       "fileFormat": "xlsx",
       "storageKey": "paid-products/stok-satis-ve-nakit-baglanma-sistemi/current.xlsx",
-      "satista": false
+      "satista": true
     },
     "vergi-sgk-ve-maas-karsilik-ayirma-sistemi": {
       "name": "Vergi, SGK ve Maaş Karşılık Ayırma Sistemi",
       "tier": "PRO",
       "fileFormat": "xlsx",
       "storageKey": "paid-products/vergi-sgk-ve-maas-karsilik-ayirma-sistemi/current.xlsx",
-      "satista": false
+      "satista": true
     }
   }
 }
