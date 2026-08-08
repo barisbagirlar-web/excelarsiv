@@ -1,4 +1,6 @@
 ---
+import CatalogProductVisual from './CatalogProductVisual.astro';
+
 interface Preview {
   src: string;
   alt: string;
@@ -32,8 +34,6 @@ const {
   fileFormat = 'xlsx',
   sheetMap = [],
   outputs = [],
-  preview,
-  priority = false,
 } = Astro.props;
 
 const price = priceTL.toLocaleString('tr-TR');
@@ -52,17 +52,9 @@ const kindLabel: Record<string, string> = { input: 'Girdi', calculation: 'Hesap'
   data-summary={summary}
 >
   <a class="tcard__preview" href={`/sablon/${slug}`} aria-label={`${name} ürününü incele`}>
-    {
-      preview ? (
-        <img src={preview.src} alt={preview.alt} loading={priority ? 'eager' : 'lazy'} decoding="async" />
-      ) : (
-        <div class="tcard__preview-fallback" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span><span></span>
-        </div>
-      )
-    }
-    <span class="tcard__preview-label">GERÇEK ÜRÜN EKRANI</span>
-    <span class="tcard__preview-open">İncele ↗</span>
+    <CatalogProductVisual slug={slug} name={name} />
+    <span class="tcard__preview-label">ÜRÜNE ÖZEL ÖNİZLEME</span>
+    <span class="tcard__preview-open">Detayda gerçek ekranlar ↗</span>
   </a>
 
   <div class="tcard__content">
@@ -123,41 +115,30 @@ const kindLabel: Record<string, string> = { input: 'Girdi', calculation: 'Hesap'
     position: relative;
     display: block;
     overflow: hidden;
-    aspect-ratio: 16 / 9.8;
+    aspect-ratio: 16 / 9.6;
     border-bottom: 1px solid var(--xl-grid);
-    background: #edf3ef;
+    background: #f4f8f5;
     text-decoration: none;
   }
   .tcard__preview::after {
     content: '';
     position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, transparent 52%, rgba(8,34,21,.38));
+    inset: 58% 0 0;
+    z-index: 1;
+    background: linear-gradient(180deg, transparent, rgba(6,31,18,.24));
     pointer-events: none;
   }
-  .tcard__preview img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top left;
-    transition: transform 260ms ease-out;
+  .tcard__preview :global(.product-visual) {
+    transition: transform 240ms ease-out, filter 240ms ease-out;
   }
-  .tcard:hover .tcard__preview img { transform: scale(1.025); }
-  .tcard__preview-fallback {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 7px;
-    height: 100%;
-    padding: 26px;
-    background: linear-gradient(#e3eae6 1px, transparent 1px), linear-gradient(90deg,#e3eae6 1px,transparent 1px), #f7faf8;
-    background-size: 24px 24px;
+  .tcard:hover .tcard__preview :global(.product-visual) {
+    transform: scale(1.018);
+    filter: saturate(1.04);
   }
-  .tcard__preview-fallback span { align-self: end; border-radius: 5px 5px 0 0; background: #107c41; opacity: .14; }
-  .tcard__preview-fallback span:nth-child(1) { height: 35%; }.tcard__preview-fallback span:nth-child(2) { height: 58%; }.tcard__preview-fallback span:nth-child(3) { height: 44%; }.tcard__preview-fallback span:nth-child(4) { height: 72%; }.tcard__preview-fallback span:nth-child(5) { height: 61%; }.tcard__preview-fallback span:nth-child(6) { height: 88%; }
   .tcard__preview-label,
   .tcard__preview-open {
     position: absolute;
-    z-index: 2;
+    z-index: 3;
     bottom: 10px;
     display: inline-flex;
     align-items: center;
@@ -166,12 +147,24 @@ const kindLabel: Record<string, string> = { input: 'Girdi', calculation: 'Hesap'
     border-radius: 7px;
     backdrop-filter: blur(8px);
     font-family: var(--font-mono);
-    font-size: 7.5px;
+    font-size: 7.2px;
     font-weight: 800;
-    letter-spacing: .06em;
+    letter-spacing: .055em;
   }
-  .tcard__preview-label { left: 10px; border: 1px solid rgba(255,255,255,.25); background: rgba(8,49,28,.78); color: #fff; }
-  .tcard__preview-open { right: 10px; background: rgba(255,255,255,.92); color: #153625; opacity: 0; transform: translateY(4px); transition: opacity 160ms ease-out, transform 160ms ease-out; }
+  .tcard__preview-label {
+    left: 10px;
+    border: 1px solid rgba(255,255,255,.32);
+    background: rgba(8,49,28,.82);
+    color: #fff;
+  }
+  .tcard__preview-open {
+    right: 10px;
+    background: rgba(255,255,255,.95);
+    color: #153625;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 160ms ease-out, transform 160ms ease-out;
+  }
   .tcard:hover .tcard__preview-open { opacity: 1; transform: translateY(0); }
 
   .tcard__content { display: flex; flex: 1; flex-direction: column; min-width: 0; padding: 18px; }
