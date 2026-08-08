@@ -3,7 +3,7 @@ export const products = [
   {
     name: 'Akıllı Kasa Defteri ve Nakit Kontrol Sistemi',
     category: 'nakit-akisi',
-    priceTL: 349,
+    priceTL: 990,
     summary: 'Kasa hareketlerini günlük işleyin, bakiye ile fiili sayım farkını anında görün. Dönem sonu kontrolü için hazır yapı.',
     fileFormat: 'xlsx',
     hasMacros: false,
@@ -71,7 +71,7 @@ export const products = [
   {
     name: '13 Haftalık Nakit Akışı ve Ödeme Planlama Sistemi',
     category: 'nakit-akisi',
-    priceTL: 449,
+    priceTL: 2490,
     summary: '13 haftalık nakit modeliyle giriş-çıkış tahminlerini planlayın; kritik haftaları önceden görüp ödeme önceliği verin.',
     fileFormat: 'xlsx',
     hasMacros: false,
@@ -139,7 +139,7 @@ export const products = [
   {
     name: 'Cari Hesap, Tahsilat ve Müşteri Risk Takip Sistemi',
     category: 'muhasebe-ve-vergi',
-    priceTL: 449,
+    priceTL: 1490,
     summary: 'Fatura, tahsilat ve vade takibini tek yapıda toplayın; vadesi geçen bakiyeleri müşteri risk skoruyla önceliklendirin.',
     fileFormat: 'xlsx',
     hasMacros: false,
@@ -206,7 +206,7 @@ export const products = [
   {
     name: 'Banka, Kredi ve Taksit Takip Sistemi',
     category: 'nakit-akisi',
-    priceTL: 449,
+    priceTL: 1490,
     summary: 'Tüm banka hesaplarını, kredi taksitlerini ve ödeme tarihlerini tek sayfada izleyin; yaklaşan taksitleri önceden görün.',
     fileFormat: 'xlsx',
     hasMacros: false,
@@ -273,7 +273,7 @@ export const products = [
   {
     name: 'Çek–Senet ve Vade Risk Sistemi',
     category: 'nakit-akisi',
-    priceTL: 449,
+    priceTL: 1490,
     summary: 'Çek ve senet portföyünü vade aralıklarıyla izleyin; tahsilat beklentisini ve riskli kalemleri tek bakışta görün.',
     fileFormat: 'xlsx',
     hasMacros: false,
@@ -340,7 +340,7 @@ export const products = [
   {
     name: 'Günlük Gelir–Gider ve Gerçek Kârlılık Sistemi',
     category: 'satis-ve-fiyatlama',
-    priceTL: 299,
+    priceTL: 1490,
     summary: 'Günlük gelir ve giderleri kategorilerle işleyin; aylık net kârı ve kategori marjını gerçek veriyle görün.',
     fileFormat: 'xlsx',
     hasMacros: false,
@@ -406,7 +406,7 @@ export const products = [
   {
     name: 'Vergi, SGK ve Maaş Karşılık Ayırma Sistemi',
     category: 'muhasebe-ve-vergi',
-    priceTL: 399,
+    priceTL: 990,
     summary: 'Dönem gelirine göre KDV, kurumlar vergisi, SGK ve maaş karşılıklarını otomatik ayırın; dönem sonunu sürprizsiz karşılayın.',
     fileFormat: 'xlsx',
     hasMacros: false,
@@ -473,7 +473,7 @@ export const products = [
   {
     name: 'Stok, Satış ve Nakit Bağlanma Sistemi',
     category: 'stok-ve-uretim',
-    priceTL: 449,
+    priceTL: 1490,
     summary: 'Stok giriş-çıkışını ortalama maliyetle işleyin; stoğa bağlanan nakdi ve devir hızını dönem sonunda görün.',
     fileFormat: 'xlsx',
     hasMacros: false,
@@ -539,7 +539,7 @@ export const products = [
   {
     name: 'POS, Komisyon ve Net Tahsilat Kontrol Sistemi',
     category: 'satis-ve-fiyatlama',
-    priceTL: 399,
+    priceTL: 990,
     summary: 'POS kanallarının brüt satışını, komisyon ve iade düşüldükten sonraki net tahsilatını karşılaştırın; kanal maliyetini görün.',
     fileFormat: 'xlsx',
     hasMacros: false,
@@ -606,7 +606,7 @@ export const products = [
   {
     name: 'Aylık Patron Finans Paneli',
     category: 'finansal-analiz',
-    priceTL: 349,
+    priceTL: 2490,
     summary: 'Ciro, net kâr, nakit, alacak günü ve FAVÖK göstergelerini aylık tek panelde toplayın; trendi yön tablosuyla okuyun.',
     fileFormat: 'xlsx',
     hasMacros: false,
@@ -672,7 +672,7 @@ export const products = [
   {
     name: 'Proje ve İş Bazında Gerçek Kârlılık Sistemi',
     category: 'satis-ve-fiyatlama',
-    priceTL: 449,
+    priceTL: 2490,
     summary: 'Her işin gelirini direkt giderlerle eşleştirin; iş bazında gerçek kâr ve marjı çıkarın, kaynakları kârlı işlere yönlendirin.',
     fileFormat: 'xlsx',
     hasMacros: false,
@@ -739,7 +739,7 @@ export const products = [
   {
     name: 'KOBİ Finans Yönetim Paketi',
     category: 'butce-ve-planlama',
-    priceTL: 2490,
+    priceTL: 7900,
     summary: 'Kasa, cari, banka ve stok sistemlerini tek yapıda birleştiren paket. Aylık yönetim özeti ve karşılık planıyla dönem sonunu net görün.',
     fileFormat: 'xlsx',
     hasMacros: false,
