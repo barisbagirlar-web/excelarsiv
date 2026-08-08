@@ -1,4 +1,9 @@
 ---
+interface Preview {
+  src: string;
+  alt: string;
+}
+
 interface Props {
   slug: string;
   name: string;
@@ -8,99 +13,202 @@ interface Props {
   category?: string;
   categorySlug?: string;
   version?: string;
-  variant?: 'sparkline' | 'hm' | 'bars';
+  fileFormat?: 'xlsx' | 'xlsm';
   sheetMap?: { name: string; kind: 'input' | 'calculation' | 'output' }[];
+  outputs?: string[];
+  preview?: Preview;
+  priority?: boolean;
 }
 
-const { slug, name, summary, sheetCount, priceTL, category, categorySlug, version, variant = 'sparkline', sheetMap } = Astro.props;
+const {
+  slug,
+  name,
+  summary,
+  sheetCount,
+  priceTL,
+  category,
+  categorySlug,
+  version,
+  fileFormat = 'xlsx',
+  sheetMap = [],
+  outputs = [],
+  preview,
+  priority = false,
+} = Astro.props;
+
 const price = priceTL.toLocaleString('tr-TR');
+const structure = sheetMap.slice(0, 3);
+const benefitItems = outputs.slice(0, 3);
 const kindLabel: Record<string, string> = { input: 'Girdi', calculation: 'Hesap', output: 'Çıktı' };
-const rows = (sheetMap ?? []).slice(0, 3);
 ---
 
-<article class="tcard" aria-label={name} data-template-card data-name={name} data-category={categorySlug ?? ''} data-summary={summary}>
-  <div class="tcard__top">
-    <span class="tcard__cat">{category ?? `${sheetCount} sayfa`}</span>
-    {version && <span class="tcard__ver">v{version}</span>}
-  </div>
+<article
+  class="tcard"
+  aria-label={name}
+  data-template-card
+  data-name={name}
+  data-category={categorySlug ?? ''}
+  data-category-label={category ?? ''}
+  data-summary={summary}
+>
+  <a class="tcard__preview" href={`/sablon/${slug}`} aria-label={`${name} ürününü incele`}>
+    {
+      preview ? (
+        <img src={preview.src} alt={preview.alt} loading={priority ? 'eager' : 'lazy'} decoding="async" />
+      ) : (
+        <div class="tcard__preview-fallback" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+      )
+    }
+    <span class="tcard__preview-label">GERÇEK ÜRÜN EKRANI</span>
+    <span class="tcard__preview-open">İncele ↗</span>
+  </a>
 
-  <h3 class="tcard__title" title={name}>{name}</h3>
-  <p class="tcard__summary">{summary}</p>
+  <div class="tcard__content">
+    <div class="tcard__top">
+      <span class="tcard__cat">{category ?? `${sheetCount} sayfa`}</span>
+      {version && <span class="tcard__ver">v{version}</span>}
+    </div>
 
-  <div class="tcard__viz">
-    {variant === 'sparkline' && (
-      <svg viewBox="0 0 200 44" preserveAspectRatio="none" class="tcard__spark" aria-hidden="true">
-        <polyline points="0,36 28,30 56,33 84,22 112,26 140,15 168,19 200,8" fill="none" stroke="var(--xl-green)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        <circle cx="200" cy="8" r="3" fill="var(--xl-green)" />
-      </svg>
-    )}
-    {variant === 'hm' && (
-      <div class="tcard__hm" aria-hidden="true"><i style="--a:.2"></i><i style="--a:.5"></i><i style="--a:.85"></i><i style="--a:.35"></i><i style="--a:.65"></i><i style="--a:.95"></i></div>
-    )}
-    {variant === 'bars' && <div class="tcard__bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>}
-  </div>
+    <h3 class="tcard__title"><a href={`/sablon/${slug}`}>{name}</a></h3>
+    <p class="tcard__summary">{summary}</p>
 
-  {rows.length > 0 && (
-    <ul class="tcard__outputs">
-      {rows.map((row) => <li><span>{row.name}</span><span>{kindLabel[row.kind]}</span></li>)}
-    </ul>
-  )}
+    {benefitItems.length > 0 ? (
+      <div class="tcard__benefits">
+        <span class="tcard__section-label">SİSTEMİN ÜRETTİĞİ</span>
+        <ul>
+          {benefitItems.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}
+        </ul>
+      </div>
+    ) : structure.length > 0 ? (
+      <div class="tcard__structure">
+        <span class="tcard__section-label">ÇALIŞMA YAPISI</span>
+        <ul>{structure.map((row) => <li><span>{row.name}</span><b>{kindLabel[row.kind]}</b></li>)}</ul>
+      </div>
+    ) : null}
 
-  <div class="tcard__foot">
-    <span class="tcard__scope"><span>{sheetCount} sayfa</span><span class="tcard__file"> · {slug}.xlsx</span></span>
-    <div class="tcard__buyrow">
-      <span class="tcard__price">{price} TL</span>
-      <a class="tcard__cta" href={`/sablon/${slug}`}>İncele <span aria-hidden="true">→</span></a>
+    <div class="tcard__meta">
+      <span>{sheetCount} sayfa</span>
+      <span>{fileFormat.toUpperCase()}</span>
+      <span>Demo ile inceleme</span>
+    </div>
+
+    <div class="tcard__foot">
+      <div class="tcard__price"><small>KDV dahil</small><strong>{price} TL</strong></div>
+      <a class="tcard__cta" href={`/sablon/${slug}`}>Şablonu incele <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </article>
 
 <style>
-  .tcard { display: flex; flex-direction: column; height: 100%; min-width: 0; padding: 18px; border: 1px solid var(--xl-border); border-radius: 18px; background: #fff; transition: border-color 150ms ease-out, transform 150ms ease-out, box-shadow 150ms ease-out; }
-  .tcard:hover { border-color: var(--xl-accent-border); transform: translateY(-2px); box-shadow: 0 12px 28px rgba(24, 55, 38, 0.09); }
+  .tcard {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--xl-border);
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(21,53,35,.045);
+    transition: border-color 170ms ease-out, transform 170ms ease-out, box-shadow 170ms ease-out;
+  }
+  .tcard:hover {
+    border-color: var(--xl-accent-border);
+    transform: translateY(-4px);
+    box-shadow: 0 22px 44px rgba(21,53,35,.12);
+  }
+  .tcard__preview {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 16 / 9.8;
+    border-bottom: 1px solid var(--xl-grid);
+    background: #edf3ef;
+    text-decoration: none;
+  }
+  .tcard__preview::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 52%, rgba(8,34,21,.38));
+    pointer-events: none;
+  }
+  .tcard__preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
+    transition: transform 260ms ease-out;
+  }
+  .tcard:hover .tcard__preview img { transform: scale(1.025); }
+  .tcard__preview-fallback {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+    height: 100%;
+    padding: 26px;
+    background: linear-gradient(#e3eae6 1px, transparent 1px), linear-gradient(90deg,#e3eae6 1px,transparent 1px), #f7faf8;
+    background-size: 24px 24px;
+  }
+  .tcard__preview-fallback span { align-self: end; border-radius: 5px 5px 0 0; background: #107c41; opacity: .14; }
+  .tcard__preview-fallback span:nth-child(1) { height: 35%; }.tcard__preview-fallback span:nth-child(2) { height: 58%; }.tcard__preview-fallback span:nth-child(3) { height: 44%; }.tcard__preview-fallback span:nth-child(4) { height: 72%; }.tcard__preview-fallback span:nth-child(5) { height: 61%; }.tcard__preview-fallback span:nth-child(6) { height: 88%; }
+  .tcard__preview-label,
+  .tcard__preview-open {
+    position: absolute;
+    z-index: 2;
+    bottom: 10px;
+    display: inline-flex;
+    align-items: center;
+    min-height: 25px;
+    padding: 0 8px;
+    border-radius: 7px;
+    backdrop-filter: blur(8px);
+    font-family: var(--font-mono);
+    font-size: 7.5px;
+    font-weight: 800;
+    letter-spacing: .06em;
+  }
+  .tcard__preview-label { left: 10px; border: 1px solid rgba(255,255,255,.25); background: rgba(8,49,28,.78); color: #fff; }
+  .tcard__preview-open { right: 10px; background: rgba(255,255,255,.92); color: #153625; opacity: 0; transform: translateY(4px); transition: opacity 160ms ease-out, transform 160ms ease-out; }
+  .tcard:hover .tcard__preview-open { opacity: 1; transform: translateY(0); }
+
+  .tcard__content { display: flex; flex: 1; flex-direction: column; min-width: 0; padding: 18px; }
   .tcard__top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
-  .tcard__cat { display: inline-flex; align-items: center; height: 26px; padding-inline: 10px; border-radius: 999px; background: var(--xl-accent-soft); color: var(--xl-green-dark); font-family: var(--font-mono); font-size: 11px; font-weight: 700; }
-  .tcard__ver { font-family: var(--font-mono); font-size: 10px; color: var(--xl-ink-3); }
-  .tcard__title { margin: 0; font-family: var(--font-body); font-size: 18px; font-weight: 700; line-height: 1.22; min-height: 44px; color: var(--xl-ink-900); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .tcard__summary { margin: 4px 0 0; font-size: 13px; line-height: 1.55; min-height: 38px; color: var(--xl-ink-3); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-  .tcard__viz { margin: 10px 0; border-radius: 12px; background: var(--xl-paper); padding: 10px; height: 78px; display: grid; place-items: center; }
-  .tcard__spark { width: 100%; height: 38px; }
-  .tcard__hm { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; width: 100%; }
-  .tcard__hm i { aspect-ratio: 1; border-radius: 4px; background: color-mix(in srgb, var(--xl-green) calc(var(--a) * 100%), var(--xl-paper)); }
-  .tcard__bars { display: flex; align-items: flex-end; gap: 5px; height: 32px; width: 100%; }
-  .tcard__bars i { flex: 1; border-radius: 3px 3px 0 0; background: var(--xl-green); height: 100%; opacity: 0.55; }
-  .tcard__bars i:nth-child(2) { opacity: 0.75; }
-  .tcard__bars i:nth-child(3) { opacity: 0.4; }
-  .tcard__bars i:nth-child(4) { opacity: 0.9; }
-  .tcard__bars i:nth-child(5) { opacity: 0.65; }
-  .tcard__bars i:nth-child(6) { opacity: 0.95; }
-  .tcard__outputs { margin: 0 0 10px; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
-  .tcard__outputs li { display: flex; align-items: center; justify-content: space-between; gap: 10px; height: 28px; padding: 0 8px; border-radius: 7px; background: var(--xl-paper); font-family: var(--font-mono); font-size: 11px; color: var(--xl-ink-3); }
-  .tcard__outputs li span:first-child { color: var(--xl-ink-900); }
-  .tcard__foot { margin-top: auto; border-top: 1px solid var(--xl-grid); padding-top: 10px; display: grid; gap: 8px; }
-  .tcard__scope { font-family: var(--font-mono); font-size: 10px; line-height: 1.45; color: var(--xl-ink-3); }
-  .tcard__file { color: var(--xl-ink-3); }
-  .tcard__buyrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-  .tcard__price { font-family: var(--font-mono); font-size: 24px; font-weight: 700; color: var(--xl-ink-900); }
-  .tcard__cta { display: inline-flex; align-items: center; justify-content: center; gap: 5px; height: 42px; padding: 0 14px; border: 1px solid var(--xl-green); border-radius: 12px; background: #fff; color: var(--xl-green-dark); font-family: var(--font-mono); font-size: 13px; font-weight: 700; text-decoration: none; }
-  .tcard__cta:hover { background: var(--xl-green); color: #fff; }
+  .tcard__cat { display: inline-flex; align-items: center; min-height: 26px; padding-inline: 9px; border: 1px solid #d7e8dd; border-radius: 8px; background: #eef7f1; color: var(--xl-green-dark); font-family: var(--font-mono); font-size: 9.5px; font-weight: 800; }
+  .tcard__ver { font-family: var(--font-mono); font-size: 8.5px; color: #8a958e; }
+  .tcard__title { margin: 0; font-family: var(--font-body); font-size: 19px; font-weight: 800; line-height: 1.22; letter-spacing: -.018em; color: var(--xl-ink-900); }
+  .tcard__title a { color: inherit; text-decoration: none; }
+  .tcard__title a:hover { color: var(--xl-green-dark); }
+  .tcard__summary { margin: 8px 0 0; font-size: 12.2px; line-height: 1.58; color: var(--xl-ink-3); }
+  .tcard__benefits,
+  .tcard__structure { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--xl-grid); }
+  .tcard__section-label { display: block; margin-bottom: 9px; font-family: var(--font-mono); font-size: 7.5px; font-weight: 800; letter-spacing: .1em; color: #7a877f; }
+  .tcard__benefits ul,
+  .tcard__structure ul { display: grid; gap: 7px; margin: 0; padding: 0; list-style: none; }
+  .tcard__benefits li { display: grid; grid-template-columns: 15px minmax(0,1fr); gap: 6px; align-items: start; font-size: 10.5px; line-height: 1.4; color: #4c5b52; }
+  .tcard__benefits li > span { display: grid; place-items: center; width: 14px; height: 14px; margin-top: 1px; border-radius: 5px; background: #e5f3ea; color: #0b7040; font-size: 8px; font-weight: 800; }
+  .tcard__structure li { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-family: var(--font-mono); font-size: 9px; color: #526157; }
+  .tcard__structure li > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tcard__structure li > b { flex: 0 0 auto; font-size: 7.5px; color: #829087; }
+  .tcard__meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 15px; }
+  .tcard__meta span { min-height: 24px; padding: 0 7px; border: 1px solid var(--xl-grid); border-radius: 7px; background: var(--xl-paper); font-family: var(--font-mono); font-size: 7.8px; line-height: 22px; color: #6e7b73; }
+  .tcard__foot { display: flex; align-items: end; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 17px; }
+  .tcard__price { display: grid; gap: 2px; }
+  .tcard__price small { font-size: 8px; color: #8a958e; }
+  .tcard__price strong { font-family: var(--font-mono); font-size: 22px; line-height: 1; color: var(--xl-ink-900); }
+  .tcard__cta { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 42px; padding: 0 13px; border: 1px solid #0b7040; border-radius: 11px; background: #0d7040; color: #fff; font-family: var(--font-mono); font-size: 9.5px; font-weight: 800; text-decoration: none; box-shadow: 0 8px 16px rgba(13,112,64,.13); }
+  .tcard__cta:hover { background: #095c34; }
 
   @media (max-width: 680px) {
-    .tcard { padding: 16px; border-radius: 17px; }
-    .tcard__top { margin-bottom: 8px; }
-    .tcard__cat { height: 24px; padding-inline: 8px; font-size: 10px; }
-    .tcard__ver { font-size: 9.5px; }
-    .tcard__title { font-size: 18px; line-height: 1.16; }
-    .tcard__summary { margin-top: 6px; font-size: 12px; line-height: 1.42; -webkit-line-clamp: 2; }
-    .tcard__viz { height: 76px; margin: 10px 0; padding: 9px; }
-    .tcard__spark { height: 48px; }
-    .tcard__hm i { min-height: 42px; }
-    .tcard__bars { height: 46px; }
-    .tcard__outputs { display: none; }
-    .tcard__file { display: none; }
-    .tcard__foot { padding-top: 9px; gap: 7px; }
-    .tcard__scope { font-size: 10px; }
-    .tcard__price { font-size: 20px; }
-    .tcard__cta { height: 38px; padding-inline: 15px; border-radius: 10px; font-size: 12px; }
+    .tcard { border-radius: 18px; }
+    .tcard__content { padding: 16px; }
+    .tcard__title { font-size: 18px; }
+    .tcard__summary { font-size: 11.8px; }
+    .tcard__preview-open { display: none; }
+    .tcard__benefits li { font-size: 10.2px; }
+    .tcard__foot { align-items: center; }
+    .tcard__price strong { font-size: 20px; }
   }
 </style>

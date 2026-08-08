@@ -9,14 +9,13 @@ interface Props {
 }
 
 const { templates, query = '' } = Astro.props;
-const variants = ['sparkline', 'hm', 'bars', 'sparkline', 'hm', 'bars'] as const;
 ---
 
 <div class="template-grid-wrap">
   <ul class="template-grid" data-template-grid>
     {
       templates.map((template, index) => (
-        <li>
+        <li data-template-item>
           <TemplateCard
             slug={template.slug}
             name={template.name}
@@ -26,8 +25,11 @@ const variants = ['sparkline', 'hm', 'bars', 'sparkline', 'hm', 'bars'] as const
             category={template.categoryName}
             categorySlug={template.categorySlug}
             version={template.version}
-            variant={variants[index % variants.length]}
+            fileFormat={template.fileFormat}
             sheetMap={template.sheetMap}
+            outputs={template.outputs}
+            preview={template.preview}
+            priority={index < 3}
           />
         </li>
       ))
@@ -42,9 +44,7 @@ const variants = ['sparkline', 'hm', 'bars', 'sparkline', 'hm', 'bars'] as const
 </script>
 
 <style>
-  .template-grid-wrap {
-    min-width: 0;
-  }
+  .template-grid-wrap { min-width: 0; }
   .template-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -53,20 +53,13 @@ const variants = ['sparkline', 'hm', 'bars', 'sparkline', 'hm', 'bars'] as const
     padding: 0;
     list-style: none;
   }
-  .template-grid > * {
-    min-width: 0;
-  }
-  .template-grid li {
-    min-width: 0;
-  }
-  @media (max-width: 1024px) {
-    .template-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+  .template-grid > *,
+  .template-grid li { min-width: 0; }
+  .template-grid li[hidden] { display: none; }
+  @media (max-width: 1080px) {
+    .template-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 680px) {
-    .template-grid {
-      grid-template-columns: 1fr;
-    }
+    .template-grid { grid-template-columns: 1fr; gap: 14px; }
   }
 </style>
