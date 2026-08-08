@@ -313,6 +313,26 @@ exports.createCheckout = onRequest(functionDefaults, async (req, res) => {
     return sendJson(res, 500, { error: 'CATALOG_MISMATCH' });
   }
 
+  // Fail closed before opening Shopier: catalog-driven sale switch. Products not
+  // marked for sale must never reach the payment provider.
+  if (product.satista === false) {
+    console.warn('checkout blocked: product not for sale', productSlug);
+    return sendJson(res, 409, { error: 'PRODUCT_NOT_FOR_SALE' });
+  }
+
+  // Fail closed before opening Shopier: never accept payment for a product whose
+  // private sale file is not already present in Firebase Storage.
+  try {
+    const [fileReady] = await bucket.file(product.storageKey).exists();
+    if (!fileReady) {
+      console.warn('checkout blocked: paid file missing', product.storageKey);
+      return sendJson(res, 409, { error: 'PRODUCT_NOT_READY' });
+    }
+  } catch (error) {
+    console.error('checkout readiness check failed', error?.message);
+    return sendJson(res, 503, { error: 'PRODUCT_READINESS_UNAVAILABLE' });
+  }
+
   const checkoutId = crypto.randomBytes(16).toString('hex');
   const checkoutSecret = crypto.randomBytes(32).toString('base64url');
   const emailHash = sha256(email);

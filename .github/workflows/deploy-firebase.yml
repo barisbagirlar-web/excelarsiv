@@ -202,6 +202,60 @@ jobs:
           grep -Fq 'UNKNOWN_PRODUCT' /tmp/checkout-probe.json
           rm -f /tmp/checkout-probe.json
 
+      - name: Verify real paid product returns HTTP 201
+        env:
+          BASE_URL: https://excelarsiv.web.app
+        shell: bash
+        run: |
+          set -euo pipefail
+          checkout_email="deploy-checkout+${GITHUB_RUN_ID}@excelarsiv.com"
+          response_file="/tmp/checkout-real.json"
+          code="$(curl --silent --show-error -o "$response_file" -w '%{http_code}' \
+            -X POST "$BASE_URL/api/checkout" \
+            -H 'Content-Type: application/json' \
+            --data "{\"productSlug\":\"13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi\",\"email\":\"$checkout_email\"}")"
+          cat "$response_file"
+          test "$code" = '201'
+          node - <<'NODE'
+          const fs = require('fs');
+          const x = JSON.parse(fs.readFileSync('/tmp/checkout-real.json', 'utf8'));
+          const required = ['checkoutId', 'checkoutSecret', 'productSlug', 'tier', 'amountTL', 'shopierUrl'];
+          for (const key of required) if (!x[key]) throw new Error(`checkout response missing ${key}`);
+          if (!/^https:\/\/www\.shopier\.com\/\d+$/.test(x.shopierUrl)) throw new Error('shopierUrl invalid');
+          if (x.amountTL !== 2490) throw new Error('ENTERPRISE amount mismatch');
+          console.log(`REAL CHECKOUT 201 OK: ${x.productSlug} tier=${x.tier} amount=${x.amountTL} shopier=${x.shopierUrl}`);
+          NODE
+          rm -f "$response_file"
+
+      - name: Verify paid product storage readiness (satışa açık set)
+        env:
+          GCLOUD_PROJECT: ${{ env.FIREBASE_PROJECT_ID }}
+          GOOGLE_CLOUD_PROJECT: ${{ env.FIREBASE_PROJECT_ID }}
+          STORAGE_BUCKET: carbon-web-1265b.firebasestorage.app
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/check-paid-products.mjs --strict
+          echo "Paid product storage readiness gate passed (tüm satışa açık ürünler READY)."
+
+      - name: Verify sale-disabled product is blocked at checkout
+        env:
+          BASE_URL: https://excelarsiv.web.app
+        shell: bash
+        run: |
+          set -euo pipefail
+          blocked_email="deploy-blocked+${GITHUB_RUN_ID}@excelarsiv.com"
+          response_file="/tmp/checkout-blocked.json"
+          code="$(curl --silent --show-error -o "$response_file" -w '%{http_code}' \
+            -X POST "$BASE_URL/api/checkout" \
+            -H 'Content-Type: application/json' \
+            --data "{\"productSlug\":\"aylik-patron-finans-paneli\",\"email\":\"$blocked_email\"}")"
+          cat "$response_file"
+          test "$code" = '409'
+          grep -Fq 'PRODUCT_NOT_FOR_SALE' "$response_file"
+          echo "SALE-DISABLED PRODUCT BLOCKED OK (409 PRODUCT_NOT_FOR_SALE)."
+          rm -f "$response_file"
+
       - name: Verify production Proof Demo flow
         env:
           BASE_URL: https://excelarsiv.web.app

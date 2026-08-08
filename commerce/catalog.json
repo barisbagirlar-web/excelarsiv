@@ -26,73 +26,85 @@
       "name": "13 Haftalık Nakit Akışı ve Ödeme Planlama Sistemi",
       "tier": "ENTERPRISE",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi/current.xlsx"
+      "storageKey": "paid-products/13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi/current.xlsx",
+      "satista": true
     },
     "akilli-kasa-defteri-ve-nakit-kontrol-sistemi": {
       "name": "Akıllı Kasa Defteri ve Nakit Kontrol Sistemi",
       "tier": "PRO",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/akilli-kasa-defteri-ve-nakit-kontrol-sistemi/current.xlsx"
+      "storageKey": "paid-products/akilli-kasa-defteri-ve-nakit-kontrol-sistemi/current.xlsx",
+      "satista": true
     },
     "aylik-patron-finans-paneli": {
       "name": "Aylık Patron Finans Paneli",
       "tier": "ENTERPRISE",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/aylik-patron-finans-paneli/current.xlsx"
+      "storageKey": "paid-products/aylik-patron-finans-paneli/current.xlsx",
+      "satista": false
     },
     "banka-kredi-ve-taksit-takip-sistemi": {
       "name": "Banka, Kredi ve Taksit Takip Sistemi",
       "tier": "PREMIUM",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/banka-kredi-ve-taksit-takip-sistemi/current.xlsx"
+      "storageKey": "paid-products/banka-kredi-ve-taksit-takip-sistemi/current.xlsx",
+      "satista": true
     },
     "cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi": {
       "name": "Cari Hesap, Tahsilat ve Müşteri Risk Takip Sistemi",
       "tier": "PREMIUM",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi/current.xlsx"
+      "storageKey": "paid-products/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi/current.xlsx",
+      "satista": true
     },
     "cek-senet-ve-vade-risk-sistemi": {
       "name": "Çek–Senet ve Vade Risk Sistemi",
       "tier": "PREMIUM",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/cek-senet-ve-vade-risk-sistemi/current.xlsx"
+      "storageKey": "paid-products/cek-senet-ve-vade-risk-sistemi/current.xlsx",
+      "satista": true
     },
     "gunluk-gelir-gider-ve-gercek-karlilik-sistemi": {
       "name": "Günlük Gelir–Gider ve Gerçek Kârlılık Sistemi",
       "tier": "PREMIUM",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/gunluk-gelir-gider-ve-gercek-karlilik-sistemi/current.xlsx"
+      "storageKey": "paid-products/gunluk-gelir-gider-ve-gercek-karlilik-sistemi/current.xlsx",
+      "satista": true
     },
     "kobi-finans-yonetim-paketi": {
       "name": "KOBİ Finans Yönetim Paketi",
       "tier": "EXCLUSIVE",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/kobi-finans-yonetim-paketi/current.xlsx"
+      "storageKey": "paid-products/kobi-finans-yonetim-paketi/current.xlsx",
+      "satista": false
     },
     "pos-komisyon-ve-net-tahsilat-kontrol-sistemi": {
       "name": "POS, Komisyon ve Net Tahsilat Kontrol Sistemi",
       "tier": "PRO",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/pos-komisyon-ve-net-tahsilat-kontrol-sistemi/current.xlsx"
+      "storageKey": "paid-products/pos-komisyon-ve-net-tahsilat-kontrol-sistemi/current.xlsx",
+      "satista": false
     },
     "proje-ve-is-bazinda-gercek-karlilik-sistemi": {
       "name": "Proje ve İş Bazında Gerçek Kârlılık Sistemi",
       "tier": "ENTERPRISE",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/proje-ve-is-bazinda-gercek-karlilik-sistemi/current.xlsx"
+      "storageKey": "paid-products/proje-ve-is-bazinda-gercek-karlilik-sistemi/current.xlsx",
+      "satista": false
     },
     "stok-satis-ve-nakit-baglanma-sistemi": {
       "name": "Stok, Satış ve Nakit Bağlanma Sistemi",
       "tier": "PREMIUM",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/stok-satis-ve-nakit-baglanma-sistemi/current.xlsx"
+      "storageKey": "paid-products/stok-satis-ve-nakit-baglanma-sistemi/current.xlsx",
+      "satista": false
     },
     "vergi-sgk-ve-maas-karsilik-ayirma-sistemi": {
       "name": "Vergi, SGK ve Maaş Karşılık Ayırma Sistemi",
       "tier": "PRO",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/vergi-sgk-ve-maas-karsilik-ayirma-sistemi/current.xlsx"
+      "storageKey": "paid-products/vergi-sgk-ve-maas-karsilik-ayirma-sistemi/current.xlsx",
+      "satista": false
     }
   }
 }

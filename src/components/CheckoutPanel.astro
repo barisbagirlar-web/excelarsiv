@@ -1,5 +1,5 @@
 ---
-import { getTierForPrice } from '../lib/shopier';
+import { getTierForPrice, getCommerceProduct } from '../lib/shopier';
 
 interface Props {
   productSlug: string;
@@ -9,7 +9,9 @@ interface Props {
 
 const { productSlug, name, priceTL } = Astro.props;
 const tierInfo = getTierForPrice(priceTL);
+const product = getCommerceProduct(productSlug);
 const price = priceTL.toLocaleString('tr-TR');
+const satista = product?.satista !== false;
 ---
 
 <section
@@ -30,7 +32,7 @@ const price = priceTL.toLocaleString('tr-TR');
   <p class="checkout-card__lead">Ödemeyi Shopier’de güvenle tamamlayın; ardından ExcelArşiv teslimat ekranına dönüp dosyanızı bilgisayarınıza indirin.</p>
 
   {
-    tierInfo ? (
+    tierInfo && satista ? (
       <>
         <form class="checkout-card__form" data-checkout-form novalidate>
           <label for={`checkout-email-${productSlug}`}>
@@ -73,6 +75,8 @@ const price = priceTL.toLocaleString('tr-TR');
           </details>
         </div>
       </>
+    ) : tierInfo ? (
+      <div class="checkout-card__unavailable">Bu ürün geçici olarak satışa kapalıdır. Hazırlanan ürün kısa süre sonra tekrar satışa sunulacaktır.</div>
     ) : (
       <div class="checkout-card__unavailable">Bu ürünün ödeme bağlantısı geçici olarak kullanılamıyor.</div>
     )
@@ -120,6 +124,7 @@ const price = priceTL.toLocaleString('tr-TR');
       INVALID_EMAIL: 'Geçerli bir e-posta adresi girin.',
       RATE_LIMITED: 'Çok fazla ödeme denemesi yapıldı. Bir süre sonra tekrar deneyin.',
       PRODUCT_NOT_READY: 'Bu ürün geçici olarak satışa hazırlanıyor. Lütfen kısa süre sonra tekrar deneyin.',
+      PRODUCT_NOT_FOR_SALE: 'Bu ürün şu anda satışa kapalıdır.',
       PRODUCT_READINESS_UNAVAILABLE: 'Satış sistemi geçici olarak kontrol edilemiyor. Lütfen kısa süre sonra tekrar deneyin.',
       CHECKOUT_NOT_FOUND: 'Bu ödeme oturumu bulunamadı. Satın alma işlemini yeniden başlatın.',
       ORDER_DOES_NOT_MATCH: 'Sipariş bu ürün, fiyat seviyesi veya e-posta ile eşleşmedi.',

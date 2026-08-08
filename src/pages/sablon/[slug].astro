@@ -12,6 +12,7 @@ import CellGrid from '../../components/CellGrid.astro';
 import PurchaseBar from '../../components/PurchaseBar.astro';
 import Notice from '../../components/Notice.astro';
 import ProductHeroPremium from '../../components/product/ProductHeroPremium.astro';
+import { getCommerceProduct } from '../../lib/shopier';
 
 export async function getStaticPaths() {
   const templates = await getCollection('templates');
@@ -27,6 +28,7 @@ interface Props {
 
 const { template } = Astro.props;
 const t = template.data;
+const commerceProduct = getCommerceProduct(template.id);
 
 const categoryLabels: Record<string, string> = {
   'finansal-analiz': 'Finansal Analiz',
@@ -245,7 +247,7 @@ const jsonLd = {
     }
   </main>
 
-  <PurchaseBar name={t.name} priceTL={t.priceTL} />
+  <PurchaseBar name={t.name} priceTL={t.priceTL} satista={commerceProduct?.satista !== false} />
   <div class="h-20 sm:hidden" aria-hidden="true" />
 </CommerceLayout>
 
