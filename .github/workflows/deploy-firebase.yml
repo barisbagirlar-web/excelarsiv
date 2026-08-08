@@ -60,6 +60,8 @@ jobs:
               tsconfig.json \
               package-lock.json \
               scripts/seo/generate-artifacts.mjs \
+              scripts/seo/finalize-sitemap-index.mjs \
+              scripts/seo/validate-gates.mjs \
               scripts/seo/lib.mjs \
               .github/workflows/deploy-firebase.yml; then
               hosting_changed=true
@@ -235,6 +237,20 @@ jobs:
           done
           echo "All required production Functions are present."
 
+      - name: Finalize sitemap index (canlı baseline ile)
+        if: steps.changes.outputs.hosting_changed == 'true'
+        env:
+          SEO_SITEMAP_INDEX_MIGRATION: ${{ secrets.SEO_SITEMAP_INDEX_MIGRATION }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if grep -Eq 'SEO_SITEMAP_INDEX_MIGRATION[^#]*1' .github/workflows/deploy-firebase.yml; then
+            echo "KALDI: migration flag workflow'a kalıcı yazılmış — ayrı tetikleme gerekir."
+            exit 1
+          fi
+          node scripts/seo/finalize-sitemap-index.mjs
+          node scripts/seo/validate-artifacts.mjs
+
       - name: Deploy Firebase Hosting
         if: steps.changes.outputs.hosting_changed == 'true'
         env:
@@ -356,3 +372,9 @@ jobs:
       - name: Verify custom domain
         if: steps.changes.outputs.runtime_changed == 'true'
         run: curl --fail --silent --show-error --retry 5 --retry-delay 3 --retry-all-errors https://excelarsiv.com/ >/dev/null
+
+      - name: SEO live contract
+        if: steps.changes.outputs.hosting_changed == 'true'
+        env:
+          SEO_BASE_URL: https://excelarsiv.com
+        run: node scripts/seo/live-contract.mjs

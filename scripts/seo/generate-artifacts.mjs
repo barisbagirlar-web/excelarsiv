@@ -1,5 +1,6 @@
-import { existsSync, renameSync, rmSync, writeFileSync } from 'node:fs';
-import { basename, join } from 'node:path';
+import { existsSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { createHash } from 'node:crypto';
 import {
   DIST_DIR,
   SITE_ORIGIN,
@@ -72,11 +73,6 @@ function chunkByProtocolLimits(entries) {
   return chunks;
 }
 
-function maxLastmod(entries) {
-  const values = entries.map((entry) => entry.lastmod).filter(Boolean).sort();
-  return values.at(-1) ?? null;
-}
-
 function writeSitemapGroup(label, entries) {
   if (entries.length === 0) return [];
   const chunks = chunkByProtocolLimits(entries);
@@ -87,8 +83,12 @@ function writeSitemapGroup(label, entries) {
       throw new Error(`SITEMAP_SIZE_LIMIT: ${name}`);
     }
     atomicWrite(name, content);
-    return { name, lastmod: maxLastmod(chunk), count: chunk.length };
+    return { name, count: chunk.length };
   });
+}
+
+function sha256(bytes) {
+  return createHash('sha256').update(bytes).digest('hex');
 }
 
 function formatPrice(value) {
@@ -226,6 +226,13 @@ if (children.length === 0) throw new Error('FAIL_SAFE_EMPTY_SITEMAP_INDEX');
 atomicWrite('sitemap.xml', sitemapIndexDocument(children));
 atomicWrite('llms.txt', buildLlmsShort(indexablePages, templates));
 atomicWrite('llms-full.txt', buildLlmsFull(indexablePages, templates));
+
+const manifestChildren = children.map((child) => ({
+  file: child.name,
+  urlCount: child.count,
+  sha256: sha256(Buffer.from(readFileSync(join(DIST_DIR, child.name), 'utf8'), 'utf8')),
+}));
+atomicWrite('seo-artifacts.json', JSON.stringify({ site: SITE_ORIGIN, children: manifestChildren }, null, 2));
 
 console.log(`SEO ARTIFACTS GENERATED — ${indexablePages.length} canonical URL, ${children.length} child sitemap, ${templates.size} product record`);
 console.log(`Generated: ${[...artifacts].sort().join(', ')}`);

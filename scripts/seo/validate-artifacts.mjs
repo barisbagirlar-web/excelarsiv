@@ -7,6 +7,12 @@ import {
   extractMeta,
   normalizeCanonical,
 } from './lib.mjs';
+import {
+  xmlValues,
+  validateChildXml,
+  validateIndexXml,
+  validateParity,
+} from './validate-gates.mjs';
 
 const failures = [];
 const warnings = [];
@@ -31,20 +37,6 @@ function readRequired(name) {
   return content;
 }
 
-function decodeXml(value) {
-  return value
-    .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'")
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>');
-}
-
-function xmlValues(xml, tag) {
-  return [...xml.matchAll(new RegExp(`<${tag}>([\\s\\S]*?)<\\/${tag}>`, 'gi'))]
-    .map((match) => decodeXml(match[1].trim()));
-}
-
 function assertSitemapFile(name) {
   const path = join(DIST_DIR, name);
   if (!existsSync(path)) {
@@ -54,22 +46,12 @@ function assertSitemapFile(name) {
   const size = statSync(path).size;
   if (size > 50 * 1024 * 1024) fail(`${name}: 50 MB protokol sınırı aşıldı`);
   const xml = readFileSync(path, 'utf8');
-  if (!/^<\?xml[^>]*>\s*<urlset\b/i.test(xml)) fail(`${name}: geçerli urlset değil`);
-  if (/<priority>|<changefreq>/i.test(xml)) fail(`${name}: priority/changefreq gürültüsü bulundu`);
-
-  const locs = xmlValues(xml, 'loc');
-  const lastmods = xmlValues(xml, 'lastmod');
-  if (locs.length > 50_000) fail(`${name}: 50.000 URL sınırı aşıldı`);
-  if (locs.length === 0) fail(`${name}: URL içermiyor`);
+  const { locs, lastmods, errors } = validateChildXml(xml, { label: name });
+  for (const error of errors) fail(error);
 
   for (const raw of locs) {
     const normalized = normalizeCanonical(raw);
     if (!normalized || normalized !== raw) fail(`${name}: canonical dışı veya parametreli loc -> ${raw}`);
-  }
-  for (const raw of lastmods) {
-    const parsed = new Date(raw);
-    if (Number.isNaN(parsed.valueOf())) fail(`${name}: geçersiz lastmod -> ${raw}`);
-    else if (parsed.valueOf() > Date.now() + 5 * 60 * 1000) fail(`${name}: gelecek tarihli lastmod -> ${raw}`);
   }
 
   return { locs, lastmods };
@@ -118,14 +100,29 @@ for (const childUrl of childUrls) {
   sitemapLocs.push(...child.locs);
 }
 
+const { indexLastmods, errors: indexErrors } = validateIndexXml(sitemapIndex);
+for (const error of indexErrors) fail(`sitemap.xml: ${error}`);
+
+const manifestPath = join(DIST_DIR, 'seo-artifacts.json');
+if (existsSync(manifestPath)) {
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+  const expectedChildren = manifest.children.map((child) => `${SITE_ORIGIN}/${child.file}`).sort();
+  const actualChildren = childUrls
+    .map((value) => {
+      try {
+        return new URL(value).toString().replace(/\/+$/, '');
+      } catch {
+        return value;
+      }
+    })
+    .sort();
+  if (JSON.stringify(expectedChildren) !== JSON.stringify(actualChildren)) {
+    fail('sitemap.xml: index child listesi seo-artifacts.json manifest ile eşleşmiyor (SSOT ihlali)');
+  }
+}
+
 const actual = new Set(sitemapLocs);
-if (actual.size !== sitemapLocs.length) fail('Sitemap child dosyalarında duplicate URL var');
-for (const canonical of expected) {
-  if (!actual.has(canonical)) fail(`SITEMAP_PARITY_MISSING: ${canonical}`);
-}
-for (const loc of actual) {
-  if (!expected.has(loc)) fail(`SITEMAP_PARITY_EXTRA: ${loc}`);
-}
+for (const error of validateParity(expected, sitemapLocs)) fail(error);
 
 const robots = readRequired('robots.txt');
 if (!/^User-agent:\s*\*/mi.test(robots)) fail('robots.txt: genel User-agent kuralı yok');
