@@ -21,20 +21,20 @@ const price = priceTL.toLocaleString('tr-TR');
 >
   <div class="checkout-card__head">
     <div>
-      <p class="checkout-card__kicker">SATIN AL</p>
-      <h2>Shopier ile güvenli ödeme</h2>
+      <p class="checkout-card__kicker">TAM SÜRÜM</p>
+      <h2>Satın Al</h2>
     </div>
     <p class="checkout-card__price">{price} <small>TL</small></p>
   </div>
 
-  <p class="checkout-card__meta">KDV dahil · Tek ödeme · Abonelik yok</p>
+  <p class="checkout-card__lead">Shopier ile güvenli ödeme. Ödeme doğrulanınca Excel dosyanız bu sayfadan açılır.</p>
 
   {
     tierInfo ? (
       <>
         <form class="checkout-card__form" data-checkout-form novalidate>
           <label for={`checkout-email-${productSlug}`}>
-            <span>E-posta adresiniz</span>
+            <span>E-posta</span>
             <input
               id={`checkout-email-${productSlug}`}
               name="email"
@@ -51,7 +51,10 @@ const price = priceTL.toLocaleString('tr-TR');
           </button>
         </form>
 
-        <p class="checkout-card__hint">Shopier'de de aynı e-posta adresini kullanın. Ödeme eşleşmesi otomatik yapılır.</p>
+        <div class="checkout-card__microcopy" aria-label="Satın alma bilgileri">
+          <span>KDV dahil</span><i aria-hidden="true"></i><span>Tek ödeme</span><i aria-hidden="true"></i><span>Abonelik yok</span>
+        </div>
+        <p class="checkout-card__hint">Shopier ödeme ekranında da aynı e-postayı kullanın; eşleştirme otomatik yapılır.</p>
 
         <div class="checkout-card__progress hidden" data-checkout-progress aria-live="polite">
           <p class="checkout-card__status" data-checkout-status></p>
@@ -287,7 +290,7 @@ const price = priceTL.toLocaleString('tr-TR');
 </script>
 
 <style>
-  .checkout-card{height:100%;padding:22px;border:1px solid #cfddd4;border-radius:18px;background:#fff;box-shadow:0 12px 32px rgba(21,70,44,.07)}
-  .checkout-card__head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}.checkout-card__kicker{margin:0;font-family:var(--font-mono);font-size:9px;font-weight:800;letter-spacing:.12em;color:#0b7440}.checkout-card h2{margin:6px 0 0;font-family:var(--font-display);font-size:22px;line-height:1.08;letter-spacing:-.025em;color:#14271d}.checkout-card__price{margin:0;white-space:nowrap;font-family:var(--font-mono);font-size:25px;font-weight:800;letter-spacing:-.04em;color:#10271b}.checkout-card__price small{font-size:12px}.checkout-card__meta{margin:9px 0 0;font-size:11px;color:#6a776f}.checkout-card__form{display:grid;gap:12px;margin-top:20px}.checkout-card__form label{display:grid;gap:7px}.checkout-card__form label span{font-size:11px;font-weight:700;color:#4d5d53}.checkout-card input{width:100%;min-height:46px;padding:0 12px;border:1px solid #cbd8d0;border-radius:10px;background:#fff;color:#16261d;font-size:13px;outline:none}.checkout-card input:focus{border-color:#0b7a42;box-shadow:0 0 0 3px rgba(11,122,66,.08)}.checkout-card__form>button,.checkout-card__progress-actions button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:0;border-radius:10px;background:#0b743f;padding:0 18px;color:#fff;font-family:var(--font-mono);font-size:12px;font-weight:800;cursor:pointer}.checkout-card__form>button:hover,.checkout-card__progress-actions button:hover{background:#075f34}.checkout-card__form>button:disabled{cursor:wait;opacity:.62}.checkout-card__hint{margin:10px 0 0;font-size:10.5px;line-height:1.45;color:#77837c}.checkout-card__progress{margin-top:15px;padding-top:14px;border-top:1px solid #e1e8e3}.checkout-card__status{margin:0;font-size:12px;font-weight:800;color:#20352a}.checkout-card__detail{margin:5px 0 0;font-size:10.5px;line-height:1.5;color:#6e7b73}.checkout-card__progress-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:11px}.checkout-card__progress-actions a{font-size:11px;font-weight:700;color:#0b743f;text-decoration:none}.checkout-card details{margin-top:13px;padding-top:12px;border-top:1px solid #e1e8e3}.checkout-card summary{cursor:pointer;font-size:10.5px;color:#5f6e65}.checkout-card details form{display:grid;gap:8px;margin-top:10px}.checkout-card details button{min-height:40px;border:1px solid #cbd8d0;border-radius:9px;background:#fff;color:#234331;font-size:11px;font-weight:700}.checkout-card__unavailable{margin-top:18px;padding:12px;border-radius:10px;background:#fff3e8;color:#815528;font-size:12px}.hidden{display:none!important}
-  @media(max-width:620px){.checkout-card{padding:18px}.checkout-card__head{align-items:flex-end}.checkout-card h2{font-size:20px}.checkout-card__price{font-size:22px}}
+  .checkout-card{height:100%;padding:20px;border:1px solid #cbdad1;border-radius:18px;background:#fff;box-shadow:0 12px 30px rgba(21,70,44,.06)}
+  .checkout-card__head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px}.checkout-card__kicker{margin:0;font-family:var(--font-mono);font-size:8.5px;font-weight:800;letter-spacing:.12em;color:#0b7440}.checkout-card h2{margin:5px 0 0;font-family:var(--font-display);font-size:21px;line-height:1.05;letter-spacing:-.025em;color:#14271d}.checkout-card__price{margin:0;white-space:nowrap;font-family:var(--font-mono);font-size:24px;font-weight:800;letter-spacing:-.04em;color:#10271b}.checkout-card__price small{font-size:11px}.checkout-card__lead{margin:10px 0 0;font-size:11px;line-height:1.48;color:#68766e}.checkout-card__form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;margin-top:16px}.checkout-card__form label{display:grid;gap:6px}.checkout-card__form label span{font-size:10px;font-weight:700;color:#4d5d53}.checkout-card input{width:100%;min-height:44px;padding:0 11px;border:1px solid #cbd8d0;border-radius:9px;background:#fff;color:#16261d;font-size:12.5px;outline:none}.checkout-card input:focus{border-color:#0b7a42;box-shadow:0 0 0 3px rgba(11,122,66,.08)}.checkout-card__form>button,.checkout-card__progress-actions button{align-self:end;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;border:0;border-radius:9px;background:#0b743f;padding:0 16px;color:#fff;font-family:var(--font-mono);font-size:10.5px;font-weight:800;cursor:pointer;white-space:nowrap}.checkout-card__form>button:hover,.checkout-card__progress-actions button:hover{background:#075f34}.checkout-card__form>button:disabled{cursor:wait;opacity:.62}.checkout-card__microcopy{display:flex;align-items:center;gap:7px;margin-top:11px;font-family:var(--font-mono);font-size:8.5px;font-weight:700;color:#4e6758}.checkout-card__microcopy i{width:3px;height:3px;border-radius:50%;background:#a9b8af}.checkout-card__hint{margin:7px 0 0;font-size:9.5px;line-height:1.4;color:#7a857f}.checkout-card__progress{margin-top:13px;padding-top:12px;border-top:1px solid #e1e8e3}.checkout-card__status{margin:0;font-size:11px;font-weight:800;color:#20352a}.checkout-card__detail{margin:4px 0 0;font-size:9.5px;line-height:1.45;color:#6e7b73}.checkout-card__progress-actions{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin-top:10px}.checkout-card__progress-actions a{font-size:10px;font-weight:700;color:#0b743f;text-decoration:none}.checkout-card details{margin-top:11px;padding-top:10px;border-top:1px solid #e1e8e3}.checkout-card summary{cursor:pointer;font-size:9.5px;color:#5f6e65}.checkout-card details form{display:grid;gap:7px;margin-top:9px}.checkout-card details button{min-height:38px;border:1px solid #cbd8d0;border-radius:8px;background:#fff;color:#234331;font-size:10px;font-weight:700}.checkout-card__unavailable{margin-top:16px;padding:11px;border-radius:9px;background:#fff3e8;color:#815528;font-size:11px}.hidden{display:none!important}
+  @media(max-width:700px){.checkout-card{padding:17px}.checkout-card__form{grid-template-columns:1fr}.checkout-card__form>button{width:100%}.checkout-card__head{align-items:flex-end}.checkout-card h2{font-size:20px}.checkout-card__price{font-size:22px}}
 </style>
