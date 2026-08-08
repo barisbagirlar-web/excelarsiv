@@ -7,6 +7,11 @@ export interface TemplateSheetMap {
   kind: 'input' | 'calculation' | 'output';
 }
 
+export interface TemplatePreview {
+  src: string;
+  alt: string;
+}
+
 export interface TemplateViewModel {
   slug: string;
   name: string;
@@ -16,7 +21,10 @@ export interface TemplateViewModel {
   priceTL: number;
   sheetCount: number;
   version?: string;
+  fileFormat?: 'xlsx' | 'xlsm';
   sheetMap?: TemplateSheetMap[];
+  outputs?: string[];
+  preview?: TemplatePreview;
   url: string;
 }
 
@@ -33,7 +41,10 @@ export function toTemplateViewModel(entry: TemplateEntry): TemplateViewModel {
     priceTL: data.priceTL,
     sheetCount: data.sheetCount,
     version: data.version,
+    fileFormat: data.fileFormat,
     sheetMap: data.sheetMap,
+    outputs: data.outputs,
+    preview: data.screenshots[0],
     url: `/sablon/${entry.id}`,
   };
 }
