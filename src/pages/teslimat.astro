@@ -13,25 +13,43 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
 ---
 
 <CommerceLayout
-  title="Satın Aldıklarım ve İndirme — Excel Arşiv"
-  description="Shopier ödemenizi doğrulayın ve satın aldığınız Excel dosyasını güvenli şekilde ExcelArşiv üzerinden indirin."
+  title="Ödeme Sonrası Excel İndirme — Excel Arşiv"
+  description="Shopier ödemenizi doğrulayın ve satın aldığınız Excel dosyasını güvenli şekilde ExcelArşiv üzerinden bilgisayarınıza indirin."
 >
   <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
-    <SectionLabel number={1} label="Teslimat" />
-    <h1 class="display mt-6">Satın aldığınız Excel'i indirin</h1>
+    <SectionLabel number={1} label="Ödeme Sonrası Teslimat" />
+    <h1 class="display mt-6">Ödemenizi tamamladınız. Excel'inizi buradan indirin.</h1>
     <p class="lead mt-5 max-w-2xl">
-      Shopier ödeme kaydı doğrulandığında dosyanız bu ekrandan doğrudan bilgisayarınıza indirilir.
+      Shopier ödeme sayfasından ExcelArşiv'e döndüğünüzde siparişiniz otomatik kontrol edilir. Ödeme onaylandıysa aşağıdaki <strong>Excel'i İndir</strong> butonu açılır ve dosya doğrudan bilgisayarınıza iner.
     </p>
 
-    <div class="mt-10 border border-rule-strong bg-surface-1 p-6" data-delivery-root>
+    <ol class="mt-8 grid gap-px overflow-hidden border border-rule-strong bg-rule-strong md:grid-cols-3" aria-label="Ödeme sonrası indirme adımları">
+      <li class="bg-surface-1 p-4">
+        <span class="font-mono text-[10px] font-bold text-accent-primary">01</span>
+        <strong class="mt-1 block text-sm text-ink-800">Shopier'de ödeme tamamlandı</strong>
+        <p class="mt-2 text-xs leading-relaxed text-ink-500">Shopier sipariş onay ekranındaki ExcelArşiv'e dönüş bağlantısına tıklayın.</p>
+      </li>
+      <li class="bg-surface-1 p-4">
+        <span class="font-mono text-[10px] font-bold text-accent-primary">02</span>
+        <strong class="mt-1 block text-sm text-ink-800">Ödeme otomatik doğrulanır</strong>
+        <p class="mt-2 text-xs leading-relaxed text-ink-500">Bu sayfa Shopier siparişinizi güvenli biçimde kontrol eder. Genellikle birkaç saniye sürer.</p>
+      </li>
+      <li class="bg-surface-1 p-4">
+        <span class="font-mono text-[10px] font-bold text-accent-primary">03</span>
+        <strong class="mt-1 block text-sm text-ink-800">Excel bilgisayarınıza iner</strong>
+        <p class="mt-2 text-xs leading-relaxed text-ink-500">Onaydan sonra yalnızca size ait kısa süreli güvenli indirme bağlantısı oluşturulur.</p>
+      </li>
+    </ol>
+
+    <div class="mt-8 border border-rule-strong bg-surface-1 p-6" data-delivery-root>
       <div data-empty-state>
-        <h2 class="font-display text-xl text-ink-800">Bu tarayıcıda aktif satın alma bulunamadı</h2>
+        <h2 class="font-display text-xl text-ink-800">Satın alma kaydı bu tarayıcıda otomatik bulunamadı</h2>
         <p class="mt-3 text-sm leading-relaxed text-ink-500">
-          Satın alma işlemini bu cihazda başlattıysanız kayıt normalde otomatik bulunur. Başka bir cihazdan ödeme yaptıysanız veya tarayıcı verileri silindiyse Shopier siparişinizle erişimi geri yükleyebilirsiniz.
+          Ödemeyi bu cihazda başlattıysanız kayıt normalde otomatik bulunur. Başka bir cihazdan ödeme yaptıysanız, tarayıcı verileri silindiyse veya Shopier'den bu sayfayı doğrudan açtıysanız aşağıdaki bilgilerle satın almanızı güvenli biçimde geri yükleyebilirsiniz.
         </p>
 
         <details class="mt-6 border-t border-rule-hairline pt-5" open>
-          <summary class="cursor-pointer font-mono text-xs text-ink-600">Satın almamı geri yükle</summary>
+          <summary class="cursor-pointer font-mono text-xs text-ink-600">Shopier siparişimle indirme hakkımı bul</summary>
           <form class="mt-4 grid gap-4" data-recovery-form>
             <label class="block">
               <span class="font-mono text-xs text-ink-600">Satın aldığınız Excel</span>
@@ -51,7 +69,7 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
               <input required type="text" maxlength="80" class="mt-2 min-h-12 w-full border border-rule-strong bg-white px-3 font-mono text-sm text-ink-800 outline-none focus:border-accent-primary" data-recovery-order />
             </label>
             <button type="submit" class="min-h-12 bg-accent-primary px-5 font-mono text-sm text-white hover:bg-accent-hover disabled:opacity-60" data-recovery-submit>
-              Satın Almamı Doğrula
+              Ödememi Doğrula ve İndirmeyi Aç
             </button>
             <p class="text-xs leading-relaxed text-ink-400" data-recovery-message aria-live="polite"></p>
           </form>
@@ -63,7 +81,7 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
       </div>
 
       <div class="hidden" data-active-state aria-live="polite">
-        <p class="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-400">Satın Alma</p>
+        <p class="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-400">Ödeme Sonrası Teslimat</p>
         <h2 class="mt-2 font-display text-xl text-ink-800" data-product-name></h2>
         <p class="mt-2 font-mono text-sm text-ink-600" data-amount></p>
         <div class="mt-5 border-t border-rule-hairline pt-5">
@@ -71,10 +89,10 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
           <p class="mt-2 text-xs leading-relaxed text-ink-400" data-detail></p>
           <button
             type="button"
-            class="mt-5 hidden min-h-12 bg-accent-primary px-6 font-mono text-sm text-white hover:bg-accent-hover disabled:opacity-60"
+            class="mt-5 hidden min-h-12 bg-accent-primary px-6 font-mono text-sm font-bold text-white hover:bg-accent-hover disabled:opacity-60"
             data-download
           >
-            Excel'i İndir
+            Excel'i Bilgisayarıma İndir ↓
           </button>
           <a href="#" target="_blank" rel="noopener noreferrer sponsored" class="mt-4 hidden font-mono text-xs text-accent-primary underline underline-offset-4" data-shopier-link>
             Shopier ödeme ekranını tekrar aç
@@ -180,7 +198,7 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
   function showPaid() {
     if (timer) window.clearTimeout(timer);
     timer = null;
-    setStatus('Ödeme onaylandı', 'Dosyanız indirmeye hazır. İndirme bağlantısı tek kullanımlık ve kısa sürelidir.');
+    setStatus('Ödemeniz onaylandı', 'Excel dosyanız hazır. Aşağıdaki butona basarak doğrudan bilgisayarınıza indirebilirsiniz.');
     download?.classList.remove('hidden');
     shopierLink?.classList.add('hidden');
     manual?.classList.add('hidden');
@@ -204,13 +222,13 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
         manual?.classList.remove('hidden');
         return;
       }
-      setStatus('Ödeme doğrulaması bekleniyor', result.verificationDelayed
-        ? 'Shopier API doğrulaması geçici olarak gecikiyor; otomatik kontrol devam ediyor.'
-        : 'Ödeme yaptıysanız onay birkaç saniye içinde bu ekrana yansır.');
+      setStatus('Ödemeniz doğrulanıyor', result.verificationDelayed
+        ? 'Shopier doğrulaması geçici olarak gecikiyor; otomatik kontrol devam ediyor.'
+        : 'Shopier ödeme kaydı kontrol ediliyor. Onay birkaç saniye içinde bu ekrana yansır.');
       if (Date.now() - startedAt > 45000) manual?.classList.remove('hidden');
       schedule();
     } catch {
-      setStatus('Doğrulama devam ediyor', 'Shopier bağlantısı geçici olarak yanıt vermedi. Otomatik kontrol yeniden denenecek.');
+      setStatus('Doğrulama devam ediyor', 'Shopier bağlantısı geçici olarak yanıt vermedi. Otomatik kontrol yeniden denenecek; bu sayfayı kapatmayın.');
       if (Date.now() - startedAt > 45000) manual?.classList.remove('hidden');
       schedule();
     }
@@ -218,14 +236,14 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
 
   if (checkout?.checkoutId && checkout?.checkoutSecret) {
     activateCheckout(checkout);
-    setStatus('Shopier ödeme kaydı kontrol ediliyor', 'Bu sayfayı açık bırakabilirsiniz.');
+    setStatus('Shopier ödemeniz kontrol ediliyor', 'Ödeme onayı alındığında Excel\'i İndir butonu otomatik açılır.');
     checkStatus();
   }
 
   download?.addEventListener('click', async () => {
     if (!checkout) return;
     download.setAttribute('disabled', '');
-    setStatus('Dosya hazırlanıyor', 'Güvenli indirme bağlantısı oluşturuluyor.');
+    setStatus('Dosyanız hazırlanıyor', 'Size özel güvenli indirme bağlantısı oluşturuluyor.');
     try {
       const result = await postJson('/api/download-token', {
         checkoutId: checkout.checkoutId,
@@ -237,7 +255,7 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
       document.body.appendChild(link);
       link.click();
       link.remove();
-      setStatus('İndirme başladı', 'Dosya bilgisayarınıza indiriliyor.');
+      setStatus('İndirme başladı', 'Excel dosyanız bilgisayarınıza indiriliyor.');
     } catch (error) {
       setStatus(
         'Dosya indirilemedi',
@@ -254,7 +272,7 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
     event.preventDefault();
     const shopierOrderId = orderId?.value?.trim() || '';
     if (!checkout || !shopierOrderId) return;
-    setStatus('Sipariş doğrudan doğrulanıyor', 'Shopier sipariş kaydı kontrol ediliyor.');
+    setStatus('Siparişiniz doğrulanıyor', 'Shopier sipariş kaydı kontrol ediliyor.');
     try {
       const result = await postJson('/api/verify-order', {
         checkoutId: checkout.checkoutId,
@@ -278,7 +296,7 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
     if (recoveryMessage) recoveryMessage.textContent = 'Shopier siparişi doğrulanıyor…';
     try {
       const result = await postJson('/api/recover-purchase', { productSlug, email, shopierOrderId });
-      const restored = { ...result, savedAt: Date.now() };
+      const restored = { ...result, savedAt: Date.now(), deliveryUrl: '/teslimat' };
       activateCheckout(restored);
       showPaid();
     } catch (error) {
