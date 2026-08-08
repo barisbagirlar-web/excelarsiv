@@ -2,10 +2,8 @@
 import CommerceLayout from '../../layouts/CommerceLayout.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
-import SectionLabel from '../../components/SectionLabel.astro';
 import SpecTable from '../../components/SpecTable.astro';
 import PreviewGallery from '../../components/PreviewGallery.astro';
-import DemoDownloadBox from '../../components/DemoDownloadBox.astro';
 import SheetMapTable from '../../components/SheetMapTable.astro';
 import EligibilityList from '../../components/EligibilityList.astro';
 import FaqAccordion from '../../components/FaqAccordion.astro';
@@ -85,7 +83,7 @@ const jsonLd = {
 
 <CommerceLayout
   title={`${t.name} — Excel Arşiv`}
-  description={`${t.summary} Kişisel Proof Demo'yu ücretsiz inceleyin; Shopier ile güvenli ödeme sonrası ExcelArşiv üzerinden doğrudan indirin.`}
+  description={`${t.summary} Ücretsiz demo ile deneyin; Shopier ile güvenli ödeme sonrası ExcelArşiv üzerinden doğrudan indirin.`}
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
@@ -113,113 +111,93 @@ const jsonLd = {
       macCompatible={t.macCompatible}
     />
 
-    <nav class="product-jump" aria-label="Ürün sayfası bölümleri">
-      <a href="#onizleme">Önizleme</a>
-      <a href="#iskelet">Dosya yapısı</a>
-      <a href="#girdi-cikti">Girdi / çıktı</a>
-      <a href="#uygunluk">Kimler için</a>
-      <a href="#teknik">Teknik</a>
-      <a href="#sss">SSS</a>
-    </nav>
-
-    <section id="onizleme" class="product-section product-section--proof">
-      <div class="product-section__head">
+    <section id="onizleme" class="product-section product-section--preview">
+      <div class="section-head">
         <div>
-          <SectionLabel address="B2" label="Önizleme" />
-          <h2>Önce görün, sonra karar verin.</h2>
+          <p class="section-kicker">GERÇEK ÜRÜN EKRANLARI</p>
+          <h2>Satın alacağınız dosyayı görün.</h2>
         </div>
-        <p>Kişisel Proof Demo ile gerçek ürün akışını sınırlı kapasitede deneyin; ardından katalogdaki gerçek ekran görüntülerini büyüterek inceleyin.</p>
+        <p>Temsilî görsel değil; ürünün gerçek çalışma ekranları. Görselleri büyüterek yapıyı satın almadan önce inceleyebilirsiniz.</p>
       </div>
-      <div class="product-demo-wrap">
-        <DemoDownloadBox productSlug={template.id} name={t.name} />
-      </div>
-      <div class="product-preview-wrap">
-        <PreviewGallery images={t.screenshots} />
-      </div>
+      <PreviewGallery images={t.screenshots} />
     </section>
 
-    <section id="iskelet" class="product-section product-section--soft">
-      <div class="product-section__head">
+    <section class="product-section product-section--flow">
+      <div class="section-head section-head--light">
         <div>
-          <SectionLabel address="B3" label="Sayfa Haritası" />
-          <h2>Dosyanın iskeleti satın almadan önce görünür.</h2>
+          <p class="section-kicker">NASIL ÇALIŞIR?</p>
+          <h2>Veriyi girin. Karar çıktısını alın.</h2>
         </div>
-        <p>Hangi sayfa ne işe yarar, hangisi girdi hangisi hesap hangisi çıktı — ürünün çalışma mantığını dosyayı satın almadan okuyun.</p>
+        <p>Karmaşık özellik listesi yerine sistemin sizden ne istediğini ve size ne verdiğini doğrudan görün.</p>
       </div>
-      <SheetMapTable sheets={t.sheetMap} />
-    </section>
 
-    <section id="girdi-cikti" class="product-section product-section--contrast">
-      <div class="product-section__head product-section__head--light">
-        <div>
-          <SectionLabel address="B4" label="Girdi – Çıktı Sözleşmesi" />
-          <h2>Ne girersiniz, sistem size ne üretir?</h2>
-        </div>
-        <p>Ürünün değerini belirsiz özellik listeleriyle değil, doğrudan veri girişi ve karar çıktısı üzerinden okuyun.</p>
-      </div>
       <div class="io-grid">
         <div class="io-card">
-          <span class="io-card__code">GİRDİ</span>
-          <h3>Siz şunları girersiniz</h3>
-          <ul>
-            {t.inputs.map((item) => <li><span aria-hidden="true">→</span>{item}</li>)}
-          </ul>
+          <span>1 · GİRDİ</span>
+          <h3>Siz girersiniz</h3>
+          <ul>{t.inputs.map((item) => <li><b>→</b>{item}</li>)}</ul>
         </div>
         <div class="io-card io-card--output">
-          <span class="io-card__code">ÇIKTI</span>
-          <h3>Sistem şunları üretir</h3>
-          <ul>
-            {t.outputs.map((item) => <li><span aria-hidden="true">✓</span>{item}</li>)}
-          </ul>
+          <span>2 · ÇIKTI</span>
+          <h3>Sistem üretir</h3>
+          <ul>{t.outputs.map((item) => <li><b>✓</b>{item}</li>)}</ul>
         </div>
       </div>
+
+      <details class="product-details">
+        <summary>Dosyanın içinde hangi sayfalar var? <span>+</span></summary>
+        <div class="product-details__body"><SheetMapTable sheets={t.sheetMap} /></div>
+      </details>
     </section>
 
-    <section id="uygunluk" class="product-section">
-      <div class="product-section__head">
+    <section class="product-section">
+      <div class="section-head">
         <div>
-          <SectionLabel address="B5" label="Uygunluk" />
-          <h2>Doğru ürünü aldığınızdan emin olun.</h2>
+          <p class="section-kicker">KİMLER İÇİN?</p>
+          <h2>Doğru ürünü seçtiğinizden emin olun.</h2>
         </div>
-        <p>Her ürün herkes için değildir. Uygun olmadığı senaryoyu da açıkça göstererek yanlış satın alma riskini azaltıyoruz.</p>
+        <p>Yanlış satın almayı azaltmak için uygun ve uygun olmayan kullanım senaryolarını birlikte gösteriyoruz.</p>
       </div>
       <div class="eligibility-grid">
-        <EligibilityList title="Kimler için uygun" items={t.suitableFor} />
-        <EligibilityList title="Kimler için uygun değil" items={t.notSuitableFor} negative />
+        <EligibilityList title="Bu ürün size uygunsa" items={t.suitableFor} />
+        <EligibilityList title="Bu ürün size uygun değilse" items={t.notSuitableFor} negative />
       </div>
     </section>
 
-    <section id="teknik" class="product-section product-section--soft">
-      <div class="product-section__head">
+    <section class="product-section product-section--quiet">
+      <div class="section-head">
         <div>
-          <SectionLabel address="B6" label="Teknik ve Uyumluluk" />
-          <h2>Satın almadan önce teknik sınırlar net.</h2>
+          <p class="section-kicker">TEKNİK BİLGİLER</p>
+          <h2>Satın almadan önce bilmeniz gerekenler.</h2>
         </div>
-        <p>Sürüm, sayfa sayısı, makro durumu ve platform uyumluluğu dahil teknik bilgiler ürünle birlikte açıkça sunulur.</p>
+        <p>Excel sürümü, platform, dosya tipi ve güncelleme koşulları burada. Karar için gerekli olmayan teknik detayları üst bölümde kalabalıklaştırmıyoruz.</p>
       </div>
-      <div class="technical-grid">
-        <SpecTable
-          fileFormat={t.fileFormat}
-          version={t.version}
-          updatedAt={t.updatedAt}
-          sheetCount={t.sheetCount}
-          sizeMB={t.sizeMB}
-          hasMacros={t.hasMacros}
-          minExcelVersion={t.minExcelVersion}
-          macCompatible={t.macCompatible}
-          sheetsCompatibility={t.sheetsCompatibility}
-        />
-        <div class="requirements-card">
-          <span>ÇALIŞTIRMA GEREKSİNİMLERİ</span>
-          <ul>
-            {t.requirements.map((item) => <li><i aria-hidden="true">✓</i>{item}</li>)}
-          </ul>
-          <div class="requirements-card__policy">
-            <small>GÜNCELLEME POLİTİKASI</small>
-            <p>{t.updatePolicy}</p>
+
+      <details class="product-details" open>
+        <summary>Uyumluluk ve dosya bilgileri <span>+</span></summary>
+        <div class="product-details__body technical-grid">
+          <SpecTable
+            fileFormat={t.fileFormat}
+            version={t.version}
+            updatedAt={t.updatedAt}
+            sheetCount={t.sheetCount}
+            sizeMB={t.sizeMB}
+            hasMacros={t.hasMacros}
+            minExcelVersion={t.minExcelVersion}
+            macCompatible={t.macCompatible}
+            sheetsCompatibility={t.sheetsCompatibility}
+          />
+          <div class="requirements-card">
+            <p class="requirements-card__title">ÇALIŞTIRMA GEREKSİNİMLERİ</p>
+            <ul>{t.requirements.map((item) => <li><span>✓</span>{item}</li>)}</ul>
+            <div class="requirements-card__policy">
+              <small>GÜNCELLEME POLİTİKASI</small>
+              <p>{t.updatePolicy}</p>
+            </div>
           </div>
         </div>
-      </div>
+      </details>
+
       {
         t.hasMacros && (
           <div class="macro-notice">
@@ -232,12 +210,11 @@ const jsonLd = {
     </section>
 
     <section id="sss" class="product-section">
-      <div class="product-section__head">
+      <div class="section-head">
         <div>
-          <SectionLabel address="B7" label="Sık Sorulan Sorular" />
-          <h2>Karar vermeden önce kalan soruları kapatın.</h2>
+          <p class="section-kicker">SIK SORULAN SORULAR</p>
+          <h2>Kalan soruları burada kapatın.</h2>
         </div>
-        <p>Bu ürüne özel kullanım, uyumluluk, lisans ve çalışma mantığı sorularının yanıtları.</p>
       </div>
       <FaqAccordion items={t.faq} />
     </section>
@@ -245,10 +222,10 @@ const jsonLd = {
     {
       related.length > 0 && (
         <section class="product-section product-section--related">
-          <div class="product-section__head">
+          <div class="section-head">
             <div>
-              <SectionLabel address="B8" label="İlgili Sistemler" />
-              <h2>Aynı iş akışını tamamlayan sistemler.</h2>
+              <p class="section-kicker">İLGİLİ SİSTEMLER</p>
+              <h2>Bu iş akışını tamamlayan ürünler.</h2>
             </div>
             <a href="/sablonlar">Tüm sistemleri görün →</a>
           </div>
@@ -273,7 +250,9 @@ const jsonLd = {
 </CommerceLayout>
 
 <style>
-  .product-page{width:min(1240px,calc(100% - 48px));margin-inline:auto;padding:30px 0 112px}.product-jump{position:sticky;top:8px;z-index:32;display:flex;align-items:center;justify-content:center;gap:5px;width:max-content;max-width:100%;margin:18px auto 8px;padding:6px;border:1px solid rgba(24,66,42,.10);border-radius:15px;background:rgba(255,255,255,.88);backdrop-filter:blur(16px);box-shadow:0 12px 30px rgba(24,66,42,.07);overflow-x:auto;scrollbar-width:none}.product-jump::-webkit-scrollbar{display:none}.product-jump a{flex:0 0 auto;padding:8px 10px;border-radius:10px;color:#627068;font-family:var(--font-mono);font-size:8.5px;font-weight:700;text-decoration:none;transition:background .16s ease,color .16s ease}.product-jump a:hover,.product-jump a:focus-visible{background:#e9f5ee;color:#0c6838}.product-section{scroll-margin-top:84px;padding:clamp(62px,7vw,94px) clamp(20px,3vw,38px);border-top:1px solid var(--xl-grid)}.product-section--soft{margin-inline:calc(clamp(20px,3vw,38px) * -1);padding-inline:clamp(28px,5vw,62px);border:1px solid #dbe4de;border-radius:28px;background:#f5f8f6}.product-section--contrast{margin:22px calc(clamp(20px,3vw,38px) * -1);padding-inline:clamp(28px,5vw,62px);border:0;border-radius:28px;background:#0a3827;color:#fff;overflow:hidden}.product-section__head{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(300px,.82fr);gap:48px;align-items:end;margin-bottom:28px}.product-section__head h2{max-width:760px;margin:10px 0 0;font-family:var(--font-display);font-size:clamp(31px,3.7vw,50px);line-height:1;letter-spacing:-.04em;color:var(--xl-ink-900)}.product-section__head>p{margin:0;font-size:13px;line-height:1.65;color:var(--xl-ink-3)}.product-section__head>a{justify-self:end;color:var(--xl-green);font-family:var(--font-mono);font-size:9px;font-weight:700;text-decoration:none}.product-section__head--light h2{color:#fff}.product-section__head--light>p{color:rgba(241,255,247,.67)}.product-demo-wrap{max-width:850px}.product-preview-wrap{margin-top:26px}.io-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.io-card{padding:24px;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(255,255,255,.055)}.io-card--output{background:rgba(121,221,162,.09);border-color:rgba(121,221,162,.18)}.io-card__code{font-family:var(--font-mono);font-size:8.5px;font-weight:700;letter-spacing:.1em;color:#83dda8}.io-card h3{margin:10px 0 0;font-size:20px;color:#fff}.io-card ul{display:grid;gap:9px;margin:18px 0 0;padding:0;list-style:none}.io-card li{display:flex;gap:9px;font-size:12px;line-height:1.5;color:rgba(244,255,249,.72)}.io-card li span{color:#86e0ab;font-family:var(--font-mono);font-weight:700}.eligibility-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.technical-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(360px,1.1fr);gap:18px;align-items:start}.requirements-card{padding:24px;border:1px solid #dce5df;border-radius:18px;background:#fff}.requirements-card>span,.requirements-card__policy small{font-family:var(--font-mono);font-size:8.5px;font-weight:700;letter-spacing:.08em;color:var(--xl-green)}.requirements-card ul{display:grid;gap:9px;margin:18px 0 0;padding:0;list-style:none}.requirements-card li{display:flex;gap:9px;font-size:12px;line-height:1.45;color:#445149}.requirements-card li i{color:var(--xl-green);font-style:normal;font-weight:800}.requirements-card__policy{margin-top:22px;padding-top:18px;border-top:1px solid #e3e9e5}.requirements-card__policy p{margin:8px 0 0;font-size:11px;line-height:1.55;color:#69756e}.macro-notice{margin-top:18px}.product-section--related{padding-bottom:20px}
-  @media(max-width:900px){.product-page{width:min(100% - 32px,1240px)}.product-section__head{grid-template-columns:1fr;gap:12px}.product-section__head>a{justify-self:start}.technical-grid{grid-template-columns:1fr}.io-grid,.eligibility-grid{grid-template-columns:1fr}}
-  @media(max-width:680px){.product-page{width:calc(100% - 24px);padding-top:18px}.product-jump{justify-content:flex-start;margin:12px 0 4px;top:6px;width:100%}.product-section{padding:48px 4px}.product-section--soft,.product-section--contrast{margin-inline:-4px;padding-inline:16px;border-radius:20px}.product-section__head{margin-bottom:20px}.product-section__head h2{font-size:32px}.product-section__head>p{font-size:12px}.io-card{padding:18px}.product-section--related{padding-bottom:0}}
+  .product-page{width:min(1180px,calc(100% - 48px));margin-inline:auto;padding:26px 0 104px}.product-section{padding:clamp(54px,6vw,78px) 0;border-top:1px solid #e2e8e4}.section-head{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(280px,.72fr);gap:40px;align-items:end;margin-bottom:24px}.section-kicker{margin:0;font-family:var(--font-mono);font-size:9px;font-weight:800;letter-spacing:.11em;color:#0b7440}.section-head h2{max-width:720px;margin:8px 0 0;font-family:var(--font-display);font-size:clamp(29px,3.1vw,42px);line-height:1.03;letter-spacing:-.035em;color:#16291e}.section-head>p{margin:0;font-size:12px;line-height:1.6;color:#69766e}.section-head>a{justify-self:end;color:#0b7440;font-size:10px;font-weight:700;text-decoration:none}.product-section--preview{padding-top:58px}.product-section--flow{margin:0 -24px;padding-inline:24px;border:0;border-radius:24px;background:#0b3727;color:#fff}.section-head--light .section-kicker{color:#85d6a7}.section-head--light h2{color:#fff}.section-head--light>p{color:rgba(245,255,249,.66)}
+  .io-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.io-card{padding:22px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.05)}.io-card--output{background:rgba(112,218,156,.09);border-color:rgba(112,218,156,.18)}.io-card>span{font-family:var(--font-mono);font-size:8.5px;font-weight:800;letter-spacing:.08em;color:#82d9a5}.io-card h3{margin:8px 0 0;font-size:19px;color:#fff}.io-card ul{display:grid;gap:8px;margin:16px 0 0;padding:0;list-style:none}.io-card li{display:flex;gap:8px;font-size:11.5px;line-height:1.45;color:rgba(245,255,249,.74)}.io-card li b{color:#83dda8;font-family:var(--font-mono)}
+  .product-details{margin-top:16px;border:1px solid #dce5df;border-radius:15px;background:#fff;color:#203128;overflow:hidden}.product-section--flow .product-details{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff}.product-details summary{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px 18px;cursor:pointer;list-style:none;font-size:12px;font-weight:800}.product-details summary::-webkit-details-marker{display:none}.product-details summary span{font-size:18px;font-weight:400}.product-details[open] summary span{transform:rotate(45deg)}.product-details__body{padding:0 18px 18px}.product-section--flow .product-details__body{padding-top:4px;background:#fff;color:#203128}.eligibility-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.product-section--quiet{margin:0 -24px;padding-inline:24px;border:1px solid #e0e7e2;border-radius:24px;background:#f6f8f7}.technical-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(340px,1.1fr);gap:16px;align-items:start}.requirements-card{padding:20px;border:1px solid #dde5e0;border-radius:14px;background:#fff}.requirements-card__title,.requirements-card__policy small{margin:0;font-family:var(--font-mono);font-size:8.5px;font-weight:800;letter-spacing:.08em;color:#0b7440}.requirements-card ul{display:grid;gap:8px;margin:14px 0 0;padding:0;list-style:none}.requirements-card li{display:flex;gap:8px;font-size:11.5px;line-height:1.45;color:#46534b}.requirements-card li span{color:#0b7440;font-weight:800}.requirements-card__policy{margin-top:18px;padding-top:15px;border-top:1px solid #e3e9e5}.requirements-card__policy p{margin:7px 0 0;font-size:10.5px;line-height:1.5;color:#69756e}.macro-notice{margin-top:14px}.product-section--related{padding-bottom:12px}
+  @media(max-width:900px){.product-page{width:min(100% - 32px,1180px)}.section-head{grid-template-columns:1fr;gap:10px}.section-head>a{justify-self:start}.technical-grid{grid-template-columns:1fr}.io-grid,.eligibility-grid{grid-template-columns:1fr}.product-section--flow,.product-section--quiet{margin-inline:-10px;padding-inline:18px}}
+  @media(max-width:620px){.product-page{width:calc(100% - 24px);padding-top:16px}.product-section{padding:44px 0}.section-head{margin-bottom:18px}.section-head h2{font-size:29px}.section-head>p{font-size:11.5px}.product-section--flow,.product-section--quiet{margin-inline:-4px;padding-inline:14px;border-radius:18px}.io-card{padding:17px}.product-details summary{padding:14px;font-size:11px}.product-details__body{padding:0 12px 14px}}
 </style>
