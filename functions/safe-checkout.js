@@ -129,21 +129,19 @@ const createCheckout = onRequest(functionDefaults, async (req, res) => {
         }
       }
 
-      if (previous?.exists) {
+      // There may only be one pending checkout per e-mail + Shopier price tier.
+      // A repeated click or a switch to another product in the same tier must not
+      // strand the buyer behind a 409. Supersede the old unpaid session and issue
+      // a fresh secret while preserving the one-active-session invariant used by
+      // Shopier reconciliation.
+      if (previous?.exists && previous.data()?.status === 'pending') {
         const data = previous.data();
         const notExpired = data?.expiresAt?.toMillis?.() > now;
-        if (data?.status === 'pending' && notExpired) {
-          const error = new Error('ACTIVE_CHECKOUT_EXISTS');
-          error.code = 'ACTIVE_CHECKOUT_EXISTS';
-          throw error;
-        }
-        if (data?.status === 'pending') {
-          tx.update(previousRef, {
-            status: 'expired',
-            expiredReason: 'timeout',
-            updatedAt: FieldValue.serverTimestamp(),
-          });
-        }
+        tx.update(previousRef, {
+          status: 'expired',
+          expiredReason: notExpired ? 'superseded' : 'timeout',
+          updatedAt: FieldValue.serverTimestamp(),
+        });
       }
 
       tx.create(checkoutRef, {
@@ -167,9 +165,6 @@ const createCheckout = onRequest(functionDefaults, async (req, res) => {
       });
     });
   } catch (error) {
-    if (error?.code === 'ACTIVE_CHECKOUT_EXISTS') {
-      return sendJson(res, 409, { error: 'ACTIVE_CHECKOUT_EXISTS' });
-    }
     console.error('checkout create failed', error?.message);
     return sendJson(res, 500, { error: 'INTERNAL_ERROR' });
   }
