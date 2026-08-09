@@ -113,9 +113,19 @@ function changedFiles(): string[] {
   const args = base ? ['diff', '--name-only', `origin/${base}...HEAD`] : ['diff', '--name-only', 'HEAD'];
   return execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' }).trim().split('\n').filter(Boolean);
 }
+function governanceBranch(): boolean {
+  const branch = process.env.GITHUB_HEAD_REF ?? process.env.GITHUB_REF_NAME ?? '';
+  return branch.startsWith('seo/governance-');
+}
 function phaseContract(state: Progress): PhaseContract | null {
   const contracts = readJson<JsonObject>('PHASE_CONTRACTS.json') as Record<string, unknown>;
-  const key = state.activePhase === null && (state.bootstrap === 'active' || state.bootstrap === 'completed') ? 'bootstrap' : Number.isInteger(state.activePhase) ? `faz-${String(state.activePhase).padStart(2, '0')}` : null;
+  const key = governanceBranch()
+    ? 'governance'
+    : state.activePhase === null && (state.bootstrap === 'active' || state.bootstrap === 'completed')
+      ? 'bootstrap'
+      : Number.isInteger(state.activePhase)
+        ? `faz-${String(state.activePhase).padStart(2, '0')}`
+        : null;
   if (!key || !isRecord(contracts[key])) return null;
   const raw = contracts[key];
   const writes = Array.isArray(raw.writes) ? raw.writes.filter((item): item is string => typeof item === 'string') : [];
