@@ -10,6 +10,7 @@ type CheckStatus = 'PASS' | 'FAIL';
 type Check = { id: string; status: CheckStatus; msg: string; code: number };
 type PhaseContract = { writes: string[]; forbidsWrites?: string[] };
 type Progress = { bootstrap: 'active' | 'completed'; activePhase: number | null; completedPhases: number[]; profile: 'S' | 'M' | 'L'; siteId: string };
+type ParsedArgs = { site?: string; contractOverride?: string };
 type SeoConfig = {
   site: { siteId: string };
   measurement: { dataWindowStart: string };
@@ -39,10 +40,13 @@ function mergeDeep(base: JsonValue, override: JsonValue): JsonValue {
   }
   return override ?? base;
 }
-function parseArgs(argv: string[]): { site?: string } {
-  const index = argv.indexOf('--site');
-  const site = index >= 0 ? argv[index + 1] : process.env.SITE_ID;
-  return site ? { site } : {};
+function parseArgs(argv: string[]): ParsedArgs {
+  const siteIndex = argv.indexOf('--site');
+  const contractIndex = argv.indexOf('--contract-test');
+  const site = siteIndex >= 0 ? argv[siteIndex + 1] : process.env.SITE_ID;
+  const contractOverride = contractIndex >= 0 ? argv[contractIndex + 1] : undefined;
+  if (contractOverride && process.env.SEO_CONFORMANCE_TEST !== '1') throw new Error('CONTRACT_OVERRIDE_TEST_ONLY');
+  return { ...(site ? { site } : {}), ...(contractOverride ? { contractOverride } : {}) };
 }
 function progress(): Progress {
   const text = readFileSync(resolve(ROOT, 'docs/seo/PROGRESS.md'), 'utf8');
@@ -117,15 +121,16 @@ function governanceBranch(): boolean {
   const branch = process.env.GITHUB_HEAD_REF ?? process.env.GITHUB_REF_NAME ?? '';
   return branch.startsWith('seo/governance-');
 }
-function phaseContract(state: Progress): PhaseContract | null {
+function phaseContract(state: Progress, contractOverride?: string): PhaseContract | null {
   const contracts = readJson<JsonObject>('PHASE_CONTRACTS.json') as Record<string, unknown>;
-  const key = governanceBranch()
-    ? 'governance'
-    : state.activePhase === null && (state.bootstrap === 'active' || state.bootstrap === 'completed')
-      ? 'bootstrap'
-      : Number.isInteger(state.activePhase)
-        ? `faz-${String(state.activePhase).padStart(2, '0')}`
-        : null;
+  const key = contractOverride
+    ?? (governanceBranch()
+      ? 'governance'
+      : state.activePhase === null && (state.bootstrap === 'active' || state.bootstrap === 'completed')
+        ? 'bootstrap'
+        : Number.isInteger(state.activePhase)
+          ? `faz-${String(state.activePhase).padStart(2, '0')}`
+          : null);
   if (!key || !isRecord(contracts[key])) return null;
   const raw = contracts[key];
   const writes = Array.isArray(raw.writes) ? raw.writes.filter((item): item is string => typeof item === 'string') : [];
@@ -190,7 +195,7 @@ function guaranteeHits(files: string[]): string[] {
   }
   return hits;
 }
-function runPreflight({ site, files = changedFiles() }: { site?: string; files?: string[] }): Check[] {
+function runPreflight({ site, files = changedFiles(), contractOverride }: { site?: string; files?: string[]; contractOverride?: string }): Check[] {
   const checks: Check[] = [];
   const fail = (id: string, msg: string, code = EXIT.BLOCK): void => { checks.push({ id, status: 'FAIL', msg, code }); };
   const pass = (id: string, msg: string): void => { checks.push({ id, status: 'PASS', msg, code: EXIT.PASS }); };
@@ -203,8 +208,8 @@ function runPreflight({ site, files = changedFiles() }: { site?: string; files?:
   schemaErrors.length ? fail('P-01', schemaErrors.join('; '), EXIT.CONFIG) : pass('P-01', 'config schema PASS');
   const placeholders = scanPlaceholders(config);
   placeholders.length ? fail('P-02', `placeholder: ${placeholders.join(',')}`, EXIT.CONFIG) : pass('P-02', 'placeholder yok');
-  const contract = phaseContract(progress());
-  if (!contract) fail('P-03', 'aktif phase contract yok', EXIT.CONFIG);
+  const contract = phaseContract(progress(), contractOverride);
+  if (!contract) fail('P-03', `phase contract yok${contractOverride ? `: ${contractOverride}` : ''}`, EXIT.CONFIG);
   else {
     const bad = files.filter((file) => !matchAny(file, contract.writes) || matchAny(file, contract.forbidsWrites ?? []));
     bad.length ? fail('P-03', `manifest dışı: ${bad.join(',')}`) : pass('P-03', `manifest uyumlu (${files.length} değişiklik)`);
@@ -235,9 +240,9 @@ function exitCode(checks: Check[]): number {
   return EXIT.PASS;
 }
 function main(): void {
-  const { site } = parseArgs(process.argv.slice(2));
   try {
-    const checks = runPreflight({ site });
+    const { site, contractOverride } = parseArgs(process.argv.slice(2));
+    const checks = runPreflight({ site, contractOverride });
     for (const check of checks) console.log(`${check.id} ${check.status} — ${check.msg}`);
     const code = exitCode(checks);
     console.log(`SEO PREFLIGHT — ${checks.filter((check) => check.status === 'PASS').length}/${checks.length} PASS — exit ${code}`);
