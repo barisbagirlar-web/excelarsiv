@@ -30,6 +30,7 @@ const BRANCH_CONTRACTS: Readonly<Record<string, string>> = Object.freeze({
   'seo/link-graph': 'wave2-c1',
   'seo/staging-proof': 'wave2-c2',
   'seo/registry-refresh-wave2': 'faz-01',
+  'seo/sitemap-enterprise': 'faz-03',
 });
 
 function isRecord(value: unknown): value is Record<string, unknown> {
