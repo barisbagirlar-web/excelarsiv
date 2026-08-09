@@ -49,6 +49,8 @@ const { productSlug, name } = Astro.props;
 </section>
 
 <script>
+  import { analytics, fileTypeFromDownloadUrl, resolveDownloadSource, trackAnalyticsEvent } from '../lib/analytics';
+
   const ERROR_TEXT: Record<string, string> = {
     INVALID_EMAIL: 'Geçerli bir e-posta adresi girin.',
     DEMO_TERMS_REQUIRED: 'Demo kullanım koşullarını kabul etmeniz gerekiyor.',
@@ -71,7 +73,9 @@ const { productSlug, name } = Astro.props;
       const data = new FormData(form);
       const email = String(data.get('email') ?? '').trim();
       const acceptedTerms = data.get('terms') === 'on';
+      const source = resolveDownloadSource();
 
+      trackAnalyticsEvent(analytics.events.downloadStart, { templateId: productSlug, source });
       submit.disabled = true;
       submit.setAttribute('aria-busy', 'true');
       status.classList.remove('hidden');
@@ -90,9 +94,15 @@ const { productSlug, name } = Astro.props;
           throw new Error(code);
         }
 
+        const downloadUrl = String(payload.downloadUrl);
+        trackAnalyticsEvent(analytics.events.signup, { method: 'demo_email' });
+        trackAnalyticsEvent(analytics.events.downloadComplete, {
+          templateId: productSlug,
+          fileType: fileTypeFromDownloadUrl(downloadUrl),
+        });
         status.className = 'demo-card__status demo-card__status--ok';
         status.textContent = 'Demo hazır. İndirme başlatılıyor…';
-        window.location.assign(String(payload.downloadUrl));
+        window.location.assign(downloadUrl);
       } catch (error) {
         const code = error instanceof Error ? error.message : 'INTERNAL_ERROR';
         status.className = 'demo-card__status demo-card__status--error';
