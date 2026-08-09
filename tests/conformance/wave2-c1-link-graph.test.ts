@@ -1,6 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { analyzeLinkGraph, extractInternalRoutes, isIndexableHtml, normalizeRoute } from '../../scripts/seo/link-graph.ts';
+
+const ROOT = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 
 test('C1 internal href normalization ignores external and query/hash duplication', () => {
   const html = `<a href="/a?x=1#y">A</a><a href="https://excelarsiv.com/b/">B</a><a href="https://example.com/c">X</a><a href="mailto:x@y.com">M</a>`;
@@ -53,4 +58,14 @@ test('C1 graph counts unique source pages and identifies threshold orphans', () 
   assert.equal(result.rows.find((row) => row.route === '/')?.internalLinksIn, 1);
   assert.deepEqual(result.orphans.map((row) => row.route), ['/']);
   assert.equal(result.suggestions[0]?.targetRoute, '/');
+});
+
+test('C1/CWV critical pages defer below-fold rendering and prioritize product LCP image', () => {
+  const home = readFileSync(resolve(ROOT, 'src/pages/index.astro'), 'utf8');
+  const hero = readFileSync(resolve(ROOT, 'src/components/product/ProductHeroPremium.astro'), 'utf8');
+  assert.match(home, /content-visibility:\s*auto/);
+  assert.match(home, /contain-intrinsic-size:\s*auto\s+760px/);
+  assert.match(hero, /fetchpriority="high"/);
+  assert.match(hero, /width="1200"\s+height="750"/);
+  assert.match(hero, /:global\(\.product-page > \.product-section\).*content-visibility:auto/);
 });
