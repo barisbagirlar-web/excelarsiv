@@ -40,6 +40,32 @@ export function chunkUrls(urls, size = MAX_BATCH) {
   return chunks;
 }
 
+function renderMarkdownProof(proof) {
+  const lines = [
+    '# INDEXNOW SUBMISSION',
+    '',
+    `- Submitted at: ${proof.submittedAt}`,
+    `- Endpoint: ${proof.endpoint}`,
+    `- Host: ${proof.host}`,
+    `- Key location: ${proof.keyLocation}`,
+    `- Status: ${proof.status}`,
+    `- URL count: ${proof.urlCount}`,
+    `- Batch statuses: ${proof.batches.length ? proof.batches.map((batch) => `${batch.status}/${batch.urlCount}`).join(', ') : 'none'}`,
+    '',
+    '## Submitted changed/new URLs',
+    '',
+  ];
+  if (proof.urls.length === 0) lines.push('- None');
+  else for (const url of proof.urls) lines.push(`- ${url}`);
+  lines.push('');
+  return lines.join('\n');
+}
+
+function writeProof(proof, proofFile, markdownFile) {
+  writeFileSync(proofFile, `${JSON.stringify(proof, null, 2)}\n`);
+  writeFileSync(markdownFile, renderMarkdownProof(proof));
+}
+
 async function postBatch(payload, fetchImpl = fetch) {
   let lastStatus = 0;
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
@@ -72,6 +98,7 @@ async function postBatch(payload, fetchImpl = fetch) {
 export async function submitChangedUrls({
   reportFile = join(DIST_DIR, 'seo-finalize-report.json'),
   proofFile = join(DIST_DIR, 'indexnow-submission.json'),
+  markdownFile = join(DIST_DIR, 'INDEXNOW_SUBMISSION.md'),
   fetchImpl = fetch,
   nowIso = new Date().toISOString(),
 } = {}) {
@@ -93,7 +120,7 @@ export async function submitChangedUrls({
 
   if (urls.length === 0) {
     proof.status = 'NO_CHANGES';
-    writeFileSync(proofFile, `${JSON.stringify(proof, null, 2)}\n`);
+    writeProof(proof, proofFile, markdownFile);
     console.log('INDEXNOW: değişen/yeni URL yok — gönderim yapılmadı.');
     return proof;
   }
@@ -110,7 +137,7 @@ export async function submitChangedUrls({
   }
 
   proof.status = proof.batches.every((batch) => [200, 202].includes(batch.status)) ? 'SUBMITTED' : 'FAILED';
-  writeFileSync(proofFile, `${JSON.stringify(proof, null, 2)}\n`);
+  writeProof(proof, proofFile, markdownFile);
   console.log(`INDEXNOW PASS — ${urls.length} changed/new URL, ${proof.batches.length} batch.`);
   return proof;
 }
