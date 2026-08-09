@@ -47,7 +47,7 @@ jobs:
       - name: Build and smoke test
         run: npm test
 
-      - name: Generate all 12 Proof Demo workbooks
+      - name: Generate catalog Proof Demo workbooks
         run: node functions/test/export-proof-demos.js /tmp/proof-demos
 
       - name: Validate Proof Demo workbook integrity with LibreOffice
@@ -55,6 +55,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p /tmp/proof-demos-recalc
+          expected="$(node -e "console.log(Object.keys(require('./functions/catalog').PRODUCTS).length)")"
           count=0
           for file in /tmp/proof-demos/*.xlsx; do
             count=$((count+1))
@@ -65,5 +66,5 @@ jobs:
             out="/tmp/proof-demos-recalc/$(basename "$file")"
             test -s "$out" || { echo "HATA: LibreOffice çıktı üretmedi: $file"; cat /tmp/lo.log; exit 1; }
           done
-          test "$count" -eq 12 || { echo "HATA: 12 Proof Demo bekleniyor, bulunan $count"; exit 1; }
-          echo "12/12 Proof Demo LibreOffice tarafından açıldı ve yeniden kaydedildi."
+          test "$count" -eq "$expected" || { echo "HATA: $expected Proof Demo bekleniyor, bulunan $count"; exit 1; }
+          echo "$count/$expected Proof Demo LibreOffice tarafından açıldı ve yeniden kaydedildi."
