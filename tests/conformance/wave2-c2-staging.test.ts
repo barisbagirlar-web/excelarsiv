@@ -1,7 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { evaluateInpLab, evaluateLighthouseReport, extractCanonical, extractTagText, isNoindex, normalizeRoute, parseSitemapLocs, setDiff } from '../../scripts/seo/staging-proof.ts';
 
+const ROOT = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const thresholds = { lcpP75Ms: 2500, inpP75Ms: 200, clsP75: 0.1 };
 
 test('C2 raw HTML render proof extracts title, H1, canonical and noindex safely', () => {
@@ -36,4 +40,15 @@ test('C2 synthetic INP lab is explicit and thresholded without field-data claim'
   });
   assert.equal(evaluateInpLab({ inpLabMs:240, eventCount:2 }, thresholds).pass, false);
   assert.throws(() => evaluateInpLab({ inpLabMs:null }, thresholds), /INP_LAB_MISSING/);
+});
+
+test('C2 workflow resolves Puppeteer through public package API and captures consent network gate', () => {
+  const workflow = readFileSync(resolve(ROOT, '.github/workflows/seo-staging-proof.yml'), 'utf8');
+  assert.match(workflow, /NODE_PATH="\$\(npm root -g\)"/);
+  assert.match(workflow, /require\('puppeteer-core'\)/);
+  assert.doesNotMatch(workflow, /puppeteer-core\/lib\/esm\/puppeteer\/puppeteer-core\.js/);
+  assert.match(workflow, /CONSENT_PRECHOICE_ANALYTICS_REQUESTS/);
+  assert.match(workflow, /CONSENT_REJECT_ANALYTICS_REQUESTS/);
+  assert.match(workflow, /CONSENT_ACCEPT_GOOGLE_TAG_REQUEST_MISSING/);
+  assert.match(workflow, /consent-network\.json/);
 });
