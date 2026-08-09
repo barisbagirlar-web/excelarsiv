@@ -24,6 +24,7 @@
     "seo:consent": "node --experimental-strip-types scripts/seo/consent-contract.ts",
     "seo:breaks": "node --experimental-strip-types scripts/seo/structural-breaks.ts",
     "seo:demand-import": "node --experimental-strip-types scripts/seo/demand-import.ts",
+    "seo:launch-catalog": "node --experimental-strip-types scripts/seo/launch-catalog.ts",
     "seo:validate-registry": "node --experimental-strip-types scripts/seo/registry-validate.ts --site excelarsiv",
     "seo:kac": "node --experimental-strip-types scripts/seo/kac-prioritize.ts --site excelarsiv",
     "seo:pnl": "node --experimental-strip-types scripts/seo/seo-pnl.ts --site excelarsiv",
