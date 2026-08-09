@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "artifact": "kac_cluster_map",
+    "schemaVersion": "6.0-phase11",
+    "generatedAt": "2026-08-09T14:12:00Z",
+    "generatorScript": "scripts/seo/kac-prioritize.ts",
+    "inputWindow": {"start": "2025-09-11", "end": "2026-08-09"},
+    "confidence": "low",
+    "partial": true,
+    "siteId": "excelarsiv",
+    "coldStart": true,
+    "structuralBreaksApplied": []
+  },
+  "status": "PARTIAL_SAFE",
+  "scoringEnabled": false,
+  "reason": "Authenticated GSC/GA4 query, CTR, conversion and value inputs are unavailable.",
+  "clusters": [
+    {"clusterId":"cashflow-13-week","primaryQuery":"13 haftalık nakit akışı excel","ownerRoute":"/sablon/13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi","sourceCtrModel":null,"state":null,"priorityScore":null,"portfolioRecommendation":null,"decisionEligible":false},
+    {"clusterId":"cashbook-excel","primaryQuery":"kasa defteri excel","ownerRoute":"/sablon/akilli-kasa-defteri-ve-nakit-kontrol-sistemi","sourceCtrModel":null,"state":null,"priorityScore":null,"portfolioRecommendation":null,"decisionEligible":false},
+    {"clusterId":"finance-dashboard-excel","primaryQuery":"finans dashboard excel","ownerRoute":"/sablon/aylik-patron-finans-paneli","sourceCtrModel":null,"state":null,"priorityScore":null,"portfolioRecommendation":null,"decisionEligible":false},
+    {"clusterId":"credit-installment-excel","primaryQuery":"kredi takip excel","ownerRoute":"/sablon/banka-kredi-ve-taksit-takip-sistemi","sourceCtrModel":null,"state":null,"priorityScore":null,"portfolioRecommendation":null,"decisionEligible":false},
+    {"clusterId":"receivables-cari-excel","primaryQuery":"cari hesap takip excel","ownerRoute":"/sablon/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi","sourceCtrModel":null,"state":null,"priorityScore":null,"portfolioRecommendation":null,"decisionEligible":false},
+    {"clusterId":"cheque-note-due-excel","primaryQuery":"çek senet takip excel","ownerRoute":"/sablon/cek-senet-ve-vade-risk-sistemi","sourceCtrModel":null,"state":null,"priorityScore":null,"portfolioRecommendation":null,"decisionEligible":false},
+    {"clusterId":"income-expense-profit-excel","primaryQuery":"gelir gider takip excel","ownerRoute":"/sablon/gunluk-gelir-gider-ve-gercek-karlilik-sistemi","sourceCtrModel":null,"state":null,"priorityScore":null,"portfolioRecommendation":null,"decisionEligible":false},
+    {"clusterId":"sme-finance-excel","primaryQuery":"kobi finans yönetim excel","ownerRoute":"/sablon/kobi-finans-yonetim-paketi","sourceCtrModel":null,"state":null,"priorityScore":null,"portfolioRecommendation":null,"decisionEligible":false},
+    {"clusterId":"pos-commission-excel","primaryQuery":"pos komisyon hesaplama excel","ownerRoute":"/sablon/pos-komisyon-ve-net-tahsilat-kontrol-sistemi","sourceCtrModel":null,"state":null,"priorityScore":null,"portfolioRecommendation":null,"decisionEligible":false},
+    {"clusterId":"project-profitability-excel","primaryQuery":"proje karlılık excel","ownerRoute":"/sablon/proje-ve-is-bazinda-gercek-karlilik-sistemi","sourceCtrModel":null,"state":null,"priorityScore":null,"portfolioRecommendation":null,"decisionEligible":false},
+    {"clusterId":"stock-tracking-excel","primaryQuery":"stok takip excel","ownerRoute":"/sablon/stok-satis-ve-nakit-baglanma-sistemi","sourceCtrModel":null,"state":null,"priorityScore":null,"portfolioRecommendation":null,"decisionEligible":false},
+    {"clusterId":"tax-sgk-payroll-excel","primaryQuery":"vergi sgk takip excel","ownerRoute":"/sablon/vergi-sgk-ve-maas-karsilik-ayirma-sistemi","sourceCtrModel":null,"state":null,"priorityScore":null,"portfolioRecommendation":null,"decisionEligible":false}
+  ],
+  "missingSignals": ["gsc-query-impressions","gsc-position-ctr","ga4-conversion-rate","conversion-value-minor","effort-estimate"],
+  "safetyRule": "partial clusters cannot receive INVEST or numeric priority scores"
+}
