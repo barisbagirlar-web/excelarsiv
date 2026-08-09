@@ -2,9 +2,7 @@
   "name": "excel-arsiv",
   "type": "module",
   "version": "0.0.1",
-  "engines": {
-    "node": ">=22.12.0"
-  },
+  "engines": {"node": ">=22.12.0"},
   "scripts": {
     "dev": "astro dev",
     "build": "npm run guard:source && astro build && npm run seo:generate && npm run seo:validate && npm run seo:test && npm run seo:guard",
@@ -19,6 +17,9 @@
     "seo:test": "node scripts/seo/test-sitemap-index-semantics.mjs",
     "seo:guard": "node scripts/seo/enterprise-guard.mjs",
     "seo:live": "node scripts/seo/live-contract.mjs",
+    "seo:preflight": "node --experimental-strip-types scripts/seo/preflight.ts",
+    "seo:conformance": "node --experimental-strip-types --test tests/conformance/*.test.ts tests/conformance/invariants/*.test.ts",
+    "seo:coldstart-check": "node --experimental-strip-types scripts/seo/coldstart-check.ts",
     "test": "node scripts/validate-commerce.mjs && npm run build && node scripts/smoke-test.mjs"
   },
   "dependencies": {
@@ -28,8 +29,5 @@
     "astro": "^7.1.6",
     "tailwindcss": "^4.3.3"
   },
-  "devDependencies": {
-    "@astrojs/check": "^0.9.10",
-    "typescript": "^6.0.3"
-  }
+  "devDependencies": {"@astrojs/check": "^0.9.10", "typescript": "^6.0.3"}
 }
