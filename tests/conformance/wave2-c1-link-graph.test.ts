@@ -75,3 +75,17 @@ test('C1/CWV critical pages defer below-fold rendering and keep heavy mobile her
   assert.match(productHero, /product-hero__mobile-proof-link/);
   assert.match(productHero, /:global\(\.product-page > \.product-section\).*content-visibility:auto/);
 });
+
+test('C1/CWV mobile homepage keeps commercial core visible while deferring rich non-critical scenes and custom fonts', () => {
+  const home = readFileSync(resolve(ROOT, 'src/pages/index.astro'), 'utf8');
+  assert.match(home, /id="urunler" data-experience-stage/);
+  assert.match(home, /id="kategoriler" data-experience-stage/);
+  assert.match(home, /<FinalCTA \/>/);
+  assert.match(home, /id="sistem" data-experience-stage data-mobile-deferred-rich/);
+  assert.match(home, /id="kanit" data-experience-stage data-mobile-deferred-rich/);
+  assert.match(home, /id="deger" data-experience-stage data-mobile-deferred-rich/);
+  assert.match(home, /<div data-mobile-deferred-rich>\s*<PurchaseProcess \/>/s);
+  assert.match(home, /\[data-mobile-deferred-rich\]\s*\{\s*display:\s*none;/s);
+  assert.match(home, /--font-sans:\s*ui-sans-serif/);
+  assert.match(home, /--font-mono-face:\s*ui-monospace/);
+});
