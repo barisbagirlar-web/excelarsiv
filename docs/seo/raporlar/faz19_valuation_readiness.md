@@ -7,7 +7,7 @@
 - `valuation.json`: V1/V2/V3 metodolojileri yan yana, sonuçlar `NOT_CALCULATED`, config çarpan aralığı açık.
 - DD manifesti: registry, P&L, redirect ledger, KARAR_DEFTERI, conformance history ve structural-break kaydı doğrulanır.
 - Aylık yönetim raporu zorunlu alan sözleşmesi.
-- `valuation-contract.ts`: normal modda yetersiz veri için exit 3; sahte PASS yok.
+- `valuation.ts`: normal modda yetersiz veri için exit 3; sahte PASS yok.
 - INV-19.1 ve INV-19.3 negatif fixture exit 1; INV-19.2 eksik alan fixture WARN exit 2.
 
 ## FAILURE MODES

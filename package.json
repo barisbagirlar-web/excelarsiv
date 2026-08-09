@@ -20,18 +20,6 @@
     "seo:preflight": "node --experimental-strip-types scripts/seo/preflight.ts",
     "seo:conformance": "node --experimental-strip-types --test tests/conformance/*.test.ts tests/conformance/invariants/*.test.ts",
     "seo:coldstart-check": "node --experimental-strip-types scripts/seo/coldstart-check.ts",
-    "seo:validate-registry": "node --experimental-strip-types scripts/seo/registry-validate.ts --site excelarsiv",
-    "seo:kac": "node --experimental-strip-types scripts/seo/kac-prioritize.ts --site excelarsiv",
-    "seo:pnl": "node --experimental-strip-types scripts/seo/seo-pnl.ts --site excelarsiv",
-    "seo:slo": "node --experimental-strip-types scripts/seo/seo-slo-check.ts --site excelarsiv",
-    "seo:offpage": "node --experimental-strip-types scripts/seo/audit-offpage.ts --site excelarsiv",
-    "seo:cro": "node --experimental-strip-types scripts/seo/cro-contract.ts --site excelarsiv",
-    "seo:vertical": "node --experimental-strip-types scripts/seo/audit-vertical-contract.ts --site excelarsiv",
-    "seo:tam": "node --experimental-strip-types scripts/seo/tam-contract.ts --site excelarsiv",
-    "seo:portfolio": "node --experimental-strip-types scripts/seo/portfolio-pnl.ts --site excelarsiv",
-    "seo:programmatic": "node --experimental-strip-types scripts/seo/programmatic-contract.ts --site excelarsiv",
-    "seo:valuation": "node --experimental-strip-types scripts/seo/valuation-contract.ts --site excelarsiv",
-    "seo:board": "node --experimental-strip-types scripts/seo/board-report.ts --site excelarsiv",
     "test": "node scripts/validate-commerce.mjs && npm run build && node scripts/smoke-test.mjs"
   },
   "dependencies": {
