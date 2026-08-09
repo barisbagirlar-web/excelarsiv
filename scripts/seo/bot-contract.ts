@@ -1,0 +1,16 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ROOT=resolve(fileURLToPath(new URL('../../',import.meta.url)));
+const EXIT=Object.freeze({PASS:0,BLOCK:1,CONFIG:4});
+type BotAction='allow'|'block';
+type SiteConfig={policy:{blockedSections:string[];aiBots:{custom:Record<string,BotAction>}}};
+type Group={agent:string;allows:string[];disallows:string[]};
+function parseRobots(text:string):Group[]{const groups:Group[]=[];let current:Group|null=null;for(const raw of text.split(/\r?\n/)){const line=raw.trim();if(!line||line.startsWith('#'))continue;const [left,...rest]=line.split(':');const key=(left??'').trim().toLowerCase();const value=rest.join(':').trim();if(key==='user-agent'){current={agent:value,allows:[],disallows:[]};groups.push(current);}else if(current&&key==='allow')current.allows.push(value);else if(current&&key==='disallow')current.disallows.push(value);}return groups;}
+function validateRobots(text:string,config:SiteConfig):string[]{const errors:string[]=[];const groups=parseRobots(text);const byAgent=new Map(groups.map((g)=>[g.agent,g]));const wildcard=byAgent.get('*');if(!wildcard)errors.push('INV-8.3 wildcard robots grubu yok');else for(const path of config.policy.blockedSections)if(!wildcard.disallows.includes(path))errors.push(`INV-8.3 wildcard blockedSection eksik: ${path}`);for(const [agent,action] of Object.entries(config.policy.aiBots.custom)){const group=byAgent.get(agent);if(!group){errors.push(`INV-8.3 AI bot grubu yok: ${agent}`);continue;}if(action==='allow'){if(!group.allows.includes('/'))errors.push(`INV-8.3 public allow eksik: ${agent}`);for(const path of config.policy.blockedSections)if(!group.disallows.includes(path))errors.push(`INV-8.3 teknik alan AI botuna açık: ${agent} ${path}`);}else if(!group.disallows.includes('/'))errors.push(`INV-8.3 block policy uygulanmamış: ${agent}`);}return errors;}
+function validateBlockDecision(input:{agent:string;dnsVerified:boolean;action:'block'|'allow'}):string[]{return input.action==='block'&&!input.dnsVerified?[`INV-8.3 doğrulanmamış bot engellemesi: ${input.agent}`]:[];}
+function arg(name:string):string|undefined{const i=process.argv.indexOf(name);return i>=0?process.argv[i+1]:undefined;}
+function main():void{try{if((arg('--site')??process.env.SITE_ID)!=='excelarsiv')process.exit(EXIT.CONFIG);const fixture=arg('--fixture')??'none';const config=JSON.parse(readFileSync(resolve(ROOT,'sites/excelarsiv/seo.config.json'),'utf8')) as SiteConfig;let errors=validateRobots(readFileSync(resolve(ROOT,'public/robots.txt'),'utf8'),config);if(fixture==='ua-only-block')errors=[...errors,...validateBlockDecision({agent:'ExampleBot',dnsVerified:false,action:'block'})];else if(fixture!=='none')throw new Error(`UNKNOWN_FIXTURE:${fixture}`);if(errors.length){console.error(errors.join('\n'));process.exit(EXIT.BLOCK);}console.log(`SEO BOT CONTRACT PASS — ${Object.keys(config.policy.aiBots.custom).length} AI bot grubu — teknik alanlar kapalı`);process.exit(EXIT.PASS);}catch(error){console.error(error instanceof Error?error.message:String(error));process.exit(EXIT.CONFIG);}}
+if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url))main();
+export{parseRobots,validateRobots,validateBlockDecision};
