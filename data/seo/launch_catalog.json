@@ -1,36 +1,17 @@
 {
   "meta": {
-    "artifact": "launch_catalog",
-    "schemaVersion": "6.0-wave2-b2",
+    "artifact": "launch_catalog_policy",
+    "schemaVersion": "6.0-wave2-b2-ssot",
     "siteId": "excelarsiv",
-    "partial": true,
-    "confidence": "low"
+    "partial": false,
+    "confidence": "high"
   },
-  "status": "BASELINE_READY",
-  "demandPriorityStatus": "SKIP_NO_DATA",
-  "selectionRule": "all-live-categories-and-products; no volume claim",
-  "pages": [
-    {"pageId":"excelarsiv:sablonlar","route":"/sablonlar","type":"category","status":"live","clusterId":"excel-templates-business","primaryQuery":null,"observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablonlar:butce-ve-planlama","route":"/sablonlar/butce-ve-planlama","type":"category","status":"live","clusterId":"budget-planning-excel","primaryQuery":null,"observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablonlar:finansal-analiz","route":"/sablonlar/finansal-analiz","type":"category","status":"live","clusterId":"financial-analysis-excel","primaryQuery":null,"observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablonlar:muhasebe-ve-vergi","route":"/sablonlar/muhasebe-ve-vergi","type":"category","status":"live","clusterId":"accounting-tax-excel","primaryQuery":null,"observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablonlar:nakit-akisi","route":"/sablonlar/nakit-akisi","type":"category","status":"live","clusterId":"cashflow-excel","primaryQuery":null,"observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablonlar:personel-ve-bordro","route":"/sablonlar/personel-ve-bordro","type":"category","status":"live","clusterId":"payroll-excel","primaryQuery":null,"observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablonlar:satis-ve-fiyatlama","route":"/sablonlar/satis-ve-fiyatlama","type":"category","status":"live","clusterId":"sales-pricing-excel","primaryQuery":null,"observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablonlar:stok-ve-uretim","route":"/sablonlar/stok-ve-uretim","type":"category","status":"live","clusterId":"inventory-production-excel","primaryQuery":null,"observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablon:13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi","route":"/sablon/13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi","type":"product","status":"live","clusterId":"cashflow-13-week","primaryQuery":"13 haftalık nakit akışı excel","observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablon:akilli-kasa-defteri-ve-nakit-kontrol-sistemi","route":"/sablon/akilli-kasa-defteri-ve-nakit-kontrol-sistemi","type":"product","status":"live","clusterId":"cashbook-excel","primaryQuery":"kasa defteri excel","observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablon:aylik-patron-finans-paneli","route":"/sablon/aylik-patron-finans-paneli","type":"product","status":"live","clusterId":"finance-dashboard-excel","primaryQuery":"finans dashboard excel","observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablon:banka-kredi-ve-taksit-takip-sistemi","route":"/sablon/banka-kredi-ve-taksit-takip-sistemi","type":"product","status":"live","clusterId":"credit-installment-excel","primaryQuery":"kredi takip excel","observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablon:cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi","route":"/sablon/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi","type":"product","status":"live","clusterId":"receivables-cari-excel","primaryQuery":"cari hesap takip excel","observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablon:cek-senet-ve-vade-risk-sistemi","route":"/sablon/cek-senet-ve-vade-risk-sistemi","type":"product","status":"live","clusterId":"cheque-note-due-excel","primaryQuery":"çek senet takip excel","observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablon:gunluk-gelir-gider-ve-gercek-karlilik-sistemi","route":"/sablon/gunluk-gelir-gider-ve-gercek-karlilik-sistemi","type":"product","status":"live","clusterId":"income-expense-profit-excel","primaryQuery":"gelir gider takip excel","observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablon:kobi-finans-yonetim-paketi","route":"/sablon/kobi-finans-yonetim-paketi","type":"product","status":"live","clusterId":"sme-finance-excel","primaryQuery":"kobi finans yönetim excel","observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablon:pos-komisyon-ve-net-tahsilat-kontrol-sistemi","route":"/sablon/pos-komisyon-ve-net-tahsilat-kontrol-sistemi","type":"product","status":"live","clusterId":"pos-commission-excel","primaryQuery":"pos komisyon hesaplama excel","observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablon:proje-ve-is-bazinda-gercek-karlilik-sistemi","route":"/sablon/proje-ve-is-bazinda-gercek-karlilik-sistemi","type":"product","status":"live","clusterId":"project-profitability-excel","primaryQuery":"proje karlılık excel","observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablon:stok-satis-ve-nakit-baglanma-sistemi","route":"/sablon/stok-satis-ve-nakit-baglanma-sistemi","type":"product","status":"live","clusterId":"stock-tracking-excel","primaryQuery":"stok takip excel","observedKeywordVolume":null,"demandRank":null},
-    {"pageId":"excelarsiv:sablon:vergi-sgk-ve-maas-karsilik-ayirma-sistemi","route":"/sablon/vergi-sgk-ve-maas-karsilik-ayirma-sistemi","type":"product","status":"live","clusterId":"tax-sgk-payroll-excel","primaryQuery":"vergi sgk takip excel","observedKeywordVolume":null,"demandRank":null}
-  ],
-  "contentGaps": [],
-  "counts": {"categories":8,"products":12,"gaps":0,"totalLive":20}
+  "sourceOfTruth": "data/seo/registry/excelarsiv_seo_registry.json",
+  "selectionMode": "all-live-registry",
+  "snapshotPolicy": "computed-at-runtime",
+  "demandRankingSource": "data/seo/kac/cluster_map.json",
+  "demandFallback": "no-volume-claim",
+  "contentGapPolicy": "draft-only-faz1-delta",
+  "registryWriterContract": "faz-01",
+  "automaticPublish": false
 }
