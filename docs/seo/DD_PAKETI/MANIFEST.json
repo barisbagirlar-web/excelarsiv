@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "6.0-phase19-dd",
+  "siteId": "excelarsiv",
+  "generatedAt": "2026-08-09T19:36:00Z",
+  "status": "PARTIAL_EVIDENCE_PACKAGE",
+  "files": [
+    {"role":"registry_export","path":"data/seo/registry/excelarsiv_seo_registry.json"},
+    {"role":"pnl_raw_series","path":"data/seo/pnl.json"},
+    {"role":"redirect_ledger","path":"data/seo/redirects.json"},
+    {"role":"decision_ledger","path":"docs/seo/KARAR_DEFTERI.md"},
+    {"role":"conformance_history","path":"docs/seo/DD_PAKETI/CONFORMANCE_HISTORY.md"},
+    {"role":"structural_breaks","path":"docs/seo/DD_PAKETI/STRUCTURAL_BREAKS.md"}
+  ],
+  "missingExternalEvidence": ["authenticated-gsc","authenticated-ga4","paid-search-cpc-series"],
+  "publicationEligible": false
+}
