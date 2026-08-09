@@ -16,7 +16,10 @@
     "supportsHeaders": true,
     "supportsEdgeRedirects": false
   },
-  "measurement": { "coldStart": true },
+  "measurement": {
+    "coldStart": true,
+    "launchDate": null
+  },
   "policy": {
     "aiBots": {
       "aiTraining": "allow",
