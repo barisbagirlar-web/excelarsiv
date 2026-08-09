@@ -1,0 +1,36 @@
+name: SEO V6 Conformance
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  conformance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: SEO preflight
+        env:
+          SITE_ID: excelarsiv
+          SEO_REVIEW_TEXT: ${{ github.event.pull_request.title }} ${{ github.event.pull_request.body }}
+        run: npm run seo:preflight
+      - name: SEO conformance
+        run: npm run seo:conformance
+      - name: Existing build and guards
+        run: npm test
