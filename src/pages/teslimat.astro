@@ -117,6 +117,8 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
 </CommerceLayout>
 
 <script>
+  import { analytics, fileTypeFromDownloadUrl, resolveDownloadSource, trackAnalyticsEvent } from '../lib/analytics';
+
   const STORAGE_KEY = 'excelarsiv:last-checkout:v1';
   const root = document.querySelector('[data-delivery-root]');
   const emptyState = root?.querySelector('[data-empty-state]');
@@ -242,6 +244,11 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
 
   download?.addEventListener('click', async () => {
     if (!checkout) return;
+    const templateId = String(checkout.productSlug || 'unknown');
+    trackAnalyticsEvent(analytics.events.downloadStart, {
+      templateId,
+      source: resolveDownloadSource(),
+    });
     download.setAttribute('disabled', '');
     setStatus('Dosyanız hazırlanıyor', 'Size özel güvenli indirme bağlantısı oluşturuluyor.');
     try {
@@ -249,12 +256,17 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
         checkoutId: checkout.checkoutId,
         checkoutSecret: checkout.checkoutSecret,
       });
+      const downloadUrl = String(result.downloadUrl);
       const link = document.createElement('a');
-      link.href = result.downloadUrl;
+      link.href = downloadUrl;
       link.rel = 'nofollow';
       document.body.appendChild(link);
       link.click();
       link.remove();
+      trackAnalyticsEvent(analytics.events.downloadComplete, {
+        templateId,
+        fileType: fileTypeFromDownloadUrl(downloadUrl),
+      });
       setStatus('İndirme başladı', 'Excel dosyanız bilgisayarınıza indiriliyor.');
     } catch (error) {
       setStatus(
