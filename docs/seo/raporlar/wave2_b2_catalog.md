@@ -2,45 +2,43 @@
 
 ## VAR/YOK
 
-Başlangıç: **YOK**. Mevcut registry ürün/kategori kayıtlarını lansman kataloğuna dönüştüren ve içerik boşluklarını registry delta olarak ayıran bir motor yoktu.
+İlk B2 uygulaması registry ürün/kategori kayıtlarını katalog listesine dönüştürmüş ve `data/seo/launch_catalog.json` içine sayfa snapshot'ı yazmıştı. C1 sonrasında yeni ürünler/rehberler paralel olarak registry'ye eklenmeye hazırlanırken bu snapshot'ın eski kalması conformance'ı kırdı.
 
-## Mevcut lansman bazı
+Bu, test sorunu değil **çift-SSOT mimari kusuru** olarak kabul edildi. Test zayıflatılmadı.
 
-Registry üzerinde canlı satış yüzeyi zaten mevcuttur:
-- 8 kategori yüzeyi (`/sablonlar` + 7 alt kategori),
-- 12 canlı ürün detay sayfası,
-- toplam 20 lansman satış/kategori URL'si.
+## Kalıcı mimari
 
-Gerçek B1 demand CSV'si bulunmadığından hacim sıralaması **SKIP_NO_DATA**. Katalog tüm mevcut canlı kategori+ürün yüzeyini kapsar; “en yüksek hacim” iddiası kurulmaz.
+`data/seo/launch_catalog.json` artık mutable sayfa listesi değildir; yalnız katalog üretim politikasını taşır:
+- `sourceOfTruth = data/seo/registry/excelarsiv_seo_registry.json`
+- `selectionMode = all-live-registry`
+- `snapshotPolicy = computed-at-runtime`
+- demand sıralama kaynağı = KAC
+- demand yoksa hacim iddiası yok
+- content gap yalnız `draft-only-faz1-delta`
+- registry yazarı yalnız Faz 1
+- otomatik yayın = false
 
-## Uygulama
+`pages` veya `counts` alanlarının policy artefaktına yeniden eklenmesi conformance tarafından BLOCK edilir. Böylece ürün/kategori registry'si büyüdüğünde ikinci bir committed katalog listesinin senkron tutulması gerekmez.
 
-`scripts/seo/launch-catalog.ts`:
-- canlı `category` ve `product` registry kayıtlarını toplar,
-- B1 demand hacmi varsa ürünleri gözlenen import hacmine göre sıralar,
-- demand yoksa alfabetik/deterministik tam canlı katalog bazını kullanır,
-- `--limit` yalnız açık pozitif tam sayıysa uygulanır,
-- KAC `contentGap:true` kayıtlarını yalnız `draft-gap` olarak önerir,
-- yeni route'u doğrudan registry'ye yazmaz,
-- `data/seo/registry_delta.json` yalnız Faz 1 tek-yazar sözleşmesine devredilecek delta üretir.
+## Runtime türetim
 
-Şu an registry delta: **NO_CHANGES / 0 kayıt**. Bu nedenle ayrıca `seo/registry-refresh-wave2` PR'ı açmak gereksizdir.
+`scripts/seo/launch-catalog.ts` her koşuda canlı registry'den güncel kategori ve ürün setini türetir:
+- demand varsa yalnız gözlenen imported volume'a göre sıralar,
+- demand yoksa tüm canlı kategori+ürünleri deterministic olarak kapsar ve hacim iddiası kurmaz,
+- KAC `contentGap:true` kayıtlarını yalnız draft delta olarak önerir,
+- `--write` artık mutable katalog snapshot'ı yazmaz; yalnız `registry_delta.json` güncelleyebilir.
 
-## Otomatik yayın
+Bu sayede registry değişikliği ile katalog snapshot'ı arasında circular dependency kalmaz.
 
-Yeni içerik gövdesi veya yeni product route otomatik üretilmedi. Gerçek demand verisinden içerik boşluğu çıktığında route yalnız taslak/delta olur; insan onayı olmadan public sayfaya dönüşmez.
-
-## Kanıt
-
-`data/seo/launch_catalog.json`: mevcut 20 canlı lansman URL'sinin kayıtlı listesi.
+## Kanıt ve yaşam döngüsü
 
 `tests/conformance/wave2-b2-catalog.test.ts`:
-- registry kayıt sayısı > 0,
-- kategori ve ürün sayısı > 0,
-- committed katalog route/pageId parity,
-- mevcut durumda demandPriorityStatus=SKIP_NO_DATA,
-- mevcut content gap=0,
-- registry delta=NO_CHANGES,
-- sentetik bir gap'in yalnız `draft` Faz 1 delta ürettiği negatif/yaşam-döngüsü testi.
+1. policy'nin registry tek-kaynak ve runtime-derived olduğunu doğrular,
+2. policy içine mutable `pages/counts` snapshot'ı sokulmasını reddeder,
+3. güncel kategori/ürün sayılarını doğrudan registry'den hesaplayıp runtime katalogla birebir karşılaştırır,
+4. demand status'ünün veri varlığına göre `SKIP_NO_DATA|AVAILABLE` yaşam döngüsünü kabul eder,
+5. content gap'in yalnız Faz 1 `draft` delta üretebildiğini doğrular.
 
-`npm run seo:validate-registry` mevcut Faz 1 registry sözleşmesini ayrıca doğrular; B2 registry dosyasını yazamaz.
+## Sonuç
+
+Katalog üyeliğinin otoritesi artık tek yerde, registry'dedir. Launch catalog bir kopya veri deposu değil, registry + KAC üzerinde çalışan deterministik karar görünümüdür. Bu değişiklik runtime/public davranışı değiştirmez ve deploy gerektirmez.
