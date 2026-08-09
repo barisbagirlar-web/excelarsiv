@@ -7,8 +7,11 @@ import { evaluateColdStart } from './conformance-rules.ts';
 type JsonPrimitive = null | boolean | number | string;
 type JsonValue = JsonPrimitive | JsonValue[] | { [key: string]: JsonValue };
 type JsonObject = { [key: string]: JsonValue };
-type ColdStartConfig = { thresholds: { coldStartMinDays: number } };
-type Coverage = { availableDays: number };
+type ColdStartConfig = {
+  measurement: { coldStart: boolean; dataWindowStart: string };
+  thresholds: { coldStartMinDays: number };
+};
+type Coverage = { availableDays: number; dataWindowStart?: string };
 
 const ROOT = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 
@@ -21,6 +24,7 @@ function siteArg(): string | undefined {
 }
 
 const site = siteArg();
+const dryRun = process.argv.includes('--dry-run');
 if (!site) {
   console.error('SITE_ID_MISSING');
   process.exit(EXIT.CONFIG);
@@ -40,6 +44,21 @@ if (!Number.isInteger(thresholdDays) || thresholdDays < 1) {
 }
 const coveragePath = resolve(ROOT, `data/seo/gsc_coverage_${site}.json`);
 if (!existsSync(coveragePath)) {
+  const output = {
+    siteId: site,
+    coldStart: config.measurement.coldStart,
+    confidence: config.measurement.coldStart ? 'low' : 'high',
+    availableDays: null,
+    thresholdDays,
+    dataWindowStart: config.measurement.dataWindowStart,
+    dryRun,
+    status: 'SKIP_NO_DATA',
+    prRecommendation: null,
+  };
+  if (dryRun) {
+    console.log(JSON.stringify(output));
+    process.exit(EXIT.PASS);
+  }
   console.error(`GSC_COVERAGE_MISSING: ${coveragePath}`);
   process.exit(EXIT.MISSING_DATA);
 }
@@ -48,6 +67,28 @@ if (!Number.isInteger(coverage.availableDays) || coverage.availableDays < 0) {
   console.error('GSC_COVERAGE_INVALID');
   process.exit(EXIT.CONFIG);
 }
+if (coverage.dataWindowStart && coverage.dataWindowStart !== config.measurement.dataWindowStart) {
+  console.error('GSC_COVERAGE_WINDOW_MISMATCH');
+  process.exit(EXIT.CONFIG);
+}
 const result = evaluateColdStart(coverage.availableDays, thresholdDays);
-console.log(JSON.stringify({ siteId: site, availableDays: coverage.availableDays, ...result }));
+const shouldClose = config.measurement.coldStart === true && result.coldStart === false;
+const prRecommendation = shouldClose
+  ? {
+      readyToOpen: true,
+      branch: `seo/coldstart-exit-${site}`,
+      title: `seo: exit cold-start mode for ${site}`,
+      change: `sites/${site}/seo.config.json measurement.coldStart true -> false`,
+      automaticConfigWrite: false,
+    }
+  : null;
+console.log(JSON.stringify({
+  siteId: site,
+  availableDays: coverage.availableDays,
+  dataWindowStart: config.measurement.dataWindowStart,
+  configuredColdStart: config.measurement.coldStart,
+  ...result,
+  dryRun,
+  prRecommendation,
+}));
 process.exit(EXIT.PASS);
