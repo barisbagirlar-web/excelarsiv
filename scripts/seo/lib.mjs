@@ -6,6 +6,15 @@ export const SITE_ORIGIN = 'https://excelarsiv.com';
 export const DIST_DIR = resolve(process.cwd(), 'dist');
 export const SRC_PAGES_DIR = resolve(process.cwd(), 'src/pages');
 export const TEMPLATE_DIR = resolve(process.cwd(), 'src/content/templates');
+export const GUIDE_DIR = resolve(process.cwd(), 'src/content/guides');
+
+const PRODUCT_SEO_FILE = resolve(process.cwd(), 'src/data/productSeo.ts');
+const PRODUCT_PAGE_FILE = resolve(process.cwd(), 'src/pages/sablon/[slug].astro');
+const GUIDE_PAGE_FILE = resolve(process.cwd(), 'src/pages/rehber/[slug].astro');
+const CATEGORY_DATA_FILE = resolve(process.cwd(), 'src/lib/categories.ts');
+const CATEGORY_PAGE_FILE = resolve(process.cwd(), 'src/pages/sablonlar/[kategori].astro');
+const CATALOG_PAGE_FILE = resolve(process.cwd(), 'src/pages/sablonlar.astro');
+const GUIDE_INDEX_FILE = resolve(process.cwd(), 'src/pages/rehber.astro');
 
 const TRACKING_PARAMS = new Set([
   'utm_source',
@@ -139,7 +148,7 @@ export function discoverBuiltPages() {
     pages.push(page);
   }
 
-  return pages.sort((a, b) => a.canonical.localeCompare(b.canonical, 'tr'));
+  return pages.sort((a, b) => a.canonical.localeCompare(b.canonical, 'en'));
 }
 
 export function getTemplateRecords() {
@@ -207,6 +216,15 @@ function getPagePatterns() {
 export function sourceForPath(pathname, templateRecords = getTemplateRecords()) {
   const product = pathname.match(/^\/sablon\/([^/]+)$/);
   if (product && templateRecords.has(product[1])) return templateRecords.get(product[1]).file;
+
+  const guide = pathname.match(/^\/rehber\/([^/]+)$/);
+  if (guide) {
+    for (const extension of ['.mdx', '.md']) {
+      const file = join(GUIDE_DIR, `${guide[1]}${extension}`);
+      if (existsSync(file)) return file;
+    }
+  }
+
   const match = getPagePatterns().find((item) => item.re.test(pathname));
   return match?.file ?? null;
 }
@@ -228,15 +246,58 @@ export function gitLastModified(file) {
   }
 }
 
+function latestDate(dates) {
+  const valid = dates.filter((date) => date instanceof Date && !Number.isNaN(date.valueOf()));
+  if (valid.length === 0) return null;
+  return new Date(Math.max(...valid.map((date) => date.valueOf())));
+}
+
+function gitLastModifiedMany(files) {
+  return latestDate(files.map((file) => gitLastModified(file)));
+}
+
 export function semanticLastModified(page, templateRecords = getTemplateRecords()) {
   const product = page.pathname.match(/^\/sablon\/([^/]+)$/);
   if (product) {
     const record = templateRecords.get(product[1]);
-    if (record?.updatedAt) {
-      const parsed = new Date(`${record.updatedAt}T00:00:00.000Z`);
-      if (!Number.isNaN(parsed.valueOf())) return parsed;
-    }
+    const declared = record?.updatedAt ? new Date(`${record.updatedAt}T00:00:00.000Z`) : null;
+    return latestDate([
+      declared,
+      gitLastModified(record?.file),
+      gitLastModified(PRODUCT_SEO_FILE),
+      gitLastModified(PRODUCT_PAGE_FILE),
+    ]);
   }
+
+  const guide = page.pathname.match(/^\/rehber\/([^/]+)$/);
+  if (guide) {
+    return latestDate([
+      gitLastModified(sourceForPath(page.pathname, templateRecords)),
+      gitLastModified(GUIDE_PAGE_FILE),
+    ]);
+  }
+
+  if (/^\/sablonlar\/[^/]+$/.test(page.pathname)) {
+    return gitLastModifiedMany([CATEGORY_DATA_FILE, CATEGORY_PAGE_FILE]);
+  }
+
+  if (page.pathname === '/sablonlar') {
+    const templates = walkFiles(TEMPLATE_DIR, (file) => ['.md', '.mdx'].includes(extname(file)));
+    return latestDate([
+      gitLastModified(CATALOG_PAGE_FILE),
+      gitLastModified(CATEGORY_DATA_FILE),
+      gitLastModifiedMany(templates),
+    ]);
+  }
+
+  if (page.pathname === '/rehber') {
+    const guides = walkFiles(GUIDE_DIR, (file) => ['.md', '.mdx'].includes(extname(file)));
+    return latestDate([
+      gitLastModified(GUIDE_INDEX_FILE),
+      gitLastModifiedMany(guides),
+    ]);
+  }
+
   return gitLastModified(sourceForPath(page.pathname, templateRecords));
 }
 
