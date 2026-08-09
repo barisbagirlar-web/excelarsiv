@@ -16,24 +16,17 @@
     "supportsHeaders": true,
     "supportsEdgeRedirects": false
   },
+  "measurement": { "coldStart": true },
   "policy": {
     "aiBots": {
       "aiTraining": "allow",
       "aiSearch": "allow",
       "custom": {
-        "OAI-SearchBot": "allow",
-        "ChatGPT-User": "allow",
-        "GPTBot": "allow",
-        "ClaudeBot": "allow",
-        "PerplexityBot": "allow",
-        "Google-Extended": "allow"
+        "OAI-SearchBot": "allow", "ChatGPT-User": "allow", "GPTBot": "allow", "ClaudeBot": "allow", "PerplexityBot": "allow", "Google-Extended": "allow"
       }
     },
     "blockedSections": ["/api", "/demo"],
     "perplexityQuery": null
   },
-  "business": {
-    "verticals": ["ecommerce"],
-    "revenueModel": "ecommerce"
-  }
+  "business": { "verticals": ["ecommerce"], "revenueModel": "ecommerce" }
 }
