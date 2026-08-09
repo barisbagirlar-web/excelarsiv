@@ -21,6 +21,16 @@ type InvariantRecord = { id: string };
 const ROOT = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const DATE_FLOOR = '2025-09-11';
 const EXIT = Object.freeze({ PASS: 0, BLOCK: 1, WARN: 2, MISSING_DATA: 3, CONFIG: 4 });
+const BRANCH_CONTRACTS: Readonly<Record<string, string>> = Object.freeze({
+  'seo/ga4-events': 'wave2-a1',
+  'seo/consent': 'wave2-a2',
+  'seo/breaks-seed': 'wave2-a3',
+  'seo/demand-seed': 'wave2-b1',
+  'seo/launch-catalog': 'wave2-b2',
+  'seo/link-graph': 'wave2-c1',
+  'seo/staging-proof': 'wave2-c2',
+  'seo/registry-refresh-wave2': 'faz-01',
+});
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -117,20 +127,20 @@ function changedFiles(): string[] {
   const args = base ? ['diff', '--name-only', `origin/${base}...HEAD`] : ['diff', '--name-only', 'HEAD'];
   return execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' }).trim().split('\n').filter(Boolean);
 }
-function governanceBranch(): boolean {
-  const branch = process.env.GITHUB_HEAD_REF ?? process.env.GITHUB_REF_NAME ?? '';
-  return branch.startsWith('seo/governance-');
+function branchContractKey(branch = process.env.GITHUB_HEAD_REF ?? process.env.GITHUB_REF_NAME ?? ''): string | null {
+  if (branch.startsWith('seo/governance-')) return 'governance';
+  return BRANCH_CONTRACTS[branch] ?? null;
 }
 function phaseContract(state: Progress, contractOverride?: string): PhaseContract | null {
   const contracts = readJson<JsonObject>('PHASE_CONTRACTS.json') as Record<string, unknown>;
+  const branchKey = branchContractKey();
   const key = contractOverride
-    ?? (governanceBranch()
-      ? 'governance'
-      : state.activePhase === null && (state.bootstrap === 'active' || state.bootstrap === 'completed')
-        ? 'bootstrap'
-        : Number.isInteger(state.activePhase)
-          ? `faz-${String(state.activePhase).padStart(2, '0')}`
-          : null);
+    ?? branchKey
+    ?? (state.activePhase === null && (state.bootstrap === 'active' || state.bootstrap === 'completed')
+      ? 'bootstrap'
+      : Number.isInteger(state.activePhase)
+        ? `faz-${String(state.activePhase).padStart(2, '0')}`
+        : null);
   if (!key || !isRecord(contracts[key])) return null;
   const raw = contracts[key];
   const writes = Array.isArray(raw.writes) ? raw.writes.filter((item): item is string => typeof item === 'string') : [];
@@ -253,4 +263,4 @@ function main(): void {
   }
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main();
-export { EXIT, DATE_FLOOR, mergeDeep, validateSchema, scanPlaceholders, globToRegExp, matchAny, containsGuarantee, reviewTextGuaranteeHit, guaranteeHits, runPreflight, exitCode, progress };
+export { EXIT, DATE_FLOOR, mergeDeep, validateSchema, scanPlaceholders, globToRegExp, matchAny, containsGuarantee, reviewTextGuaranteeHit, guaranteeHits, runPreflight, exitCode, progress, branchContractKey };
