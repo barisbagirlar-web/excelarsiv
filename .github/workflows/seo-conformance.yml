@@ -29,13 +29,12 @@ jobs:
         env:
           SITE_ID: excelarsiv
           SEO_REVIEW_TEXT: ${{ github.event.pull_request.title }} ${{ github.event.pull_request.body }}
-          SEO_CONFORMANCE_TEST: ${{ github.head_ref == 'seo/hotfix-product-seo-owner' && '1' || '' }}
+          SEO_CONFORMANCE_TEST: ${{ startsWith(github.head_ref, 'seo/faz-coldstart') && '1' || '' }}
         run: |
-          if [[ "${GITHUB_HEAD_REF:-}" == "seo/hotfix-product-seo-owner" ]]; then
-            npm run seo:preflight -- --contract-test closure-product-seo
-          else
-            npm run seo:preflight
-          fi
+          case "${GITHUB_HEAD_REF:-}" in
+            seo/faz-coldstart*) npm run seo:preflight -- --contract-test closure-coldstart ;;
+            *) npm run seo:preflight ;;
+          esac
       - name: SEO conformance
         run: npm run seo:conformance
       - name: Existing build and guards
