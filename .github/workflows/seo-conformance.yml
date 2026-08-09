@@ -29,10 +29,11 @@ jobs:
         env:
           SITE_ID: excelarsiv
           SEO_REVIEW_TEXT: ${{ github.event.pull_request.title }} ${{ github.event.pull_request.body }}
-          SEO_CONFORMANCE_TEST: ${{ (startsWith(github.head_ref, 'seo/faz-coldstart') || github.head_ref == 'seo/hotfix-proof-demo-conflict') && '1' || '' }}
+          SEO_CONFORMANCE_TEST: ${{ (startsWith(github.head_ref, 'seo/faz-coldstart') || startsWith(github.head_ref, 'seo/fixture-rehearsal') || github.head_ref == 'seo/hotfix-proof-demo-conflict') && '1' || '' }}
         run: |
           case "${GITHUB_HEAD_REF:-}" in
             seo/faz-coldstart*) npm run seo:preflight -- --contract-test closure-coldstart ;;
+            seo/fixture-rehearsal*) npm run seo:preflight -- --contract-test closure-rehearsal ;;
             seo/hotfix-proof-demo-conflict) npm run seo:preflight -- --contract-test closure-product-seo ;;
             *) npm run seo:preflight ;;
           esac
@@ -40,3 +41,33 @@ jobs:
         run: npm run seo:conformance
       - name: Existing build and guards
         run: npm test
+
+  rehearsal:
+    if: startsWith(github.head_ref, 'seo/fixture-rehearsal') || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Run synthetic SEO motor rehearsal
+        env:
+          SEO_REHEARSAL: '1'
+          SEO_REHEARSAL_OUT: ${{ runner.temp }}/seo-rehearsal
+        run: |
+          npm run seo:pnl
+          npm run seo:kac
+          npm run seo:slo
+          npm run seo:board
+      - name: Upload rehearsal artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: seo-rehearsal-artifacts
+          path: ${{ runner.temp }}/seo-rehearsal/*.json
+          if-no-files-found: error
