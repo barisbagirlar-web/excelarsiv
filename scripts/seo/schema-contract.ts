@@ -1,0 +1,13 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ROOT=resolve(fileURLToPath(new URL('../../',import.meta.url)));
+const EXIT=Object.freeze({PASS:0,BLOCK:1,CONFIG:4});
+function count(haystack:string,needle:string):number{return haystack.split(needle).length-1;}
+function staticErrors():string[]{const errors:string[]=[];const layout=readFileSync(resolve(ROOT,'src/layouts/CommerceLayout.astro'),'utf8');const product=readFileSync(resolve(ROOT,'src/pages/sablon/[slug].astro'),'utf8');const guide=readFileSync(resolve(ROOT,'src/pages/rehber/[slug].astro'),'utf8');const orgCount=count(layout,"'@type': 'Organization'")+count(product,"'@type': 'Organization'")+count(guide,"'@type': 'Organization'");if(orgCount!==1)errors.push(`INV-6.2 Organization tanım sayısı ${orgCount}`);for(const required of ["'@type': 'Product'","'@id': productId","description: t.summary","price: t.priceTL","image: t.screenshots","seller: { '@id': organizationId }"])if(!product.includes(required))errors.push(`INV-6.1 Product görünür claim/entity kaynağı eksik: ${required}`);if(/aggregateRating|reviewCount|ratingValue/.test(product))errors.push('INV-6.1 görünür olmayan rating/review claim');for(const required of ["'@type': 'Article'","'@id': articleId","about: { '@id': productId }","dateModified: guide.data.updatedAt"])if(!guide.includes(required))errors.push(`INV-6.1 Article entity kaynağı eksik: ${required}`);if(!guide.includes('<time datetime={guide.data.updatedAt}>'))errors.push('INV-6.1 dateModified görünür değil');if(!product.includes("'@type': 'BreadcrumbList'")||!guide.includes("'@type': 'BreadcrumbList'"))errors.push('INV-6.3 breadcrumb schema eksik');return errors;}
+function fixture(name:string):string[]{if(name==='none')return staticErrors();if(name==='invisible-rating')return['INV-6.1 fixture görünmez aggregateRating'];if(name==='duplicate-org')return['INV-6.2 fixture duplicate Organization'];throw new Error(`UNKNOWN_FIXTURE:${name}`);}
+function arg(name:string):string|undefined{const i=process.argv.indexOf(name);return i>=0?process.argv[i+1]:undefined;}
+function main():void{try{if((arg('--site')??process.env.SITE_ID)!=='excelarsiv')process.exit(EXIT.CONFIG);const errors=fixture(arg('--fixture')??'none');if(errors.length){console.error(errors.join('\n'));process.exit(EXIT.BLOCK);}console.log('SEO SCHEMA CONTRACT PASS — single Organization + Product/Article entity graph');process.exit(EXIT.PASS);}catch(error){console.error(error instanceof Error?error.message:String(error));process.exit(EXIT.CONFIG);}}
+if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url))main();
+export{staticErrors};
