@@ -1,0 +1,45 @@
+name: SEO SLO Monitor
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 6 * * *'
+permissions:
+  contents: read
+  issues: write
+jobs:
+  slo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Evaluate SEO SLOs
+        id: slo
+        shell: bash
+        run: |
+          set +e
+          node --experimental-strip-types scripts/seo/seo-slo-check.ts --site excelarsiv 2>&1 | tee /tmp/seo-slo.log
+          code=${PIPESTATUS[0]}
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+      - name: Open or update SLO incident issue
+        if: steps.slo.outputs.code == '1' || steps.slo.outputs.code == '2'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          title="SEO SLO incident — excelarsiv"
+          body=$(cat /tmp/seo-slo.log)
+          existing=$(gh issue list --state open --label seo-slo --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$(printf 'Yeni SLO koşusu:\n\n```\n%s\n```' "$body")"
+          else
+            gh label create seo-slo --description "SEO SLO / evidence incident" --force || true
+            gh issue create --title "$title" --label seo-slo --body "$(printf 'SLO guard ihlali:\n\n```\n%s\n```' "$body")"
+          fi
+      - name: Fail on BLOCK
+        if: steps.slo.outputs.code == '1'
+        run: exit 1
