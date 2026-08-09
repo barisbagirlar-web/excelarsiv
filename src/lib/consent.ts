@@ -14,6 +14,17 @@ export type ConsentRecord = {
   status: ConsentStatus;
   updatedAt: string;
 };
+export type ConsentRuntimeApi = {
+  getStatus: () => ConsentStatus | null;
+  setStatus: (status: ConsentStatus) => ConsentStatus;
+  hasAnalyticsConsent: () => boolean;
+};
+
+declare global {
+  interface Window {
+    ExcelArsivConsent?: ConsentRuntimeApi;
+  }
+}
 
 export function consentSignals(status: ConsentStatus): ConsentSignals {
   return {
