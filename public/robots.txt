@@ -1,32 +1,35 @@
 User-agent: *
-Allow: /
-Disallow: /api/
-Disallow: /demo/
+Disallow: /api
+Disallow: /demo
 
-# AI ve LLM crawler erişimi — genel Allow kuralını açıkça belgelendirir.
 User-agent: OAI-SearchBot
 Allow: /
-
-User-agent: GPTBot
-Allow: /
+Disallow: /api
+Disallow: /demo
 
 User-agent: ChatGPT-User
 Allow: /
+Disallow: /api
+Disallow: /demo
+
+User-agent: GPTBot
+Allow: /
+Disallow: /api
+Disallow: /demo
 
 User-agent: ClaudeBot
 Allow: /
+Disallow: /api
+Disallow: /demo
 
 User-agent: PerplexityBot
 Allow: /
+Disallow: /api
+Disallow: /demo
 
 User-agent: Google-Extended
 Allow: /
-
-User-agent: CCBot
-Allow: /
+Disallow: /api
+Disallow: /demo
 
 Sitemap: https://excelarsiv.com/sitemap.xml
-
-# Deneysel AI keşif yardımcıları:
-# https://excelarsiv.com/llms.txt
-# https://excelarsiv.com/llms-full.txt
