@@ -1,0 +1,4 @@
+{
+  "meta":{"artifact":"brand_demand","schemaVersion":"6.0-phase13","generatedAt":"2026-08-09T19:13:00Z","generatorScript":"scripts/seo/track-brand-demand.ts","inputWindow":{"start":"2025-09-11","end":"2026-08-09"},"confidence":"low","partial":true,"siteId":"excelarsiv","coldStart":true,"structuralBreaksApplied":[]},
+  "status":"SKIP_NO_DATA","series":[],"brandSerpOwnershipPct":null,"aiCitationMentions":null,"missingSources":["authenticated-gsc","backlink-provider","brand-serp-snapshot","ai-citation-snapshot"]
+}
