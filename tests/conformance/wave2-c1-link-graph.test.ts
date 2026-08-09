@@ -60,12 +60,18 @@ test('C1 graph counts unique source pages and identifies threshold orphans', () 
   assert.equal(result.suggestions[0]?.targetRoute, '/');
 });
 
-test('C1/CWV critical pages defer below-fold rendering and prioritize product LCP image', () => {
+test('C1/CWV critical pages defer below-fold rendering and keep heavy mobile hero images off the critical path', () => {
   const home = readFileSync(resolve(ROOT, 'src/pages/index.astro'), 'utf8');
-  const hero = readFileSync(resolve(ROOT, 'src/components/product/ProductHeroPremium.astro'), 'utf8');
+  const homeHero = readFileSync(resolve(ROOT, 'src/components/home/HeroSection.astro'), 'utf8');
+  const productHero = readFileSync(resolve(ROOT, 'src/components/product/ProductHeroPremium.astro'), 'utf8');
   assert.match(home, /content-visibility:\s*auto/);
   assert.match(home, /contain-intrinsic-size:\s*auto\s+760px/);
-  assert.match(hero, /fetchpriority="high"/);
-  assert.match(hero, /width="1200"\s+height="750"/);
-  assert.match(hero, /:global\(\.product-page > \.product-section\).*content-visibility:auto/);
+  assert.match(homeHero, /source media="\(min-width: 721px\)" srcset="\/images\/hero\.jpg"/);
+  assert.match(homeHero, /hero-mobile-copy__eyebrow/);
+  assert.match(homeHero, /\.hero-artwork\s*\{\s*display:\s*none;/s);
+  assert.doesNotMatch(homeHero, /hero-mobile\.jpg/);
+  assert.match(productHero, /source media="\(min-width: 761px\)" srcset=\{primary\.src\}/);
+  assert.match(productHero, /\.product-hero__visual\{display:none\}/);
+  assert.match(productHero, /product-hero__mobile-proof-link/);
+  assert.match(productHero, /:global\(\.product-page > \.product-section\).*content-visibility:auto/);
 });
