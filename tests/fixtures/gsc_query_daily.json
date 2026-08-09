@@ -1,0 +1,1 @@
+{"synthetic":true,"dataset":"gsc_query_daily","startDate":"2026-05-12","days":90,"pageTypes":["guide","product","category"],"generator":{"baseImpressions":1000,"dailyImpressionIncrement":10,"pageTypeImpressionOffset":250,"baseClicks":100,"dailyClickIncrement":2,"pageTypeClickOffset":20}}
