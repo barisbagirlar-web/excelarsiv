@@ -42,6 +42,21 @@ SAYFALAR = {
     "ithalat-depo-teslim-rafa-gelen-net-birim-maliyet": ["URUNLER", "KARAR", "PANO"],
 }
 
+# Slug → demo veri dolu üretim dosyası eşlemesi. Bu dosyalar üretim betiğinin
+# çıktısıdır (demo_veri_doldur ile dolu) ve görseller gerçek tabloyu gösterir.
+DEMO_KAYNAK = {
+    "asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli": "AsgariUcretZamEtkisiFiyatAyarlamaCetveli.xlsx",
+    "asiri-dusuk-teklif-savunma-robotu": "AsiriDusukTeklifSavunmaRobotu.xlsx",
+    "fazla-mesai-ve-isci-dava-riski-tespit-dosyasi": "FazlaMesaiVeIsciDavaRiskiTespitDosyasi.xlsx",
+    "hakedis-fiyat-farki-hak-kaybi-cetveli": "HakedisFiyatFarkiVeHakKaybiCetveli.xlsx",
+    "ihaleye-kac-tl-teklif-vermeliyim": "IhaleyeKacTlTeklifVermeliyim.xlsx",
+    "ithalat-depo-teslim-rafa-gelen-net-birim-maliyet": "IthalatDepoTeslimNetBirimMaliyet.xlsx",
+    "kacirilan-sgk-tesvikleri-ve-gercek-iscilik-maliyeti-analizi": "KacirilanSgkTesvikleriVeGercekIscilikMaliyetiAnalizi.xlsx",
+    "kidem-ihbar-yuku-ve-personel-cikarma-maliyeti-hesaplayici": "KidemIhbarYukuVePersonelCikarmaMaliyetiHesaplayici.xlsx",
+    "taseron-hakedis-kesinti-mutabakati": "TaseronHakedisVeKesintiMutabakati.xlsx",
+    "yillara-sari-insaat-stopaj-nakit-akis-planlayici": "YillaraSariInsaatStopajVeNakitAkisPlanlayici.xlsx",
+}
+
 
 def dolu_alan(ws):
     """Ekran görüntüsü için kompakt print_area üretir.
@@ -160,6 +175,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("sluglar", nargs="*")
     ap.add_argument("--soffice", default="soffice")
+    ap.add_argument("--demo-kaynak", default="",
+                    help="Demo veri dolu dosyaların dizini (varsayılan: delivery/paid-products)")
     a = ap.parse_args()
 
     slugs = a.sluglar or list(SAYFALAR)
@@ -168,10 +185,19 @@ def main():
         if slug not in SAYFALAR:
             sys.stderr.write("Bilinmeyen slug: %s\n" % slug)
             continue
-        kaynak = os.path.join(TESLIM, slug, "current.xlsx")
-        if not os.path.exists(kaynak):
-            sys.stderr.write("Teslim dosyası yok: %s\n" % kaynak)
-            continue
+        if a.demo_kaynak:
+            if slug not in DEMO_KAYNAK:
+                sys.stderr.write("Demo kaynak eşlemesi yok: %s\n" % slug)
+                continue
+            kaynak = os.path.join(a.demo_kaynak, DEMO_KAYNAK[slug])
+            if not os.path.exists(kaynak):
+                sys.stderr.write("Demo dosyası yok: %s\n" % kaynak)
+                continue
+        else:
+            kaynak = os.path.join(TESLIM, slug, "current.xlsx")
+            if not os.path.exists(kaynak):
+                sys.stderr.write("Teslim dosyası yok: %s\n" % kaynak)
+                continue
         for i, sayfa in enumerate(SAYFALAR[slug], start=1):
             cikti = os.path.join(CIKTI, "%s-%d.png" % (slug, i))
             if sayfa_görüntüle(kaynak, sayfa, cikti, a.soffice):
