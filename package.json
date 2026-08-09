@@ -22,6 +22,7 @@
     "seo:coldstart-check": "node --experimental-strip-types scripts/seo/coldstart-check.ts",
     "seo:analytics-events": "node --experimental-strip-types scripts/seo/analytics-event-contract.ts",
     "seo:consent": "node --experimental-strip-types scripts/seo/consent-contract.ts",
+    "seo:breaks": "node --experimental-strip-types scripts/seo/structural-breaks.ts",
     "seo:validate-registry": "node --experimental-strip-types scripts/seo/registry-validate.ts --site excelarsiv",
     "seo:kac": "node --experimental-strip-types scripts/seo/kac-prioritize.ts --site excelarsiv",
     "seo:pnl": "node --experimental-strip-types scripts/seo/seo-pnl.ts --site excelarsiv",
