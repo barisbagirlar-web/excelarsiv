@@ -1,14 +1,28 @@
 {
   "meta":{"artifact":"tam_map","schemaVersion":"6.0-phase16","generatedAt":"2026-08-09T19:22:00Z","generatorScript":"scripts/seo/tam-contract.ts","inputWindow":{"start":"2025-09-11","end":"2026-08-09"},"confidence":"low","partial":true,"siteId":"excelarsiv","coldStart":true,"structuralBreaksApplied":[]},
   "status":"PARTIAL_SAFE","mode":"DEGRADED_PUBLIC","revenueModel":"one_time_digital_product",
-  "coverage":{"ownedCommercialClusters":12,"knownGuideClusters":4,"totalDemandUniverse":null,"coverageRatio":null,"reason":"Authenticated GSC and external keyword demand universe are unavailable."},
-  "implementedMoat":{"productQueryOwners":12,"deepDecisionGuides":4,"contextualLinkLoops":4,"entityGraph":true,"aiBotPublicDiscovery":true},
+  "coverage":{"ownedCommercialClusters":12,"knownGuideClusters":4,"totalDemandUniverse":null,"coverageRatio":null,"reason":"Authenticated GSC and external keyword demand universe are unavailable; denominator is not invented."},
+  "knownCommercialClusters":[
+    {"clusterId":"cashflow-13-week","query":"13 haftalık nakit akışı excel","ownerRoute":"/sablon/13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi","guideRoute":"/rehber/13-haftalik-nakit-akisi-excel"},
+    {"clusterId":"cashbook-excel","query":"kasa defteri excel","ownerRoute":"/sablon/akilli-kasa-defteri-ve-nakit-kontrol-sistemi","guideRoute":"/rehber/kasa-defteri-excel"},
+    {"clusterId":"finance-dashboard-excel","query":"finans dashboard excel","ownerRoute":"/sablon/aylik-patron-finans-paneli","guideRoute":null},
+    {"clusterId":"credit-installment-excel","query":"kredi takip excel","ownerRoute":"/sablon/banka-kredi-ve-taksit-takip-sistemi","guideRoute":null},
+    {"clusterId":"receivables-cari-excel","query":"cari hesap takip excel","ownerRoute":"/sablon/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi","guideRoute":"/rehber/cari-hesap-takip-excel"},
+    {"clusterId":"cheque-note-due-excel","query":"çek senet takip excel","ownerRoute":"/sablon/cek-senet-ve-vade-risk-sistemi","guideRoute":null},
+    {"clusterId":"income-expense-profit-excel","query":"gelir gider takip excel","ownerRoute":"/sablon/gunluk-gelir-gider-ve-gercek-karlilik-sistemi","guideRoute":null},
+    {"clusterId":"sme-finance-excel","query":"kobi finans yönetim excel","ownerRoute":"/sablon/kobi-finans-yonetim-paketi","guideRoute":null},
+    {"clusterId":"pos-commission-excel","query":"pos komisyon hesaplama excel","ownerRoute":"/sablon/pos-komisyon-ve-net-tahsilat-kontrol-sistemi","guideRoute":null},
+    {"clusterId":"project-profitability-excel","query":"proje karlılık excel","ownerRoute":"/sablon/proje-ve-is-bazinda-gercek-karlilik-sistemi","guideRoute":null},
+    {"clusterId":"stock-tracking-excel","query":"stok takip excel","ownerRoute":"/sablon/stok-satis-ve-nakit-baglanma-sistemi","guideRoute":"/rehber/stok-takip-excel"},
+    {"clusterId":"tax-sgk-payroll-excel","query":"vergi sgk takip excel","ownerRoute":"/sablon/vergi-sgk-ve-maas-karsilik-ayirma-sistemi","guideRoute":null}
+  ],
+  "implementedMoat":{"productQueryOwners":12,"deepDecisionGuides":4,"contextualLinkLoops":4,"entityGraph":true,"aiBotPublicDiscovery":true,"sitemapRoot":"https://excelarsiv.com/sitemap.xml"},
   "candidateGrowthLoops":[
     {"id":"guide-product-category","enabled":true,"evidence":"implemented-static-graph","requiresModeration":false},
     {"id":"ugc-community","enabled":false,"evidence":null,"requiresModeration":true},
     {"id":"paid-acquisition-content","enabled":false,"evidence":null,"requiresModeration":false}
   ],
-  "programmaticExpansion":{"enabled":false,"reason":"Phase 17 INVEST evidence and Phase 18 gate are not met."},
+  "programmaticExpansion":{"enabled":false,"reason":"Phase 17 INVEST evidence and Phase 18 eligibility gate are not met."},
   "missingSignals":["authenticated-gsc-query-universe","keyword-demand-source","ga4-value-series"],
   "forbiddenAssumptions":["invented search volume","invented coverage ratio","automatic UGC publication","ads spend without CWV budget"]
 }
