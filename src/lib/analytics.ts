@@ -1,4 +1,5 @@
 import { analytics, type AnalyticsEventName, type DownloadSource } from '../config/analytics';
+import { hasAnalyticsConsent } from './consent';
 
 declare global {
   interface Window {
@@ -10,6 +11,7 @@ export type AnalyticsPayload = Record<string, string | number | boolean>;
 
 export function trackAnalyticsEvent(eventName: AnalyticsEventName, payload: AnalyticsPayload): boolean {
   if (typeof window === 'undefined' || typeof window.gtag !== 'function') return false;
+  if (!hasAnalyticsConsent()) return false;
   window.gtag('event', eventName, payload);
   return true;
 }
