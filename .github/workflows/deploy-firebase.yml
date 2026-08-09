@@ -378,3 +378,29 @@ jobs:
         env:
           SEO_BASE_URL: https://excelarsiv.com
         run: node scripts/seo/live-contract.mjs
+
+      - name: Verify live IndexNow ownership key
+        if: steps.changes.outputs.hosting_changed == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          expected="$(tr -d '\r\n[:space:]' < public/indexnow-key.txt)"
+          actual="$(curl --fail --silent --show-error --retry 5 --retry-delay 2 --retry-all-errors https://excelarsiv.com/indexnow-key.txt | tr -d '\r\n[:space:]')"
+          [[ "$actual" == "$expected" ]] || { echo 'IndexNow ownership key mismatch'; exit 1; }
+          echo 'INDEXNOW KEY LIVE PASS'
+
+      - name: Submit changed and new URLs to IndexNow
+        if: steps.changes.outputs.hosting_changed == 'true'
+        run: node scripts/seo/indexnow.mjs
+
+      - name: Upload production SEO proof bundle
+        if: steps.changes.outputs.hosting_changed == 'true' && always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: seo-production-proof-${{ github.run_id }}
+          path: |
+            dist/seo-finalize-report.json
+            dist/indexnow-submission.json
+            dist/INDEXNOW_SUBMISSION.md
+          if-no-files-found: error
+          retention-days: 30
