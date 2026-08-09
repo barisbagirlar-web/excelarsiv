@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "artifact": "seo_valuation",
+    "schemaVersion": "6.0-phase19-readiness",
+    "generatedAt": "2026-08-09T19:36:00Z",
+    "generatorScript": "scripts/seo/valuation-contract.ts",
+    "inputWindow": {"start": "2025-09-11", "end": "2026-08-09"},
+    "confidence": "low",
+    "partial": true,
+    "siteId": "excelarsiv",
+    "coldStart": true,
+    "structuralBreaksApplied": []
+  },
+  "status": "BLOCKED_BY_EVIDENCE",
+  "publishEligible": false,
+  "currency": "TRY",
+  "unit": "minor",
+  "observedPnlMonths": 0,
+  "requiredPnlMonthsRef": "thresholds.valuationPnlMinMonths",
+  "observedBoardHistoryMonths": 0,
+  "requiredBoardHistoryMonths": 3,
+  "singleValueClaimMinor": null,
+  "methods": {
+    "V1": {
+      "status": "NOT_CALCULATED",
+      "methodology": "annual residual organic income multiplied by a configured valuation range",
+      "multipleRangeRef": "economics.valuationMultiples",
+      "multipleLow": 2.5,
+      "multipleHigh": 3.5,
+      "rangeMinor": null,
+      "reason": "Measured residual organic income series is unavailable."
+    },
+    "V2": {
+      "status": "NOT_CALCULATED",
+      "methodology": "replacement cost using post-dataWindowStart paid-search CPC multiplied by attributable organic clicks",
+      "rangeMinor": null,
+      "reason": "Authenticated click series and paid-search CPC evidence are unavailable."
+    },
+    "V3": {
+      "status": "NOT_CALCULATED",
+      "methodology": "cash-flow projection with explicitly labeled growth assumptions",
+      "requiredMonthsRef": "thresholds.valuationCashflowMinMonths",
+      "rangeMinor": null,
+      "reason": "At least 12 measured P&L months are required; current measured series has 0 months."
+    }
+  },
+  "notes": [
+    "No singular site-value claim is produced.",
+    "No multiple, CPC, click volume, growth rate, cash flow or revenue observation was invented.",
+    "The artifact becomes calculable only after the configured evidence gates are satisfied."
+  ]
+}
