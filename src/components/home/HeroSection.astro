@@ -11,17 +11,24 @@ const { searchIndex } = Astro.props;
 
 <section class="hero-section" aria-labelledby="hero-title">
   <div class="hero-shell">
-    <h1 id="hero-title" class="sr-only">Excel Şablonları ve İşletme Çözümleri</h1>
+    <div class="hero-mobile-copy">
+      <p class="hero-mobile-copy__eyebrow">İŞLETMELER İÇİN EXCEL SİSTEMLERİ</p>
+      <h1 id="hero-title" class="hero-title">Excel şablonlarıyla finans ve operasyon kararlarını netleştirin.</h1>
+      <p class="hero-mobile-copy__summary">Nakit akışı, kasa, cari hesap, stok, maliyet ve kârlılık için hazır çalışma sistemlerini bulun; satın almadan önce gerçek ekranları ve demoyu inceleyin.</p>
+    </div>
+
     <picture class="hero-artwork">
-      <source media="(max-width: 720px)" srcset="/images/hero-mobile.jpg" />
+      <source media="(min-width: 721px)" srcset="/images/hero.jpg" />
       <img
-        src="/images/hero.jpg"
+        src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
         alt="Excel şablonları ve finansal işletme çözümleri"
         width="1600"
         height="533"
         fetchpriority="high"
+        decoding="async"
       />
     </picture>
+
     <div class="hero-search-rail" id="hero-search">
       <HeroSearch searchIndex={searchIndex} />
     </div>
@@ -38,6 +45,17 @@ const { searchIndex } = Astro.props;
     width: min(var(--container-wide), calc(100% - 48px));
     margin-inline: auto;
     padding-bottom: 28px;
+  }
+  .hero-mobile-copy {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
   .hero-artwork {
     position: relative;
@@ -76,8 +94,49 @@ const { searchIndex } = Astro.props;
       width: calc(100% - 24px);
       padding-bottom: 0;
     }
-    .hero-artwork {
+    .hero-mobile-copy {
+      position: relative;
+      width: auto;
+      height: auto;
+      padding: 22px 18px 20px;
+      margin: 0;
+      overflow: visible;
+      clip: auto;
+      white-space: normal;
+      border: 1px solid rgba(16, 124, 65, .13);
       border-radius: 18px;
+      background: linear-gradient(145deg, #f8fcf9 0%, #eef7f1 100%);
+      box-shadow: 0 14px 34px rgba(24, 55, 38, .08);
+    }
+    .hero-mobile-copy__eyebrow {
+      margin: 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 8px;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: .09em;
+      color: #107c41;
+    }
+    .hero-title {
+      max-width: 520px;
+      margin: 8px 0 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: clamp(29px, 8.8vw, 38px);
+      font-weight: 760;
+      line-height: 1.01;
+      letter-spacing: -.045em;
+      color: #13271b;
+    }
+    .hero-mobile-copy__summary {
+      max-width: 560px;
+      margin: 11px 0 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 12px;
+      line-height: 1.52;
+      color: #596960;
+    }
+    .hero-artwork {
+      display: none;
     }
     .hero-search-rail {
       position: relative;
@@ -85,7 +144,7 @@ const { searchIndex } = Astro.props;
       bottom: auto;
       transform: none;
       width: calc(100% - 24px);
-      margin: -18px auto 0;
+      margin: 12px auto 0;
       scroll-margin-top: 72px;
     }
   }
