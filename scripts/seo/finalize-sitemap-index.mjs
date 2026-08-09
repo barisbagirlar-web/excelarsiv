@@ -10,9 +10,9 @@ import { fileURLToPath } from 'node:url';
 import { DIST_DIR, SITE_ORIGIN } from './lib.mjs';
 
 const RETRY_ATTEMPTS = 8;
-const CONNECT_TIMEOUT_MS = 10_000;
 const REQUEST_TIMEOUT_MS = 30_000;
 const RETRY_DELAY_MS = 5_000;
+const MAX_UNAPPROVED_DROP_RATIO = 0.20;
 
 export function sha256(bytes) {
   return createHash('sha256').update(bytes).digest('hex');
@@ -57,6 +57,49 @@ export function renderIndex(children) {
   }
   lines.push('</sitemapindex>');
   return lines.join('\n');
+}
+
+export function calculateUrlDelta(generatedEntries, liveEntries) {
+  const generated = new Map(generatedEntries.map((entry) => [entry.loc, entry]));
+  const live = new Map(liveEntries.map((entry) => [entry.loc, entry]));
+  const added = [];
+  const changed = [];
+  const removed = [];
+
+  for (const [loc, entry] of generated) {
+    const before = live.get(loc);
+    if (!before) added.push(loc);
+    else if ((before.lastmod ?? null) !== (entry.lastmod ?? null)) changed.push(loc);
+  }
+  for (const loc of live.keys()) {
+    if (!generated.has(loc)) removed.push(loc);
+  }
+
+  return {
+    added: added.sort(),
+    changed: changed.sort(),
+    removed: removed.sort(),
+    changedOrNew: [...new Set([...added, ...changed])].sort(),
+  };
+}
+
+export function assertSafeShrink({
+  generatedCount,
+  liveCount,
+  allowShrink = false,
+  maxDropRatio = MAX_UNAPPROVED_DROP_RATIO,
+}) {
+  if (!Number.isFinite(generatedCount) || generatedCount < 0 || !Number.isFinite(liveCount) || liveCount < 0) {
+    throw new Error('SITEMAP_COUNT_INVALID');
+  }
+  if (liveCount === 0 || generatedCount >= liveCount) return { dropRatio: 0, approved: true };
+  const dropRatio = (liveCount - generatedCount) / liveCount;
+  if (dropRatio > maxDropRatio && !allowShrink) {
+    throw new Error(
+      `SITEMAP_SUDDEN_SHRINK: live=${liveCount} generated=${generatedCount} drop=${(dropRatio * 100).toFixed(2)}% > ${(maxDropRatio * 100).toFixed(0)}%. İnsan onayı olmadan deploy yasak.`,
+    );
+  }
+  return { dropRatio, approved: allowShrink || dropRatio <= maxDropRatio };
 }
 
 // children: [{ file, loc, sha256 }] (generated)
@@ -167,13 +210,19 @@ export async function fetchLiveBaseline({
     if (res.status !== 200) {
       throw new Error(`BASELINE_UNKNOWN: child okunamadı HTTP ${res.status}: ${entry.loc}`);
     }
+    const urlEntries = parseUrlset(res.text);
+    if (urlEntries.length === 0) {
+      throw new Error(`BASELINE_UNKNOWN: child 0 URL/geçersiz: ${entry.loc}`);
+    }
     children.push({
       loc: entry.loc,
       lastmod: entry.lastmod,
       sha256: sha256(Buffer.from(res.text, 'utf8')),
+      urlCount: urlEntries.length,
+      entries: urlEntries,
     });
   }
-  logger.log(`BASELINE: ${children.length} child okundu.`);
+  logger.log(`BASELINE: ${children.length} child / ${children.reduce((sum, child) => sum + child.urlCount, 0)} URL okundu.`);
   return { index: { children } };
 }
 
@@ -210,17 +259,33 @@ export async function finalize({
   logger = console,
   dist = DIST_DIR,
   site = SITE_ORIGIN,
+  allowShrink = process.env.SEO_ALLOW_SITEMAP_SHRINK === '1',
 }) {
   const manifestFile = join(dist, 'seo-artifacts.json');
   if (!existsSync(manifestFile)) {
     throw new Error('dist/seo-artifacts.json yok. Önce generate-artifacts.mjs çalıştırın.');
   }
   const manifest = JSON.parse(readFileSync(manifestFile, 'utf8'));
-  const children = manifest.children.map((child) => ({
-    file: child.file,
-    loc: `${site}/${child.file}`,
-    sha256: child.sha256,
-  }));
+  const children = manifest.children.map((child) => {
+    const xml = readFileSync(join(dist, child.file), 'utf8');
+    const entries = parseUrlset(xml);
+    return {
+      file: child.file,
+      loc: `${site}/${child.file}`,
+      sha256: child.sha256,
+      urlCount: entries.length,
+      entries,
+    };
+  });
+
+  const liveEntries = baseline.index.children.flatMap((child) => child.entries ?? []);
+  const generatedEntries = children.flatMap((child) => child.entries);
+  const shrink = assertSafeShrink({
+    generatedCount: generatedEntries.length,
+    liveCount: liveEntries.length,
+    allowShrink,
+  });
+  const urlDelta = calculateUrlDelta(generatedEntries, liveEntries);
 
   const { indexXml, decisions, removed } = decideIndex(
     children,
@@ -233,12 +298,21 @@ export async function finalize({
   const report = {
     finalizedAt: nowIso,
     migrationReset: migration,
+    shrinkApproval: {
+      liveUrlCount: liveEntries.length,
+      generatedUrlCount: generatedEntries.length,
+      dropRatio: shrink.dropRatio,
+      explicitOverride: allowShrink,
+    },
+    urlDelta,
     children: decisions,
     removed,
   };
   writeFileSync(join(dist, 'seo-finalize-report.json'), JSON.stringify(report, null, 2));
 
   logger.log('SITEMAP INDEX SEMANTIC CONTRACT');
+  logger.log(`URL COUNT: live=${liveEntries.length} generated=${generatedEntries.length} drop=${(shrink.dropRatio * 100).toFixed(2)}%`);
+  logger.log(`URL DELTA: +${urlDelta.added.length} changed=${urlDelta.changed.length} -${urlDelta.removed.length}`);
   for (const d of decisions) {
     logger.log(`${d.file}`);
     logger.log(`  status          : ${d.status}`);
@@ -247,9 +321,9 @@ export async function finalize({
     logger.log(`  lastmod_action  : ${d.lastmodAction}`);
     logger.log(`  lastmod         : ${d.lastmod}`);
   }
-  for (const loc of removed) {
-    logger.log(`REMOVED: ${loc}`);
-  }
+  for (const loc of urlDelta.changedOrNew) logger.log(`CHANGED_OR_NEW_URL: ${loc}`);
+  for (const loc of urlDelta.removed) logger.log(`REMOVED_URL: ${loc}`);
+  for (const loc of removed) logger.log(`REMOVED_CHILD: ${loc}`);
   logger.log(`SITEMAP INDEX YAZILDI: ${join(dist, 'sitemap.xml')}`);
   return report;
 }
