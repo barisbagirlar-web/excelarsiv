@@ -1,0 +1,1 @@
+import{existsSync}from'node:fs';import{resolve}from'node:path';import{fileURLToPath}from'node:url';const ROOT=resolve(fileURLToPath(new URL('../../',import.meta.url)));const p=resolve(ROOT,'data/seo/brand_demand_input.json');if(!existsSync(p)){console.error('BRAND_DEMAND_INPUT_MISSING');process.exit(3)}process.exit(0);
