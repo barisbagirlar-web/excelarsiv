@@ -29,11 +29,12 @@ jobs:
         env:
           SITE_ID: excelarsiv
           SEO_REVIEW_TEXT: ${{ github.event.pull_request.title }} ${{ github.event.pull_request.body }}
-          SEO_CONFORMANCE_TEST: ${{ (startsWith(github.head_ref, 'seo/faz-coldstart') || startsWith(github.head_ref, 'seo/fixture-rehearsal') || github.head_ref == 'seo/hotfix-proof-demo-conflict') && '1' || '' }}
+          SEO_CONFORMANCE_TEST: ${{ (startsWith(github.head_ref, 'seo/faz-coldstart') || startsWith(github.head_ref, 'seo/fixture-rehearsal') || github.head_ref == 'seo/launch-readiness' || github.head_ref == 'seo/hotfix-proof-demo-conflict') && '1' || '' }}
         run: |
           case "${GITHUB_HEAD_REF:-}" in
             seo/faz-coldstart*) npm run seo:preflight -- --contract-test closure-coldstart ;;
             seo/fixture-rehearsal*) npm run seo:preflight -- --contract-test closure-rehearsal ;;
+            seo/launch-readiness) npm run seo:preflight -- --contract-test closure-launch-readiness ;;
             seo/hotfix-proof-demo-conflict) npm run seo:preflight -- --contract-test closure-product-seo ;;
             *) npm run seo:preflight ;;
           esac
@@ -71,3 +72,33 @@ jobs:
           name: seo-rehearsal-artifacts
           path: ${{ runner.temp }}/seo-rehearsal/*.json
           if-no-files-found: error
+
+  gsc-staging-proof:
+    if: github.head_ref == 'seo/launch-readiness'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Build staging artifact with non-production sentinel
+        env:
+          GSC_VERIFICATION_TOKEN: staging-proof-token-20260809
+        run: npm run build
+      - name: Serve and curl verification meta
+        run: |
+          npx astro preview --host 127.0.0.1 --port 4321 > /tmp/astro-preview.log 2>&1 &
+          pid=$!
+          trap 'kill $pid || true' EXIT
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4321/ > /tmp/home.html; then break; fi
+            sleep 1
+          done
+          grep -F '<meta name="google-site-verification" content="staging-proof-token-20260809">' /tmp/home.html
+          echo 'GSC STAGING CURL PASS — env-backed verification meta served'
