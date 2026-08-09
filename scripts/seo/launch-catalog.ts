@@ -4,6 +4,9 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const EXIT = Object.freeze({ PASS: 0, BLOCK: 1, MISSING_DATA: 3, CONFIG: 4 });
+const POLICY_PATH = 'data/seo/launch_catalog.json';
+const REGISTRY_PATH = 'data/seo/registry/excelarsiv_seo_registry.json';
+const KAC_PATH = 'data/seo/kac/cluster_map.json';
 
 type RegistryRecord = {
   pageId: string;
@@ -34,17 +37,43 @@ type LaunchPage = {
   observedKeywordVolume: number | null;
   demandRank: number | null;
 };
-
 type LaunchCatalog = {
-  meta: { artifact: 'launch_catalog'; schemaVersion: string; siteId: 'excelarsiv'; partial: boolean; confidence: 'low' };
+  meta: { artifact: 'launch_catalog_runtime'; schemaVersion: string; siteId: 'excelarsiv'; partial: boolean; confidence: 'low' };
   status: 'BASELINE_READY' | 'DEMAND_PRIORITIZED';
   demandPriorityStatus: 'SKIP_NO_DATA' | 'AVAILABLE';
   selectionRule: string;
+  sourceOfTruth: typeof REGISTRY_PATH;
   pages: LaunchPage[];
   contentGaps: LaunchPage[];
   counts: { categories: number; products: number; gaps: number; totalLive: number };
 };
+type LaunchCatalogPolicy = {
+  meta: { artifact: string; schemaVersion: string; siteId: string; partial: boolean; confidence: string };
+  sourceOfTruth: string;
+  selectionMode: string;
+  snapshotPolicy: string;
+  demandRankingSource: string;
+  demandFallback: string;
+  contentGapPolicy: string;
+  registryWriterContract: string;
+  automaticPublish: boolean;
+};
 type RegistryDelta = { status: 'NO_CHANGES' | 'PROPOSED'; writerContract: 'faz-01'; records: Array<Record<string, unknown>> };
+
+function validateLaunchCatalogPolicy(policy: LaunchCatalogPolicy): string[] {
+  const errors: string[] = [];
+  if (policy.meta?.artifact !== 'launch_catalog_policy') errors.push('POLICY_ARTIFACT_INVALID');
+  if (policy.meta?.siteId !== 'excelarsiv') errors.push('POLICY_SITE_INVALID');
+  if (policy.sourceOfTruth !== REGISTRY_PATH) errors.push('POLICY_REGISTRY_SSOT_INVALID');
+  if (policy.selectionMode !== 'all-live-registry') errors.push('POLICY_SELECTION_MODE_INVALID');
+  if (policy.snapshotPolicy !== 'computed-at-runtime') errors.push('POLICY_SNAPSHOT_MODE_INVALID');
+  if (policy.demandRankingSource !== KAC_PATH) errors.push('POLICY_DEMAND_SOURCE_INVALID');
+  if (policy.contentGapPolicy !== 'draft-only-faz1-delta') errors.push('POLICY_GAP_MODE_INVALID');
+  if (policy.registryWriterContract !== 'faz-01') errors.push('POLICY_REGISTRY_WRITER_INVALID');
+  if (policy.automaticPublish !== false) errors.push('POLICY_AUTOPUBLISH_MUST_BE_FALSE');
+  if ('pages' in policy || 'counts' in policy) errors.push('POLICY_MUTABLE_SNAPSHOT_FORBIDDEN');
+  return errors;
+}
 
 function buildLaunchCatalog(registry: Registry, kac: Kac, limit?: number): { catalog: LaunchCatalog; delta: RegistryDelta } {
   const live = registry.records.filter((record) => record.status === 'live');
@@ -111,10 +140,11 @@ function buildLaunchCatalog(registry: Registry, kac: Kac, limit?: number): { cat
   }));
 
   const catalog: LaunchCatalog = {
-    meta: { artifact: 'launch_catalog', schemaVersion: '6.0-wave2-b2', siteId: 'excelarsiv', partial: !hasDemand, confidence: 'low' },
+    meta: { artifact: 'launch_catalog_runtime', schemaVersion: '6.0-wave2-b2-runtime', siteId: 'excelarsiv', partial: !hasDemand, confidence: 'low' },
     status: hasDemand ? 'DEMAND_PRIORITIZED' : 'BASELINE_READY',
     demandPriorityStatus: hasDemand ? 'AVAILABLE' : 'SKIP_NO_DATA',
     selectionRule: hasDemand ? 'observed-imported-keyword-volume-desc' : 'all-live-categories-and-products; no volume claim',
+    sourceOfTruth: REGISTRY_PATH,
     pages: [...categoryPages, ...productPages],
     contentGaps,
     counts: { categories: categoryPages.length, products: productPages.length, gaps: contentGaps.length, totalLive: categoryPages.length + productPages.length },
@@ -130,11 +160,18 @@ function arg(name: string): string | undefined {
 
 function main(): void {
   try {
-    const registry = JSON.parse(readFileSync(resolve(ROOT, 'data/seo/registry/excelarsiv_seo_registry.json'), 'utf8')) as Registry;
-    const kac = JSON.parse(readFileSync(resolve(ROOT, 'data/seo/kac/cluster_map.json'), 'utf8')) as Kac;
+    const policy = JSON.parse(readFileSync(resolve(ROOT, POLICY_PATH), 'utf8')) as LaunchCatalogPolicy;
+    const policyErrors = validateLaunchCatalogPolicy(policy);
+    if (policyErrors.length) {
+      for (const error of policyErrors) console.error(`FAIL ${error}`);
+      process.exit(EXIT.BLOCK);
+    }
+    const registry = JSON.parse(readFileSync(resolve(ROOT, REGISTRY_PATH), 'utf8')) as Registry;
+    const kac = JSON.parse(readFileSync(resolve(ROOT, KAC_PATH), 'utf8')) as Kac;
     const limitArg = arg('--limit');
     const limit = limitArg === undefined ? undefined : Number(limitArg);
     const { catalog, delta } = buildLaunchCatalog(registry, kac, limit);
+    console.log(`LAUNCH POLICY PASS source=${policy.sourceOfTruth} snapshot=${policy.snapshotPolicy}`);
     console.log(`LAUNCH CATALOG status=${catalog.status} demand=${catalog.demandPriorityStatus}`);
     console.log(`CATALOG categories=${catalog.counts.categories} products=${catalog.counts.products} gaps=${catalog.counts.gaps} live=${catalog.counts.totalLive}`);
     for (const page of catalog.pages) console.log(`PAGE ${page.type} ${page.route} pageId=${page.pageId ?? 'null'} volume=${page.observedKeywordVolume ?? 'null'}`);
@@ -142,9 +179,8 @@ function main(): void {
     console.log(`REGISTRY DELTA ${delta.status} records=${delta.records.length} writer=${delta.writerContract}`);
 
     if (process.argv.includes('--write')) {
-      writeFileSync(resolve(ROOT, 'data/seo/launch_catalog.json'), `${JSON.stringify(catalog, null, 2)}\n`, 'utf8');
       writeFileSync(resolve(ROOT, 'data/seo/registry_delta.json'), `${JSON.stringify(delta, null, 2)}\n`, 'utf8');
-      console.log('LAUNCH CATALOG WRITE PASS');
+      console.log('REGISTRY DELTA WRITE PASS — launch pages remain runtime-derived from registry SSOT');
     } else {
       console.log('DRY_RUN PASS — registry ve runtime yazılmadı');
     }
@@ -157,4 +193,4 @@ function main(): void {
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main();
 
-export { EXIT, buildLaunchCatalog };
+export { EXIT, buildLaunchCatalog, validateLaunchCatalogPolicy };
