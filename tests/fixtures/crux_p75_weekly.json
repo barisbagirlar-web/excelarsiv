@@ -1,0 +1,1 @@
+{"synthetic":true,"dataset":"crux_p75_weekly","startDate":"2026-05-12","weeks":13,"generator":{"lcpP75Ms":[2200,2250,2300],"inpP75Ms":[160,165,170,175],"clsP75":[0.07,0.08]}}
