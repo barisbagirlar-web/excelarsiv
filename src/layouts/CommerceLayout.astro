@@ -28,6 +28,8 @@ const productSeo = getProductSeoByPath(Astro.url.pathname);
 const resolvedTitle = productSeo?.title ?? title;
 const resolvedDescription = productSeo?.description ?? description ?? '';
 const ga4MeasurementId = 'G-N2HLKS660W';
+const rawGscVerification = process.env.GSC_VERIFICATION_TOKEN?.trim() ?? '';
+const gscVerification = /^[A-Za-z0-9_-]{10,256}$/.test(rawGscVerification) ? rawGscVerification : '';
 const orgLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@graph': [
@@ -67,6 +69,7 @@ const orgLd = JSON.stringify({
     <title>{resolvedTitle}</title>
     <meta name="description" content={resolvedDescription} />
     <meta name="robots" content={robots} />
+    {gscVerification && <meta name="google-site-verification" content={gscVerification} />}
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Excel Arşiv" />
