@@ -1,0 +1,1 @@
+{"synthetic":true,"dataset":"ga4_conversions_daily","startDate":"2026-05-12","days":90,"currency":"TRY","minorUnits":true,"pageTypes":["guide","product","category"],"generator":{"baseConversions":5,"conversionCycle":5,"pageTypeConversionOffset":2,"conversionValueMinorByPageType":[12000,17000,22000]}}
