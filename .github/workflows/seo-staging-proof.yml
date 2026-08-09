@@ -9,6 +9,9 @@ on:
       - 'tests/conformance/wave2-c2-staging.test.ts'
       - 'data/seo/staging_proof.json'
       - 'package.json'
+      - 'src/**'
+      - 'public/**'
+      - 'firebase.json'
   workflow_dispatch:
 
 permissions:
