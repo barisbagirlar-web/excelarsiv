@@ -1,0 +1,6 @@
+{
+  "meta":{"artifact":"portfolio_board","schemaVersion":"6.0-phase17-readiness","generatedAt":"2026-08-09T19:27:00Z","generatorScript":"scripts/seo/portfolio-pnl.ts","inputWindow":{"start":"2025-09-11","end":"2026-08-09"},"confidence":"low","partial":true,"siteId":"excelarsiv","coldStart":true,"structuralBreaksApplied":[]},
+  "status":"BLOCKED_BY_EVIDENCE","decisionEligible":false,"observedPnlMonths":0,"requiredMonthsRef":"thresholds.portfolioPnlMinMonths","decisions":[],
+  "budgetTargetRef":"economics.budgetSplit","concentrationThresholdRef":"thresholds.concentrationWarnPct","killQueueSource":"data/seo/slo_history.json",
+  "reason":"Phase 9 authenticated GSC/GA4 P&L series has no measured monthly observations; no INVEST/HOLD/HARVEST/DIVEST decision is issued."
+}
