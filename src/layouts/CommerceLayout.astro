@@ -6,6 +6,8 @@ import AnnouncementBar from '../components/AnnouncementBar.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import MobileCommerceBar from '../components/MobileCommerceBar.astro';
+import AnalyticsBootstrap from '../components/AnalyticsBootstrap.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
 import { getProductSeoByPath } from '../data/productSeo';
 
 interface Props {
@@ -25,6 +27,7 @@ const ogImage = new URL('/og.png', site).toString();
 const productSeo = getProductSeoByPath(Astro.url.pathname);
 const resolvedTitle = productSeo?.title ?? title;
 const resolvedDescription = productSeo?.description ?? description ?? '';
+const ga4MeasurementId = 'G-N2HLKS660W';
 const orgLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@graph': [
@@ -82,13 +85,7 @@ const orgLd = JSON.stringify({
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <script type="application/ld+json" set:html={orgLd} />
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-N2HLKS660W"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-N2HLKS660W');
-    </script>
+    <AnalyticsBootstrap measurementId={ga4MeasurementId} />
     <slot name="head" />
   </head>
   <body class="font-body text-ink-700 antialiased">
@@ -108,6 +105,7 @@ const orgLd = JSON.stringify({
     )}
     <SiteFooter />
     <MobileCommerceBar />
+    <ConsentBanner />
   </body>
 </html>
 
