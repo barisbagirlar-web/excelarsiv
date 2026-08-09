@@ -1,0 +1,194 @@
+name: SEO Staging Proof
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/seo-staging-proof.yml'
+      - 'scripts/seo/staging-proof.ts'
+      - 'tests/conformance/wave2-c2-staging.test.ts'
+      - 'data/seo/staging_proof.json'
+      - 'package.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: seo-staging-proof
+  cancel-in-progress: false
+
+env:
+  FIREBASE_PROJECT_ID: carbon-web-1265b
+  FIREBASE_HOSTING_TARGET: excelarsiv
+
+jobs:
+  staging-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout merged main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install site dependencies
+        run: npm ci
+
+      - name: Build and all existing guards
+        run: npm test
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: Install pinned proof tools
+        run: npm install --global firebase-tools@latest lighthouse@13.4.1 puppeteer-core@25.3.0
+
+      - name: Deploy temporary Firebase Hosting preview
+        id: preview
+        shell: bash
+        run: |
+          set -euo pipefail
+          PROOF_DIR="$RUNNER_TEMP/seo-staging-proof"
+          CHANNEL_ID="seo-proof-${GITHUB_RUN_ID}"
+          mkdir -p "$PROOF_DIR"
+          firebase hosting:channel:deploy "$CHANNEL_ID" \
+            --project "$FIREBASE_PROJECT_ID" \
+            --only "$FIREBASE_HOSTING_TARGET" \
+            --expires 1d \
+            --non-interactive 2>&1 | tee "$PROOF_DIR/firebase-preview.log"
+          STAGING_URL="$(grep -Eo 'https://[A-Za-z0-9.-]+\.web\.app' "$PROOF_DIR/firebase-preview.log" | tail -1 || true)"
+          if [[ -z "$STAGING_URL" ]]; then
+            firebase hosting:channel:open "$CHANNEL_ID" \
+              --project "$FIREBASE_PROJECT_ID" \
+              --only "$FIREBASE_HOSTING_TARGET" \
+              --non-interactive 2>&1 | tee "$PROOF_DIR/firebase-preview-open.log"
+            STAGING_URL="$(grep -Eo 'https://[A-Za-z0-9.-]+\.web\.app' "$PROOF_DIR/firebase-preview-open.log" | tail -1 || true)"
+          fi
+          if [[ -z "$STAGING_URL" ]]; then
+            echo 'Preview URL bulunamadı.' >&2
+            exit 1
+          fi
+          echo "Preview URL: $STAGING_URL"
+          echo "staging_url=$STAGING_URL" >> "$GITHUB_OUTPUT"
+          echo "proof_dir=$PROOF_DIR" >> "$GITHUB_OUTPUT"
+
+      - name: Lighthouse mobile lab proofs
+        shell: bash
+        env:
+          STAGING_URL: ${{ steps.preview.outputs.staging_url }}
+          PROOF_DIR: ${{ steps.preview.outputs.proof_dir }}
+        run: |
+          set -euo pipefail
+          declare -a LABELS=(home catalog product)
+          declare -a ROUTES=(
+            '/'
+            '/sablonlar'
+            '/sablon/13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi'
+          )
+          for i in "${!LABELS[@]}"; do
+            label="${LABELS[$i]}"
+            route="${ROUTES[$i]}"
+            lighthouse "${STAGING_URL}${route}" \
+              --output=json \
+              --output-path="${PROOF_DIR}/lighthouse-${label}.json" \
+              --only-categories=performance \
+              --chrome-flags='--headless --no-sandbox --disable-dev-shm-usage' \
+              --quiet
+          done
+
+      - name: Synthetic INP lab interaction
+        shell: bash
+        env:
+          STAGING_URL: ${{ steps.preview.outputs.staging_url }}
+          PROOF_DIR: ${{ steps.preview.outputs.proof_dir }}
+        run: |
+          set -euo pipefail
+          CHROME_PATH="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          if [[ -z "$CHROME_PATH" ]]; then
+            echo 'Chrome executable bulunamadı.' >&2
+            exit 1
+          fi
+          export CHROME_PATH
+          export GLOBAL_NODE_ROOT="$(npm root -g)"
+          node --input-type=module <<'NODE'
+          import { writeFileSync } from 'node:fs';
+          import { resolve } from 'node:path';
+          import { pathToFileURL } from 'node:url';
+
+          const modulePath = resolve(process.env.GLOBAL_NODE_ROOT, 'puppeteer-core/lib/esm/puppeteer/puppeteer-core.js');
+          const module = await import(pathToFileURL(modulePath).href);
+          const puppeteer = module.default ?? module;
+          const browser = await puppeteer.launch({
+            headless: true,
+            executablePath: process.env.CHROME_PATH,
+            args: ['--no-sandbox', '--disable-dev-shm-usage'],
+          });
+          try {
+            const page = await browser.newPage();
+            await page.goto(`${process.env.STAGING_URL}/`, { waitUntil: 'networkidle2', timeout: 45000 });
+            const supported = await page.evaluate(() => PerformanceObserver.supportedEntryTypes.includes('event'));
+            if (!supported) throw new Error('Event Timing API desteklenmiyor');
+            await page.evaluate(() => {
+              window.__seoInpEvents = [];
+              const observer = new PerformanceObserver((list) => {
+                for (const entry of list.getEntries()) {
+                  if ('interactionId' in entry && entry.interactionId > 0) {
+                    window.__seoInpEvents.push({ name: entry.name, duration: entry.duration, interactionId: entry.interactionId });
+                  }
+                }
+              });
+              observer.observe({ type: 'event', buffered: true, durationThreshold: 16 });
+            });
+            await page.waitForSelector('[data-consent-reject]', { timeout: 10000 });
+            await page.click('[data-consent-reject]');
+            await new Promise((resolveWait) => setTimeout(resolveWait, 800));
+            const entries = await page.evaluate(() => window.__seoInpEvents ?? []);
+            const observed = entries.map((entry) => Number(entry.duration)).filter(Number.isFinite);
+            const inpLabMs = observed.length > 0 ? Math.max(...observed) : 16;
+            const measurementMode = observed.length > 0 ? 'event-timing-observed' : 'event-timing-upper-bound-under-16ms';
+            const payload = {
+              url: `${process.env.STAGING_URL}/`,
+              inpLabMs,
+              eventCount: observed.length,
+              interaction: 'consent-reject',
+              measurementMode,
+              confidence: 'strong-lab-not-field',
+            };
+            writeFileSync(resolve(process.env.PROOF_DIR, 'inp-lab.json'), `${JSON.stringify(payload, null, 2)}\n`);
+            console.log(JSON.stringify(payload));
+          } finally {
+            await browser.close();
+          }
+          NODE
+
+      - name: Render parity, sitemap and soft-404 proof
+        shell: bash
+        env:
+          STAGING_URL: ${{ steps.preview.outputs.staging_url }}
+          PROOF_DIR: ${{ steps.preview.outputs.proof_dir }}
+        run: |
+          set -euo pipefail
+          node --experimental-strip-types scripts/seo/staging-proof.ts \
+            --url "$STAGING_URL" \
+            --lighthouse-dir "$PROOF_DIR" \
+            --inp-json "$PROOF_DIR/inp-lab.json" \
+            --output "$PROOF_DIR/staging-proof.json" \
+            | tee "$PROOF_DIR/staging-proof.log"
+
+      - name: Upload immutable staging proof bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: seo-staging-proof-${{ github.run_id }}
+          path: ${{ runner.temp }}/seo-staging-proof
+          if-no-files-found: error
+          retention-days: 30
