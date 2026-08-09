@@ -26,7 +26,7 @@ function hardcodedThresholdHits(source: string): string[] {
 function explicitAnyHits(source: string): string[] {
   return source
     .split(/\r?\n/)
-    .filter((line) => /(?:\bas\s+any\b|:\s*any\b|<any>|\bany\[\])/u.test(line));
+    .filter((line) => !line.includes('function explicitAnyHits') && /(?:\bas\s+any\b|:\s*any\b|<any>|\bany\[\])/u.test(line));
 }
 
 function evaluateColdStart(availableDays: number, thresholdDays: number): { coldStart: boolean; confidence: 'low' | 'high' } {
