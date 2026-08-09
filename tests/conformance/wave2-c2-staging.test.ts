@@ -74,3 +74,10 @@ test('C2 embedded CommonJS browser proof is syntax-valid before merge', () => {
   });
   assert.equal(checked.status, 0, checked.stderr || checked.stdout);
 });
+
+test('C2 staging workflow automatically covers static runtime and public asset changes', () => {
+  const workflow = readFileSync(resolve(ROOT, '.github/workflows/seo-staging-proof.yml'), 'utf8');
+  assert.match(workflow, /- 'src\/\*\*'/);
+  assert.match(workflow, /- 'public\/\*\*'/);
+  assert.match(workflow, /- 'firebase\.json'/);
+});
