@@ -1,76 +1,28 @@
 {
-  "meta": {
-    "artifact": "tam_map",
-    "schemaVersion": "6.0-phase00",
-    "generatedAt": "2026-08-09T14:21:34Z",
-    "generatorScript": "agent-public-repo-baseline",
-    "inputWindow": {"start": "2025-09-11", "end": "2026-08-09"},
-    "confidence": "low",
-    "partial": true,
-    "siteId": "excelarsiv",
-    "coldStart": true,
-    "structuralBreaksApplied": []
-  },
-  "mode": "DEGRADED_PUBLIC",
-  "coldStartBasis": "measurement-unavailable-safe-default",
-  "measurement": {
-    "gscAuthenticated": false,
-    "ga4Authenticated": false,
-    "ga4TagObservedInRepository": "G-N2HLKS660W",
-    "performanceClaimsAllowed": false,
-    "recomputeWhenAuthenticatedDataArrives": true
-  },
-  "technicalBaseline": {
-    "builtPages": 34,
-    "indexableUrls": 33,
-    "commercialProducts": 12,
-    "childSitemaps": 2,
-    "sitemapRoot": "https://excelarsiv.com/sitemap.xml",
-    "liveContractChecks": 182,
-    "liveContractErrors": 0,
-    "canonicalHost": "https://excelarsiv.com",
-    "robotsPolicy": "allow-public-block-api-demo",
-    "sitemapArchitecture": ["sitemap-pages.xml", "sitemap-products.xml"]
-  },
-  "primaryBottleneck": {
-    "name": "demand-coverage-and-query-alignment",
-    "confidence": "medium",
-    "evidence": [
-      "Repository build/SEO guards already prove a clean crawl/index delivery layer.",
-      "A sampled public search for site:excelarsiv.com did not surface the domain in the returned result set; this is a visibility signal, not a complete index count.",
-      "Commercial SERPs for stock and cash-flow Excel intent contain dedicated, text-rich product/template pages from established competitors.",
-      "The current repository has 12 commercial product pages but no deep guide collection mapped one-to-one to commercial query clusters."
-    ]
-  },
-  "revenueAlignedClusters": [
-    {"priority":1,"productSlug":"13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi","primaryIntent":"13 haftalık nakit akışı excel","supportingIntents":["nakit akışı excel","nakit akış tablosu excel","ödeme planlama excel"],"funnel":"transactional-commercial","evidenceQuality":"public-serp+product-fit"},
-    {"priority":2,"productSlug":"stok-satis-ve-nakit-baglanma-sistemi","primaryIntent":"stok takip excel","supportingIntents":["excel stok takip şablonu","stok takip tablosu excel","stok satış takip excel"],"funnel":"transactional-commercial","evidenceQuality":"public-serp+product-fit"},
-    {"priority":3,"productSlug":"cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi","primaryIntent":"cari hesap takip excel","supportingIntents":["cari hesap excel","tahsilat takip excel","müşteri borç alacak takip excel"],"funnel":"transactional-commercial","evidenceQuality":"public-serp+product-fit"},
-    {"priority":4,"productSlug":"akilli-kasa-defteri-ve-nakit-kontrol-sistemi","primaryIntent":"kasa defteri excel","supportingIntents":["gelir gider takip excel","günlük kasa takip excel","işletme kasa defteri excel"],"funnel":"transactional-commercial","evidenceQuality":"product-fit"},
-    {"priority":5,"productSlug":"gunluk-gelir-gider-ve-gercek-karlilik-sistemi","primaryIntent":"gelir gider takip excel","supportingIntents":["günlük gelir gider excel","karlılık hesaplama excel","işletme gelir gider tablosu"],"funnel":"transactional-commercial","evidenceQuality":"product-fit"},
-    {"priority":6,"productSlug":"banka-kredi-ve-taksit-takip-sistemi","primaryIntent":"kredi takip excel","supportingIntents":["kredi ödeme planı excel","taksit takip excel","banka kredi takip tablosu"],"funnel":"commercial","evidenceQuality":"product-fit"},
-    {"priority":7,"productSlug":"pos-komisyon-ve-net-tahsilat-kontrol-sistemi","primaryIntent":"pos komisyon hesaplama excel","supportingIntents":["pos tahsilat takip excel","kredi kartı komisyon takip excel"],"funnel":"transactional-commercial","evidenceQuality":"product-fit"},
-    {"priority":8,"productSlug":"cek-senet-ve-vade-risk-sistemi","primaryIntent":"çek senet takip excel","supportingIntents":["vade takip excel","çek takip tablosu","senet takip excel"],"funnel":"commercial","evidenceQuality":"product-fit"},
-    {"priority":9,"productSlug":"proje-ve-is-bazinda-gercek-karlilik-sistemi","primaryIntent":"proje karlılık excel","supportingIntents":["iş bazında karlılık excel","proje maliyet takip excel"],"funnel":"commercial","evidenceQuality":"product-fit"},
-    {"priority":10,"productSlug":"vergi-sgk-ve-maas-karsilik-ayirma-sistemi","primaryIntent":"vergi sgk takip excel","supportingIntents":["maaş karşılık ayırma excel","vergi ödeme planı excel"],"funnel":"commercial","evidenceQuality":"product-fit"},
-    {"priority":11,"productSlug":"aylik-patron-finans-paneli","primaryIntent":"finans dashboard excel","supportingIntents":["patron finans raporu excel","yönetici finans dashboard"],"funnel":"commercial","evidenceQuality":"product-fit"},
-    {"priority":12,"productSlug":"kobi-finans-yonetim-paketi","primaryIntent":"kobi finans yönetim excel","supportingIntents":["işletme finans takip excel","kobi finans dashboard","kobi nakit yönetimi excel"],"funnel":"transactional-commercial","evidenceQuality":"product-fit"}
+  "meta":{"artifact":"tam_map","schemaVersion":"6.0-phase16","generatedAt":"2026-08-09T19:22:00Z","generatorScript":"scripts/seo/tam-contract.ts","inputWindow":{"start":"2025-09-11","end":"2026-08-09"},"confidence":"low","partial":true,"siteId":"excelarsiv","coldStart":true,"structuralBreaksApplied":[]},
+  "status":"PARTIAL_SAFE","mode":"DEGRADED_PUBLIC","revenueModel":"one_time_digital_product",
+  "coverage":{"ownedCommercialClusters":12,"knownGuideClusters":4,"totalDemandUniverse":null,"coverageRatio":null,"reason":"Authenticated GSC and external keyword demand universe are unavailable; denominator is not invented."},
+  "knownCommercialClusters":[
+    {"clusterId":"cashflow-13-week","query":"13 haftalık nakit akışı excel","ownerRoute":"/sablon/13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi","guideRoute":"/rehber/13-haftalik-nakit-akisi-excel"},
+    {"clusterId":"cashbook-excel","query":"kasa defteri excel","ownerRoute":"/sablon/akilli-kasa-defteri-ve-nakit-kontrol-sistemi","guideRoute":"/rehber/kasa-defteri-excel"},
+    {"clusterId":"finance-dashboard-excel","query":"finans dashboard excel","ownerRoute":"/sablon/aylik-patron-finans-paneli","guideRoute":null},
+    {"clusterId":"credit-installment-excel","query":"kredi takip excel","ownerRoute":"/sablon/banka-kredi-ve-taksit-takip-sistemi","guideRoute":null},
+    {"clusterId":"receivables-cari-excel","query":"cari hesap takip excel","ownerRoute":"/sablon/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi","guideRoute":"/rehber/cari-hesap-takip-excel"},
+    {"clusterId":"cheque-note-due-excel","query":"çek senet takip excel","ownerRoute":"/sablon/cek-senet-ve-vade-risk-sistemi","guideRoute":null},
+    {"clusterId":"income-expense-profit-excel","query":"gelir gider takip excel","ownerRoute":"/sablon/gunluk-gelir-gider-ve-gercek-karlilik-sistemi","guideRoute":null},
+    {"clusterId":"sme-finance-excel","query":"kobi finans yönetim excel","ownerRoute":"/sablon/kobi-finans-yonetim-paketi","guideRoute":null},
+    {"clusterId":"pos-commission-excel","query":"pos komisyon hesaplama excel","ownerRoute":"/sablon/pos-komisyon-ve-net-tahsilat-kontrol-sistemi","guideRoute":null},
+    {"clusterId":"project-profitability-excel","query":"proje karlılık excel","ownerRoute":"/sablon/proje-ve-is-bazinda-gercek-karlilik-sistemi","guideRoute":null},
+    {"clusterId":"stock-tracking-excel","query":"stok takip excel","ownerRoute":"/sablon/stok-satis-ve-nakit-baglanma-sistemi","guideRoute":"/rehber/stok-takip-excel"},
+    {"clusterId":"tax-sgk-payroll-excel","query":"vergi sgk takip excel","ownerRoute":"/sablon/vergi-sgk-ve-maas-karsilik-ayirma-sistemi","guideRoute":null}
   ],
-  "growthThesis": {
-    "selected": "commercial-cluster-moat",
-    "sequence": [
-      "Map every paid product to one owned query cluster in the registry.",
-      "Align product title/H1/description with human query language without keyword stuffing.",
-      "Publish one substantial decision/use-case guide per high-value cluster and link guide↔product↔category.",
-      "Strengthen product merchant structured data and business policy entity data only where visible policy content supports it.",
-      "Measure GSC/GA4 after access becomes available; no traffic or revenue uplift is assumed before measurement."
-    ]
-  },
-  "excludedForNow": [
-    "mass programmatic page generation",
-    "paid-link schemes",
-    "cross-site footer link networks",
-    "unverified search-volume numbers",
-    "performance or revenue uplift claims without authenticated measurement"
-  ]
+  "implementedMoat":{"productQueryOwners":12,"deepDecisionGuides":4,"contextualLinkLoops":4,"entityGraph":true,"aiBotPublicDiscovery":true,"sitemapRoot":"https://excelarsiv.com/sitemap.xml"},
+  "candidateGrowthLoops":[
+    {"id":"guide-product-category","enabled":true,"evidence":"implemented-static-graph","requiresModeration":false},
+    {"id":"ugc-community","enabled":false,"evidence":null,"requiresModeration":true},
+    {"id":"paid-acquisition-content","enabled":false,"evidence":null,"requiresModeration":false}
+  ],
+  "programmaticExpansion":{"enabled":false,"reason":"Phase 17 INVEST evidence and Phase 18 eligibility gate are not met."},
+  "missingSignals":["authenticated-gsc-query-universe","keyword-demand-source","ga4-value-series"],
+  "forbiddenAssumptions":["invented search volume","invented coverage ratio","automatic UGC publication","ads spend without CWV budget"]
 }
