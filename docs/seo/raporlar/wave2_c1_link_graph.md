@@ -31,11 +31,27 @@ Kalıcı çözüm: graf hedef seti registry'den değil **tüm gerçek build'deki
 
 `npm test` sonuna `npm run seo:link-graph -- --check` eklendi. Böylece gerçek build grafında tek ORPHAN dahi merge'i exit 1 ile durdurur.
 
-## Kanıt
+## Final gerçek build kanıtı
 
-- Unit conformance: unique-source sayımı, external link dışlama, query/hash normalizasyonu, noindex/404 dışlama, registry dışı indexlenebilir sayfanın da grafa girmesi ve threshold fixture.
-- Gerçek build kanıtı: PR CI `Existing build and guards` ve `Validate / Build and smoke test` adımlarındaki `LINK GRAPH pages=... edges=... threshold=... orphans=...` satırı.
-- Registry coverage ayrıca `REGISTRY COVERAGE registered=... unregistered=...` olarak raporlanır; bu C1 orphan kontrolünü daraltmaz.
-- Hedef: `pages = tüm indexlenebilir build sayfaları` ve `orphans=0`. CI eşik altı sayfa bulursa aynı C1 branch'inde gerçek internal-link düzeltmesi yapılır ve test tekrar edilir.
+PR #69 ikinci koşu:
+- Commerce: 22 ürün, 4 Shopier seviyesi, public Excel binary=0.
+- Build: 48 HTML.
+- Indexlenebilir/sitemap: 47 / 47.
+- Sitemap semantic tests: 24 PASS / 0 FAIL.
+- Enterprise guard: 48 HTML, 47 indexlenebilir, click-depth ≤ 4.
+- Smoke: 48 sayfa, kırık iç link 0.
+- **LINK GRAPH: pages=47, edges=756, threshold=2, orphans=0 — PASS.**
+- Registry coverage: registered=33, unregistered=14.
+
+14 registry açığı iç-link sonucunu artık daraltmıyor; tüm 47 indexlenebilir sayfa graph denetiminden geçti. Registry açığı ayrı Faz 1 tek-yazar düzeltme borcu olarak aynı yürütme içinde kapatılacaktır; C1 sonucu bunu görünür hale getirmiştir.
+
+## Conformance
+
+- Unique-source sayımı.
+- External link dışlama.
+- Query/hash normalizasyonu.
+- noindex/404 dışlama.
+- Registry dışı indexlenebilir route'un grafa zorunlu dahil edilmesi.
+- Threshold fixture.
 
 `--write` seçeneği `data/seo/link_graph.json` artefaktını güncelleyebilir; merge kapısı için dosya yazımı zorunlu değildir, gerçek build stdout sonucu otoritedir.
