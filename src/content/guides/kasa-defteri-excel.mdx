@@ -1,0 +1,73 @@
+---
+title: "Kasa Defteri Excel: Günlük Nakit Kontrolü Nasıl Kurulur?"
+seoTitle: "Kasa Defteri Excel: Günlük Nakit Kontrolü Nasıl Kurulur?"
+description: "Kasa defteri Excel dosyasında açılış bakiyesi, gelir, gider ve kapanış kontrolünü nasıl kuracağınızı; banka ve POS hareketlerini nasıl ayıracağınızı görün."
+primaryQuery: "kasa defteri excel"
+productSlug: "akilli-kasa-defteri-ve-nakit-kontrol-sistemi"
+category: "nakit-akisi"
+updatedAt: "2026-08-09"
+editorialApprovalRef: "2026-08-09T14:12:00Z"
+dataAsset: false
+takeaways:
+  - "Kasa hareketi ile gelir-gider kavramını birbirine karıştırmayın."
+  - "Açılış ve kapanış bakiyesini günlük mutabakat kontrolüne bağlayın."
+  - "Nakit, banka ve POS hareketlerini ayrı kaynaklar olarak izleyin."
+---
+
+**Kasa defteri Excel** sistemi işletmenin günlük nakit giriş ve çıkışlarını izlemek için kullanılır. Fakat doğru kurulmadığında kasa defteri kolayca gelir-gider tablosuyla karışır. Kasadan para çıkması her zaman gider, kasaya para girmesi de her zaman gelir değildir. Bankadan kasaya para çekmek buna basit bir örnektir: kasa artar, fakat işletmenin geliri artmaz.
+
+Bu ayrım baştan kurulursa kasa defteri hem günlük nakit kontrolünü hem de dönemsel mutabakatı güvenilir biçimde destekler.
+
+## Kasa defterinin temel yapısı
+
+Her hareket için tarih, açıklama, işlem türü, giriş/çıkış tutarı ve kaynak bilgisi tutulmalıdır. İşletmede birden fazla kasa varsa kasa kodu da gerekir.
+
+Günün açılış bakiyesi önceki günün kapanışından gelir. Gün içindeki giriş ve çıkışlar işlendiğinde teorik kapanış bakiyesi oluşur. Fiziksel sayım bu rakamla karşılaştırılır. Fark varsa “yarın düzeltiriz” diye taşımak yerine o günün kaydında neden aranmalıdır.
+
+## Gelir-gider ile kasa hareketini ayırın
+
+Kasa hareketi paranın yer değiştirmesidir. Gelir veya gider ise işlemin ekonomik niteliğidir. Aynı olay bazen ikisini de etkiler, bazen yalnızca kasayı etkiler.
+
+Örneğin müşteriden nakit tahsilat kasayı artırır; ancak gelir daha önce faturayla kaydedilmiş olabilir. Bankaya nakit yatırmak kasayı azaltır ama gider değildir. Ortakların işletmeye geçici para koyması da satış geliri değildir.
+
+Bu nedenle işlem türü alanı “nakit girdi / nakit çıktı” bilgisinden ayrı tutulmalıdır.
+
+## Günlük mutabakat nasıl yapılır?
+
+Günün sonunda üç rakamı yan yana getirin:
+
+1. Sistem açılış bakiyesi,
+2. Gün içi net hareket,
+3. Fiziksel kapanış bakiyesi.
+
+Teorik kapanış ile sayılan para eşleşmiyorsa farkın kaynağı araştırılır. Eksik fiş, yanlış tutar, iki kez girilen kayıt veya sisteme işlenmemiş harcama bu farkı yaratabilir.
+
+Mutabakatın amacı personeli cezalandırmak değil, veri zincirinin nerede koptuğunu erken yakalamaktır. Küçük farkların sürekli taşınması ay sonunda büyük ve açıklanması zor bakiyeler yaratır.
+
+## Banka ve POS neden ayrı izlenmeli?
+
+POS satışı yapıldığında satış gerçekleşir, ancak para aynı anda nakit kasaya girmez. Banka hesabına komisyon kesintisi ve valör sonrası geçebilir. Bu yüzden POS hareketini kasa girişi gibi işlemek hem kasa hem tahsilat raporunu bozar.
+
+Aynı şekilde banka hesabındaki para ile fiziksel nakit kasa aynı kaynak değildir. Yönetim ekranında toplam likidite birlikte gösterilebilir, fakat hareket kayıtları kaynak bazında ayrılmalıdır.
+
+## Kasa kategorileri nasıl seçilmeli?
+
+Kategori sayısını gereksiz büyütmeyin. Kategoriler yönetim kararına hizmet etmelidir. Örneğin personel avansı, tedarikçi ödeme, küçük işletme gideri, ortak hareketi, banka transferi gibi ayrımlar gerçekten analiz edilecekse tutulmalıdır.
+
+Her yeni kategori veri girişini zorlaştırır. Kullanıcının hangi kategoriyi seçeceğini sürekli tartıştığı bir sistem zamanla tutarsız veri üretir.
+
+## Dört temel kontrol
+
+**Negatif kasa:** fiziksel olarak mümkün değilse yanlış veya eksik kayıt sinyalidir.
+
+**Yüksek tekil ödeme:** olağandışı hareketin açıklaması ve belgesi kontrol edilir.
+
+**Tekrarlanan aynı tutar:** mükerrer kayıt ihtimali incelenir.
+
+**Açılış-kapanış kopukluğu:** önceki gün kapanışıyla yeni gün açılışı eşleşmelidir.
+
+## Kasa defteri hangi kararı destekler?
+
+Günlük dosya yalnız “bugün ne harcadık?” sorusuna değil, nakdin nereden geldiği ve nereye gittiği sorusuna cevap vermelidir. Zaman içinde sık tekrarlanan küçük giderler, ortak çekişleri veya sürekli kasa açığı gibi örüntüler görünür hale gelir.
+
+İleriye dönük 13 haftalık ödeme planı gerekiyorsa kasa defteri tek başına yeterli değildir; bu durumda [13 haftalık nakit akışı rehberi](/rehber/13-haftalik-nakit-akisi-excel) daha doğru başlangıçtır. Günlük uygulama için [Akıllı Kasa Defteri ve Nakit Kontrol Sistemi](/sablon/akilli-kasa-defteri-ve-nakit-kontrol-sistemi) sayfasını; benzer çözümler için [Nakit Akışı](/sablonlar/nakit-akisi) kategorisini inceleyebilirsiniz.

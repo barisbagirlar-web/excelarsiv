@@ -6,6 +6,7 @@ import AnnouncementBar from '../components/AnnouncementBar.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import MobileCommerceBar from '../components/MobileCommerceBar.astro';
+import { getProductSeoByPath } from '../data/productSeo';
 
 interface Props {
   title: string;
@@ -21,6 +22,9 @@ const {
 const site = Astro.site ?? new URL('https://excelarsiv.com/');
 const canonical = new URL(Astro.url.pathname, site).toString();
 const ogImage = new URL('/og.png', site).toString();
+const productSeo = getProductSeoByPath(Astro.url.pathname);
+const resolvedTitle = productSeo?.title ?? title;
+const resolvedDescription = productSeo?.description ?? description ?? '';
 const orgLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@graph': [
@@ -42,8 +46,8 @@ const orgLd = JSON.stringify({
       '@type': 'WebPage',
       '@id': `${canonical}#webpage`,
       url: canonical,
-      name: title,
-      description: description ?? '',
+      name: resolvedTitle,
+      description: resolvedDescription,
       inLanguage: 'tr-TR',
       isPartOf: { '@id': new URL('/#website', site).toString() },
     },
@@ -57,21 +61,21 @@ const orgLd = JSON.stringify({
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <meta name="description" content={description ?? ''} />
+    <title>{resolvedTitle}</title>
+    <meta name="description" content={resolvedDescription} />
     <meta name="robots" content={robots} />
     <link rel="canonical" href={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Excel Arşiv" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description ?? ''} />
+    <meta property="og:title" content={resolvedTitle} />
+    <meta property="og:description" content={resolvedDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="tr_TR" />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:alt" content="Excel Arşiv — işletmeler için finansal Excel çalışma sistemleri" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description ?? ''} />
+    <meta name="twitter:title" content={resolvedTitle} />
+    <meta name="twitter:description" content={resolvedDescription} />
     <meta name="twitter:image" content={ogImage} />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
     <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png" />
@@ -83,7 +87,6 @@ const orgLd = JSON.stringify({
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-N2HLKS660W');
     </script>
     <slot name="head" />
@@ -92,9 +95,22 @@ const orgLd = JSON.stringify({
     <Fragment set:html={iconSprite} />
     <a href="#icerik" class="sr-only focus:not-sr-only focus:absolute focus:left-0 focus:top-0 focus:z-50 focus:bg-accent-primary focus:px-4 focus:py-3 focus:text-white">İçeriğe geç</a>
     <AnnouncementBar />
-    <SiteHeader pageTitle={title} />
+    <SiteHeader pageTitle={resolvedTitle} />
     <main id="icerik"><slot /></main>
+    {productSeo?.guideSlug && (
+      <aside class="seo-guide-bridge" aria-label="İlgili rehber">
+        <div>
+          <p>{productSeo.primaryQuery}</p>
+          <strong>Satın almadan önce yöntemi görün.</strong>
+          <a href={`/rehber/${productSeo.guideSlug}`}>{productSeo.guideLinkLabel ?? 'İlgili rehberi okuyun'} →</a>
+        </div>
+      </aside>
+    )}
     <SiteFooter />
     <MobileCommerceBar />
   </body>
 </html>
+
+<style>
+  .seo-guide-bridge{width:min(1180px,calc(100% - 48px));margin:-60px auto 72px;padding:0 0 8px}.seo-guide-bridge>div{display:grid;grid-template-columns:minmax(0,.45fr) minmax(0,.8fr) auto;gap:18px;align-items:center;padding:18px 20px;border:1px solid #d7e2db;border-radius:16px;background:#f5f9f6}.seo-guide-bridge p{margin:0;font-family:var(--font-mono);font-size:9px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#0b7440}.seo-guide-bridge strong{font-size:15px;color:#173023}.seo-guide-bridge a{font-size:11px;font-weight:800;color:#0b7440;text-decoration:none}.seo-guide-bridge a:hover{text-decoration:underline}@media(max-width:760px){.seo-guide-bridge{width:min(100% - 28px,1180px);margin:-36px auto 48px}.seo-guide-bridge>div{grid-template-columns:1fr;gap:7px}.seo-guide-bridge a{margin-top:4px}}
+</style>
