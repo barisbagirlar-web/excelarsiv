@@ -1,5 +1,5 @@
 {
-  "meta":{"artifact":"linkable_assets","schemaVersion":"6.0-phase13","generatedAt":"2026-08-09T19:13:00Z","generatorScript":"scripts/seo/audit-offpage.ts","inputWindow":{"start":"2025-09-11","end":"2026-08-09"},"confidence":"medium","partial":false,"siteId":"excelarsiv","coldStart":true,"structuralBreaksApplied":[]},
+  "meta":{"artifact":"linkable_assets","schemaVersion":"6.0-phase13","generatedAt":"2026-08-09T19:13:00Z","generatorScript":"scripts/seo/audit-offpage.ts","inputWindow":{"start":"2025-09-11","end":"2026-08-09"},"confidence":"low","partial":false,"siteId":"excelarsiv","coldStart":true,"structuralBreaksApplied":[]},
   "assets":[
     {"type":"methodology","route":"/rehber/13-haftalik-nakit-akisi-excel","topic":"13 haftalık nakit akışı Excel","commercialBridge":"/sablon/13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi"},
     {"type":"methodology","route":"/rehber/stok-takip-excel","topic":"stok takip Excel","commercialBridge":"/sablon/stok-satis-ve-nakit-baglanma-sistemi"},
