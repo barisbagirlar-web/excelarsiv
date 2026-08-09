@@ -5,7 +5,8 @@
     "dataWindowStart": "2025-09-11",
     "calendarYearEnabled": false,
     "gscGenerativeAiInFormula": false,
-    "confidenceMode": "strict"
+    "confidenceMode": "strict",
+    "coldStart": false
   },
   "thresholds": {
     "lcpP75Ms": 2500,
