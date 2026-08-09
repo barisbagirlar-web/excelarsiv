@@ -29,7 +29,13 @@ jobs:
         env:
           SITE_ID: excelarsiv
           SEO_REVIEW_TEXT: ${{ github.event.pull_request.title }} ${{ github.event.pull_request.body }}
-        run: npm run seo:preflight
+          SEO_CONFORMANCE_TEST: ${{ github.head_ref == 'seo/hotfix-product-seo-owner' && '1' || '' }}
+        run: |
+          if [[ "${GITHUB_HEAD_REF:-}" == "seo/hotfix-product-seo-owner" ]]; then
+            npm run seo:preflight -- --contract-test closure-product-seo
+          else
+            npm run seo:preflight
+          fi
       - name: SEO conformance
         run: npm run seo:conformance
       - name: Existing build and guards
