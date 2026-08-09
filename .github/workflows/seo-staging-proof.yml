@@ -105,7 +105,7 @@ jobs:
               --quiet
           done
 
-      - name: Synthetic INP lab interaction
+      - name: Consent network gate and synthetic INP lab interaction
         shell: bash
         env:
           STAGING_URL: ${{ steps.preview.outputs.staging_url }}
@@ -118,26 +118,36 @@ jobs:
             exit 1
           fi
           export CHROME_PATH
-          export GLOBAL_NODE_ROOT="$(npm root -g)"
-          node --input-type=module <<'NODE'
-          import { writeFileSync } from 'node:fs';
-          import { resolve } from 'node:path';
-          import { pathToFileURL } from 'node:url';
+          export NODE_PATH="$(npm root -g)"
+          node --input-type=commonjs <<'NODE'
+          const { writeFileSync } = require('node:fs');
+          const { resolve } = require('node:path');
+          const puppeteer = require('puppeteer-core');
 
-          const modulePath = resolve(process.env.GLOBAL_NODE_ROOT, 'puppeteer-core/lib/esm/puppeteer/puppeteer-core.js');
-          const module = await import(pathToFileURL(modulePath).href);
-          const puppeteer = module.default ?? module;
+          const sleep = (ms) => new Promise((resolveWait) => setTimeout(resolveWait, ms));
+          const analyticsRequest = (url) => /googletagmanager\.com\/gtag\/js|google-analytics\.com|analytics\.google\.com/i.test(url);
+          const consentRows = async (page) => page.evaluate(() => (window.dataLayer ?? [])
+            .map((row) => Array.from(row))
+            .filter((row) => row[0] === 'consent'));
+
           const browser = await puppeteer.launch({
             headless: true,
             executablePath: process.env.CHROME_PATH,
             args: ['--no-sandbox', '--disable-dev-shm-usage'],
           });
           try {
-            const page = await browser.newPage();
-            await page.goto(`${process.env.STAGING_URL}/`, { waitUntil: 'networkidle2', timeout: 45000 });
-            const supported = await page.evaluate(() => PerformanceObserver.supportedEntryTypes.includes('event'));
-            if (!supported) throw new Error('Event Timing API desteklenmiyor');
-            await page.evaluate(() => {
+            const rejectPage = await browser.newPage();
+            const rejectedRequests = [];
+            rejectPage.on('request', (request) => {
+              if (analyticsRequest(request.url())) rejectedRequests.push(request.url());
+            });
+            await rejectPage.goto(`${process.env.STAGING_URL}/`, { waitUntil: 'networkidle2', timeout: 45000 });
+            await sleep(500);
+            const beforeRejectRequests = rejectedRequests.length;
+            if (beforeRejectRequests !== 0) throw new Error(`CONSENT_PRECHOICE_ANALYTICS_REQUESTS:${beforeRejectRequests}`);
+            const supported = await rejectPage.evaluate(() => PerformanceObserver.supportedEntryTypes.includes('event'));
+            if (!supported) throw new Error('EVENT_TIMING_API_UNSUPPORTED');
+            await rejectPage.evaluate(() => {
               window.__seoInpEvents = [];
               const observer = new PerformanceObserver((list) => {
                 for (const entry of list.getEntries()) {
@@ -148,14 +158,19 @@ jobs:
               });
               observer.observe({ type: 'event', buffered: true, durationThreshold: 16 });
             });
-            await page.waitForSelector('[data-consent-reject]', { timeout: 10000 });
-            await page.click('[data-consent-reject]');
-            await new Promise((resolveWait) => setTimeout(resolveWait, 800));
-            const entries = await page.evaluate(() => window.__seoInpEvents ?? []);
+            await rejectPage.waitForSelector('[data-consent-reject]', { timeout: 10000 });
+            await rejectPage.click('[data-consent-reject]');
+            await sleep(800);
+            const afterRejectRequests = rejectedRequests.length;
+            if (afterRejectRequests !== 0) throw new Error(`CONSENT_REJECT_ANALYTICS_REQUESTS:${afterRejectRequests}`);
+            const rejectConsentRows = await consentRows(rejectPage);
+            const rejectHasDeniedUpdate = rejectConsentRows.some((row) => row[1] === 'update' && row[2]?.analytics_storage === 'denied');
+            if (!rejectHasDeniedUpdate) throw new Error('CONSENT_REJECT_DENIED_UPDATE_MISSING');
+            const entries = await rejectPage.evaluate(() => window.__seoInpEvents ?? []);
             const observed = entries.map((entry) => Number(entry.duration)).filter(Number.isFinite);
             const inpLabMs = observed.length > 0 ? Math.max(...observed) : 16;
             const measurementMode = observed.length > 0 ? 'event-timing-observed' : 'event-timing-upper-bound-under-16ms';
-            const payload = {
+            const inpPayload = {
               url: `${process.env.STAGING_URL}/`,
               inpLabMs,
               eventCount: observed.length,
@@ -163,8 +178,43 @@ jobs:
               measurementMode,
               confidence: 'strong-lab-not-field',
             };
-            writeFileSync(resolve(process.env.PROOF_DIR, 'inp-lab.json'), `${JSON.stringify(payload, null, 2)}\n`);
-            console.log(JSON.stringify(payload));
+            writeFileSync(resolve(process.env.PROOF_DIR, 'inp-lab.json'), `${JSON.stringify(inpPayload, null, 2)}\n`);
+
+            const acceptPage = await browser.newPage();
+            const acceptedRequests = [];
+            await acceptPage.setRequestInterception(true);
+            acceptPage.on('request', (request) => {
+              if (analyticsRequest(request.url())) {
+                acceptedRequests.push(request.url());
+                request.abort();
+                return;
+              }
+              request.continue();
+            });
+            await acceptPage.goto(`${process.env.STAGING_URL}/`, { waitUntil: 'networkidle2', timeout: 45000 });
+            await acceptPage.evaluate(() => window.localStorage.removeItem('excelarsiv:consent:v2'));
+            await acceptPage.reload({ waitUntil: 'networkidle2', timeout: 45000 });
+            await sleep(500);
+            if (acceptedRequests.length !== 0) throw new Error(`CONSENT_PREACCEPT_ANALYTICS_REQUESTS:${acceptedRequests.length}`);
+            await acceptPage.waitForSelector('[data-consent-accept]', { timeout: 10000 });
+            await acceptPage.click('[data-consent-accept]');
+            await sleep(1000);
+            const acceptConsentRows = await consentRows(acceptPage);
+            const acceptHasGrantedUpdate = acceptConsentRows.some((row) => row[1] === 'update' && row[2]?.analytics_storage === 'granted');
+            if (!acceptHasGrantedUpdate) throw new Error('CONSENT_ACCEPT_GRANTED_UPDATE_MISSING');
+            if (acceptedRequests.length === 0) throw new Error('CONSENT_ACCEPT_GOOGLE_TAG_REQUEST_MISSING');
+
+            const networkPayload = {
+              beforeChoiceAnalyticsRequests: beforeRejectRequests,
+              afterRejectAnalyticsRequests: afterRejectRequests,
+              acceptGoogleTagRequestsIntercepted: acceptedRequests.length,
+              rejectDeniedUpdate: rejectHasDeniedUpdate,
+              acceptGrantedUpdate: acceptHasGrantedUpdate,
+              acceptedRequestsInterceptedAndAborted: true,
+            };
+            writeFileSync(resolve(process.env.PROOF_DIR, 'consent-network.json'), `${JSON.stringify(networkPayload, null, 2)}\n`);
+            console.log(`CONSENT NETWORK PASS ${JSON.stringify(networkPayload)}`);
+            console.log(`INP LAB ${JSON.stringify(inpPayload)}`);
           } finally {
             await browser.close();
           }
