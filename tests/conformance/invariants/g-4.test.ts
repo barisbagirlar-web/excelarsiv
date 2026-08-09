@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';import {resolve} from 'node:path';import {fileURLToPath} from 'node:url';
+const ROOT=resolve(fileURLToPath(new URL('../../../',import.meta.url)));
+test('INV-G.4 negatif fixture gerçek exit 1',()=>{const env={...process.env,SITE_ID:'excelarsiv',SEO_CHANGED_FILES:'firebase.json',SEO_REVIEW_TEXT:'SEO V6 bootstrap',SEO_COMMIT_TEXT:'seo bootstrap contracts'};const r=spawnSync(process.execPath,['--experimental-strip-types',resolve(ROOT,'scripts/seo/preflight.ts')],{cwd:ROOT,env,encoding:'utf8'});assert.equal(r.status,1,`${r.stdout}\n${r.stderr}`);});

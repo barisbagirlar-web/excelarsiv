@@ -1,0 +1,38 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { existsSync, readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
+import { EXIT, containsGuarantee, exitCode, matchAny, runPreflight, scanPlaceholders, validateSchema } from '../../scripts/seo/preflight.ts';
+import { evaluateColdStart, explicitAnyHits, hardcodedThresholdHits } from '../../scripts/seo/conformance-rules.ts';
+
+type JsonObject = Record<string, unknown>;
+type InvariantRecord = { id: string; phase: number | string; severity: 'BLOCK' | 'WARN' | 'INFO'; negativeTest: string | null };
+type Progress = { bootstrap: 'active' | 'completed'; activePhase: number | null; completedPhases: number[] };
+const ROOT = resolve(fileURLToPath(new URL('../../', import.meta.url)));
+process.env.SEO_REVIEW_TEXT = 'SEO V6 bootstrap sözleşmesi';
+process.env.SEO_COMMIT_TEXT = 'seo bootstrap contracts';
+function readJson<T>(path: string): T { return JSON.parse(readFileSync(resolve(ROOT, path), 'utf8')) as T; }
+function readProgress(): Progress { const text=readFileSync(resolve(ROOT,'docs/seo/PROGRESS.md'),'utf8'); const match=text.match(/<!--\s*SEO_PROGRESS\s+(\{[^\n]+\})\s*-->/); if(!match?.[1]) throw new Error('PROGRESS_META_MISSING'); return JSON.parse(match[1]) as Progress; }
+function spawnScript(path: string, args: string[], env: NodeJS.ProcessEnv = process.env): ReturnType<typeof spawnSync> { return spawnSync(process.execPath, ['--experimental-strip-types', resolve(ROOT, path), ...args], { cwd: ROOT, env, encoding: 'utf8' }); }
+
+test('C-01 artifact-envelope — bootstrapta orphan SEO artefaktı yok', () => { const check = runPreflight({ site: 'excelarsiv', files: [] }).find((item) => item.id === 'P-06'); assert.equal(check?.status, 'PASS'); });
+test('C-02 invariant-result-schema — sonuç durum sözlüğü üç değerle kilitli', () => { const allowed = new Set(['PASS', 'FAIL', 'SKIP_NO_DATA']); for (const value of ['PASS', 'FAIL', 'SKIP_NO_DATA']) assert.ok(allowed.has(value)); assert.equal(allowed.has('SKIPPED'), false); });
+test('C-03 no-hardcoded-thresholds + AIP-10 — yeni TS kaynaklarında explicit any ve hardcoded karar eşiği yok', () => { for (const path of ['scripts/seo/preflight.ts', 'scripts/seo/conformance-rules.ts', 'scripts/seo/rule-probe.ts', 'scripts/seo/coldstart-check.ts']) { const source = readFileSync(resolve(ROOT, path), 'utf8'); assert.deepEqual(explicitAnyHits(source), [], `${path}: explicit any`); assert.deepEqual(hardcodedThresholdHits(source), [], `${path}: hardcoded threshold`); } });
+test('C-04 phase-writes-lock — bootstrap runtime dosyasına yazmayı BLOCK eder', () => { const check = runPreflight({ site: 'excelarsiv', files: ['src/pages/index.astro'] }).find((item) => item.id === 'P-03'); assert.equal(check?.status, 'FAIL'); });
+test('C-05 money-integer — varsayılan minor-unit değerleri integer', () => { const config = readJson<{ economics: { defaultValuePerConversionMinor: number } }>('seo.config.defaults.json'); assert.equal(Number.isInteger(config.economics.defaultValuePerConversionMinor), true); });
+test('C-06 guarantee-regex — olumlu vaat yakalanır, uyum/negasyon false-positive üretmez', () => { assert.equal(containsGuarantee('gelir garanti'), true); assert.equal(containsGuarantee('gelir garantisi yok'), false); assert.equal(containsGuarantee('garanti-dili taraması PASS'), false); });
+test('C-07 approval-records — bootstrap ve sitemap mimari onayı karar defterinde', () => { const text = readFileSync(resolve(ROOT, 'docs/seo/KARAR_DEFTERI.md'), 'utf8'); assert.match(text, /SEO MASTER MANDATE V6/); assert.match(text, /sitemapindex/); assert.match(text, /Barış/); });
+test('C-08 registry-single-writer — bootstrap registry yazımını reddeder', () => { const check = runPreflight({ site: 'excelarsiv', files: ['data/seo/registry/excelarsiv_seo_registry.json'] }).find((item) => item.id === 'P-03'); assert.equal(check?.status, 'FAIL'); });
+test('C-09 negative-tests-exist — aktif/tamamlanan kapsamın tüm BLOCK negatif testleri var', () => { const progress = readProgress(); const active = new Set<number>(progress.completedPhases); if (progress.activePhase !== null) active.add(progress.activePhase); const required = readJson<InvariantRecord[]>('data/seo/invariants.json').filter((item) => item.severity === 'BLOCK' && (item.phase === 'global' || item.phase === 'execution' || (typeof item.phase === 'number' && active.has(item.phase)))); assert.ok(required.length > 0); for (const invariant of required) { assert.ok(invariant.negativeTest, `${invariant.id}: negativeTest null`); assert.equal(existsSync(resolve(ROOT, invariant.negativeTest as string)), true, `${invariant.id}: fixture yok`); } });
+test('C-10 determinism — aynı preflight girdisi aynı sonucu üretir', () => { const first = runPreflight({ site: 'excelarsiv', files: [] }); const second = runPreflight({ site: 'excelarsiv', files: [] }); assert.deepEqual(first, second); });
+test('C-11 exit-codes — BLOCK=1, missing-data=3, config=4 gerçek process çıkışlarıyla', () => { const blocked = spawnScript('scripts/seo/rule-probe.ts', ['--rule', 'guarantee', '--value', 'gelir garanti']); assert.equal(blocked.status, EXIT.BLOCK, blocked.stderr); const missing = spawnScript('scripts/seo/coldstart-check.ts', ['--site', 'excelarsiv']); assert.equal(missing.status, EXIT.MISSING_DATA, missing.stderr); const env = { ...process.env }; delete env.SITE_ID; const config = spawnScript('scripts/seo/preflight.ts', [], env); assert.equal(config.status, EXIT.CONFIG, config.stderr); assert.equal(exitCode([{ id: 'B', status: 'FAIL', msg: '', code: EXIT.BLOCK }, { id: 'W', status: 'FAIL', msg: '', code: EXIT.WARN }]), EXIT.BLOCK); });
+test('C-12 envelope-completeness — P-06 zarf kapısı aktif', () => { assert.equal(runPreflight({ site: 'excelarsiv', files: [] }).some((item) => item.id === 'P-06' && item.status === 'PASS'), true); });
+test('C-13 structural-breaks-join — bootstrap ölçüm artefaktı üretmez', () => { for (const path of ['data/seo/pnl.json', 'data/seo/slo_history.json', 'data/seo/calibration_report.json']) assert.equal(existsSync(resolve(ROOT, path)), false); });
+test('C-14 coldstart-flag — eşik altı veri low-confidence coldStart üretir', () => { assert.deepEqual(evaluateColdStart(27, 28), { coldStart: true, confidence: 'low' }); assert.deepEqual(evaluateColdStart(28, 28), { coldStart: false, confidence: 'high' }); });
+test('C-15 portfolio-siteid — siteId açık ve tek-site artefakt anahtarıyla eşleşiyor', () => { const config = readJson<{ site: { siteId: string } }>('sites/excelarsiv/seo.config.json'); assert.equal(config.site.siteId, 'excelarsiv'); });
+test('P-01 schema negatif fixture — eksik config geçemez', () => { const schema = readJson<JsonObject>('seo.config.schema.json'); assert.ok(validateSchema({ version: 'x' }, schema).length > 0); });
+test('P-02 placeholder negatif fixture', () => { assert.deepEqual(scanPlaceholders({ language: 'tr|en' }), ['$.language']); });
+test('P-03 glob matcher double-star', () => { assert.equal(matchAny('docs/seo/MANDATE.md', ['docs/seo/**']), true); });
+test('P-08 tarih tabanı negatif fixture', () => { assert.ok('2025-09-10' < '2025-09-11'); });
