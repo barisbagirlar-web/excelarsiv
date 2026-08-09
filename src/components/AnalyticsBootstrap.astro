@@ -1,0 +1,91 @@
+---
+import { CONSENT_STORAGE_KEY, CONSENT_VERSION } from '../lib/consent';
+
+interface Props {
+  measurementId: string;
+}
+
+const { measurementId } = Astro.props;
+---
+
+<script
+  is:inline
+  define:vars={{ measurementId, consentStorageKey: CONSENT_STORAGE_KEY, consentVersion: CONSENT_VERSION }}
+>
+  (() => {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function gtag(){ window.dataLayer.push(arguments); };
+
+    const denied = {
+      ad_storage: 'denied',
+      analytics_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+    };
+    const granted = {
+      ad_storage: 'granted',
+      analytics_storage: 'granted',
+      ad_user_data: 'granted',
+      ad_personalization: 'granted',
+    };
+
+    let googleTagRequested = false;
+    window.gtag('consent', 'default', denied);
+
+    const readStored = () => {
+      try {
+        const raw = window.localStorage.getItem(consentStorageKey);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (parsed?.version !== consentVersion) return null;
+        if (parsed?.status !== 'granted' && parsed?.status !== 'denied') return null;
+        return parsed;
+      } catch {
+        return null;
+      }
+    };
+
+    const persist = (status) => {
+      try {
+        window.localStorage.setItem(consentStorageKey, JSON.stringify({
+          version: consentVersion,
+          status,
+          updatedAt: new Date().toISOString(),
+        }));
+      } catch {
+        // Storage engellenirse seçim yalnız aktif sayfa için uygulanır.
+      }
+    };
+
+    const loadGoogleTag = () => {
+      if (googleTagRequested || document.querySelector('[data-excelarsiv-google-tag]')) return;
+      googleTagRequested = true;
+      window.gtag('js', new Date());
+      window.gtag('config', measurementId);
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
+      script.dataset.excelarsivGoogleTag = 'true';
+      document.head.appendChild(script);
+    };
+
+    const apply = (status, shouldPersist = true) => {
+      const normalized = status === 'granted' ? 'granted' : 'denied';
+      window.gtag('consent', 'update', normalized === 'granted' ? granted : denied);
+      if (shouldPersist) persist(normalized);
+      if (normalized === 'granted') loadGoogleTag();
+      window.dispatchEvent(new CustomEvent('excelarsiv:consent-changed', { detail: { status: normalized } }));
+      return normalized;
+    };
+
+    const stored = readStored();
+    window.ExcelArsivConsent = {
+      getStatus: () => readStored()?.status ?? null,
+      setStatus: (status) => apply(status, true),
+      hasAnalyticsConsent: () => readStored()?.status === 'granted',
+    };
+
+    if (stored?.status === 'granted') apply('granted', false);
+    else if (stored?.status === 'denied') apply('denied', false);
+  })();
+</script>
