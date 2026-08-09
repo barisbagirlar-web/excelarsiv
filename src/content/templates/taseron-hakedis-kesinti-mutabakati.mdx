@@ -1,0 +1,109 @@
+---
+name: 'Taşeron/Alt Yüklenici Hakediş & Kesinti Mutabakatı'
+summary: 'Taşeron hakedişleri ile yapılan ödemeleri mutabakatlandırın; kesinti farklarını ve hak ediş ihtilaflarını önceden yakalayın.'
+category: 'finansal-analiz'
+priceTL: 1490
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.16
+sheetCount: 16
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-09'
+sheetMap:
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç ve kullanım yönlendirmesi'
+    kind: 'input'
+  - name: 'SOZLESME_KARTI'
+    purpose: 'Taşeron sözleşmesi bilgileri girişi'
+    kind: 'input'
+  - name: 'HAKEDISLER'
+    purpose: 'Taşeron hakedişleri girişi'
+    kind: 'input'
+  - name: 'ODEMELER'
+    purpose: 'Yapılan ödemeler girişi'
+    kind: 'input'
+  - name: 'MOTOR'
+    purpose: 'Tüm ara hesap adımları'
+    kind: 'calculation'
+  - name: 'KONTROL'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Mutabakat kararı, gerekçe ve aksiyonlar'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ekranı'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs:
+  - 'Taşeron adı ve sözleşme bilgileri'
+  - 'Hakediş tutarları ve dönemleri'
+  - 'Yapılan ödemeler ve kesintiler'
+outputs:
+  - 'Hakediş-ödeme mutabakat farkı'
+  - 'Kesinti tutarı ve fark oranı'
+  - 'Mutabakat kararı ve aksiyonlar'
+suitableFor:
+  - 'Şantiyeleri taşeronla çalışan yükleniciler'
+  - 'Hakediş ve ödeme takibi yapan finans ekipleri'
+  - 'Mali müşavirler ve inşaat muhasebesi birimleri'
+notSuitableFor:
+  - 'Taşeron sözleşme hukuku uyuşmazlık çözümü'
+  - 'Bordro ve SGK takibi ihtiyacı'
+requirements:
+  - 'Excel 2016 veya üzeri'
+  - 'Formüller için değişken hücre yok'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq:
+  - question: 'Mutabakat farkı nasıl hesaplanıyor?'
+    answer: 'Toplam hakediş ile toplam ödeme ve kesintiler arasındaki fark hesaplanır; fark eşiği aşarsa İNCELE kararı üretilir.'
+  - question: 'Kesintileri nasıl giriyorum?'
+    answer: 'ODEMELER sayfasına ödeme ve kesinti tutarlarını ayrı kolonlarda girin; dosya farkı ve oranı üretir.'
+  - question: 'Tek taşeron için mi kullanılır?'
+    answer: 'Hayır. HAKEDISLER ve ODEMELER tabloları taşeron bazlı çoklu kayıt tutar; 1.000+ satır kapasitelidir.'
+  - question: 'Rapor sunulabilir mi?'
+    answer: 'Evet. RAPOR sayfası PDF çıktısına hazır tek sayfalık mutabakat özeti üretir.'
+  - question: 'Excel sürümüm eski, çalışır mı?'
+    answer: 'Excel 2016 ve üzeri gerekir; formüller modern işlevler kullanmaz, eski sürümlerde de çalışır.'
+  - question: 'Bu dosya ihtilafı çözer mi?'
+    answer: 'Hayır. Dosya farkı gösterir; ihtilaf çözümü sözleşme ve hukuki süreç gerektirir.'
+screenshots:
+  - src: '/screenshots/taseron-hakedis-kesinti-mutabakati-1.png'
+    alt: 'Taşeron Mutabakatı dosyasının HAKEDISLER sayfası — Taşeron hakediş girişleri'
+  - src: '/screenshots/taseron-hakedis-kesinti-mutabakati-2.png'
+    alt: 'Taşeron Mutabakatı dosyasının KARAR sayfası — Mutabakat farkı ve karar'
+  - src: '/screenshots/taseron-hakedis-kesinti-mutabakati-3.png'
+    alt: 'Taşeron Mutabakatı dosyasının PANO sayfası — Hakediş-ödeme dengesi panosu'
+related:
+  - 'hakedis-fiyat-farki-hak-kaybi-cetveli'
+  - 'yillara-sari-insaat-stopaj-nakit-akis-planlayici'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

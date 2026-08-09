@@ -105,6 +105,76 @@
       "fileFormat": "xlsx",
       "storageKey": "paid-products/vergi-sgk-ve-maas-karsilik-ayirma-sistemi/current.xlsx",
       "satista": true
+    },
+    "asiri-dusuk-teklif-savunma-robotu": {
+      "name": "İhale Elinden Gidiyor Mu? (Aşırı Düşük Teklif Savunma Robotu)",
+      "tier": "EXCLUSIVE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/asiri-dusuk-teklif-savunma-robotu/current.xlsx",
+      "satista": true
+    },
+    "ihaleye-kac-tl-teklif-vermeliyim": {
+      "name": "İhaleye Kaç TL Teklif Vermeliyim? (Sınır Değer Hesaplayıcı)",
+      "tier": "ENTERPRISE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/ihaleye-kac-tl-teklif-vermeliyim/current.xlsx",
+      "satista": true
+    },
+    "hakedis-fiyat-farki-hak-kaybi-cetveli": {
+      "name": "Hakediş Fiyat Farkı ve Hak Kaybı Cetveli",
+      "tier": "PRO",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/hakedis-fiyat-farki-hak-kaybi-cetveli/current.xlsx",
+      "satista": true
+    },
+    "yillara-sari-insaat-stopaj-nakit-akis-planlayici": {
+      "name": "Yıllara Sari İnşaat Stopaj & Nakit Akış Planlayıcı",
+      "tier": "ENTERPRISE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/yillara-sari-insaat-stopaj-nakit-akis-planlayici/current.xlsx",
+      "satista": true
+    },
+    "taseron-hakedis-kesinti-mutabakati": {
+      "name": "Taşeron/Alt Yüklenici Hakediş & Kesinti Mutabakatı",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/taseron-hakedis-kesinti-mutabakati/current.xlsx",
+      "satista": true
+    },
+    "kacirilan-sgk-tesvikleri-ve-gercek-iscilik-maliyeti-analizi": {
+      "name": "Kaçırılan SGK Teşvikleri & Gerçek İşçilik Maliyeti Analizi",
+      "tier": "ENTERPRISE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/kacirilan-sgk-tesvikleri-ve-gercek-iscilik-maliyeti-analizi/current.xlsx",
+      "satista": true
+    },
+    "kidem-ihbar-yuku-ve-personel-cikarma-maliyeti-hesaplayici": {
+      "name": "Kıdem–İhbar Yükü ve Personel Çıkarma Maliyeti Hesaplayıcı",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/kidem-ihbar-yuku-ve-personel-cikarma-maliyeti-hesaplayici/current.xlsx",
+      "satista": true
+    },
+    "fazla-mesai-ve-isci-dava-riski-tespit-dosyasi": {
+      "name": "Fazla Mesai ve İşçi Dava Riski Tespit Dosyası",
+      "tier": "ENTERPRISE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/fazla-mesai-ve-isci-dava-riski-tespit-dosyasi/current.xlsx",
+      "satista": true
+    },
+    "asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli": {
+      "name": "Asgari Ücret Zam Etkisi & Fiyat Ayarlama Cetveli",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli/current.xlsx",
+      "satista": true
+    },
+    "ithalat-depo-teslim-rafa-gelen-net-birim-maliyet": {
+      "name": "İthalat Depo Teslim (Rafa Gelen) Net Birim Maliyet",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/ithalat-depo-teslim-rafa-gelen-net-birim-maliyet/current.xlsx",
+      "satista": true
     }
   }
 }

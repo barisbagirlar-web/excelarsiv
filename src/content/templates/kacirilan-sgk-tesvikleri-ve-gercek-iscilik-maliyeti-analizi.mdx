@@ -1,0 +1,109 @@
+---
+name: 'Kaçırılan SGK Teşvikleri & Gerçek İşçilik Maliyeti Analizi'
+summary: 'Hangi SGK teşvikinden yararlanabileceğinizi ve kaçırdığınız tutarı hesaplayın; gerçek işçilik maliyetinizi net görün.'
+category: 'muhasebe-ve-vergi'
+priceTL: 2490
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.26
+sheetCount: 16
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.1.1'
+updatedAt: '2026-08-09'
+sheetMap:
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç ve kullanım yönlendirmesi'
+    kind: 'input'
+  - name: 'CALISAN_KARTI'
+    purpose: 'Çalışan ve SGK bilgileri girişi'
+    kind: 'input'
+  - name: 'GERCEK_MALIYET'
+    purpose: 'Gerçek işçilik maliyeti hesabı'
+    kind: 'calculation'
+  - name: 'TESVIK_SIMULATOR'
+    purpose: 'SGK teşvik simülasyonu girişi'
+    kind: 'input'
+  - name: 'MOTOR'
+    purpose: 'Tüm ara hesap adımları'
+    kind: 'calculation'
+  - name: 'KONTROL'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Teşvik kararı, gerekçe ve aksiyonlar'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ekranı'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs:
+  - 'Çalışan adı, sigortalılık ve teşvik kodu bilgileri'
+  - 'Brüt ücret ve SGK matrahı'
+  - 'Teşvik kullanım durumu ve dönem'
+outputs:
+  - 'Yararlanılan/kaçırılan teşvik tutarı'
+  - 'Gerçek işçilik maliyeti ve işveren yükü'
+  - 'Teşvik kararı ve aksiyonlar'
+suitableFor:
+  - 'SGK teşviklerinden yararlanmak isteyen işverenler'
+  - 'Bordro ve muhasebe birimleri'
+  - 'Mali müşavirler ve işveren danışmanları'
+notSuitableFor:
+  - 'SGK prim itiraz ve dava süreçleri'
+  - 'Genel bordro hazırlama programı ihtiyacı'
+requirements:
+  - 'Excel 2016 veya üzeri'
+  - 'Formüller için değişken hücre yok'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq:
+  - question: 'Teşvik tutarı nasıl hesaplanıyor?'
+    answer: 'Çalışan bazında SGK matrahı ve geçerli teşvik kodu parametreleriyle yararlanılabilecek tutar hesaplanır; fark kaçırılan tutarı gösterir.'
+  - question: 'Teşvik kodlarını nereden alıyorum?'
+    answer: 'Teşvik kodu ve oranlar AYARLAR sayfasında tanımlıdır; güncel mevzuata göre güncellenir.'
+  - question: 'Gerçek işçilik maliyeti neyi kapsıyor?'
+    answer: 'Brüt ücret, SGK işveren primi, işsizlik işveren payı ve diğer yükleri kapsar; teşvik indirimini ayrı gösterir.'
+  - question: 'Birden fazla teşvik aynı anda denenebilir mi?'
+    answer: 'Evet. TESVIK_SIMULATOR sayfası senaryo bazlı karşılaştırma yapmanızı sağlar.'
+  - question: 'Excel sürümüm eski, çalışır mı?'
+    answer: 'Excel 2016 ve üzeri gerekir; formüller modern işlevler kullanmaz, eski sürümlerde de çalışır.'
+  - question: 'Bu dosya SGK başvurusu yapar mı?'
+    answer: 'Hayır. Dosya hesap ve önceliklendirme aracıdır; başvuru işveren tarafından SGK sistemine yapılır.'
+screenshots:
+  - src: '/screenshots/kacirilan-sgk-tesvikleri-ve-gercek-iscilik-maliyeti-analizi-1.png'
+    alt: 'SGK Teşvik Analizi dosyasının CALISAN_KARTI sayfası — Çalışan ve teşvik bilgisi girişi'
+  - src: '/screenshots/kacirilan-sgk-tesvikleri-ve-gercek-iscilik-maliyeti-analizi-2.png'
+    alt: 'SGK Teşvik Analizi dosyasının KARAR sayfası — Kaçırılan teşvik tutarı ve karar'
+  - src: '/screenshots/kacirilan-sgk-tesvikleri-ve-gercek-iscilik-maliyeti-analizi-3.png'
+    alt: 'SGK Teşvik Analizi dosyasının PANO sayfası — Teşvik ve işçilik maliyeti panosu'
+related:
+  - 'asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli'
+  - 'kidem-ihbar-yuku-ve-personel-cikarma-maliyeti-hesaplayici'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

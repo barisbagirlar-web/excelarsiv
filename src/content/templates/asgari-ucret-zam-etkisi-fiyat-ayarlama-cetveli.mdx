@@ -1,0 +1,106 @@
+---
+name: 'Asgari Ücret Zam Etkisi & Fiyat Ayarlama Cetveli'
+summary: 'Asgari ücret zammının maliyet tablonuza etkisini hesaplayın; satış fiyatlarınızı koruyacak ayarlamayı önerin.'
+category: 'personel-ve-bordro'
+priceTL: 1490
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.12
+sheetCount: 15
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-09'
+sheetMap:
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç ve kullanım yönlendirmesi'
+    kind: 'input'
+  - name: 'CALISANLAR'
+    purpose: 'Çalışan ve ücret girişi'
+    kind: 'input'
+  - name: 'URUNLER'
+    purpose: 'Ürün ve fiyat bilgisi girişi'
+    kind: 'input'
+  - name: 'MOTOR'
+    purpose: 'Tüm ara hesap adımları'
+    kind: 'calculation'
+  - name: 'KONTROL'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Fiyat ayarlama kararı, gerekçe ve aksiyonlar'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ekranı'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs:
+  - 'Eski ve yeni asgari ücret'
+  - 'Çalışan ücretleri ve SGK yükleri'
+  - 'Ürün maliyeti ve satış fiyatı'
+outputs:
+  - 'Asgari ücret zam etkisi (TL ve %)'
+  - 'Önerilen fiyat ayarlama oranı'
+  - 'Fiyat ayarlama kararı ve aksiyonlar'
+suitableFor:
+  - 'Asgari ücrete endeksli ücret yapısı olan işletmeler'
+  - 'Restoran, perakende ve hizmet işletmeleri'
+  - 'Fiyatlandırma kararı alan yöneticiler'
+notSuitableFor:
+  - 'Toplu sözleşme ve grev süreçleri'
+  - 'Rekabet mevzuatı fiyat yönlendirmesi'
+requirements:
+  - 'Excel 2016 veya üzeri'
+  - 'Formüller için değişken hücre yok'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq:
+  - question: 'Zam etkisi nasıl hesaplanıyor?'
+    answer: 'Eski ve yeni asgari ücret farkının işveren yükleriyle toplam maliyete etkisi hesaplanır; oran çalışan bazında üretilir.'
+  - question: 'Fiyat ayarlama önerisi nasıl oluşuyor?'
+    answer: 'Maliyet artışının toplam maliyete oranı üzerinden ürün bazlı gerekli fiyat artışı hesaplanır.'
+  - question: 'Ürün bazlı mı çalışıyor?'
+    answer: 'Evet. URUNLER sayfasına ürün maliyet ve fiyatlarını girin; her ürün için ayrı öneri üretilir.'
+  - question: 'SGK yükü otomatik mi?'
+    answer: 'İşveren prim ve işsizlik payı parametreleri AYARLAR sayfasındadır; güncel oranlarla çalışır.'
+  - question: 'Excel sürümüm eski, çalışır mı?'
+    answer: 'Excel 2016 ve üzeri gerekir; formüller modern işlevler kullanmaz, eski sürümlerde de çalışır.'
+  - question: 'Bu cetvel fiyat kararımı belirler mi?'
+    answer: 'Hayır. Dosya maliyet etkisini gösterir; pazar ve rekabet kararı firmanıza aittir.'
+screenshots:
+  - src: '/screenshots/asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli-1.png'
+    alt: 'Asgari Ücret Zam Cetveli dosyasının CALISANLAR sayfası — Çalışan ve ücret bilgisi girişi'
+  - src: '/screenshots/asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli-2.png'
+    alt: 'Asgari Ücret Zam Cetveli dosyasının KARAR sayfası — Zam etkisi ve fiyat önerisi'
+  - src: '/screenshots/asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli-3.png'
+    alt: 'Asgari Ücret Zam Cetveli dosyasının PANO sayfası — Zam etkisi ve fiyat panosu'
+related:
+  - 'kacirilan-sgk-tesvikleri-ve-gercek-iscilik-maliyeti-analizi'
+  - 'stok-satis-ve-nakit-baglanma-sistemi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

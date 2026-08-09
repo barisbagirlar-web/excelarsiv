@@ -1,0 +1,106 @@
+---
+name: 'İthalat Depo Teslim (Rafa Gelen) Net Birim Maliyet'
+summary: 'İthal ürünün FOB maliyetinden rafa gelene kadarki tüm vergi ve masraflarını ekleyin; depo teslim net birim maliyeti görün.'
+category: 'stok-ve-uretim'
+priceTL: 1490
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.14
+sheetCount: 15
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-09'
+sheetMap:
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç ve kullanım yönlendirmesi'
+    kind: 'input'
+  - name: 'URUNLER'
+    purpose: 'İthal ürün ve maliyet girişi'
+    kind: 'input'
+  - name: 'MASRAFLAR'
+    purpose: 'Yurt içi masraf kalemleri girişi'
+    kind: 'input'
+  - name: 'MOTOR'
+    purpose: 'Tüm ara hesap adımları'
+    kind: 'calculation'
+  - name: 'KONTROL'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Maliyet kararı, gerekçe ve aksiyonlar'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ekranı'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs:
+  - 'Ürün adı ve FOB birim fiyatı'
+  - 'Navlun, sigorta ve kur bilgisi'
+  - 'Gümrük, ÖTV, KDV oranları ve yurt içi masraflar'
+outputs:
+  - 'CIF ve vergi toplam tutarı'
+  - 'Depo teslim toplam maliyeti'
+  - 'Net birim maliyet ve maliyet faktörü'
+suitableFor:
+  - 'İthalat yapan ticari ve perakende işletmeler'
+  - 'Depo teslim maliyeti hesaplayan satın alma ekipleri'
+  - 'Dış ticaret ve muhasebe birimleri'
+notSuitableFor:
+  - 'Gümrük beyannamesi hazırlama'
+  - 'Döviz riski yönetimi (hedging)'
+requirements:
+  - 'Excel 2016 veya üzeri'
+  - 'Formüller için değişken hücre yok'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq:
+  - question: 'CIF nedir?'
+    answer: 'CIF, FOB değerine navlun ve sigorta eklenmiş haliyle oluşan gümrük matrahıdır; gümrük vergisi bu değer üzerinden hesaplanır.'
+  - question: 'Vergi sıralaması nasıl işliyor?'
+    answer: 'Gümrük vergisi CIF üzerinden, ÖTV gümrük vergisi eklenmiş değer üzerinden, KDV ise tüm vergiler dahil değer üzerinden hesaplanır.'
+  - question: 'Yurt içi masrafları nereye giriyorum?'
+    answer: 'MASRAFLAR sayfasına nakliye, depolama ve operasyon masraflarını girin; ürün bazlı paylaştırılır.'
+  - question: 'Kur değişimini nasıl işlerim?'
+    answer: 'Kur değerini AYARLAR sayfasından güncellersiniz; formüller FOB değerini TL birimine çevirir.'
+  - question: 'Excel sürümüm eski, çalışır mı?'
+    answer: 'Excel 2016 ve üzeri gerekir; formüller modern işlevler kullanmaz, eski sürümlerde de çalışır.'
+  - question: 'Bu dosya gümrük sürecini yönetir mi?'
+    answer: 'Hayır. Dosya maliyet hesabı üretir; beyan ve süreç gümrük müşavirliği işidir.'
+screenshots:
+  - src: '/screenshots/ithalat-depo-teslim-rafa-gelen-net-birim-maliyet-1.png'
+    alt: 'İthalat Depo Teslim Maliyet dosyasının URUNLER sayfası — İthal ürün ve FOB maliyet girişi'
+  - src: '/screenshots/ithalat-depo-teslim-rafa-gelen-net-birim-maliyet-2.png'
+    alt: 'İthalat Depo Teslim Maliyet dosyasının KARAR sayfası — Depo teslim maliyet ve karar'
+  - src: '/screenshots/ithalat-depo-teslim-rafa-gelen-net-birim-maliyet-3.png'
+    alt: 'İthalat Depo Teslim Maliyet dosyasının PANO sayfası — Vergi ve maliyet dağılımı panosu'
+related:
+  - 'stok-satis-ve-nakit-baglanma-sistemi'
+  - 'pos-komisyon-ve-net-tahsilat-kontrol-sistemi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

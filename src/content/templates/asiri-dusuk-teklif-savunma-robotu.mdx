@@ -1,0 +1,112 @@
+---
+name: 'İhale Elinden Gidiyor Mu? (Aşırı Düşük Teklif Savunma Robotu)'
+summary: 'Aşırı düşük teklif sorgulamasına karşı açıklamayı formülle üretin; ihale kararı UYGUN/İNCELE/DURDUR ile netleşsin.'
+category: 'satis-ve-fiyatlama'
+priceTL: 7900
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.25
+sheetCount: 17
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-09'
+sheetMap:
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç ve kullanım yönlendirmesi'
+    kind: 'input'
+  - name: 'IHALE_KARTI'
+    purpose: 'İhale ve idare bilgileri girişi'
+    kind: 'input'
+  - name: 'RAKIP_TEKLIFLER'
+    purpose: 'Rakip teklif fiyatları girişi'
+    kind: 'input'
+  - name: 'TEKLIF_BILESENLERI'
+    purpose: 'Aşırı düşük teklif açıklaması bileşenleri girişi'
+    kind: 'input'
+  - name: 'FIYAT_FARKI_ENDEX'
+    purpose: 'Fiyat farkı ve endeks kayıtları'
+    kind: 'input'
+  - name: 'MOTOR'
+    purpose: 'Tüm ara hesap adımları'
+    kind: 'calculation'
+  - name: 'KONTROL'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'İhale kararı, gerekçe ve aksiyonlar'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ekranı'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs:
+  - 'İhale adı ve yaklaşık maliyet'
+  - 'Rakip teklif fiyatları'
+  - 'Açıklama bileşenleri (malzeme, işçilik, makine)'
+outputs:
+  - 'Aşırı düşük teklif oranı ve sınır kontrolü'
+  - 'Açıklama yeterlilik kararı'
+  - 'İhale sonucu kararı ve aksiyonlar'
+suitableFor:
+  - 'Kamu ihalelerine teklif veren müteahhitler'
+  - 'Aşırı düşük teklif sorgulaması alan firmalar'
+  - 'Ticaret ve iş geliştirme yöneticileri'
+notSuitableFor:
+  - 'Kesin ihale sonucu garantisi veren hukuki danışmanlık'
+  - 'Yaklaşık maliyet hesaplama modülü ihtiyacı'
+requirements:
+  - 'Excel 2016 veya üzeri'
+  - 'Formüller için değişken hücre yok'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq:
+  - question: 'Aşırı düşük teklif sorgulaması nedir?'
+    answer: 'İdarenin, teklifi sınır değerin altında kalan istekliden maliyet bileşenlerini açıklamasını istediği süreçtir. Bu dosya açıklamayı hazırlamak için gerekli hesaplamaları üretir.'
+  - question: 'Açıklama bileşenlerini nasıl gireceğim?'
+    answer: 'TEKLIF_BILESENLERI sayfasına malzeme, işçilik, makine gibi maliyet kalemlerini tutarlarıyla girin; motor bileşen toplamını ve sınır ile karşılaştırmayı üretir.'
+  - question: 'İhale kararını kim veriyor?'
+    answer: 'Dosya, girilen verilere göre UYGUN/İNCELE/DURDUR kararı ve gerekçe üretir; nihai karar idarenin değerlendirmesine bağlıdır.'
+  - question: 'Yaklaşık maliyet bilgisi zorunlu mu?'
+    answer: 'Hayır. Yaklaşık maliyet girilmezse sınır hesapları rakip teklifler üzerinden üretilir; veri yokken VERİ YOK kararı döner.'
+  - question: 'Excel sürümüm eski, çalışır mı?'
+    answer: 'Excel 2016 ve üzeri gerekir; formüller modern işlevler kullanmaz, eski sürümlerde de çalışır.'
+  - question: 'Bu dosya ihale kazandırır mı?'
+    answer: 'Hayır. Dosya karar destek aracıdır; teklif ve açıklama kararı firmaya aittir, hukuki danışmanlık yerine geçmez.'
+screenshots:
+  - src: '/screenshots/asiri-dusuk-teklif-savunma-robotu-1.png'
+    alt: 'Aşırı Düşük Teklif Savunma Robotu dosyasının RAKIP_TEKLIFLER sayfası — Rakip teklif fiyatları girişi'
+  - src: '/screenshots/asiri-dusuk-teklif-savunma-robotu-2.png'
+    alt: 'Aşırı Düşük Teklif Savunma Robotu dosyasının KARAR sayfası — İhale kararı ve gerekçe'
+  - src: '/screenshots/asiri-dusuk-teklif-savunma-robotu-3.png'
+    alt: 'Aşırı Düşük Teklif Savunma Robotu dosyasının PANO sayfası — İhale yönetim panosu özeti'
+related:
+  - 'ihaleye-kac-tl-teklif-vermeliyim'
+  - 'hakedis-fiyat-farki-hak-kaybi-cetveli'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

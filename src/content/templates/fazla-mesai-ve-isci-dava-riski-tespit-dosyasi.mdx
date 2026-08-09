@@ -1,0 +1,106 @@
+---
+name: 'Fazla Mesai ve İşçi Dava Riski Tespit Dosyası'
+summary: 'Fazla mesai kayıtlarınızı yasal yükümlülüklerle karşılaştırın; işçi alacağı ve dava riskini önceden tespit edin.'
+category: 'personel-ve-bordro'
+priceTL: 2490
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.16
+sheetCount: 15
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-09'
+sheetMap:
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç ve kullanım yönlendirmesi'
+    kind: 'input'
+  - name: 'CALISANLAR'
+    purpose: 'Çalışan bilgileri girişi'
+    kind: 'input'
+  - name: 'KAYITLAR'
+    purpose: 'Fazla mesai ve çalışma kayıtları girişi'
+    kind: 'input'
+  - name: 'MOTOR'
+    purpose: 'Tüm ara hesap adımları'
+    kind: 'calculation'
+  - name: 'KONTROL'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Dava riski kararı, gerekçe ve aksiyonlar'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ekranı'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs:
+  - 'Çalışan adı ve ücret bilgisi'
+  - 'Haftalık çalışma ve fazla mesai saatleri'
+  - 'Fazla mesai ödemesi durumu'
+outputs:
+  - 'Fazla mesai karşılığı ve eksik ödeme'
+  - 'Dava riski seviyesi'
+  - 'Dava riski kararı ve aksiyonlar'
+suitableFor:
+  - 'Fazla mesai kaydı tutan tüm işverenler'
+  - 'İK ve insan kaynakları birimleri'
+  - 'İşveren vekilleri ve mali müşavirler'
+notSuitableFor:
+  - 'İşçi alacağı davası açma süreci'
+  - 'Resmi dava dosyası hazırlama'
+requirements:
+  - 'Excel 2016 veya üzeri'
+  - 'Formüller için değişken hücre yok'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq:
+  - question: 'Dava riski nasıl belirleniyor?'
+    answer: 'Fazla mesai karşılığı, eksik ödeme ve kayıt düzeni birlikte değerlendirilir; risk seviyesi eşiklerle üretilir.'
+  - question: 'Haftalık fazla mesai sınırı nedir?'
+    answer: 'Yasal sınır parametresi AYARLAR sayfasındadır; bu sınırı aşan haftalar ayrıca işaretlenir.'
+  - question: 'Ödenmemiş fazla mesaiyi nasıl görüyorum?'
+    answer: 'KAYITLAR sayfasına saatleri ve ödeme durumunu girin; eksik ödeme tutarı çalışan bazında hesaplanır.'
+  - question: 'Toplu risk raporu alabilir miyim?'
+    answer: 'Evet. RAPOR sayfası çalışan bazlı risk seviyesini PDF çıktısına hazır özetler.'
+  - question: 'Excel sürümüm eski, çalışır mı?'
+    answer: 'Excel 2016 ve üzeri gerekir; formüller modern işlevler kullanmaz, eski sürümlerde de çalışır.'
+  - question: 'Bu dosya dava sonucunu tahmin eder mi?'
+    answer: 'Hayır. Dosya riski gösterir; dava sonucu yargı sürecine bağlıdır.'
+screenshots:
+  - src: '/screenshots/fazla-mesai-ve-isci-dava-riski-tespit-dosyasi-1.png'
+    alt: 'Fazla Mesai Dava Riski dosyasının KAYITLAR sayfası — Çalışma ve fazla mesai kayıtları girişi'
+  - src: '/screenshots/fazla-mesai-ve-isci-dava-riski-tespit-dosyasi-2.png'
+    alt: 'Fazla Mesai Dava Riski dosyasının KARAR sayfası — Dava riski seviyesi ve karar'
+  - src: '/screenshots/fazla-mesai-ve-isci-dava-riski-tespit-dosyasi-3.png'
+    alt: 'Fazla Mesai Dava Riski dosyasının PANO sayfası — Fazla mesai yükü ve risk panosu'
+related:
+  - 'kidem-ihbar-yuku-ve-personel-cikarma-maliyeti-hesaplayici'
+  - 'kacirilan-sgk-tesvikleri-ve-gercek-iscilik-maliyeti-analizi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

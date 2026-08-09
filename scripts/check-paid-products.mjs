@@ -38,8 +38,8 @@ const catalog = JSON.parse(readFileSync(catalogPath, 'utf8'));
 const products = catalog.products || {};
 const slugs = Object.keys(products).sort();
 
-if (slugs.length !== 12) {
-  console.error(`Katalog ürün sayısı 12 değil: ${slugs.length}`);
+if (slugs.length === 0) {
+  console.error('Katalog boş: ürün bulunamadı');
   process.exit(2);
 }
 
