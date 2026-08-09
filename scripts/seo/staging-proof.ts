@@ -40,6 +40,17 @@ function normalizeRoute(value: string): string {
   return route || '/';
 }
 
+function normalizeCanonical(value: string | null | undefined): string | null {
+  if (!value) return null;
+  try {
+    const url = new URL(value, `${PRODUCTION_ORIGIN}/`);
+    url.hash = '';
+    return url.toString();
+  } catch {
+    return null;
+  }
+}
+
 function normalizeText(value: string): string {
   return value.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/gi, ' ').replace(/&amp;/gi, '&').replace(/&#39;/gi, "'").replace(/&quot;/gi, '"').replace(/\s+/g, ' ').trim();
 }
@@ -133,8 +144,9 @@ async function runStagingProof(baseUrl: string, lighthouseDir: string, inpJsonPa
     const localTitle = extractTagText(local, 'title');
     const remoteTitle = extractTagText(remote.text, 'title');
     if (!localTitle || !remoteTitle || localTitle !== remoteTitle) renderFailures.push(`${record.route}:TITLE_PARITY`);
-    const expectedCanonical = record.canonical ?? new URL(record.route, `${PRODUCTION_ORIGIN}/`).toString();
-    if (extractCanonical(remote.text) !== expectedCanonical) renderFailures.push(`${record.route}:CANONICAL_PARITY`);
+    const expectedCanonical = normalizeCanonical(record.canonical ?? new URL(record.route, `${PRODUCTION_ORIGIN}/`).toString());
+    const actualCanonical = normalizeCanonical(extractCanonical(remote.text));
+    if (!expectedCanonical || !actualCanonical || actualCanonical !== expectedCanonical) renderFailures.push(`${record.route}:CANONICAL_PARITY`);
     if (isNoindex(remote.text)) renderFailures.push(`${record.route}:NOINDEX`);
   }
 
@@ -163,8 +175,9 @@ async function runStagingProof(baseUrl: string, lighthouseDir: string, inpJsonPa
     const remote = await fetchRoute(route);
     if (remote.status !== 200) sitemapFailures.push(`${route}:HTTP_${remote.status}`);
     const record = live.find((item) => normalizeRoute(item.route) === route);
-    const expectedCanonical = record?.canonical ?? new URL(route, `${PRODUCTION_ORIGIN}/`).toString();
-    if (extractCanonical(remote.text) !== expectedCanonical) sitemapFailures.push(`${route}:CANONICAL_MISMATCH`);
+    const expectedCanonical = normalizeCanonical(record?.canonical ?? new URL(route, `${PRODUCTION_ORIGIN}/`).toString());
+    const actualCanonical = normalizeCanonical(extractCanonical(remote.text));
+    if (!expectedCanonical || !actualCanonical || actualCanonical !== expectedCanonical) sitemapFailures.push(`${route}:CANONICAL_MISMATCH`);
     if (isNoindex(remote.text)) sitemapFailures.push(`${route}:NOINDEX_LEAK`);
   }
 
@@ -179,8 +192,8 @@ async function runStagingProof(baseUrl: string, lighthouseDir: string, inpJsonPa
   const failures = [
     ...renderFailures,
     ...sitemapFailures,
-    ...metricProofs.filter((metric) => !metric.pass).map((metric) => `${metric.url}:LIGHTHOUSE_BUDGET`),
-    ...(inp.pass ? [] : [`${base.origin}:INP_LAB_BUDGET`]),
+    ...metricProofs.filter((metric) => !metric.pass).map((metric) => `${metric.url}:LIGHTHOUSE_BUDGET:LCP=${metric.lcpMs.toFixed(0)}/${metric.lcpBudgetMs}:CLS=${metric.cls.toFixed(3)}/${metric.clsBudget}`),
+    ...(inp.pass ? [] : [`${base.origin}:INP_LAB_BUDGET:${inp.inpLabMs}/${inp.inpBudgetMs}`]),
     ...(notFound.status === 404 ? [] : [`${missingRoute}:SOFT_404_HTTP_${notFound.status}`]),
   ];
   if (failures.length) throw new Error(`STAGING_PROOF_BLOCK:${failures.join('|')}`);
@@ -238,4 +251,4 @@ async function main(): Promise<void> {
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) void main();
 
-export { EXIT, evaluateInpLab, evaluateLighthouseReport, extractCanonical, extractTagText, isNoindex, normalizeRoute, parseSitemapLocs, runStagingProof, setDiff };
+export { EXIT, evaluateInpLab, evaluateLighthouseReport, extractCanonical, extractTagText, isNoindex, normalizeCanonical, normalizeRoute, parseSitemapLocs, runStagingProof, setDiff };
