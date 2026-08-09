@@ -1,0 +1,22 @@
+{
+  "meta": {
+    "artifact": "redirect_ledger",
+    "schemaVersion": "6.0-phase02",
+    "generatedAt": "2026-08-09T14:47:00Z",
+    "generatorScript": "scripts/seo/redirect-validate.ts",
+    "inputWindow": {"start": "2025-09-11", "end": "2026-08-09"},
+    "confidence": "medium",
+    "partial": true,
+    "siteId": "excelarsiv",
+    "coldStart": true,
+    "structuralBreaksApplied": []
+  },
+  "canonicalHost": "https://excelarsiv.com",
+  "trailingSlash": false,
+  "redirects": [],
+  "notes": [
+    "Özel path redirect kuralı tanımlı değil; ledger boşluğu bilinçlidir.",
+    "Firebase cleanUrls=true ve trailingSlash=false mevcut production sözleşmesidir.",
+    "HTTP/www varyantlarının gerçek tek-adım status zinciri authenticated/live header kanıtı olmadan PASS ilan edilmez."
+  ]
+}
