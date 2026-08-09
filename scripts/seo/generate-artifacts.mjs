@@ -96,43 +96,59 @@ function formatPrice(value) {
   return new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 0 }).format(value) + ' TL';
 }
 
+function llmPageLine(page) {
+  return `- [${markdownEscape(page.title)}](${page.canonical})${page.description ? ` — ${markdownEscape(page.description)}` : ''}`;
+}
+
 function buildLlmsShort(indexablePages, templateRecords) {
   const products = indexablePages.filter((page) => page.pathname.startsWith('/sablon/'));
-  const navigation = indexablePages.filter((page) => !page.pathname.startsWith('/sablon/'));
+  const guides = indexablePages.filter((page) => page.pathname === '/rehber' || page.pathname.startsWith('/rehber/'));
+  const categories = indexablePages.filter((page) => page.pathname === '/sablonlar' || page.pathname.startsWith('/sablonlar/'));
+  const core = indexablePages.filter((page) => !page.pathname.startsWith('/sablon') && !page.pathname.startsWith('/rehber') && ['/', '/nasil-calisir', '/paketler', '/sss', '/teslimat', '/teslimat-ve-iade'].includes(page.pathname));
+
   const lines = [
     '# Excel Arşiv',
     '',
-    '> Excel Arşiv, Türkiye’deki işletmeler için finans, muhasebe ve operasyon odaklı Excel çalışma sistemleri sunar. Bu dosya public ve canonical sayfalardan her build sırasında otomatik üretilir.',
+    '> Excel Arşiv, Türkiye’deki işletmeler için finans, muhasebe ve operasyon odaklı Excel çalışma sistemleri sunar. Bu dosya public, indexlenebilir ve canonical build sayfalarından otomatik üretilir.',
     '',
     `- Site: ${SITE_ORIGIN}/`,
-    `- Sitemap: ${SITE_ORIGIN}/sitemap.xml`,
-    `- Tam LLM rehberi: ${SITE_ORIGIN}/llms-full.txt`,
+    `- Sitemap index: ${SITE_ORIGIN}/sitemap.xml`,
+    `- Tam AI/LLM rehberi: ${SITE_ORIGIN}/llms-full.txt`,
+    `- Katalog: ${SITE_ORIGIN}/sablonlar`,
+    `- Rehberler: ${SITE_ORIGIN}/rehber`,
     '- Dil: Türkçe (tr-TR)',
     '- Para birimi: Türk Lirası (TL)',
     '',
-    '## Ana kaynaklar',
+    '## Başlangıç ve satın alma kaynakları',
+    '',
+    ...core.map(llmPageLine),
+    '',
+    '## Kategoriler',
+    '',
+    ...categories.map(llmPageLine),
+    '',
+    '## Uygulama rehberleri',
+    '',
+    ...guides.map(llmPageLine),
+    '',
+    '## Ürünler',
     '',
   ];
 
-  for (const page of navigation) {
-    lines.push(`- [${markdownEscape(page.title)}](${page.canonical})${page.description ? ` — ${markdownEscape(page.description)}` : ''}`);
-  }
-
-  lines.push('', '## Ürünler', '');
   for (const page of products) {
     const slug = page.pathname.split('/').at(-1);
     const product = templateRecords.get(slug);
     const price = product?.priceTL ? ` · ${formatPrice(product.priceTL)}` : '';
-    lines.push(`- [${markdownEscape(product?.name || page.title)}](${page.canonical})${price}${product?.summary ? ` — ${markdownEscape(product.summary)}` : ''}`);
+    lines.push(`- [${markdownEscape(page.title)}](${page.canonical})${price}${page.description ? ` — ${markdownEscape(page.description)}` : product?.summary ? ` — ${markdownEscape(product.summary)}` : ''}`);
   }
 
   lines.push(
     '',
     '## Keşif ve kullanım notu',
     '',
-    '- Bu dosya bir indeksleme garantisi veya robots direktifi değildir.',
-    '- Canonical, indexlenebilir ve public sayfalar kaynak alınır; noindex sayfalar dahil edilmez.',
-    '- Ürün veya sayfa eklendiğinde build pipeline sitemap ve LLM dosyalarını yeniden üretir.',
+    '- llms.txt ve llms-full.txt yardımcı keşif dosyalarıdır; robots.txt, canonical veya sitemap direktiflerinin yerine geçmez.',
+    '- Yalnız public, canonical ve indexlenebilir sayfalar listelenir; noindex veya duplicate canonical sayfalar dahil edilmez.',
+    '- Ürün, kategori, rehber veya SEO metadata değişiklikleri build sırasında yeniden değerlendirilir.',
     ''
   );
   return lines.join('\n');
@@ -142,19 +158,22 @@ function buildLlmsFull(indexablePages, templateRecords) {
   const products = indexablePages.filter((page) => page.pathname.startsWith('/sablon/'));
   const pages = indexablePages.filter((page) => !page.pathname.startsWith('/sablon/'));
   const lines = [
-    '# Excel Arşiv — Tam LLM ve AI Keşif Rehberi',
+    '# Excel Arşiv — Tam AI ve LLM Keşif Rehberi',
     '',
-    'Bu belge yalnızca canlı build içinde üretilen, indexlenebilir ve canonical public sayfalardan türetilir. Manuel ürün listesi tutulmaz; kaynak içerik değişince dosya otomatik yenilenir.',
+    'Bu belge canlı build içindeki indexlenebilir ve canonical public sayfalardan türetilir. Manuel URL envanteri tutulmaz; kaynak içerik veya SEO metadata değiştiğinde build pipeline dosyayı yeniden üretir.',
     '',
     '## Site kimliği',
     '',
     '- Marka: Excel Arşiv',
     '- Canonical origin: https://excelarsiv.com',
     '- Dil: Türkçe (tr-TR)',
-    '- İş modeli: Türkiye’deki işletmeler için hazır Excel çalışma sistemleri',
+    '- Hedef kullanıcı: KOBİ ve işletmelerde finans, muhasebe ve operasyon kararlarını Excel ile yöneten kullanıcılar',
+    '- İş modeli: ücretli Excel çalışma sistemleri ve ücretsiz uygulama rehberleri',
     '- Dosya türleri: .xlsx / .xlsm (ürüne göre)',
-    '- Sitemap: https://excelarsiv.com/sitemap.xml',
+    '- Sitemap index: https://excelarsiv.com/sitemap.xml',
     '- Robots: https://excelarsiv.com/robots.txt',
+    '- Katalog: https://excelarsiv.com/sablonlar',
+    '- Rehber: https://excelarsiv.com/rehber',
     '',
     '## Public sayfalar',
     '',
@@ -171,26 +190,29 @@ function buildLlmsFull(indexablePages, templateRecords) {
   for (const page of products) {
     const slug = page.pathname.split('/').at(-1);
     const product = templateRecords.get(slug);
-    lines.push(`### ${product?.name || page.title}`);
+    lines.push(`### ${page.title}`);
     lines.push(`- URL: ${page.canonical}`);
-    if (product?.summary) lines.push(`- Açıklama: ${product.summary}`);
+    if (product?.name && product.name !== page.title) lines.push(`- Ürün adı: ${product.name}`);
+    if (page.description) lines.push(`- Arama açıklaması: ${page.description}`);
+    if (product?.summary) lines.push(`- Ürün özeti: ${product.summary}`);
     if (product?.category) lines.push(`- Kategori kodu: ${product.category}`);
     if (product?.priceTL) lines.push(`- Fiyat: ${formatPrice(product.priceTL)}${product.vatIncluded ? ' (KDV dahil)' : ''}`);
     if (product?.fileFormat) lines.push(`- Dosya biçimi: ${product.fileFormat}`);
     if (product?.sheetCount) lines.push(`- Çalışma sayfası sayısı: ${product.sheetCount}`);
     if (product?.version) lines.push(`- Sürüm: ${product.version}`);
-    if (product?.updatedAt) lines.push(`- İçerik güncelleme tarihi: ${product.updatedAt}`);
+    if (product?.updatedAt) lines.push(`- Ürün içerik tarihi: ${product.updatedAt}`);
     lines.push('');
   }
 
   lines.push(
     '## Teknik keşif politikası',
     '',
-    '- Sitemap yalnız self-canonical, indexlenebilir build sayfalarını içerir.',
+    '- /sitemap.xml bir sitemap index dosyasıdır; child sitemapler sayfa ve ürün gruplarına ayrılır.',
+    '- Sitemap yalnız self-canonical, indexlenebilir build sayfalarını içerir; query parametreli, dış-host canonical, noindex ve duplicate canonical sayfalar reddedilir.',
     '- priority ve changefreq üretilmez.',
-    '- lastmod build zamanı değildir; ürünlerde içerik updatedAt alanı, diğer sayfalarda kaynak dosyanın Git değişiklik tarihi kullanılır.',
-    '- Query parametreli, dış host canonical’lı, noindex veya duplicate canonical sayfalar sitemap üretiminde reddedilir.',
-    '- llms.txt ve llms-full.txt deneysel keşif yardımcılarıdır; sitemap, canonical veya robots.txt yerine geçmez.',
+    '- URL lastmod build/deploy zamanı değildir; sayfanın gerçek semantik kaynak bağımlılıklarının son değişiklik zamanından türetilir.',
+    '- Child sitemap index lastmod değeri SHA-256 içerik değişimine göre PRESERVE veya SET_NOW durum makinesiyle yönetilir.',
+    '- llms.txt ve llms-full.txt deneysel keşif yardımcılarıdır; tarama veya sıralama garantisi vermez.',
     ''
   );
   return lines.join('\n');
