@@ -1,0 +1,1 @@
+{"synthetic":true,"dataset":"ga4_sessions_daily","startDate":"2026-05-12","days":90,"pageTypes":["guide","product","category"],"generator":{"baseSessions":400,"dailyIncrement":3,"pageTypeOffset":80}}

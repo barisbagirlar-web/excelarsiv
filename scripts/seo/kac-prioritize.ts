@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { runRehearsalStage } from './rehearsal-engine.ts';
 
 const ROOT = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const EXIT = Object.freeze({ PASS: 0, BLOCK: 1, CONFIG: 4 });
@@ -41,6 +42,7 @@ function arg(name:string):string|undefined{const index=process.argv.indexOf(name
 function main():void{
   try{
     if((arg('--site')??process.env.SITE_ID)!=='excelarsiv') process.exit(EXIT.CONFIG);
+    if(process.env.SEO_REHEARSAL==='1'){runRehearsalStage('kac');process.exit(EXIT.PASS);}
     const artifact=JSON.parse(readFileSync(resolve(ROOT,'data/seo/kac/cluster_map.json'),'utf8')) as Artifact;
     const config=JSON.parse(readFileSync(resolve(ROOT,'seo.config.defaults.json'),'utf8')) as Config;
     const ledger=readFileSync(resolve(ROOT,'docs/seo/KARAR_DEFTERI.md'),'utf8');

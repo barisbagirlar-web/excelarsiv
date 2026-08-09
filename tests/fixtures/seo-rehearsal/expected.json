@@ -1,0 +1,6 @@
+{
+  "pnl":{"totals":{"revenueMinor":43110000,"conversions":2430,"sessions":165645,"valuePerConversionMinor":17740}},
+  "kac":{"ranking":[{"pageType":"category","clicks":20610},{"pageType":"product","clicks":18810},{"pageType":"guide","clicks":17010}]},
+  "slo":{"p75":{"lcpMs":2200,"inpMs":160,"cls":0.07},"status":{"lcp":"PASS","inp":"PASS","cls":"PASS"}},
+  "board":{"summary":{"revenueMinor":43110000,"conversions":2430,"sessions":165645,"topPageType":"category","sloPass":true}}
+}
