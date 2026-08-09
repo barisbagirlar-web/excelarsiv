@@ -2,81 +2,44 @@
 import CommerceLayout from '../layouts/CommerceLayout.astro';
 import SectionLabel from '../components/SectionLabel.astro';
 import Button from '../components/Button.astro';
+import { getCollection } from 'astro:content';
+
+const guides = (await getCollection('guides')).sort((a, b) => a.data.title.localeCompare(b.data.title, 'tr'));
 ---
 
 <CommerceLayout
-  title="Rehber — Excel Arşiv"
-  description="İşletmeniz için doğru Excel şablonunu seçme rehberi. Hangi sistem hangi iş problemini çözer?"
+  title="İşletmeler İçin Excel Rehberleri | Excel Arşiv"
+  description="Nakit akışı, stok, cari hesap ve kasa takibini Excel'de doğru kurmak için uygulamalı işletme rehberleri ve seçim çerçeveleri."
 >
   <section class="border-b border-rule-hairline bg-surface-1">
     <div class="container-site section-enter">
-      <SectionLabel number={1} label="Rehber" />
-      <h1 class="display mt-6">Doğru şablonu seçme rehberi</h1>
-      <p class="lead mt-6 max-w-xl">
-        Hangi Excel Arşiv sistemi hangi iş problemini çözer? Önce işinizi tanımlayın, sonra
-        sistemi seçin.
-      </p>
+      <SectionLabel number={1} label="Karar Rehberleri" />
+      <h1 class="display mt-6">Excel dosyası değil, doğru kontrol sistemi nasıl kurulur?</h1>
+      <p class="lead mt-6 max-w-2xl">İşletmelerin en sık para kaybettiği takip alanlarını tek tek ele alan, hangi verinin tutulacağını ve hangi kararın çıkarılacağını gösteren uygulama rehberleri.</p>
     </div>
   </section>
 
   <section>
     <div class="container-site section-enter">
-      <div class="grid-12 items-start">
-        <div class="col-span-12 lg:col-span-5">
-          <h2 class="h2">Üç adımda seçim</h2>
-          <ol class="mt-8 space-y-8">
-            <li class="border-t border-rule-hairline pt-5">
-              <h3 class="h3">1 · Sorunu tanımlayın</h3>
-              <p class="body-sm mt-3">
-                "Nakit akışı göremiyorum" ile "cari hesapta kimin borçlu olduğunu bilmiyorum"
-                farklı sistemlerdir. Önce sorunu bir cümleyle yazın.
-              </p>
-            </li>
-            <li class="border-t border-rule-hairline pt-5">
-              <h3 class="h3">2 · Kategoride karşılaştırın</h3>
-              <p class="body-sm mt-3">
-                Kategoriler iş akışına göre düzenlenir: kasa ve nakit akışı, cari hesap, banka ve
-                çek–senet, stok, satış kârlılığı, vergi karşılığı, patron raporu.
-              </p>
-            </li>
-            <li class="border-t border-rule-hairline pt-5">
-              <h3 class="h3">3 · Demo dosyayla doğrulayın</h3>
-              <p class="body-sm mt-3">
-                Demo dosyası yapının tamamını gösterir. Sheet haritasına ve formül barına bakarak
-                dosyanın gerçek işinize uyduğunu satın almadan test edin.
-              </p>
-            </li>
-          </ol>
-        </div>
-        <div class="col-span-12 mt-8 lg:col-span-6 lg:col-start-7 lg:mt-0">
-          <h2 class="h2">Hangi kategori neyi çözer?</h2>
-          <dl class="mt-8 border-t border-rule-hairline">
-            <div class="grid grid-cols-1 gap-1 border-b border-rule-hairline py-4 sm:grid-cols-2">
-              <dt class="h3">Nakit Akışı</dt>
-              <dd class="body-sm">13 haftalık ödeme planı, kasa kontrolü, banka takibi.</dd>
-            </div>
-            <div class="grid grid-cols-1 gap-1 border-b border-rule-hairline py-4 sm:grid-cols-2">
-              <dt class="h3">Muhasebe ve Vergi</dt>
-              <dd class="body-sm">KDV mutabakatı, karşılık ayırma, cari risk takibi.</dd>
-            </div>
-            <div class="grid grid-cols-1 gap-1 border-b border-rule-hairline py-4 sm:grid-cols-2">
-              <dt class="h3">Satış ve Fiyatlama</dt>
-              <dd class="body-sm">Ürün, proje ve iş bazında gerçek kârlılık, POS net tahsilat.</dd>
-            </div>
-            <div class="grid grid-cols-1 gap-1 border-b border-rule-hairline py-4 sm:grid-cols-2">
-              <dt class="h3">Stok ve Üretim</dt>
-              <dd class="body-sm">Stok maliyeti, devir hızı, nakit bağlanma kontrolü.</dd>
-            </div>
-            <div class="grid grid-cols-1 gap-1 border-b border-rule-hairline py-4 sm:grid-cols-2">
-              <dt class="h3">Finansal Analiz</dt>
-              <dd class="body-sm">Oran analizi ve aylık patron finans paneli.</dd>
-            </div>
-          </dl>
-          <div class="mt-8">
-            <Button href="/sablonlar">Kataloğa git</Button>
-          </div>
-        </div>
+      <div class="guide-grid">
+        {guides.map((guide, index) => (
+          <article class="guide-card">
+            <span>{String(index + 1).padStart(2, '0')} · {guide.data.primaryQuery}</span>
+            <h2><a href={`/rehber/${guide.id}`}>{guide.data.title}</a></h2>
+            <p>{guide.data.description}</p>
+            <a class="guide-card__link" href={`/rehber/${guide.id}`}>Rehberi aç →</a>
+          </article>
+        ))}
+      </div>
+      <div class="mt-12 border-t border-rule-hairline pt-8">
+        <h2 class="h2">Ürünü doğrudan karşılaştırmak mı istiyorsunuz?</h2>
+        <p class="body-sm mt-3 max-w-xl">Rehberler yöntemi açıklar; katalog ise hazır Excel sistemlerinin kapsamını, demo ekranlarını ve teknik bilgilerini yan yana görmenizi sağlar.</p>
+        <div class="mt-6"><Button href="/sablonlar">Excel sistemlerini karşılaştırın</Button></div>
       </div>
     </div>
   </section>
 </CommerceLayout>
+
+<style>
+  .guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.guide-card{display:flex;min-height:280px;flex-direction:column;padding:28px;border:1px solid #dce5df;border-radius:18px;background:#fff}.guide-card>span{font-family:var(--font-mono);font-size:8.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#0b7440}.guide-card h2{margin:18px 0 0;font-family:var(--font-display);font-size:27px;line-height:1.07;letter-spacing:-.025em;color:#183024}.guide-card h2 a{color:inherit;text-decoration:none}.guide-card p{margin:14px 0 0;font-size:12px;line-height:1.65;color:#647169}.guide-card__link{margin-top:auto;padding-top:22px;font-size:10.5px;font-weight:800;color:#0b7440;text-decoration:none}@media(max-width:760px){.guide-grid{grid-template-columns:1fr}.guide-card{min-height:0;padding:22px}.guide-card h2{font-size:24px}}
+</style>

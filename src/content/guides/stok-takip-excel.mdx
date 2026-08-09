@@ -1,0 +1,76 @@
+---
+title: "Stok Takip Excel: KOBİ İçin Doğru Sistem Nasıl Kurulur?"
+seoTitle: "Stok Takip Excel: KOBİ İçin Doğru Sistem Nasıl Kurulur?"
+description: "Stok takip Excel dosyasında hangi alanların bulunması gerektiğini, stokta bağlı nakdi nasıl izleyeceğinizi ve hangi hatalardan kaçınacağınızı öğrenin."
+primaryQuery: "stok takip excel"
+productSlug: "stok-satis-ve-nakit-baglanma-sistemi"
+category: "stok-ve-uretim"
+updatedAt: "2026-08-09"
+editorialApprovalRef: "2026-08-09T14:12:00Z"
+dataAsset: false
+takeaways:
+  - "Stok adedini değil, stokta bağlı nakdi de aynı sistemde izleyin."
+  - "Giriş, çıkış, satış ve maliyet hareketlerini tek ürün kodunda birleştirin."
+  - "Sayım farkı ve negatif stok gibi veri hatalarını düzenli kontrol edin."
+---
+
+Bir **stok takip Excel** sistemi yalnızca “depoda kaç adet var?” sorusuna cevap veriyorsa eksiktir. İşletme açısından asıl karar; hangi üründe ne kadar para bağlı olduğu, hangi ürünün hareket ettiği, hangisinin rafta beklediği ve satışın gerçek kâra ne kadar katkı yaptığıdır. Bu nedenle stok dosyasını basit bir adet listesi değil, hareket ve nakit kontrol sistemi olarak kurmak gerekir.
+
+## Stok takip tablosu hangi sorulara cevap vermeli?
+
+İyi kurulmuş bir tablo günlük operasyonu ve finansal kararı aynı veri üzerinden besler. En az şu soruları cevaplayabilmelidir:
+
+- Bugün elde hangi üründen kaç adet var?
+- Son giriş hangi tarihte ve hangi birim maliyetle yapıldı?
+- Son satış veya çıkış ne zaman gerçekleşti?
+- Belirli bir üründe toplam ne kadar nakit bağlı?
+- Hangi ürünler uzun süredir hareket etmiyor?
+- Fiziksel sayım ile kayıt arasındaki fark nerede oluşuyor?
+
+Bu soruların her biri farklı dosyalarda tutulursa mutabakat yükü büyür. Ürün kodu, tarih ve hareket tipi tek veri düzeninde tutulduğunda filtreleme ve kontrol daha güvenilir hale gelir.
+
+## Basit stok listesi ile karar sistemi arasındaki fark
+
+Basit listede ürün adı, adet ve belki satış fiyatı bulunur. Karar sisteminde ise **hareket geçmişi** vardır. Bir ürünün mevcut miktarı; başlangıç stoku + girişler − çıkışlar mantığıyla oluşur. Böylece kullanıcı yalnız son rakamı değil, o rakama nasıl gelindiğini de görebilir.
+
+İkinci fark maliyettir. Stok büyüdükçe işletmenin kasasında değil, rafta duran para artar. Bu nedenle miktarın yanında maliyet ve bağlı nakit görünmelidir. Özellikle yavaş dönen ürünlerde “stok var” bilgisi olumlu değil, bazen işletme sermayesi baskısının göstergesidir.
+
+## Excel'de tutulması gereken temel alanlar
+
+Ürün ana kartında ürün kodu, ürün adı, kategori ve birim gibi nispeten sabit alanlar bulunabilir. Hareket tablosunda ise tarih, hareket tipi, miktar, alış veya maliyet bilgisi ve gerekiyorsa satış bilgisi tutulmalıdır.
+
+Aynı ürün için farklı isimler yazmak yerine benzersiz ürün kodu kullanmak kritik bir kontroldür. “A ürün”, “A Ürün” ve “A-ürün” gibi yazım farkları ayrı kayıt üretirse rapor yanlış bölünür.
+
+### Giriş ve çıkışları aynı mantıkta tutun
+
+Girişleri pozitif, çıkışları ayrı hareket türüyle kaydetmek; formüllerin ne yaptığını denetlenebilir bırakır. Kullanıcı formülü elle değiştirmek yerine hareket satırı eklemelidir. Bu yaklaşım dosyanın büyümesini ve geriye dönük kontrolü kolaylaştırır.
+
+## Stokta bağlı nakit nasıl okunur?
+
+Bağlı nakit, eldeki miktar ile izlenen maliyet yaklaşımının birlikte değerlendirilmesidir. Buradaki amaç muhasebe değerlemesinin yerine geçmek değil, işletme yöneticisine operasyonel bir görünüm vermektir.
+
+Örneğin iki ürün aynı satış cirosunu üretiyor olabilir; ancak biri çok daha yüksek ortalama stokla çalışıyorsa daha fazla nakit bağlar. Bu fark satın alma kararında önemlidir. Stok raporunda yüksek tutarlı ve düşük hareketli ürünleri ayrı görmek, satın alma miktarını gözden geçirmek için güçlü bir sinyaldir.
+
+## Kurulumu beş adımda yapın
+
+1. Ürün kodlarını ve kategorileri tekilleştirin.
+2. Açılış stoklarını fiziksel sayımla eşleştirin.
+3. Tüm giriş ve çıkışları tek hareket tablosunda kaydedin.
+4. Mevcut stok, maliyet ve bağlı nakit özetini otomatik üretin.
+5. Negatif stok, uzun süre hareketsiz ürün ve sayım farkı kontrollerini periyodik çalıştırın.
+
+İlk kurulumda geçmiş yılların bütün detayını taşımak yerine güvenilir bir açılış bakiyesiyle başlamak çoğu işletmede daha temizdir. Eski veriyi taşımak gerekiyorsa önce ürün kodu ve tarih kalitesi kontrol edilmelidir.
+
+## En sık yapılan üç hata
+
+**Birinci hata:** satış tablosu ile stok tablosunun farklı ürün isimleri kullanmasıdır. Sonuç, stok hareketi ile satışın eşleşmemesidir.
+
+**İkinci hata:** stok miktarına bakıp maliyet ve nakit etkisini görmemektir. Yüksek stok her zaman güçlü stok değildir.
+
+**Üçüncü hata:** formül hücrelerini kullanıcı giriş alanı gibi kullanmaktır. Veri girişi ve hesaplama alanı ayrılmadığında dosyanın güvenilirliği hızla bozulur.
+
+## Ne zaman Excel yeterli değildir?
+
+Çok lokasyonlu depo, barkodlu gerçek zamanlı hareket, yüksek kullanıcı sayısı, üretim reçeteleri veya ERP entegrasyonu gerekiyorsa Excel tek başına ana operasyon sistemi olmamalıdır. Excel bu durumda analiz veya kontrol katmanı olarak kullanılabilir.
+
+Daha sınırlı ürün adediyle çalışan ve satın alma–satış–stok–nakit ilişkisini tek ekranda görmek isteyen işletmeler için ise yapılandırılmış bir Excel sistemi hızlı uygulanabilir bir ara katmandır. Hazır yapıyı görmek için [Stok, Satış ve Nakit Bağlanma Sistemi](/sablon/stok-satis-ve-nakit-baglanma-sistemi) sayfasını; benzer çözümler için [Stok ve Üretim Excel sistemleri](/sablonlar/stok-ve-uretim) kategorisini inceleyebilirsiniz.

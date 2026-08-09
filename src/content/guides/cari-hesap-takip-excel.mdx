@@ -1,0 +1,80 @@
+---
+title: "Cari Hesap Takip Excel: Tahsilat ve Müşteri Riski Nasıl İzlenir?"
+seoTitle: "Cari Hesap Takip Excel: Tahsilat ve Risk Nasıl İzlenir?"
+description: "Cari hesap takip Excel sistemini müşteri bakiyesi, vade, tahsilat durumu ve gecikme riskiyle kurarak alacaklarınızı nasıl yöneteceğinizi görün."
+primaryQuery: "cari hesap takip excel"
+productSlug: "cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi"
+category: "muhasebe-ve-vergi"
+updatedAt: "2026-08-09"
+editorialApprovalRef: "2026-08-09T14:12:00Z"
+dataAsset: false
+takeaways:
+  - "Müşteri bakiyesi ile vadesi geçmiş alacağı aynı metrik gibi okumayın."
+  - "Fatura ve tahsilatı müşteri kodu üzerinden eşleştirerek açık bakiyeyi izleyin."
+  - "Gecikme süresini satış ekibinin yeni vade kararına geri besleyin."
+---
+
+Bir **cari hesap takip Excel** dosyasının amacı yalnız müşteri borç bakiyesini listelemek değildir. İşletme için kritik bilgi; alacağın ne zaman doğduğu, vadesinin geçip geçmediği, ne kadarının tahsil edildiği ve aynı müşteriye yeni satış yapılırken mevcut riskin ne olduğudur.
+
+Cari takip doğru kurulmadığında satış artarken nakit sıkışabilir. Çünkü ciro ile tahsilat aynı şey değildir. Bu nedenle sistemin merkezine müşteri, belge, vade ve tahsilat ilişkisi konmalıdır.
+
+## Cari hesapta hangi kayıtlar birlikte tutulmalı?
+
+Her müşteriye benzersiz bir cari kod vermek ilk adımdır. Fatura veya borç kaydı müşteri kodu, belge tarihi, vade tarihi ve tutarla; tahsilat ise yine aynı müşteri koduyla kaydedilmelidir.
+
+Bu yapı üç farklı görünüm üretir:
+
+1. Toplam açık bakiye,
+2. Vadesi gelmemiş alacak,
+3. Vadesi geçmiş alacak.
+
+Yalnız toplam bakiyeye bakmak riskli olabilir. İki müşterinin açık bakiyesi aynı olsa bile biri henüz vadesi gelmemiş faturadan, diğeri 60 gündür tahsil edilemeyen alacaktan oluşabilir.
+
+## Vade yaşlandırması neden önemlidir?
+
+Alacağı gecikme dilimlerine ayırmak tahsilat önceliğini belirler. Örneğin yeni geciken bir faturayla uzun süredir kapanmayan bir bakiye aynı aksiyonu gerektirmez.
+
+Yaşlandırma raporunda amaç müşteri hakkında hüküm vermek değil, işletmenin nakit riskini görünür yapmaktır. Gecikme süresi uzadıkça satış, tahsilat ve finans ekiplerinin aynı veriye bakması gerekir.
+
+### Tahsilat notu veri yerine geçmez
+
+“Arandı”, “ödeyecek”, “haftaya kapatacak” gibi notlar faydalıdır; fakat vade ve gerçek ödeme tarihinin yerini tutmaz. Sistem, vaat ile gerçekleşeni ayırmalıdır. Böylece tahsilat tahminlerinin ne kadar güvenilir olduğu zaman içinde görülebilir.
+
+## Müşteri riskini nasıl okumalı?
+
+Basit risk görünümü için açık bakiye, vadesi geçmiş tutar, en eski açık kalemin yaşı ve son tahsilat tarihi birlikte değerlendirilebilir. Tek bir “risk puanı” üretmek yerine bileşenleri açık göstermek daha denetlenebilirdir.
+
+Satış ekibinin yeni sipariş kararı verirken yalnız geçmiş ciroyu değil, açık ve gecikmiş bakiyeyi görmesi önemli bir kontroldür. Yüksek ciro yapan fakat tahsilatı sürekli geciken müşteri, nakit açısından iyi müşteri olmayabilir.
+
+## Excel düzeni nasıl kurulmalı?
+
+İdeal olarak veri giriş tablosu ile özet ekranı ayrılır. Ham hareket tablosunda kayıtlar satır satır tutulur; rapor ekranı müşteriye ve vadeye göre otomatik özet üretir. Kullanıcı özet rakamlarını elle değiştirmez.
+
+Cari kartta iletişim, vergi veya satış sorumlusu gibi bilgiler tutulabilir; ancak raporun ana anahtarı değişmeyen müşteri kodu olmalıdır. Müşteri adı değişse bile geçmiş hareketler aynı kod altında kalır.
+
+## Tahsilat toplantısı için dört liste
+
+Haftalık tahsilat kontrolünde şu dört liste karar vermek için yeterli bir çekirdek oluşturur:
+
+- Bu hafta vadesi gelenler,
+- Vadesi geçmiş ve henüz kapanmayanlar,
+- Yüksek bakiyeli müşteriler,
+- Yeni satış öncesi kontrol edilmesi gereken riskli cariler.
+
+Bu listelerin her biri aynı hareket verisinden üretildiğinde ekipler farklı Excel dosyaları üzerinden tartışmak zorunda kalmaz.
+
+## En sık yapılan hatalar
+
+**Tahsilatı faturadan bağımsız tutmak:** ödeme geldiğinde hangi bakiyeyi kapattığı izlenemez.
+
+**Vade alanını boş bırakmak:** yaşlandırma raporu güvenilmez olur.
+
+**Müşteri adını anahtar kullanmak:** yazım farklılıkları aynı müşteriyi birkaç hesaba böler.
+
+**Eski bakiyeyi gizlemek:** yeni satış yapılırken gerçek kredi riski görünmez.
+
+## Ne zaman daha gelişmiş sisteme geçilmeli?
+
+Çok yüksek işlem hacmi, otomatik e-fatura/e-mutabakat entegrasyonu, çok kullanıcılı yetki yönetimi veya ERP ile gerçek zamanlı bağlantı gerekiyorsa Excel ana cari sistem olmamalıdır. Excel bu durumda kontrol ve raporlama katmanı olarak kalabilir.
+
+KOBİ ölçeğinde tahsilat disiplinini tek yerde kurmak için [Cari Hesap, Tahsilat ve Müşteri Risk Takip Sistemi](/sablon/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi) hazır çalışma yapısını gösterir. Muhasebe ve yükümlülük tarafındaki diğer sistemler için [Muhasebe ve Vergi](/sablonlar/muhasebe-ve-vergi) kategorisini inceleyebilirsiniz.
