@@ -1,0 +1,25 @@
+{
+  "meta": {
+    "artifact": "seo_slo_history",
+    "schemaVersion": "6.0-phase12",
+    "generatedAt": "2026-08-09T19:10:00Z",
+    "generatorScript": "scripts/seo/seo-slo-check.ts",
+    "inputWindow": {"start": "2025-09-11", "end": "2026-08-09"},
+    "confidence": "low",
+    "partial": true,
+    "siteId": "excelarsiv",
+    "coldStart": true,
+    "structuralBreaksApplied": []
+  },
+  "status": "PARTIAL_SAFE",
+  "rows": [
+    {"slo":"cwv_lcp_p75","measured":null,"thresholdRef":"thresholds.lcpP75Ms","status":"SKIP_NO_DATA","ts":"2026-08-09T19:10:00Z","issueOpened":false,"consecutiveViolations":0},
+    {"slo":"cwv_inp_p75","measured":null,"thresholdRef":"thresholds.inpP75Ms","status":"SKIP_NO_DATA","ts":"2026-08-09T19:10:00Z","issueOpened":false,"consecutiveViolations":0},
+    {"slo":"index_cohort","measured":null,"thresholdRef":null,"status":"SKIP_NO_DATA","ts":"2026-08-09T19:10:00Z","issueOpened":false,"consecutiveViolations":0},
+    {"slo":"discovery_lag","measured":null,"thresholdRef":null,"status":"SKIP_NO_DATA","ts":"2026-08-09T19:10:00Z","issueOpened":false,"consecutiveViolations":0},
+    {"slo":"organic_value_28d","measured":null,"thresholdRef":"thresholds.crisisValueDropPct","status":"SKIP_NO_DATA","ts":"2026-08-09T19:10:00Z","issueOpened":false,"consecutiveViolations":0},
+    {"slo":"evidence_freshness_days","measured":0,"thresholdRef":"thresholds.evidenceSloMaxAgeDays","status":"PASS","ts":"2026-08-09T19:10:00Z","issueOpened":false,"consecutiveViolations":0}
+  ],
+  "killQueue": [],
+  "notes": ["Field CWV, GSC index/discovery and GA4 value rows remain SKIP_NO_DATA until authenticated inputs exist.","PASS on the evidence row validates evidence freshness only; it is not a performance claim."]
+}
