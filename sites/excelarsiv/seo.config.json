@@ -1,0 +1,39 @@
+{
+  "version": "6.0",
+  "site": {
+    "siteId": "excelarsiv",
+    "rootUrl": "https://excelarsiv.com",
+    "language": "tr",
+    "currency": "TRY",
+    "region": "TR",
+    "industry": "ecommerce",
+    "hasEcommerce": true,
+    "maxConcurrentKacActions": 3,
+    "allowedEnvironments": ["production"]
+  },
+  "deployment": {
+    "target": "firebase_hosting",
+    "supportsHeaders": true,
+    "supportsEdgeRedirects": false
+  },
+  "policy": {
+    "aiBots": {
+      "aiTraining": "allow",
+      "aiSearch": "allow",
+      "custom": {
+        "OAI-SearchBot": "allow",
+        "ChatGPT-User": "allow",
+        "GPTBot": "allow",
+        "ClaudeBot": "allow",
+        "PerplexityBot": "allow",
+        "Google-Extended": "allow"
+      }
+    },
+    "blockedSections": ["/api", "/demo"],
+    "perplexityQuery": null
+  },
+  "business": {
+    "verticals": ["ecommerce"],
+    "revenueModel": "ecommerce"
+  }
+}
