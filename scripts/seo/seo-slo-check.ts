@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { runRehearsalStage } from './rehearsal-engine.ts';
 
 const ROOT = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const EXIT = Object.freeze({ PASS: 0, BLOCK: 1, WARN: 2, CONFIG: 4 });
@@ -43,6 +44,7 @@ function arg(name:string):string|undefined { const i=process.argv.indexOf(name);
 function main():void {
   try {
     if((arg('--site')??process.env.SITE_ID)!=='excelarsiv') process.exit(EXIT.CONFIG);
+    if(process.env.SEO_REHEARSAL==='1'){runRehearsalStage('slo');process.exit(EXIT.PASS);}
     const artifact=JSON.parse(readFileSync(resolve(ROOT,'data/seo/slo_history.json'),'utf8')) as Artifact;
     const config=JSON.parse(readFileSync(resolve(ROOT,'seo.config.defaults.json'),'utf8')) as Config;
     const now=arg('--now')??new Date().toISOString();
