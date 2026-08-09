@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "artifact": "staging_proof",
+    "schemaVersion": "6.0-wave2-c2-bootstrap",
+    "generatedAt": "2026-08-09T21:45:00Z",
+    "generatorScript": "scripts/seo/staging-proof.ts",
+    "confidence": "low",
+    "partial": true,
+    "siteId": "excelarsiv",
+    "structuralBreaksApplied": ["consent v2 live"]
+  },
+  "status": "SKIP_NO_DATA",
+  "reason": "Preview staging URL is generated only after this workflow is merged to main; no pre-merge staging deployment is permitted.",
+  "stagingUrl": null,
+  "renderParity": null,
+  "lighthouse": null,
+  "sitemap": null,
+  "notFound": null
+}
