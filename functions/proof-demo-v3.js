@@ -36,6 +36,16 @@ const PRODUCT_UI = Object.freeze({
   'aylik-patron-finans-paneli': ['Patron Özeti', 'Aylık finans nabzı', 'Kritik karar göstergeleri'],
   'proje-ve-is-bazinda-gercek-karlilik-sistemi': ['Proje Kârlılığı', 'Gelir–maliyet dengesi', 'Gerçek proje sonucu'],
   'kobi-finans-yonetim-paketi': ['KOBİ Finans Kokpiti', 'Finansal denge görünümü', 'Yönetici karar özeti'],
+  'asiri-dusuk-teklif-savunma-robotu': ['Aşırı Düşük Savunma', 'Açıklama kapsama oranı', 'Belgesiz kalem riski'],
+  'ihaleye-kac-tl-teklif-vermeliyim': ['Sınır Değer Radarı', 'Rakip teklif dağılımı', 'Aşırı düşük sorgusu'],
+  'hakedis-fiyat-farki-hak-kaybi-cetveli': ['Fiyat Farkı Cetveli', 'Endeks etkisi', 'Hak kaybı riski'],
+  'yillara-sari-insaat-stopaj-nakit-akis-planlayici': ['Stopaj Nakit Planı', 'Stopaj yükü görünümü', 'Nakit açığı dönemleri'],
+  'taseron-hakedis-kesinti-mutabakati': ['Mutabakat Radarı', 'Kesinti ve ödenen dengesi', 'İhtilaf riski'],
+  'kacirilan-sgk-tesvikleri-ve-gercek-iscilik-maliyeti-analizi': ['SGK Teşvik Radarı', 'Teşvik kullanım oranı', 'Kaçırılan teşvik'],
+  'kidem-ihbar-yuku-ve-personel-cikarma-maliyeti-hesaplayici': ['Çıkarma Maliyeti', 'Kıdem–ihbar yükü', 'Yük yoğunlaşması'],
+  'fazla-mesai-ve-isci-dava-riski-tespit-dosyasi': ['Dava Risk Radarı', 'Fazla mesai karşılığı', 'Eksik ödeme oranı'],
+  'asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli': ['Zam Etki Cetveli', 'İşçilik payı etkisi', 'Fiyat ayarlama ihtiyacı'],
+  'ithalat-depo-teslim-rafa-gelen-net-birim-maliyet': ['İthalat Maliyet Radarı', 'Vergi yükü görünümü', 'Birim maliyet etkisi'],
 });
 
 function sendJson(res, status, payload) {
@@ -181,7 +191,11 @@ function inferColumns(spec) {
     const integerLike = /gün|adet|süre|hafta sayısı/i.test(header);
     return { ci, header, numeric: numericCount >= Math.max(1, Math.ceil(values.length * 0.5)), dateLike, pctLike, moneyLike, integerLike };
   });
-  const numeric = infos.filter(x => x.numeric && !x.dateLike); return { infos, primary: numeric[0]?.ci ?? 1, secondary: numeric[1]?.ci ?? numeric[0]?.ci ?? 2 };
+  const numeric = infos.filter(x => x.numeric && !x.dateLike);
+  const money = numeric.filter(x => x.moneyLike && !x.pctLike);
+  const primary = (money[0] ?? numeric[0])?.ci ?? 1;
+  const secondary = money[1]?.ci ?? primary;
+  return { infos, primary, secondary };
 }
 function inputStyle(info, value) {
   if (typeof value === 'string' && value.startsWith('=')) return S.lockedNum;
