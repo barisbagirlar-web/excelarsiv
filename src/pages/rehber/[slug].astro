@@ -14,15 +14,49 @@ const { Content } = await render(guide);
 const templates = await getCollection('templates');
 const product = templates.find((item) => item.id === guide.data.productSlug);
 const otherGuides = (await getCollection('guides')).filter((item) => item.id !== guide.id).slice(0, 3);
+const guideUrl = new URL(`/rehber/${guide.id}`, Astro.site).href;
+const organizationId = new URL('/#organization', Astro.site).href;
+const webpageId = `${guideUrl}#webpage`;
+const articleId = `${guideUrl}#article`;
+const productId = `${new URL(`/sablon/${guide.data.productSlug}`, Astro.site).href}#product`;
+const guideLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Article',
+      '@id': articleId,
+      headline: guide.data.title,
+      description: guide.data.description,
+      dateModified: guide.data.updatedAt,
+      inLanguage: 'tr-TR',
+      mainEntityOfPage: { '@id': webpageId },
+      author: { '@id': organizationId },
+      publisher: { '@id': organizationId },
+      about: { '@id': productId },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${guideUrl}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Ana Sayfa', item: new URL('/', Astro.site).href },
+        { '@type': 'ListItem', position: 2, name: 'Rehber', item: new URL('/rehber', Astro.site).href },
+        { '@type': 'ListItem', position: 3, name: guide.data.title },
+      ],
+    },
+  ],
+};
+const updatedLabel = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${guide.data.updatedAt}T00:00:00Z`));
 ---
 
 <CommerceLayout title={guide.data.seoTitle} description={guide.data.description}>
+  <Fragment slot="head"><script type="application/ld+json" set:html={JSON.stringify(guideLd)} /></Fragment>
   <div class="guide-shell">
     <Breadcrumbs crumbs={[{ label: 'Rehber', href: '/rehber' }, { label: guide.data.title }]} />
     <header class="guide-hero">
       <p>{guide.data.primaryQuery}</p>
       <h1>{guide.data.title}</h1>
       <div class="guide-hero__summary">{guide.data.description}</div>
+      <div class="guide-hero__updated">Güncellendi: <time datetime={guide.data.updatedAt}>{updatedLabel}</time></div>
       <ul>{guide.data.takeaways.map((item) => <li><span>✓</span>{item}</li>)}</ul>
     </header>
 
@@ -51,5 +85,5 @@ const otherGuides = (await getCollection('guides')).filter((item) => item.id !==
 </CommerceLayout>
 
 <style>
-  .guide-shell{width:min(1120px,calc(100% - 48px));margin-inline:auto;padding:28px 0 110px}.guide-hero{margin-top:28px;padding:clamp(30px,5vw,58px);border:1px solid #d8e3dc;border-radius:24px;background:linear-gradient(145deg,#f9fcfa,#eef5f0)}.guide-hero>p{margin:0;font-family:var(--font-mono);font-size:9px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#0b7440}.guide-hero h1{max-width:860px;margin:14px 0 0;font-family:var(--font-display);font-size:clamp(38px,5vw,64px);line-height:.99;letter-spacing:-.045em;color:#14291d}.guide-hero__summary{max-width:760px;margin-top:18px;font-size:14px;line-height:1.7;color:#5e6c64}.guide-hero ul{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:26px 0 0;padding:0;list-style:none}.guide-hero li{display:flex;gap:7px;padding:11px;border:1px solid #d9e4dc;border-radius:10px;background:rgba(255,255,255,.7);font-size:10px;line-height:1.45;color:#3f5146}.guide-hero li span{color:#0b7440;font-weight:900}.guide-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:54px;align-items:start;padding-top:54px}.guide-side{position:sticky;top:24px;display:grid;gap:12px}.guide-side__card{padding:22px;border:1px solid #d9e4dc;border-radius:15px;background:#103d2c;color:#fff}.guide-side__card--quiet{background:#f5f8f6;color:#203128}.guide-side__card>span{font-family:var(--font-mono);font-size:8px;font-weight:800;letter-spacing:.09em;color:#86d9a8}.guide-side__card--quiet>span{color:#0b7440}.guide-side__card h2{margin:9px 0 0;font-size:19px;line-height:1.15}.guide-side__card p{margin:10px 0 0;font-size:10.5px;line-height:1.55;color:rgba(255,255,255,.72)}.guide-side__card--quiet p{color:#66746b}.guide-side__card a{display:inline-block;margin-top:15px;font-size:10px;font-weight:800;color:#96e5b6;text-decoration:none}.guide-side__card--quiet a{color:#0b7440}.guide-related{margin-top:64px;padding-top:28px;border-top:1px solid #dce5df}.guide-related>p{font-family:var(--font-mono);font-size:8px;font-weight:800;letter-spacing:.09em;color:#0b7440}.guide-related>div{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.guide-related a{display:flex;justify-content:space-between;gap:12px;padding:16px;border:1px solid #dce5df;border-radius:12px;color:#26382e;font-size:10.5px;font-weight:700;text-decoration:none}.guide-related span{color:#0b7440}:global(.guide-prose){font-size:14px;line-height:1.78;color:#3d4d44}:global(.guide-prose>p:first-child){font-size:17px;line-height:1.7;color:#24372c}:global(.guide-prose h2){margin:44px 0 13px;font-family:var(--font-display);font-size:31px;line-height:1.08;letter-spacing:-.03em;color:#162b1f}:global(.guide-prose h3){margin:28px 0 10px;font-size:18px;color:#1d3426}:global(.guide-prose ul),:global(.guide-prose ol){display:grid;gap:8px;padding-left:22px}:global(.guide-prose strong){color:#173022}:global(.guide-prose a){font-weight:750;color:#0b7440;text-underline-offset:3px}@media(max-width:850px){.guide-layout{grid-template-columns:1fr;gap:32px}.guide-side{position:static}.guide-hero ul{grid-template-columns:1fr}.guide-related>div{grid-template-columns:1fr}}@media(max-width:760px){.guide-shell{width:min(100% - 28px,1120px);padding-bottom:80px}.guide-hero{padding:24px 18px;border-radius:18px}.guide-hero h1{font-size:38px}}
+  .guide-shell{width:min(1120px,calc(100% - 48px));margin-inline:auto;padding:28px 0 110px}.guide-hero{margin-top:28px;padding:clamp(30px,5vw,58px);border:1px solid #d8e3dc;border-radius:24px;background:linear-gradient(145deg,#f9fcfa,#eef5f0)}.guide-hero>p{margin:0;font-family:var(--font-mono);font-size:9px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#0b7440}.guide-hero h1{max-width:860px;margin:14px 0 0;font-family:var(--font-display);font-size:clamp(38px,5vw,64px);line-height:.99;letter-spacing:-.045em;color:#14291d}.guide-hero__summary{max-width:760px;margin-top:18px;font-size:14px;line-height:1.7;color:#5e6c64}.guide-hero__updated{margin-top:12px;font-family:var(--font-mono);font-size:8.5px;font-weight:700;color:#607168}.guide-hero ul{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:26px 0 0;padding:0;list-style:none}.guide-hero li{display:flex;gap:7px;padding:11px;border:1px solid #d9e4dc;border-radius:10px;background:rgba(255,255,255,.7);font-size:10px;line-height:1.45;color:#3f5146}.guide-hero li span{color:#0b7440;font-weight:900}.guide-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:54px;align-items:start;padding-top:54px}.guide-side{position:sticky;top:24px;display:grid;gap:12px}.guide-side__card{padding:22px;border:1px solid #d9e4dc;border-radius:15px;background:#103d2c;color:#fff}.guide-side__card--quiet{background:#f5f8f6;color:#203128}.guide-side__card>span{font-family:var(--font-mono);font-size:8px;font-weight:800;letter-spacing:.09em;color:#86d9a8}.guide-side__card--quiet>span{color:#0b7440}.guide-side__card h2{margin:9px 0 0;font-size:19px;line-height:1.15}.guide-side__card p{margin:10px 0 0;font-size:10.5px;line-height:1.55;color:rgba(255,255,255,.72)}.guide-side__card--quiet p{color:#66746b}.guide-side__card a{display:inline-block;margin-top:15px;font-size:10px;font-weight:800;color:#96e5b6;text-decoration:none}.guide-side__card--quiet a{color:#0b7440}.guide-related{margin-top:64px;padding-top:28px;border-top:1px solid #dce5df}.guide-related>p{font-family:var(--font-mono);font-size:8px;font-weight:800;letter-spacing:.09em;color:#0b7440}.guide-related>div{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.guide-related a{display:flex;justify-content:space-between;gap:12px;padding:16px;border:1px solid #dce5df;border-radius:12px;color:#26382e;font-size:10.5px;font-weight:700;text-decoration:none}.guide-related span{color:#0b7440}:global(.guide-prose){font-size:14px;line-height:1.78;color:#3d4d44}:global(.guide-prose>p:first-child){font-size:17px;line-height:1.7;color:#24372c}:global(.guide-prose h2){margin:44px 0 13px;font-family:var(--font-display);font-size:31px;line-height:1.08;letter-spacing:-.03em;color:#162b1f}:global(.guide-prose h3){margin:28px 0 10px;font-size:18px;color:#1d3426}:global(.guide-prose ul),:global(.guide-prose ol){display:grid;gap:8px;padding-left:22px}:global(.guide-prose strong){color:#173022}:global(.guide-prose a){font-weight:750;color:#0b7440;text-underline-offset:3px}@media(max-width:850px){.guide-layout{grid-template-columns:1fr;gap:32px}.guide-side{position:static}.guide-hero ul{grid-template-columns:1fr}.guide-related>div{grid-template-columns:1fr}}@media(max-width:760px){.guide-shell{width:min(100% - 28px,1120px);padding-bottom:80px}.guide-hero{padding:24px 18px;border-radius:18px}.guide-hero h1{font-size:38px}}
 </style>

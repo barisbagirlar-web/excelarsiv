@@ -44,26 +44,42 @@ const categoryLabel = categoryLabels[t.category] ?? t.category;
 const allTemplates = await getCollection('templates');
 const related = allTemplates.filter((item) => t.related.includes(item.id));
 const productUrl = new URL(`/sablon/${template.id}`, Astro.site).href;
+const organizationId = new URL('/#organization', Astro.site).href;
+const productId = `${productUrl}#product`;
+const offerId = `${productUrl}#offer`;
+const brandId = new URL('/#brand', Astro.site).href;
+const webpageId = `${productUrl}#webpage`;
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
     {
       '@type': 'Product',
+      '@id': productId,
+      url: productUrl,
       name: t.name,
       description: t.summary,
       image: t.screenshots.map((image) => new URL(image.src, Astro.site).href),
-      brand: { '@type': 'Brand', name: 'Excel Arşiv' },
+      brand: { '@id': brandId },
+      mainEntityOfPage: { '@id': webpageId },
       offers: {
         '@type': 'Offer',
+        '@id': offerId,
         price: t.priceTL,
         priceCurrency: 'TRY',
         availability: 'https://schema.org/InStock',
         url: productUrl,
+        seller: { '@id': organizationId },
       },
     },
     {
+      '@type': 'Brand',
+      '@id': brandId,
+      name: 'Excel Arşiv',
+    },
+    {
       '@type': 'BreadcrumbList',
+      '@id': `${productUrl}#breadcrumb`,
       itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Ana Sayfa', item: new URL('/', Astro.site).href },
         { '@type': 'ListItem', position: 2, name: 'Şablonlar', item: new URL('/sablonlar', Astro.site).href },
@@ -73,6 +89,7 @@ const jsonLd = {
     },
     {
       '@type': 'FAQPage',
+      '@id': `${productUrl}#faq`,
       mainEntity: t.faq.map((item) => ({
         '@type': 'Question',
         name: item.question,
