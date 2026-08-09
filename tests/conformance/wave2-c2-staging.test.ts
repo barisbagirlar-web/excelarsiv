@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { evaluateInpLab, evaluateLighthouseReport, extractCanonical, extractTagText, isNoindex, normalizeRoute, parseSitemapLocs, setDiff } from '../../scripts/seo/staging-proof.ts';
+import { evaluateInpLab, evaluateLighthouseReport, extractCanonical, extractTagText, isNoindex, normalizeCanonical, normalizeRoute, parseSitemapLocs, setDiff } from '../../scripts/seo/staging-proof.ts';
 
 const ROOT = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const thresholds = { lcpP75Ms: 2500, inpP75Ms: 200, clsP75: 0.1 };
@@ -16,6 +16,13 @@ test('C2 raw HTML render proof extracts title, H1, canonical and noindex safely'
   assert.equal(extractCanonical(html), 'https://excelarsiv.com/sablon/x');
   assert.equal(isNoindex(html), false);
   assert.equal(isNoindex('<meta content="noindex,follow" name="robots">'), true);
+});
+
+test('C2 canonical normalization treats root serialization slash as equivalent but preserves path slash drift', () => {
+  assert.equal(normalizeCanonical('https://excelarsiv.com'), 'https://excelarsiv.com/');
+  assert.equal(normalizeCanonical('https://excelarsiv.com/'), 'https://excelarsiv.com/');
+  assert.notEqual(normalizeCanonical('https://excelarsiv.com/sablon/x'), normalizeCanonical('https://excelarsiv.com/sablon/x/'));
+  assert.equal(normalizeCanonical('not a valid url'), null);
 });
 
 test('C2 sitemap parser normalizes child URLs and set parity', () => {
