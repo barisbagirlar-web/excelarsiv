@@ -22,7 +22,7 @@ test('C2 canonical normalization treats root serialization slash as equivalent b
   assert.equal(normalizeCanonical('https://excelarsiv.com'), 'https://excelarsiv.com/');
   assert.equal(normalizeCanonical('https://excelarsiv.com/'), 'https://excelarsiv.com/');
   assert.notEqual(normalizeCanonical('https://excelarsiv.com/sablon/x'), normalizeCanonical('https://excelarsiv.com/sablon/x/'));
-  assert.equal(normalizeCanonical('not a valid url'), null);
+  assert.equal(normalizeCanonical('http://[invalid'), null);
 });
 
 test('C2 sitemap parser normalizes child URLs and set parity', () => {
