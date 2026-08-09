@@ -1,11 +1,10 @@
 {
-  "meta":{"artifact":"linkable_assets","schemaVersion":"6.0-phase13","generatedAt":"2026-08-09T19:13:00Z","generatorScript":"scripts/seo/audit-offpage.ts","inputWindow":{"start":"2025-09-11","end":"2026-08-09"},"confidence":"medium","partial":false,"siteId":"excelarsiv","coldStart":true,"structuralBreaksApplied":[]},
+  "meta":{"artifact":"linkable_assets","schemaVersion":"6.0-phase13","generatedAt":"2026-08-09T19:13:00Z","generatorScript":"scripts/seo/audit-offpage.ts","inputWindow":{"start":"2025-09-11","end":"2026-08-09"},"confidence":"low","partial":false,"siteId":"excelarsiv","coldStart":true,"structuralBreaksApplied":[]},
   "assets":[
     {"type":"methodology","route":"/rehber/13-haftalik-nakit-akisi-excel","topic":"13 haftalık nakit akışı Excel","commercialBridge":"/sablon/13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi"},
     {"type":"methodology","route":"/rehber/stok-takip-excel","topic":"stok takip Excel","commercialBridge":"/sablon/stok-satis-ve-nakit-baglanma-sistemi"},
     {"type":"methodology","route":"/rehber/cari-hesap-takip-excel","topic":"cari hesap takip Excel","commercialBridge":"/sablon/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi"},
     {"type":"methodology","route":"/rehber/kasa-defteri-excel","topic":"kasa defteri Excel","commercialBridge":"/sablon/akilli-kasa-defteri-ve-nakit-kontrol-sistemi"}
   ],
-  "prohibitedAcquisition":["paid-link","pbn","link-exchange","bulk-guest-post"],
-  "disavowGenerated":false
+  "prohibitedAcquisition":["paid-link","pbn","link-exchange","bulk-guest-post"],"disavowGenerated":false
 }
