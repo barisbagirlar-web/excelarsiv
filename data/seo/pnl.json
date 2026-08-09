@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "artifact": "seo_pnl",
+    "schemaVersion": "6.0-phase09",
+    "generatedAt": "2026-08-09T15:31:00Z",
+    "generatorScript": "scripts/seo/seo-pnl.ts",
+    "inputWindow": {"start": "2025-09-11", "end": "2026-08-09"},
+    "confidence": "low",
+    "partial": true,
+    "siteId": "excelarsiv",
+    "coldStart": true,
+    "structuralBreaksApplied": []
+  },
+  "status": "SKIP_NO_DATA",
+  "currency": "TRY",
+  "unit": "minor",
+  "series": [],
+  "missingSources": ["authenticated-gsc", "authenticated-ga4"],
+  "doubleCountPolicy": {
+    "recognizedOrganicValue": "firstTouchValueMinor + separately attributable aiReferralValueMinor only after source-level deduplication",
+    "assistedValueMinor": "reported separately; never added to recognizedOrganicValue"
+  },
+  "notes": [
+    "No traffic, conversion, revenue or cost observations were invented.",
+    "defaultValuePerConversionMinor remains 0, therefore economic conclusions are not publishable as measured impact.",
+    "This artifact must be regenerated when authenticated GSC and GA4 data become available."
+  ]
+}
