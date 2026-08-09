@@ -32,7 +32,7 @@ jobs:
           SEO_CONFORMANCE_TEST: ${{ startsWith(github.head_ref, 'seo/faz-coldstart') && '1' || '' }}
         run: |
           if [[ "${GITHUB_HEAD_REF:-}" == "seo/faz-coldstart" ]]; then
-            npm run seo:preflight -- --contract-test bootstrap
+            npm run seo:preflight -- --contract-test closure-coldstart
           else
             npm run seo:preflight
           fi
