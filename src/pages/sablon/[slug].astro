@@ -49,6 +49,10 @@ const productId = `${productUrl}#product`;
 const offerId = `${productUrl}#offer`;
 const brandId = new URL('/#brand', Astro.site).href;
 const webpageId = `${productUrl}#webpage`;
+const priceValidUntil = t.updatedAt
+  ? new Date(new Date(`${t.updatedAt}T00:00:00.000Z`).setUTCFullYear(new Date(`${t.updatedAt}T00:00:00.000Z`).getUTCFullYear() + 1)).toISOString()
+  : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
+const returnPolicyUrl = new URL('/teslimat-ve-iade', Astro.site).href;
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -59,6 +63,7 @@ const jsonLd = {
       url: productUrl,
       name: t.name,
       description: t.summary,
+      sku: template.id,
       image: t.screenshots.map((image) => new URL(image.src, Astro.site).href),
       brand: { '@id': brandId },
       mainEntityOfPage: { '@id': webpageId },
@@ -67,9 +72,20 @@ const jsonLd = {
         '@id': offerId,
         price: t.priceTL,
         priceCurrency: 'TRY',
+        priceValidUntil,
+        itemCondition: 'https://schema.org/NewCondition',
         availability: 'https://schema.org/InStock',
         url: productUrl,
         seller: { '@id': organizationId },
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          applicableCountry: 'TR',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+          merchantReturnDays: 7,
+          returnMethod: 'https://schema.org/ReturnByMail',
+          returnFees: 'https://schema.org/FreeReturn',
+          merchantReturnLink: returnPolicyUrl,
+        },
       },
     },
     {

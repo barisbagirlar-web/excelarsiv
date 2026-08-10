@@ -30,6 +30,8 @@ const resolvedDescription = productSeo?.description ?? description ?? '';
 const ga4MeasurementId = 'G-N2HLKS660W';
 const rawGscVerification = process.env.GSC_VERIFICATION_TOKEN?.trim() ?? '';
 const gscVerification = /^[A-Za-z0-9_-]{10,256}$/.test(rawGscVerification) ? rawGscVerification : '';
+const orgDescription =
+  'Excel Arşiv — Türkiye\'deki işletmeler için finans, muhasebe ve operasyon odaklı hazır Excel çalışma sistemleri.';
 const orgLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@graph': [
@@ -38,6 +40,24 @@ const orgLd = JSON.stringify({
       '@id': new URL('/#organization', site).toString(),
       name: 'Excel Arşiv',
       url: site.toString(),
+      description: orgDescription,
+      logo: {
+        '@type': 'ImageObject',
+        url: ogImage,
+        width: 1200,
+        height: 1200,
+      },
+      email: 'barisbagirlar@gmail.com',
+      address: {
+        '@type': 'PostalAddress',
+        addressCountry: 'TR',
+      },
+      contactPoint: {
+        '@type': 'ContactPoint',
+        email: 'barisbagirlar@gmail.com',
+        contactType: 'customer support',
+        availableLanguage: 'tr-TR',
+      },
     },
     {
       '@type': 'WebSite',
@@ -46,6 +66,14 @@ const orgLd = JSON.stringify({
       url: site.toString(),
       inLanguage: 'tr-TR',
       publisher: { '@id': new URL('/#organization', site).toString() },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: new URL('/sablonlar?q={search_term_string}', site).toString(),
+        },
+        'query-input': 'required name=search_term_string',
+      },
     },
     {
       '@type': 'WebPage',
@@ -88,7 +116,6 @@ const orgLd = JSON.stringify({
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <script type="application/ld+json" set:html={orgLd} />
-    <AnalyticsBootstrap measurementId={ga4MeasurementId} />
     <slot name="head" />
   </head>
   <body class="font-body text-ink-700 antialiased">
@@ -109,6 +136,7 @@ const orgLd = JSON.stringify({
     <SiteFooter />
     <MobileCommerceBar />
     <ConsentBanner />
+    <AnalyticsBootstrap measurementId={ga4MeasurementId} />
   </body>
 </html>
 

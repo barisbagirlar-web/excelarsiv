@@ -264,8 +264,6 @@ export function semanticLastModified(page, templateRecords = getTemplateRecords(
     return latestDate([
       declared,
       gitLastModified(record?.file),
-      gitLastModified(PRODUCT_SEO_FILE),
-      gitLastModified(PRODUCT_PAGE_FILE),
     ]);
   }
 

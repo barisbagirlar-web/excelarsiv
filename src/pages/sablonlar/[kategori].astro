@@ -31,9 +31,45 @@ const seoTitle = category?.seoTitle ?? `${categoryLabel} Excel Şablonları | Ex
 const seoDescription = category?.seoDescription ?? `${categoryLabel} alanında hazır Excel çalışma sistemlerini karşılaştırın ve demo ile inceleyin.`;
 const primaryQuery = category?.primaryQuery ?? `${categoryLabel.toLocaleLowerCase('tr-TR')} excel`;
 const heroDescription = category?.description ?? `${categoryLabel} alanında hazır Excel çalışma sistemleri.`;
+const categoryLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': new URL(`/sablonlar/${categorySlug}#itemlist`, Astro.site).toString(),
+  numberOfItems: templates.length,
+  itemListElement: templates.map((template, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    url: new URL(`/sablon/${template.slug}`, Astro.site).toString(),
+    name: template.name,
+  })),
+});
+const categoryPageLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': new URL(`/sablonlar/${categorySlug}#collection`, Astro.site).toString(),
+  url: new URL(`/sablonlar/${categorySlug}`, Astro.site).toString(),
+  name: `${categoryLabel} Excel Şablonları`,
+  inLanguage: 'tr-TR',
+  isPartOf: { '@id': new URL('/#website', Astro.site).toString() },
+  mainEntity: { '@id': new URL(`/sablonlar/${categorySlug}#itemlist`, Astro.site).toString() },
+});
+const categoryBreadcrumbLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Ana Sayfa', item: new URL('/', Astro.site).toString() },
+    { '@type': 'ListItem', position: 2, name: 'Excel Şablonları', item: new URL('/sablonlar', Astro.site).toString() },
+    { '@type': 'ListItem', position: 3, name: categoryLabel, item: new URL(`/sablonlar/${categorySlug}`, Astro.site).toString() },
+  ],
+});
 ---
 
 <CommerceLayout title={seoTitle} description={seoDescription}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={categoryLd} />
+    <script type="application/ld+json" set:html={categoryPageLd} />
+    <script type="application/ld+json" set:html={categoryBreadcrumbLd} />
+  </Fragment>
   <CatalogHero
     title={`${categoryLabel} Excel Şablonları`}
     description={`${heroDescription} Gerçek ürün ekranlarını ve demo akışını satın almadan önce inceleyin.`}
@@ -45,6 +81,7 @@ const heroDescription = category?.description ?? `${categoryLabel} alanında haz
       <div class="catalog-section__filters">
         <CatalogFilters active={categorySlug} />
       </div>
+      <h2 class="sr-only">{categoryLabel} Excel şablonları kataloğu</h2>
       <TemplateGrid templates={templates} />
       {guides.length > 0 && (
         <aside class="category-guides" aria-labelledby="category-guides-title">

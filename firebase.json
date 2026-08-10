@@ -30,7 +30,12 @@
         { "source": "/api/demo-download", "function": { "functionId": "downloadProofDemo", "region": "europe-west1" } }
       ],
       "headers": [
-        { "source": "/**", "headers": [{ "key": "Cache-Control", "value": "no-cache, must-revalidate" }] },
+        { "source": "/**", "headers": [
+          { "key": "Cache-Control", "value": "public, max-age=300" },
+          { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains" },
+          { "key": "X-Content-Type-Options", "value": "nosniff" },
+          { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+        ] },
         { "source": "/api/**", "headers": [
           { "key": "Cache-Control", "value": "no-store" },
           { "key": "X-Content-Type-Options", "value": "nosniff" },

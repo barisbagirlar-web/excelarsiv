@@ -5,12 +5,47 @@ import Button from '../components/Button.astro';
 import { getCollection } from 'astro:content';
 
 const guides = (await getCollection('guides')).sort((a, b) => a.data.title.localeCompare(b.data.title, 'tr'));
+const guidesLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': new URL('/rehber#itemlist', Astro.site).toString(),
+  numberOfItems: guides.length,
+  itemListElement: guides.map((guide, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    url: new URL(`/rehber/${guide.id}`, Astro.site).toString(),
+    name: guide.data.title,
+  })),
+});
+const guidesPageLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': new URL('/rehber#collection', Astro.site).toString(),
+  url: new URL('/rehber', Astro.site).toString(),
+  name: 'İşletmeler İçin Excel Rehberleri',
+  inLanguage: 'tr-TR',
+  isPartOf: { '@id': new URL('/#website', Astro.site).toString() },
+  mainEntity: { '@id': new URL('/rehber#itemlist', Astro.site).toString() },
+});
+const guidesBreadcrumbLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Ana Sayfa', item: new URL('/', Astro.site).toString() },
+    { '@type': 'ListItem', position: 2, name: 'Rehberler', item: new URL('/rehber', Astro.site).toString() },
+  ],
+});
 ---
 
 <CommerceLayout
   title="İşletmeler İçin Excel Rehberleri | Excel Arşiv"
   description="Nakit akışı, stok, cari hesap ve kasa takibini Excel'de doğru kurmak için uygulamalı işletme rehberleri ve seçim çerçeveleri."
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={guidesLd} />
+    <script type="application/ld+json" set:html={guidesPageLd} />
+    <script type="application/ld+json" set:html={guidesBreadcrumbLd} />
+  </Fragment>
   <section class="border-b border-rule-hairline bg-surface-1">
     <div class="container-site section-enter">
       <SectionLabel number={1} label="Karar Rehberleri" />

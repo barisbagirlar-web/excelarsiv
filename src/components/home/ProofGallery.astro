@@ -87,7 +87,7 @@ const proofs = [
                   <b>GERÇEK EKRAN</b>
                 </div>
                 <button type="button" class="proof-window__zoom" data-proof-zoom={proof.key} aria-label={`${proof.title} ekranını büyüt`}>
-                  <img src={proof.image} alt={proof.alt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" />
+                  <img src={proof.image} alt={proof.alt} loading={index === 0 ? 'eager' : 'lazy'} decoding="async" width="1200" height="750" />
                   <span>Büyüt <b aria-hidden="true">↗</b></span>
                 </button>
               </div>
@@ -112,7 +112,7 @@ const proofs = [
   <dialog class="proof-dialog" data-proof-dialog aria-label="Ürün ekranı büyütülmüş görünüm">
     <div class="proof-dialog__inner">
       <button type="button" class="proof-dialog__close" data-proof-close aria-label="Görseli kapat">×</button>
-      <img data-proof-dialog-image src="" alt="" />
+      <img data-proof-dialog-image src="" alt="" width="1200" height="750" />
       <div class="proof-dialog__caption" data-proof-dialog-caption></div>
     </div>
   </dialog>

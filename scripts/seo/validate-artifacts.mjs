@@ -96,6 +96,13 @@ for (const childUrl of childUrls) {
     continue;
   }
   const name = url.pathname.replace(/^\//, '');
+  if (name === 'sitemap-images.xml') {
+    assertSitemapFile(name);
+    const imagesXml = readFileSync(join(DIST_DIR, name), 'utf8');
+    if (!imagesXml.includes('xmlns:image=')) fail('sitemap-images.xml: image namespace eksik');
+    if (!imagesXml.includes('<image:loc>')) fail('sitemap-images.xml: image:loc içermiyor');
+    continue;
+  }
   const child = assertSitemapFile(name);
   sitemapLocs.push(...child.locs);
 }

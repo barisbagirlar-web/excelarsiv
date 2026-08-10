@@ -2,12 +2,31 @@
 import CommerceLayout from '../layouts/CommerceLayout.astro';
 import SectionLabel from '../components/SectionLabel.astro';
 import Button from '../components/Button.astro';
+
+const contactLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  '@id': new URL('/iletisim#contact', Astro.site).toString(),
+  url: new URL('/iletisim', Astro.site).toString(),
+  name: 'İletişim — Excel Arşiv',
+  inLanguage: 'tr-TR',
+  isPartOf: { '@id': new URL('/#website', Astro.site).toString() },
+  mainEntity: {
+    '@type': 'ContactPoint',
+    email: 'barisbagirlar@gmail.com',
+    contactType: 'customer support',
+    availableLanguage: 'tr-TR',
+  },
+});
 ---
 
 <CommerceLayout
-  title="İletişim — Excel Arşiv"
+  title="İletişim — Excel Arşiv | Satış, Lisans ve Fatura Desteği"
   description="Excel Arşiv ile iletişime geçin. Satış, lisans, fatura ve uyarlama sorularınız için e-posta gönderin veya SSS'ye bakın."
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={contactLd} />
+  </Fragment>
   <section class="border-b border-rule-hairline bg-surface-1">
     <div class="container-site section-enter">
       <SectionLabel number={1} label="İletişim" />
