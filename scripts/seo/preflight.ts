@@ -128,20 +128,30 @@ function changedFiles(): string[] {
   const args = base ? ['diff', '--name-only', `origin/${base}...HEAD`] : ['diff', '--name-only', 'HEAD'];
   return execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' }).trim().split('\n').filter(Boolean);
 }
-function branchContractKey(branch = process.env.GITHUB_HEAD_REF ?? process.env.GITHUB_REF_NAME ?? ''): string | null {
+function currentBranch(): string {
+  return process.env.GITHUB_HEAD_REF ?? process.env.GITHUB_REF_NAME ?? '';
+}
+function branchContractKey(branch = currentBranch()): string | null {
+  const phaseMatch = branch.match(/^seo\/faz-(\d{2})-/);
+  if (phaseMatch?.[1]) return `faz-${phaseMatch[1]}`;
+  if (branch === 'seo/bootstrap-v6') return 'bootstrap';
   if (branch.startsWith('seo/governance-')) return 'governance';
   return BRANCH_CONTRACTS[branch] ?? null;
 }
-function phaseContract(state: Progress, contractOverride?: string): PhaseContract | null {
+function shouldEnforcePhaseContract(branch: string, contractOverride?: string): boolean {
+  return Boolean(contractOverride) || branch === '' || branch.startsWith('seo/');
+}
+function phaseContract(state: Progress, contractOverride?: string, branch = currentBranch()): PhaseContract | null {
   const contracts = readJson<JsonObject>('PHASE_CONTRACTS.json') as Record<string, unknown>;
-  const branchKey = branchContractKey();
-  const key = contractOverride
-    ?? branchKey
-    ?? (state.activePhase === null && (state.bootstrap === 'active' || state.bootstrap === 'completed')
+  const branchKey = branchContractKey(branch);
+  const fallbackKey = branch === ''
+    ? (state.activePhase === null && (state.bootstrap === 'active' || state.bootstrap === 'completed')
       ? 'bootstrap'
       : Number.isInteger(state.activePhase)
         ? `faz-${String(state.activePhase).padStart(2, '0')}`
-        : null);
+        : null)
+    : null;
+  const key = contractOverride ?? branchKey ?? fallbackKey;
   if (!key || !isRecord(contracts[key])) return null;
   const raw = contracts[key];
   const writes = Array.isArray(raw.writes) ? raw.writes.filter((item): item is string => typeof item === 'string') : [];
@@ -206,7 +216,7 @@ function guaranteeHits(files: string[]): string[] {
   }
   return hits;
 }
-function runPreflight({ site, files = changedFiles(), contractOverride }: { site?: string; files?: string[]; contractOverride?: string }): Check[] {
+function runPreflight({ site, files = changedFiles(), contractOverride, branch = currentBranch() }: { site?: string; files?: string[]; contractOverride?: string; branch?: string }): Check[] {
   const checks: Check[] = [];
   const fail = (id: string, msg: string, code = EXIT.BLOCK): void => { checks.push({ id, status: 'FAIL', msg, code }); };
   const pass = (id: string, msg: string): void => { checks.push({ id, status: 'PASS', msg, code: EXIT.PASS }); };
@@ -219,11 +229,15 @@ function runPreflight({ site, files = changedFiles(), contractOverride }: { site
   schemaErrors.length ? fail('P-01', schemaErrors.join('; '), EXIT.CONFIG) : pass('P-01', 'config schema PASS');
   const placeholders = scanPlaceholders(config);
   placeholders.length ? fail('P-02', `placeholder: ${placeholders.join(',')}`, EXIT.CONFIG) : pass('P-02', 'placeholder yok');
-  const contract = phaseContract(progress(), contractOverride);
-  if (!contract) fail('P-03', `phase contract yok${contractOverride ? `: ${contractOverride}` : ''}`, EXIT.CONFIG);
-  else {
-    const bad = files.filter((file) => !matchAny(file, contract.writes) || matchAny(file, contract.forbidsWrites ?? []));
-    bad.length ? fail('P-03', `manifest dışı: ${bad.join(',')}`) : pass('P-03', `manifest uyumlu (${files.length} değişiklik)`);
+  if (!shouldEnforcePhaseContract(branch, contractOverride)) {
+    pass('P-03', `SEO faz manifesti kapsam dışı (branch=${branch})`);
+  } else {
+    const contract = phaseContract(progress(), contractOverride, branch);
+    if (!contract) fail('P-03', `phase contract yok${contractOverride ? `: ${contractOverride}` : branch ? `: branch=${branch}` : ''}`, EXIT.CONFIG);
+    else {
+      const bad = files.filter((file) => !matchAny(file, contract.writes) || matchAny(file, contract.forbidsWrites ?? []));
+      bad.length ? fail('P-03', `manifest dışı: ${bad.join(',')}`) : pass('P-03', `manifest uyumlu (${files.length} değişiklik)`);
+    }
   }
   const secrets = secretHits(files);
   secrets.length ? fail('P-04', `secret bulundu: ${secrets.join(',')}`) : pass('P-04', 'secret izi yok');
@@ -264,4 +278,4 @@ function main(): void {
   }
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main();
-export { EXIT, DATE_FLOOR, mergeDeep, validateSchema, scanPlaceholders, globToRegExp, matchAny, containsGuarantee, reviewTextGuaranteeHit, guaranteeHits, runPreflight, exitCode, progress, branchContractKey };
+export { EXIT, DATE_FLOOR, mergeDeep, validateSchema, scanPlaceholders, globToRegExp, matchAny, containsGuarantee, reviewTextGuaranteeHit, guaranteeHits, runPreflight, exitCode, progress, branchContractKey, shouldEnforcePhaseContract };
