@@ -5,15 +5,15 @@ category: 'muhasebe-ve-vergi'
 priceTL: 1490
 vatIncluded: true
 fileFormat: xlsx
-sizeMB: 0.83
-sheetCount: 21
+sizeMB: 0.33
+sheetCount: 22
 hasMacros: false
 minExcelVersion: 'Excel 2016 ve üzeri'
 macCompatible: true
 sheetsCompatibility: full
 version: '1.0.0'
-updatedAt: '2026-08-06'
-sheetMap: 
+updatedAt: '2026-08-10'
+sheetMap:
   - name: 'KAPAK'
     purpose: 'Ürün kapak sayfası ve dosya kimliği'
     kind: 'output'
@@ -37,6 +37,9 @@ sheetMap:
     kind: 'input'
   - name: 'YASLANDIRMA'
     purpose: 'Alacak yaşlandırma hesapları'
+    kind: 'calculation'
+  - name: 'ANALITIK_MOTOR'
+    purpose: 'Analitik modül hesaplamaları'
     kind: 'calculation'
   - name: 'MUSTERI_RISK_SKORU'
     purpose: 'Müşteri risk skoru hesapları'
@@ -77,47 +80,47 @@ sheetMap:
   - name: 'KILAVUZ'
     purpose: 'Kullanım kılavuzu'
     kind: 'output'
-inputs: 
+inputs:
   - 'Fatura tarihi ve tutarı'
   - 'Müşteri adı ve vade tarihi'
   - 'Tahsilat ve durum bilgisi'
-outputs: 
+outputs:
   - 'Müşteri bazlı bakiye ve risk skoru'
   - 'Vadesi geçen tutar ve gecikme günü'
   - 'Tahsilat öncelik listesi'
-suitableFor: 
+suitableFor:
   - 'Vadeli satış yapan toptancılar'
   - 'Hizmet ve inşaat işletmeleri'
   - 'Müşteri alacak riskini yönetmek isteyenler'
-notSuitableFor: 
+notSuitableFor:
   - 'Kasa ve nakit defteri işleme'
   - 'Çek–senet portföyü'
-requirements: 
+requirements:
   - 'Excel 2016 veya üzeri'
   - 'Tarih hesaplarının doğru çalışması için sistem saati'
 updatePolicy: 'Yapı mevzuattan bağımsızdır; iyileştirme sürümleri satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
-faq: 
-  - question: 'Vade takibi otomatik mi?'
-    answer: 'Evet. Girdi sayfasındaki vade tarihi ile bugün arasındaki fark, Hesap sayfasında gecikme günü olarak otomatik hesaplanır.'
-  - question: 'Risk skoru nasıl belirleniyor?'
-    answer: 'Vadesi geçen bakiyesi olan müşteriler "Kritik", düzenli ödeyenler "İzle" olarak işaretlenir. Kendi ölçütünüzü eklerseniz formülü açıp düzenleyebilirsiniz.'
-  - question: 'Kısmi tahsilat girebilir miyim?'
-    answer: 'Evet, tahsilat kolonuna kısmi tutar girilir; bakiye otomatik güncellenir ve durum sizin girişinize bağlı kalır.'
-  - question: 'Excel sürümüm eski, çalışır mı?'
-    answer: 'Excel 2016 ve üzeri gerekir; BUGÜN() ve EĞERSAY standart işlevlerdir.'
-  - question: 'Muhasebe programımla entegre çalışır mı?'
-    answer: 'Hayır, bu dosya bağımsız bir takip aracıdır. Verileri muhasebe programınızdan aktarıp izleme yapabilirsiniz.'
-  - question: 'Kaç müşteriye kadar ölçeklenir?'
-    answer: 'Yapı binlerce satıra kadar sorunsuz çalışır; tavsiye edilen dönem içi veri, sayfayı hızlı tutacak şekilde düzenli arşivlemektir.'
-demoFile: /demo/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi.xlsx
-screenshots: 
-  - src: '/screenshots/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi-1.png'
-    alt: 'Cari Hesap, Tahsilat ve Müşteri Risk Takip Sistemi dosyasının FATURALAR sayfası — Fatura girişleri'
-  - src: '/screenshots/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi-2.png'
-    alt: 'Cari Hesap, Tahsilat ve Müşteri Risk Takip Sistemi dosyasının MUSTERI_RISK_SKORU sayfası — Müşteri risk skoru hesapları'
-  - src: '/screenshots/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi-3.png'
-    alt: 'Cari Hesap, Tahsilat ve Müşteri Risk Takip Sistemi dosyasının PANO sayfası — Yönetim panosu özeti'
-related: 
+faq:
+  - answer: 'Evet. Girdi sayfasındaki vade tarihi ile bugün arasındaki fark, Hesap sayfasında gecikme günü olarak otomatik hesaplanır.'
+    question: 'Vade takibi otomatik mi?'
+  - answer: 'Vadesi geçen bakiyesi olan müşteriler "Kritik", düzenli ödeyenler "İzle" olarak işaretlenir. Kendi ölçütünüzü eklerseniz formülü açıp düzenleyebilirsiniz.'
+    question: 'Risk skoru nasıl belirleniyor?'
+  - answer: 'Evet, tahsilat kolonuna kısmi tutar girilir; bakiye otomatik güncellenir ve durum sizin girişinize bağlı kalır.'
+    question: 'Kısmi tahsilat girebilir miyim?'
+  - answer: 'Excel 2016 ve üzeri gerekir; BUGÜN() ve EĞERSAY standart işlevlerdir.'
+    question: 'Excel sürümüm eski, çalışır mı?'
+  - answer: 'Hayır, bu dosya bağımsız bir takip aracıdır. Verileri muhasebe programınızdan aktarıp izleme yapabilirsiniz.'
+    question: 'Muhasebe programımla entegre çalışır mı?'
+  - answer: 'Yapı binlerce satıra kadar sorunsuz çalışır; tavsiye edilen dönem içi veri, sayfayı hızlı tutacak şekilde düzenli arşivlemektir.'
+    question: 'Kaç müşteriye kadar ölçeklenir?'
+demoFile: '/demo/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi.xlsx'
+screenshots:
+  - alt: 'Cari Hesap, Tahsilat ve Müşteri Risk Takip Sistemi dosyasının FATURALAR sayfası — Fatura girişleri'
+    src: '/screenshots/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi-1.png'
+  - alt: 'Cari Hesap, Tahsilat ve Müşteri Risk Takip Sistemi dosyasının MUSTERI_RISK_SKORU sayfası — Müşteri risk skoru hesapları'
+    src: '/screenshots/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi-2.png'
+  - alt: 'Cari Hesap, Tahsilat ve Müşteri Risk Takip Sistemi dosyasının PANO sayfası — Yönetim panosu özeti'
+    src: '/screenshots/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi-3.png'
+related:
   - 'cek-senet-ve-vade-risk-sistemi'
   - 'kobi-finans-yonetim-paketi'
 ---

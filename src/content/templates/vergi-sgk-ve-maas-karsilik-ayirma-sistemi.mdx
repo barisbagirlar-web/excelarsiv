@@ -5,15 +5,15 @@ category: 'muhasebe-ve-vergi'
 priceTL: 990
 vatIncluded: true
 fileFormat: xlsx
-sizeMB: 0.23
-sheetCount: 16
+sizeMB: 0.38
+sheetCount: 17
 hasMacros: false
 minExcelVersion: 'Excel 2016 ve üzeri'
 macCompatible: true
 sheetsCompatibility: full
 version: '1.0.0'
-updatedAt: '2026-08-06'
-sheetMap: 
+updatedAt: '2026-08-10'
+sheetMap:
   - name: 'KAPAK'
     purpose: 'Ürün kapak sayfası ve dosya kimliği'
     kind: 'output'
@@ -28,6 +28,9 @@ sheetMap:
     kind: 'input'
   - name: 'KARSILIK_MOTORU'
     purpose: 'KDV, kurumlar, SGK, stopaj ve maaş karşılık hesapları'
+    kind: 'calculation'
+  - name: 'ANALITIK_MOTOR'
+    purpose: 'Analitik modül hesaplamaları'
     kind: 'calculation'
   - name: 'NAKIT_PROJEKSIYON'
     purpose: 'Karşılık sonrası nakit projeksiyon hesapları'
@@ -62,47 +65,47 @@ sheetMap:
   - name: 'KILAVUZ'
     purpose: 'Kullanım kılavuzu'
     kind: 'output'
-inputs: 
+inputs:
   - 'Dönem gelir ve gider tutarları'
   - 'Bordro ve oran bilgileri'
   - 'Dönem etiketi (ay adı)'
-outputs: 
+outputs:
   - 'KDV ve kurumlar vergisi karşılığı'
   - 'SGK ve maaş karşılığı'
   - 'Dönem toplam karşılık tutarı'
-suitableFor: 
+suitableFor:
   - 'Dönem sonu vergi sürprizi yaşamak istemeyenler'
   - 'Bordrosu olan işletmeler'
   - 'Nakit planlamasını karşılıklarla yapanlar'
-notSuitableFor: 
+notSuitableFor:
   - 'Beyanname hazırlama'
   - 'Vergi danışmanlığı'
-requirements: 
+requirements:
   - 'Excel 2016 veya üzeri'
   - 'Oranları güncellemek için mali müşavir önerisi'
 updatePolicy: 'Mevzuat oranları değiştiğinde güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur; oranlar kullanıcı tarafından da güncellenebilir.'
-faq: 
-  - question: 'Oranlar hangi dönem içindir?'
-    answer: 'Demo dosyadaki oranlar örnek değerlerdir. Kendi döneminizin oranlarını mali müşavirinizden teyit ederek Girdi sayfasına işleyin.'
-  - question: 'Kurumlar vergisi oranı nereden değişir?'
-    answer: 'Hesap sayfasındaki 0.25 çarpanını güncel oranla değiştirmeniz yeterlidir.'
-  - question: 'KDV oranı ürün bazında farklıysa?'
-    answer: 'Ürün bazlı oranlarınız varsa Girdi sayfasına satır ekleyip ağırlıklı oranı hesaplayabilirsiniz.'
-  - question: 'Excel sürümüm eski, çalışır mı?'
-    answer: 'Excel 2016 ve üzeri gerekir; kullanılan işlevler standarttır.'
-  - question: 'Bu dosya beyanname yerine geçer mi?'
-    answer: 'Hayır. Bu dosya karşılık ayırma ve nakit planlama aracıdır; beyanname mali müşavir tarafından düzenlenir.'
-  - question: 'Kilitli mi? Değiştirebilir miyim?'
-    answer: 'Girdi alanları serbesttir; formül sayfaları şifresiz korumadadır, kaldırıp inceleyebilirsiniz.'
-demoFile: /demo/vergi-sgk-ve-maas-karsilik-ayirma-sistemi.xlsx
-screenshots: 
-  - src: '/screenshots/vergi-sgk-ve-maas-karsilik-ayirma-sistemi-1.png'
-    alt: 'Vergi, SGK ve Maaş Karşılık Ayırma Sistemi dosyasının DÖNEM_GELIR_GIDER sayfası — Dönem gelir ve gider girişleri'
-  - src: '/screenshots/vergi-sgk-ve-maas-karsilik-ayirma-sistemi-2.png'
-    alt: 'Vergi, SGK ve Maaş Karşılık Ayırma Sistemi dosyasının KARSILIK_MOTORU sayfası — KDV, kurumlar, SGK, stopaj ve maaş karşılık hesapları'
-  - src: '/screenshots/vergi-sgk-ve-maas-karsilik-ayirma-sistemi-3.png'
-    alt: 'Vergi, SGK ve Maaş Karşılık Ayırma Sistemi dosyasının PANO sayfası — Yönetim panosu özeti'
-related: 
+faq:
+  - answer: 'Demo dosyadaki oranlar örnek değerlerdir. Kendi döneminizin oranlarını mali müşavirinizden teyit ederek Girdi sayfasına işleyin.'
+    question: 'Oranlar hangi dönem içindir?'
+  - answer: 'Hesap sayfasındaki 0.25 çarpanını güncel oranla değiştirmeniz yeterlidir.'
+    question: 'Kurumlar vergisi oranı nereden değişir?'
+  - answer: 'Ürün bazlı oranlarınız varsa Girdi sayfasına satır ekleyip ağırlıklı oranı hesaplayabilirsiniz.'
+    question: 'KDV oranı ürün bazında farklıysa?'
+  - answer: 'Excel 2016 ve üzeri gerekir; kullanılan işlevler standarttır.'
+    question: 'Excel sürümüm eski, çalışır mı?'
+  - answer: 'Hayır. Bu dosya karşılık ayırma ve nakit planlama aracıdır; beyanname mali müşavir tarafından düzenlenir.'
+    question: 'Bu dosya beyanname yerine geçer mi?'
+  - answer: 'Girdi alanları serbesttir; formül sayfaları şifresiz korumadadır, kaldırıp inceleyebilirsiniz.'
+    question: 'Kilitli mi? Değiştirebilir miyim?'
+demoFile: '/demo/vergi-sgk-ve-maas-karsilik-ayirma-sistemi.xlsx'
+screenshots:
+  - alt: 'Vergi, SGK ve Maaş Karşılık Ayırma Sistemi dosyasının DÖNEM_GELIR_GIDER sayfası — Dönem gelir ve gider girişleri'
+    src: '/screenshots/vergi-sgk-ve-maas-karsilik-ayirma-sistemi-1.png'
+  - alt: 'Vergi, SGK ve Maaş Karşılık Ayırma Sistemi dosyasının KARSILIK_MOTORU sayfası — KDV, kurumlar, SGK, stopaj ve maaş karşılık hesapları'
+    src: '/screenshots/vergi-sgk-ve-maas-karsilik-ayirma-sistemi-2.png'
+  - alt: 'Vergi, SGK ve Maaş Karşılık Ayırma Sistemi dosyasının PANO sayfası — Yönetim panosu özeti'
+    src: '/screenshots/vergi-sgk-ve-maas-karsilik-ayirma-sistemi-3.png'
+related:
   - 'cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi'
   - 'aylik-patron-finans-paneli'
 ---

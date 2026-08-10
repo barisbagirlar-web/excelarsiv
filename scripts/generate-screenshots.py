@@ -40,6 +40,14 @@ SAYFALAR = {
     "fazla-mesai-ve-isci-dava-riski-tespit-dosyasi": ["KAYITLAR", "KARAR", "PANO"],
     "asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli": ["CALISANLAR", "KARAR", "PANO"],
     "ithalat-depo-teslim-rafa-gelen-net-birim-maliyet": ["URUNLER", "KARAR", "PANO"],
+    "cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi": ["FATURALAR", "MUSTERI_RISK_SKORU", "PANO"],
+    "cek-senet-ve-vade-risk-sistemi": ["CEK_SENET_KAYIT", "KARSILIK_ANALIZI", "PANO"],
+    "gunluk-gelir-gider-ve-gercek-karlilik-sistemi": ["GELIR_GIDER_KAYIT", "GUNLUK_OZET", "PANO"],
+    "kobi-finans-yonetim-paketi": ["AYLIK_VERI", "HESAP", "PANO"],
+    "pos-komisyon-ve-net-tahsilat-kontrol-sistemi": ["POS_HAREKETLER", "HESAP", "PANO"],
+    "proje-ve-is-bazinda-gercek-karlilik-sistemi": ["IS_GIRILERI", "HESAP", "PANO"],
+    "stok-satis-ve-nakit-baglanma-sistemi": ["STOK_HAREKETLER", "HESAP", "PANO"],
+    "vergi-sgk-ve-maas-karsilik-ayirma-sistemi": ["DÖNEM_GELIR_GIDER", "KARSILIK_MOTORU", "PANO"],
 }
 
 # Slug → demo veri dolu üretim dosyası eşlemesi. Bu dosyalar üretim betiğinin

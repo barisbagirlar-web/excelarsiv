@@ -5,15 +5,15 @@ category: 'butce-ve-planlama'
 priceTL: 7900
 vatIncluded: true
 fileFormat: xlsx
-sizeMB: 0.18
-sheetCount: 14
+sizeMB: 0.25
+sheetCount: 15
 hasMacros: false
 minExcelVersion: 'Excel 2016 ve üzeri'
 macCompatible: true
 sheetsCompatibility: full
 version: '1.0.0'
-updatedAt: '2026-08-06'
-sheetMap: 
+updatedAt: '2026-08-10'
+sheetMap:
   - name: 'KAPAK'
     purpose: 'Ürün kapak sayfası ve dosya kimliği'
     kind: 'output'
@@ -25,6 +25,9 @@ sheetMap:
     kind: 'input'
   - name: 'HESAP'
     purpose: 'Konsolide net nakit değişimi, kapanış, kâr tahmini ve risk skoru hesapları'
+    kind: 'calculation'
+  - name: 'ANALITIK_MOTOR'
+    purpose: 'Analitik modül hesaplamaları'
     kind: 'calculation'
   - name: 'KONTROLLER'
     purpose: 'Girdi tutarlılık ve negatif kapanış kontrolleri'
@@ -56,46 +59,46 @@ sheetMap:
   - name: 'KILAVUZ'
     purpose: 'Kullanım kılavuzu'
     kind: 'output'
-inputs: 
+inputs:
   - 'Kasa, banka, cari ve POS bakiye toplamları'
   - 'Nakit girişi, stok alışı, operasyon gideri, maaş ve kredi kalemleri'
   - 'Aylık dönem etiketi ve parametre ayarları'
-outputs: 
+outputs:
   - 'Konsolide nakit ve kâr tahmini'
   - 'Aylık nakit değişimi'
   - 'Risk skoru ve yönetim özeti'
-suitableFor: 
+suitableFor:
   - 'Finans durumunu tek dosyada konsolide izlemek isteyen KOBİ''ler'
   - 'Aylık yönetim toplantısı için özet arayanlar'
   - 'Kasa, banka, cari ve POS bakiyelerini ortak karar katmanında yönetmek isteyenler'
-notSuitableFor: 
+notSuitableFor:
   - 'Tek bir işi çözmek isteyenler (bireysel sistemler daha uygundur)'
   - 'Çok kullanıcılı muhasebe sistemi'
-requirements: 
+requirements:
   - 'Excel 2016 veya üzeri'
 updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
-faq: 
-  - question: 'Pakette hangi sistemler var?'
-    answer: 'Dosya aylık konsolide girişle çalışır: kasa, banka, cari ve POS bakiyeleri ile nakit girişi, stok alışı, operasyon gideri, maaş ve kredi ödemeleri AYLIK_VERI sayfasına girilir; HESAP net nakit değişimi, kapanış, kâr tahmini ve risk skorunu üretir. KONTROLLER, KARAR, PANO, SENARYO_DUYARLILIK ve RAPOR sayfaları yönetim katmanını oluşturur.'
-  - question: 'Bireysel sistemlerden farkı ne?'
-    answer: 'Bireysel sistemler tek işi çözer; paket bu verileri konsolide ederek aylık yönetim özeti üretir.'
-  - question: 'İçerik daha sonra genişler mi?'
-    answer: 'Yapısal iyileştirme sürümleri satın alma döneminden itibaren 12 ay ücretsiz sunulur; güncel sürüm aynı dosya üzerinden teslim edilir.'
-  - question: 'Excel sürümüm eski, çalışır mı?'
-    answer: 'Excel 2016 ve üzeri gerekir; kullanılan işlevler standarttır.'
-  - question: 'Kilitli mi? Değiştirebilir miyim?'
-    answer: 'Girdi alanları serbesttir; formül sayfaları şifresiz korumadadır, kaldırıp inceleyebilirsiniz.'
-  - question: 'Lisans tek kullanıcılık mı?'
-    answer: 'Evet, tek lisans tek kullanıcıdır; aynı kullanıcının makul sayıdaki cihazında kullanılabilir.'
-demoFile: /demo/kobi-finans-yonetim-paketi.xlsx
-screenshots: 
-  - src: '/screenshots/kobi-finans-yonetim-paketi-1.png'
-    alt: 'KOBİ Finans Yönetim Paketi dosyasının AYLIK_VERI sayfası — Kasa, banka, cari ve POS bakiyeleri ile nakit girişi, stok alışı, operasyon, maaş ve kredi girişleri'
-  - src: '/screenshots/kobi-finans-yonetim-paketi-2.png'
-    alt: 'KOBİ Finans Yönetim Paketi dosyasının HESAP sayfası — Konsolide net nakit değişimi, kapanış, kâr tahmini ve risk skoru'
-  - src: '/screenshots/kobi-finans-yonetim-paketi-3.png'
-    alt: 'KOBİ Finans Yönetim Paketi dosyasının PANO sayfası — Aylık yönetim özeti'
-related: 
+faq:
+  - answer: 'Dosya aylık konsolide girişle çalışır: kasa, banka, cari ve POS bakiyeleri ile nakit girişi, stok alışı, operasyon gideri, maaş ve kredi ödemeleri AYLIK_VERI sayfasına girilir; HESAP net nakit değişimi, kapanış, kâr tahmini ve risk skorunu üretir. KONTROLLER, KARAR, PANO, SENARYO_DUYARLILIK ve RAPOR sayfaları yönetim katmanını oluşturur.'
+    question: 'Pakette hangi sistemler var?'
+  - answer: 'Bireysel sistemler tek işi çözer; paket bu verileri konsolide ederek aylık yönetim özeti üretir.'
+    question: 'Bireysel sistemlerden farkı ne?'
+  - answer: 'Yapısal iyileştirme sürümleri satın alma döneminden itibaren 12 ay ücretsiz sunulur; güncel sürüm aynı dosya üzerinden teslim edilir.'
+    question: 'İçerik daha sonra genişler mi?'
+  - answer: 'Excel 2016 ve üzeri gerekir; kullanılan işlevler standarttır.'
+    question: 'Excel sürümüm eski, çalışır mı?'
+  - answer: 'Girdi alanları serbesttir; formül sayfaları şifresiz korumadadır, kaldırıp inceleyebilirsiniz.'
+    question: 'Kilitli mi? Değiştirebilir miyim?'
+  - answer: 'Evet, tek lisans tek kullanıcıdır; aynı kullanıcının makul sayıdaki cihazında kullanılabilir.'
+    question: 'Lisans tek kullanıcılık mı?'
+demoFile: '/demo/kobi-finans-yonetim-paketi.xlsx'
+screenshots:
+  - alt: 'KOBİ Finans Yönetim Paketi dosyasının AYLIK_VERI sayfası — Kasa, banka, cari ve POS bakiyeleri ile nakit girişi, stok alışı, operasyon, maaş ve kredi girişleri'
+    src: '/screenshots/kobi-finans-yonetim-paketi-1.png'
+  - alt: 'KOBİ Finans Yönetim Paketi dosyasının HESAP sayfası — Konsolide net nakit değişimi, kapanış, kâr tahmini ve risk skoru'
+    src: '/screenshots/kobi-finans-yonetim-paketi-2.png'
+  - alt: 'KOBİ Finans Yönetim Paketi dosyasının PANO sayfası — Aylık yönetim özeti'
+    src: '/screenshots/kobi-finans-yonetim-paketi-3.png'
+related:
   - 'akilli-kasa-defteri-ve-nakit-kontrol-sistemi'
   - '13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi'
   - 'aylik-patron-finans-paneli'
