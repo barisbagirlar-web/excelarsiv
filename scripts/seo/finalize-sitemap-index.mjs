@@ -1,8 +1,7 @@
 // Sitemap-index finalizer.
-// dist/seo-artifacts.json'daki child hash'lerini canlı production baseline ile
-// karşılaştırır (SHA-256), her child için NEW/CHANGED/UNCHANGED/REMOVED kararı üretir,
-// doğru index <lastmod> değerini atomik olarak yazar ve kanıt raporu üretir.
-// Saf karar fonksiyonları offline test dosyası tarafından import edilir.
+// Generated child hashes are compared with a semantically consistent production baseline.
+// Baseline acceptance requires two consecutive identical valid snapshots so CDN/edge
+// propagation cannot mix an old index with new children (or the reverse).
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -13,6 +12,8 @@ const RETRY_ATTEMPTS = 8;
 const REQUEST_TIMEOUT_MS = 30_000;
 const RETRY_DELAY_MS = 5_000;
 const MAX_UNAPPROVED_DROP_RATIO = 0.20;
+const FUTURE_GRACE_MS = 5 * 60 * 1000;
+const INDEX_LASTMOD_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/;
 
 export function sha256(bytes) {
   return createHash('sha256').update(bytes).digest('hex');
@@ -102,8 +103,6 @@ export function assertSafeShrink({
   return { dropRatio, approved: allowShrink || dropRatio <= maxDropRatio };
 }
 
-// children: [{ file, loc, sha256 }] (generated)
-// liveIndexMap: Map<loc, { lastmod, sha256 }>
 export function decideIndex(children, liveIndexMap, { nowIso, migration = false }) {
   const decisions = [];
   for (const child of children) {
@@ -145,68 +144,81 @@ export function decideIndex(children, liveIndexMap, { nowIso, migration = false 
   const removed = [...liveIndexMap.keys()].filter(
     (loc) => !children.some((child) => child.loc === loc),
   );
-  const indexXml = renderIndex(
-    decisions.map((d) => ({ loc: d.loc, lastmod: d.lastmod })),
-  );
+  const indexXml = renderIndex(decisions.map((d) => ({ loc: d.loc, lastmod: d.lastmod })));
   return { indexXml, decisions, removed };
 }
 
-async function fetchWithRetry(url, { attempts, timeoutMs, delayMs }) {
-  let lastError;
-  for (let attempt = 1; attempt <= attempts; attempt++) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), timeoutMs);
-    try {
-      const res = await fetch(url, {
-        signal: controller.signal,
-        headers: { Accept: 'application/xml,text/xml,*/*' },
-      });
-      clearTimeout(timer);
-      if (res.status === 404) return { status: 404, text: '' };
-      if (res.status !== 200) {
-        throw new Error(`HTTP ${res.status}: ${url}`);
-      }
-      const text = await res.text();
-      if (!text.trim()) throw new Error(`boş baseline: ${url}`);
-      return { status: 200, text };
-    } catch (err) {
-      clearTimeout(timer);
-      lastError = err;
-      if (attempt < attempts) {
-        await new Promise((r) => setTimeout(r, delayMs));
-      }
-    }
-  }
-  throw lastError;
-}
-
-export async function fetchLiveBaseline({
+export function validateBaselineIndexEntries(entries, {
   baseUrl = SITE_ORIGIN,
-  logger = console,
-  attempts = RETRY_ATTEMPTS,
-  timeoutMs = REQUEST_TIMEOUT_MS,
-  delayMs = RETRY_DELAY_MS,
-}) {
-  const indexRes = await fetchWithRetry(`${baseUrl}/sitemap.xml`, {
-    attempts,
-    timeoutMs,
-    delayMs,
-  });
-  if (indexRes.status === 404) {
-    logger.log('BASELINE: canlı sitemap.xml yok (404) — boş baseline, tüm child NEW.');
-    return { index: { children: [] } };
-  }
-  const entries = parseSitemapIndex(indexRes.text);
-  if (entries.length === 0) {
+  nowMs = Date.now(),
+} = {}) {
+  if (!Array.isArray(entries) || entries.length === 0) {
     throw new Error('BASELINE_UNKNOWN: canlı index geçersiz/boş.');
   }
+  const seen = new Set();
+  for (const entry of entries) {
+    if (!entry?.loc || seen.has(entry.loc)) {
+      throw new Error(`BASELINE_UNKNOWN: canlı index child loc geçersiz/duplicate: ${entry?.loc ?? '-'}`);
+    }
+    seen.add(entry.loc);
+    if (!entry.loc.startsWith(`${baseUrl}/`)) {
+      throw new Error(`BASELINE_UNKNOWN: canlı index external child: ${entry.loc}`);
+    }
+    if (!entry.lastmod || !INDEX_LASTMOD_RE.test(entry.lastmod) || Number.isNaN(Date.parse(entry.lastmod))) {
+      throw new Error(`BASELINE_UNKNOWN: canlı index child lastmod eksik/geçersiz: ${entry.loc}`);
+    }
+    if (Date.parse(entry.lastmod) > nowMs + FUTURE_GRACE_MS) {
+      throw new Error(`BASELINE_UNKNOWN: canlı index child future lastmod: ${entry.loc}`);
+    }
+  }
+  return true;
+}
+
+export function baselineSnapshotFingerprint(snapshot) {
+  if (snapshot?.kind === 'missing') return 'MISSING:404';
+  const children = [...(snapshot?.baseline?.index?.children ?? [])]
+    .map((child) => ({
+      loc: child.loc,
+      lastmod: child.lastmod,
+      sha256: child.sha256,
+      urlCount: child.urlCount,
+    }))
+    .sort((a, b) => a.loc.localeCompare(b.loc, 'en'));
+  return sha256(Buffer.from(JSON.stringify(children), 'utf8'));
+}
+
+async function fetchOnce(url, { timeoutMs }) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, {
+      signal: controller.signal,
+      headers: {
+        Accept: 'application/xml,text/xml,*/*',
+        'Cache-Control': 'no-cache',
+        Pragma: 'no-cache',
+      },
+    });
+    if (res.status === 404) return { status: 404, text: '' };
+    if (res.status !== 200) throw new Error(`HTTP ${res.status}: ${url}`);
+    const text = await res.text();
+    if (!text.trim()) throw new Error(`boş baseline: ${url}`);
+    return { status: 200, text };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function readBaselineSnapshot({ baseUrl, timeoutMs }) {
+  const indexRes = await fetchOnce(`${baseUrl}/sitemap.xml`, { timeoutMs });
+  if (indexRes.status === 404) return { kind: 'missing', baseline: { index: { children: [] } } };
+
+  const entries = parseSitemapIndex(indexRes.text);
+  validateBaselineIndexEntries(entries, { baseUrl });
+
   const children = [];
   for (const entry of entries) {
-    const res = await fetchWithRetry(entry.loc, {
-      attempts,
-      timeoutMs,
-      delayMs,
-    });
+    const res = await fetchOnce(entry.loc, { timeoutMs });
     if (res.status !== 200) {
       throw new Error(`BASELINE_UNKNOWN: child okunamadı HTTP ${res.status}: ${entry.loc}`);
     }
@@ -222,16 +234,56 @@ export async function fetchLiveBaseline({
       entries: urlEntries,
     });
   }
-  logger.log(`BASELINE: ${children.length} child / ${children.reduce((sum, child) => sum + child.urlCount, 0)} URL okundu.`);
-  return { index: { children } };
+  children.sort((a, b) => a.loc.localeCompare(b.loc, 'en'));
+  return { kind: 'ready', baseline: { index: { children } } };
+}
+
+export async function fetchLiveBaseline({
+  baseUrl = SITE_ORIGIN,
+  logger = console,
+  attempts = RETRY_ATTEMPTS,
+  timeoutMs = REQUEST_TIMEOUT_MS,
+  delayMs = RETRY_DELAY_MS,
+}) {
+  let previousFingerprint = null;
+  let previousSnapshot = null;
+  let lastError = null;
+
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      const snapshot = await readBaselineSnapshot({ baseUrl, timeoutMs });
+      const fingerprint = baselineSnapshotFingerprint(snapshot);
+      if (previousFingerprint === fingerprint && previousSnapshot?.kind === snapshot.kind) {
+        if (snapshot.kind === 'missing') {
+          logger.log(`BASELINE: iki ardışık 404 doğrulandı (${attempt - 1}-${attempt}) — tüm child NEW.`);
+        } else {
+          const children = snapshot.baseline.index.children;
+          logger.log(`BASELINE: iki ardışık tutarlı snapshot doğrulandı (${attempt - 1}-${attempt}); ${children.length} child / ${children.reduce((sum, child) => sum + child.urlCount, 0)} URL.`);
+        }
+        return snapshot.baseline;
+      }
+      previousFingerprint = fingerprint;
+      previousSnapshot = snapshot;
+      lastError = new Error('BASELINE_SNAPSHOT_NOT_YET_STABLE');
+      logger.log(`BASELINE RETRY ${attempt}/${attempts}: geçerli snapshot görüldü; ikinci aynı snapshot bekleniyor.`);
+    } catch (err) {
+      previousFingerprint = null;
+      previousSnapshot = null;
+      lastError = err instanceof Error ? err : new Error(String(err));
+      logger.log(`BASELINE RETRY ${attempt}/${attempts}: ${lastError.message}`);
+    }
+
+    if (attempt < attempts) await new Promise((r) => setTimeout(r, delayMs));
+  }
+
+  const detail = lastError?.message ?? 'bilinmeyen hata';
+  throw new Error(`BASELINE_UNKNOWN: ${attempts} denemede iki ardışık tutarlı production snapshot doğrulanamadı. Son durum: ${detail}`);
 }
 
 export function loadBaselineFile(file) {
   const raw = readFileSync(file, 'utf8');
   const parsed = JSON.parse(raw);
-  if (!parsed?.index?.children) {
-    throw new Error(`geçersiz baseline dosyası: ${file}`);
-  }
+  if (!parsed?.index?.children) throw new Error(`geçersiz baseline dosyası: ${file}`);
   return parsed;
 }
 
@@ -287,12 +339,7 @@ export async function finalize({
   });
   const urlDelta = calculateUrlDelta(generatedEntries, liveEntries);
 
-  const { indexXml, decisions, removed } = decideIndex(
-    children,
-    buildLiveIndexMap(baseline),
-    { nowIso, migration },
-  );
-
+  const { indexXml, decisions, removed } = decideIndex(children, buildLiveIndexMap(baseline), { nowIso, migration });
   atomicWriteIndex(indexXml, dist);
 
   const report = {
