@@ -5,14 +5,14 @@ category: 'nakit-akisi'
 priceTL: 990
 vatIncluded: true
 fileFormat: xlsx
-sizeMB: 0.05
-sheetCount: 17
+sizeMB: 0.25
+sheetCount: 20
 hasMacros: false
 minExcelVersion: 'Excel 2016 ve üzeri'
 macCompatible: true
 sheetsCompatibility: full
 version: '2.0.0'
-updatedAt: '2026-08-08'
+updatedAt: '2026-08-10'
 sheetMap: 
   - name: 'KAPAK'
     purpose: 'Ürün kapak sayfası'
@@ -20,25 +20,31 @@ sheetMap:
   - name: 'HIZLI_BASLANGIC'
     purpose: 'Hızlı başlangıç ve kullanım yönlendirmesi'
     kind: 'input'
-  - name: 'HESAPLAR'
+  - name: 'KASA_HESAPLARI'
     purpose: 'Kasa ve banka hesap tanımları'
     kind: 'input'
   - name: 'KASA_HAREKETLERI'
     purpose: 'Günlük kasa hareketi girişleri'
     kind: 'input'
-  - name: 'ODEME_TAKVIMI'
+  - name: 'ODEME_TAHSILAT_TAKVIMI'
     purpose: 'Ödeme ve tahsilat takvimi girişleri'
     kind: 'input'
-  - name: 'FIZIKI_SAYIM'
+  - name: 'FIZIKI_KASA_MUTABAKAT'
     purpose: 'Fiili sayım girişleri'
     kind: 'input'
+  - name: 'GUNLUK_OZET'
+    purpose: 'Günlük özet ve bakiye hesapları'
+    kind: 'calculation'
+  - name: 'NAKIT_PROJEKSIYONU'
+    purpose: 'Nakit projeksiyon modeli'
+    kind: 'calculation'
   - name: 'MOTOR'
     purpose: 'Tüm ara hesap adımları'
     kind: 'calculation'
-  - name: 'KONTROL'
+  - name: 'KONTROLLER'
     purpose: 'Girdi tutarlılık ve anomali kontrolleri'
     kind: 'calculation'
-  - name: 'KARAR'
+  - name: 'KARAR_MOTORU'
     purpose: 'Nakit riski ve karar üretimi'
     kind: 'calculation'
   - name: 'PANO'
@@ -53,6 +59,9 @@ sheetMap:
   - name: 'ORNEK_VERI'
     purpose: 'Örnek veri seti'
     kind: 'input'
+  - name: 'TESTLER'
+    purpose: 'Formül doğrulama testleri'
+    kind: 'calculation'
   - name: 'DEGISIKLIK_KAYDI'
     purpose: 'Sürüm değişiklik kaydı'
     kind: 'output'
