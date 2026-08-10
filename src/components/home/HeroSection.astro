@@ -42,7 +42,7 @@ const { searchIndex } = Astro.props;
   }
   .hero-shell {
     position: relative;
-    width: min(var(--container-wide), calc(100% - 48px));
+    width: min(1680px, calc(100% - 64px));
     margin-inline: auto;
     padding-bottom: 28px;
   }
@@ -61,7 +61,7 @@ const { searchIndex } = Astro.props;
     position: relative;
     display: block;
     overflow: hidden;
-    max-width: var(--container-wide);
+    width: 100%;
     margin-inline: auto;
     aspect-ratio: 3 / 1;
     border: 1px solid rgba(16, 124, 65, 0.12);
@@ -81,10 +81,17 @@ const { searchIndex } = Astro.props;
     left: 50%;
     bottom: 0;
     z-index: 10;
-    width: min(660px, calc(100% - 48px));
+    width: min(690px, calc(100% - 48px));
     transform: translateX(-50%);
     scroll-margin-top: 90px;
   }
+
+  @media (min-width: 721px) and (max-width: 1180px) {
+    .hero-shell {
+      width: calc(100% - 40px);
+    }
+  }
+
   @media (max-width: 720px) {
     .hero-section {
       margin-top: 12px;
