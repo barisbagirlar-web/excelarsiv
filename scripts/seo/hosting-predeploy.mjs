@@ -9,7 +9,10 @@ import { DIST_DIR } from './lib.mjs';
 import { parseSitemapIndex } from './finalize-sitemap-index.mjs';
 
 function run(script) {
-  const result = spawnSync(process.execPath, [script], { cwd: process.cwd(), env: process.env, stdio: 'inherit' });
+  // firebase CLI'nin paketli node'u ESM'i require edemediği için predeploy
+  // sarmalayıcısı gerçek sistem node'unu PREDEPLOY_NODE olarak geçer.
+  const node = process.env.PREDEPLOY_NODE || process.execPath;
+  const result = spawnSync(node, [script], { cwd: process.cwd(), env: process.env, stdio: 'inherit' });
   if (result.error) throw result.error;
   if (result.status !== 0) process.exit(result.status ?? 1);
 }
