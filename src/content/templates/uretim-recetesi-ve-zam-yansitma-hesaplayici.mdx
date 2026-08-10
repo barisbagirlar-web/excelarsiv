@@ -1,0 +1,102 @@
+---
+name: 'Üretim Reçetesi & Zam Yansıtma Hesaplayıcı'
+summary: 'Reçetedeki hammadde miktar, birim fiyat, fire ve zam oranlarıyla eski/yeni reçete maliyetini üretin; hedef kâr marjını koruyan satış fiyatını hesaplayın.'
+category: 'stok-ve-uretim'
+priceTL: 1490
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.35
+sheetCount: 14
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-10'
+sheetMap: 
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası ve dosya kimliği'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç rehberi'
+    kind: 'output'
+  - name: 'RECETE_LISTESI'
+    purpose: 'Ürün reçeteleri ve zam oranları girişi'
+    kind: 'input'
+  - name: 'HESAP'
+    purpose: 'Tüm ara hesap adımları ve motor katmanı'
+    kind: 'calculation'
+  - name: 'KONTROLLER'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Karar kapısı, gerekçe ve aksiyon önerileri'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ve yönetici panosu'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık (tornado) analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yazdırılabilir yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs: 
+  - 'Ürün reçeteleri (hammadde, miktar, fire)'
+  - 'Zam oranları (hammadde bazında)'
+  - 'Hedef kâr marjı'
+outputs: 
+  - 'Eski ve yeni reçete maliyeti'
+  - 'Ürün bazında maliyet artışı'
+  - 'ZAM YANSIT/KISMİ YANSIT/FİYATI KORU kararı'
+suitableFor: 
+  - 'Gıda, imalat ve üretim işletmeleri'
+  - 'Hammadde zamlarını fiyata yansıtmak isteyenler'
+  - 'Reçete maliyetini ürün bazında izleyen üretim yöneticileri'
+notSuitableFor: 
+  - 'Reçetesi olmayan hizmet işletmeleri'
+  - 'Kurumsal ERP reçete modülü kullananlar'
+requirements: 
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq: 
+  - question: 'Reçete maliyeti nasıl hesaplanır?'
+    answer: 'Her hammaddenin miktarı birim fiyat ve fire oranıyla çarpılır; toplam ürün maliyeti bulunur.'
+  - question: 'Zam etkisi nasıl yansır?'
+    answer: 'Hammadde bazında zam oranı uygulanarak yeni reçete maliyeti üretilir; maliyet artışı ürün bazında gösterilir.'
+  - question: 'Karar nasıl üretilir?'
+    answer: 'Maliyet artışı genel eşiklerle karşılaştırılır; artış hedef marjı aşındırıyorsa ZAM YANSIT, sınırda ise KISMİ YANSIT, ihmal edilebilirse FİYATI KORU kararı verilir.'
+  - question: 'Hedef marj nasıl korunur?'
+    answer: 'Yeni maliyet üzerinden hedef marjı sağlayan önerilen satış fiyatı hesaplanır ve mevcut fiyatla karşılaştırılır.'
+  - question: 'Fire oranı nedir?'
+    answer: 'Üretim sırasında kaybolan/yitirilen hammadde payıdır; maliyet hesabına dahil edilir.'
+  - question: 'Rapor çıktısı alabilir miyim?'
+    answer: 'Evet; RAPOR sayfası ürün bazında maliyet artışı ve önerilen fiyatı yönetici özeti olarak çıktı verir.'
+screenshots: 
+  - src: '/screenshots/uretim-recetesi-ve-zam-yansitma-hesaplayici-1.png'
+    alt: 'Üretim Reçetesi & Zam Yansıtma Hesaplayıcı dosyasının RECETE_LISTESI sayfası — Ürün reçeteleri ve zam oranları girişi'
+  - src: '/screenshots/uretim-recetesi-ve-zam-yansitma-hesaplayici-2.png'
+    alt: 'Üretim Reçetesi & Zam Yansıtma Hesaplayıcı dosyasının KARAR sayfası — Karar kapısı, gerekçe ve aksiyonlar'
+  - src: '/screenshots/uretim-recetesi-ve-zam-yansitma-hesaplayici-3.png'
+    alt: 'Üretim Reçetesi & Zam Yansıtma Hesaplayıcı dosyasının PANO sayfası — Canlı KPI ve yönetici panosu'
+related: 
+  - 'mutfak-kayip-kacak-hesaplayici'
+  - 'asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

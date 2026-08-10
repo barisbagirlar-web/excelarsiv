@@ -1,0 +1,108 @@
+---
+name: 'Şube Kârlılık ve Nakit Hesaplayıcı'
+summary: 'Şube bazında gelir, gider ve nakit akışını toplayın; şube kârlılığını, kâr marjını ve nakit pozisyonunu hesaplayıp şube kararını gerekçesiyle üretin.'
+category: 'finansal-analiz'
+priceTL: 2490
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.51
+sheetCount: 16
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-10'
+sheetMap: 
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası ve dosya kimliği'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç rehberi'
+    kind: 'output'
+  - name: 'SUBE_LISTESI'
+    purpose: 'Şube listesi ve hedef marj girişi'
+    kind: 'input'
+  - name: 'GELIR_GIDER'
+    purpose: 'Gelir ve gider kayıtları girişi'
+    kind: 'input'
+  - name: 'NAKIT_AKISI'
+    purpose: 'Tahsilat ve ödeme kayıtları girişi'
+    kind: 'input'
+  - name: 'HESAP'
+    purpose: 'Tüm ara hesap adımları ve motor katmanı'
+    kind: 'calculation'
+  - name: 'KONTROLLER'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Karar kapısı, gerekçe ve aksiyon önerileri'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ve yönetici panosu'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık (tornado) analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yazdırılabilir yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs: 
+  - 'Şube listesi (açılış nakit, hedef marj)'
+  - 'Gelir/gider kayıtları (tarih, şube, kalem, tür)'
+  - 'Tahsilat/ödeme kayıtları'
+outputs: 
+  - 'Şube bazında net kâr ve kâr marjı'
+  - 'Dönem nakit akışı ve nakit pozisyonu'
+  - 'KARLI/İNCELE/ZARARLI kararı ve aksiyonlar'
+suitableFor: 
+  - 'Birden çok şubesi olan perakende/hizmet firmaları'
+  - 'Şube kârlılığını karşılaştıran yöneticiler'
+  - 'Nakit pozisyonunu şube bazında izleyen finans ekipleri'
+notSuitableFor: 
+  - 'Tek iş yeri (şube karşılaştırması gerekmez)'
+  - 'Kurumsal muhasebe sisteminde şube raporu olanlar'
+requirements: 
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq: 
+  - question: 'Şube kârlılığı nasıl hesaplanır?'
+    answer: 'Şube bazında gelir ve gider kayıtları toplanır; net kâr ve kâr marjı formülle üretilir.'
+  - question: 'Nakit pozisyonu nasıl bulunur?'
+    answer: 'Açılış nakitine tahsilatlar eklenir, ödemeler çıkarılır; dönem sonu pozisyonu ve açık fazlası gösterilir.'
+  - question: 'Karar nasıl üretilir?'
+    answer: 'Kâr marjı hedef marjla karşılaştırılır; negatif marjda ZARARLI, hedef altında İNCELE, üzerinde KARLI kararı gerekçesiyle üretilir.'
+  - question: 'Gelecek nakit tahmini var mı?'
+    answer: 'Evet; ciro senaryo bandı ve zaman serisi projeksiyonu ile gelecek dönem nakit tahmini ve güven aralığı üretilir.'
+  - question: 'Kalem ve şube listesi düzenlenebilir mi?'
+    answer: 'Evet; LISTELER sayfasına yeni şube ve gider/gelir kalemleri eklenebilir.'
+  - question: 'Rapor çıktısı alabilir miyim?'
+    answer: 'Evet; RAPOR sayfası şube bazında kârlılık ve nakit özetini PDF için uygun yönetici çıktısı olarak sunar.'
+screenshots: 
+  - src: '/screenshots/sube-karlilik-ve-nakit-hesaplayici-1.png'
+    alt: 'Şube Kârlılık ve Nakit Hesaplayıcı dosyasının SUBE_LISTESI sayfası — Şube listesi ve hedef marj girişi'
+  - src: '/screenshots/sube-karlilik-ve-nakit-hesaplayici-2.png'
+    alt: 'Şube Kârlılık ve Nakit Hesaplayıcı dosyasının KARAR sayfası — Karar kapısı, gerekçe ve aksiyonlar'
+  - src: '/screenshots/sube-karlilik-ve-nakit-hesaplayici-3.png'
+    alt: 'Şube Kârlılık ve Nakit Hesaplayıcı dosyasının PANO sayfası — Canlı KPI ve yönetici panosu'
+related: 
+  - 'aylik-patron-finans-paneli'
+  - 'gunluk-gelir-gider-ve-gercek-karlilik-sistemi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

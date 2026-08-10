@@ -1,0 +1,105 @@
+---
+name: 'KDV İadesi Azami Alacak Hesabı & Dosya Hazırlayıcı'
+summary: 'Devreden KDV ve ihracat iadesi sınırlarına göre azami KDV iade alacağınızı hesaplayın; iade dosyasını destekleyen belge takibini kurun.'
+category: 'muhasebe-ve-vergi'
+priceTL: 7900
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.22
+sheetCount: 15
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-10'
+sheetMap: 
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası ve dosya kimliği'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç rehberi'
+    kind: 'output'
+  - name: 'KDV_BELGELERI'
+    purpose: 'KDV belgeleri ve iade sınırı girişi'
+    kind: 'input'
+  - name: 'HESAP'
+    purpose: 'Tüm ara hesap adımları ve motor katmanı'
+    kind: 'calculation'
+  - name: 'ANALITIK_MOTOR'
+    purpose: 'Analitik modüller (anomali, yoğunlaşma, tahmin, duyarlılık)'
+    kind: 'calculation'
+  - name: 'KONTROLLER'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Karar kapısı, gerekçe ve aksiyon önerileri'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ve yönetici panosu'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık (tornado) analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yazdırılabilir yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs: 
+  - 'KDV belgeleri (fatura, gider pusulası, ihracat)'
+  - 'Devreden KDV ve tahakkuk bilgileri'
+  - 'İade sınırı parametreleri'
+outputs: 
+  - 'Azami KDV iade alacağı tutarı'
+  - 'İade sınırına göre iade edilebilir tutar'
+  - 'UYGUN/İNCELE/DURDUR dosya kararı'
+suitableFor: 
+  - 'İhracat yapan ve KDV iadesi alan firmalar'
+  - 'Devreden KDV takibi yapan muhasebeciler'
+  - 'İade dosyası hazırlayan mali müşavirler'
+notSuitableFor: 
+  - 'KDV iadesi hakkı olmayan mükellefler'
+  - 'İndirimli orana tabi iade süreçleri (özel düzenleme gerektirir)'
+requirements: 
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq: 
+  - question: 'Azami iade alacağı nasıl belirlenir?'
+    answer: 'Devreden KDV ile iade hakkı doğuran işlemlerin (ör. ihracat) iade sınırı karşılaştırılır; azami iade alacağı hesaplanır.'
+  - question: 'Hangi belgeler gerekiyor?'
+    answer: 'İhracat faturaları, gümrük beyannameleri ve satış belgeleri KDV_BELGELERI sayfasına girilir; dosya tutarları otomatik toplar.'
+  - question: 'Karar nasıl üretilir?'
+    answer: 'Hesaplanan azami iade, belge toplamı ve sınır eşikleriyle karşılaştırılır; eksik belge varsa İNCELE, hata varsa DURDUR kararı verilir.'
+  - question: 'Mevzuat dayanağı nedir?'
+    answer: 'KDV Kanunu iade hükümleri çerçevesinde parametreler AYARLAR sayfasındadır; güncel oranlarla çalışır.'
+  - question: 'Beyanname yerine geçer mi?'
+    answer: 'Hayır. Dosya iade hesabı ve dosya hazırlığını destekler; beyanname mali müşavir tarafından verilir.'
+  - question: 'Rapor çıktısı alabilir miyim?'
+    answer: 'Evet; RAPOR sayfası yazdırılabilir yönetici özeti olarak düzenlenir ve PDF için uygun çıktı verir.'
+screenshots: 
+  - src: '/screenshots/kdv-iadesi-azami-alacak-hesabi-dosya-hazirlayici-1.png'
+    alt: 'KDV İadesi Azami Alacak Hesabı & Dosya Hazırlayıcı dosyasının KDV_BELGELERI sayfası — KDV belgeleri ve iade sınırı girişi'
+  - src: '/screenshots/kdv-iadesi-azami-alacak-hesabi-dosya-hazirlayici-2.png'
+    alt: 'KDV İadesi Azami Alacak Hesabı & Dosya Hazırlayıcı dosyasının KARAR sayfası — Karar kapısı, gerekçe ve aksiyonlar'
+  - src: '/screenshots/kdv-iadesi-azami-alacak-hesabi-dosya-hazirlayici-3.png'
+    alt: 'KDV İadesi Azami Alacak Hesabı & Dosya Hazırlayıcı dosyasının PANO sayfası — Canlı KPI ve yönetici panosu'
+related: 
+  - 'kkeg-ve-finansman-gider-kisitlamasi-vergi-savunma-seti'
+  - 'vergi-sgk-borcunu-tecil-etmeli-miyim-kredi-mi-tecil-mi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

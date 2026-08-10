@@ -1,0 +1,105 @@
+---
+name: 'Amortisman & Sabit Kıymet Satış Zamanlama Stratejisti'
+summary: 'Normal ve azalan bakiyeli amortismanı, kıst amortismanı ve dört çeyrek satış senaryosunda vergi etkisini hesaplayın; en uygun satış dönemini bulun.'
+category: 'muhasebe-ve-vergi'
+priceTL: 1490
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.32
+sheetCount: 15
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-10'
+sheetMap: 
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası ve dosya kimliği'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç rehberi'
+    kind: 'output'
+  - name: 'KIYMET_LISTESI'
+    purpose: 'Sabit kıymet listesi ve satış senaryoları girişi'
+    kind: 'input'
+  - name: 'HESAP'
+    purpose: 'Tüm ara hesap adımları ve motor katmanı'
+    kind: 'calculation'
+  - name: 'ANALITIK_MOTOR'
+    purpose: 'Analitik modüller (anomali, yoğunlaşma, tahmin, duyarlılık)'
+    kind: 'calculation'
+  - name: 'KONTROLLER'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Karar kapısı, gerekçe ve aksiyon önerileri'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ve yönetici panosu'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık (tornado) analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yazdırılabilir yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs: 
+  - 'Sabit kıymet listesi (edinim, tutar, ömür, yöntem)'
+  - 'Satış senaryoları (çeyrek, satış bedeli)'
+  - 'Vergi oranı ve iskonto parametreleri'
+outputs: 
+  - 'Normal ve azalan bakiyeli amortisman'
+  - 'Çeyrek bazlı kıst amortisman ve satış kârı/zararı'
+  - 'Net nakit ve bugünkü değer karşılaştırması'
+suitableFor: 
+  - 'Sabit kıymet satışı planlayan işletmeler'
+  - 'Amortisman yöntemi karşılaştırması yapan muhasebeciler'
+  - 'Satış zamanlamasını vergi etkisiyle optimize etmek isteyenler'
+notSuitableFor: 
+  - 'Amortisman hesabını mevcut muhasebe paketinde yapanlar'
+  - 'Tek dönemlik basit amortisman ihtiyacı'
+requirements: 
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq: 
+  - question: 'Normal ve azalan bakiyeli amortisman farkı nedir?'
+    answer: 'Normal yöntem eşit pay, azalan bakiyeli yöntem ilk yıllarda yüksek pay ayırır. Dosya iki yöntemi birlikte hesaplar ve karşılaştırır.'
+  - question: 'Kıst amortisman nedir?'
+    answer: 'Sabit kıymet edinilen veya satılan yılda ay bazında orantılı amortisman ayrılmasıdır. Dosya yıl içindeki dört çeyrek satış senaryosunda kıst hesabı otomatik üretir.'
+  - question: 'Satış için en uygun dönem nasıl bulunur?'
+    answer: 'Her çeyrekteki satış kârı/zararı, kurumlar vergisi etkisi ve elde edilen net nakit bugünkü değere indirgenir; en yüksek net bugünkü değeri veren dönem önerilir.'
+  - question: 'Verilerim yoksa çalışır mı?'
+    answer: 'Dosyada örnek veri seti vardır; kendi kıymetlerinizi girerek gerçek senaryonuzu hesaplayabilirsiniz.'
+  - question: 'Mevzuat değişirse ne olur?'
+    answer: 'Vergi oranı ve amortisman parametreleri AYARLAR sayfasındadır; güncel oranlarla yeniden çalışır.'
+  - question: 'Sonuç raporu yöneticiye sunulabilir mi?'
+    answer: 'Evet; RAPOR sayfası yazdırılabilir yönetici özeti olarak PDF için uygundur, grafik ve karar kapısıyla birlikte çıktı alınır.'
+screenshots: 
+  - src: '/screenshots/amortisman-ve-sabit-kiymet-satis-zamanlama-stratejisti-1.png'
+    alt: 'Amortisman & Sabit Kıymet Satış Zamanlama Stratejisti dosyasının KIYMET_LISTESI sayfası — Sabit kıymet listesi ve satış senaryoları girişi'
+  - src: '/screenshots/amortisman-ve-sabit-kiymet-satis-zamanlama-stratejisti-2.png'
+    alt: 'Amortisman & Sabit Kıymet Satış Zamanlama Stratejisti dosyasının KARAR sayfası — Karar kapısı, gerekçe ve aksiyonlar'
+  - src: '/screenshots/amortisman-ve-sabit-kiymet-satis-zamanlama-stratejisti-3.png'
+    alt: 'Amortisman & Sabit Kıymet Satış Zamanlama Stratejisti dosyasının PANO sayfası — Canlı KPI ve yönetici panosu'
+related: 
+  - 'yeniden-degerleme-yapmali-miyim-vergi-tasarruf-analizi'
+  - 'kdv-iadesi-azami-alacak-hesabi-dosya-hazirlayici'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

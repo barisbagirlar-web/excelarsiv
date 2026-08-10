@@ -1,0 +1,105 @@
+---
+name: 'Döviz Açık Pozisyonu ve Kur Riski Stres Testi'
+summary: 'Döviz cinsinden varlık ve borçlarınızın net açık pozisyonunu hesaplayın; kur şoku senaryolarında kâr/zarar etkisini ve pozisyon kararını görün.'
+category: 'finansal-analiz'
+priceTL: 2490
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.22
+sheetCount: 15
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-10'
+sheetMap: 
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası ve dosya kimliği'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç rehberi'
+    kind: 'output'
+  - name: 'DOVIZ_POZISYONLARI'
+    purpose: 'Dövizli varlık ve borç pozisyonları girişi'
+    kind: 'input'
+  - name: 'HESAP'
+    purpose: 'Tüm ara hesap adımları ve motor katmanı'
+    kind: 'calculation'
+  - name: 'ANALITIK_MOTOR'
+    purpose: 'Analitik modüller (anomali, yoğunlaşma, tahmin, duyarlılık)'
+    kind: 'calculation'
+  - name: 'KONTROLLER'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Karar kapısı, gerekçe ve aksiyon önerileri'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ve yönetici panosu'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık (tornado) analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yazdırılabilir yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs: 
+  - 'Dövizli varlıklar (cari, kasa, mevduat)'
+  - 'Dövizli borçlar (kredi, borç, tedarikçi)'
+  - 'Kur şoku senaryo oranları'
+outputs: 
+  - 'Net açık pozisyon (USD/EUR bazında)'
+  - 'Kur şokunda oluşan kur farkı etkisi'
+  - 'UYGUN/İNCELE/DURDUR pozisyon kararı'
+suitableFor: 
+  - 'Dövizli alacak/borcu olan işletmeler'
+  - 'İthalat/ihracat yapan firmalar'
+  - 'Kur riskini ölçmek isteyen finans yöneticileri'
+notSuitableFor: 
+  - 'Döviz işlemi olmayan tamamen TL çalışanlar'
+  - 'Türev ve hedging işlemlerini yönetenler (portföy yönetimi gerektirir)'
+requirements: 
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq: 
+  - question: 'Net açık pozisyon nasıl hesaplanır?'
+    answer: 'Dövizli varlıklar ile dövizli borçların aynı döviz cinsinde farkı alınır; pozisyon açık veya fazla olarak işaretlenir.'
+  - question: 'Kur şokunda etki nasıl hesaplanır?'
+    answer: 'Dosya iyimser/baz/kötümser/kritik kur senaryolarını AYARLAR''daki oranlarla kurar ve her senaryoda kur farkı kâr/zararını üretir.'
+  - question: 'Karar nasıl üretilir?'
+    answer: 'Net pozisyon ve kur şokundaki olası zarar eşiklerle karşılaştırılır; zarar eşiği aşarsa DURDUR, aşmıyorsa İNCELE/UYGUN kararı verilir.'
+  - question: 'TCMB kuru hangi tarihten alınır?'
+    answer: 'AYARLAR sayfasındaki rapor tarihi ve kur değerleri giriş olarak kullanılır; kullanıcı kendi tarihini girer.'
+  - question: 'Risk yönetimi önerisi üretir mi?'
+    answer: 'Evet; pozisyon ve senaryo sonucuna göre korunma ve dengeleme aksiyonları önerilir.'
+  - question: 'Rapor çıktısı alabilir miyim?'
+    answer: 'Evet; RAPOR sayfası yönetici özeti olarak PDF için uygun düzenlenir, pozisyon ve senaryo sonuçları tek sayfada özetlenir.'
+screenshots: 
+  - src: '/screenshots/doviz-acik-pozisyonu-ve-kur-riski-stres-testi-1.png'
+    alt: 'Döviz Açık Pozisyonu ve Kur Riski Stres Testi dosyasının DOVIZ_POZISYONLARI sayfası — Dövizli varlık ve borç pozisyonları girişi'
+  - src: '/screenshots/doviz-acik-pozisyonu-ve-kur-riski-stres-testi-2.png'
+    alt: 'Döviz Açık Pozisyonu ve Kur Riski Stres Testi dosyasının KARAR sayfası — Karar kapısı, gerekçe ve aksiyonlar'
+  - src: '/screenshots/doviz-acik-pozisyonu-ve-kur-riski-stres-testi-3.png'
+    alt: 'Döviz Açık Pozisyonu ve Kur Riski Stres Testi dosyasının PANO sayfası — Canlı KPI ve yönetici panosu'
+related: 
+  - 'vergi-sgk-borcunu-tecil-etmeli-miyim-kredi-mi-tecil-mi'
+  - 'aylik-patron-finans-paneli'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

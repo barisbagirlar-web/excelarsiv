@@ -1,0 +1,108 @@
+---
+name: 'Ortaklar Cari & Kasa Adat Faiz Faturası Hesaplayıcı'
+summary: 'Ortak cari bakiyeleri ve kasa adatları üzerinden dönem faizini hesaplayın; fatura tutarını mevzuata uygun şekilde üretin.'
+category: 'muhasebe-ve-vergi'
+priceTL: 2490
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.34
+sheetCount: 16
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-10'
+sheetMap: 
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası ve dosya kimliği'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç rehberi'
+    kind: 'output'
+  - name: 'ORTAK_CARI'
+    purpose: 'Ortak cari hareketleri girişi'
+    kind: 'input'
+  - name: 'KASA_ADAT'
+    purpose: 'Kasa adat dönemleri girişi'
+    kind: 'input'
+  - name: 'HESAP'
+    purpose: 'Tüm ara hesap adımları ve motor katmanı'
+    kind: 'calculation'
+  - name: 'ANALITIK_MOTOR'
+    purpose: 'Analitik modüller (anomali, yoğunlaşma, tahmin, duyarlılık)'
+    kind: 'calculation'
+  - name: 'KONTROLLER'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Karar kapısı, gerekçe ve aksiyon önerileri'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ve yönetici panosu'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık (tornado) analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yazdırılabilir yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs: 
+  - 'Ortak cari hareketleri (borç/alacak)'
+  - 'Kasa adat dönemleri ve bakiyeler'
+  - 'Faiz oranı ve vade parametreleri'
+outputs: 
+  - 'Ortak cari ve kasa adat faizi'
+  - 'Fatura tutarı ve KDV etkisi'
+  - 'UYGUN/İNCELE/DURDUR kararı'
+suitableFor: 
+  - 'Ortaklarına borç veren/alan şirketler'
+  - 'Kasadaki ortak paralarını düzenleyen işletmeler'
+  - 'Adat faizi faturası kesen muhasebeciler'
+notSuitableFor: 
+  - 'Transfer fiyatlandırması süreçleri (özel belgeleme gerektirir)'
+  - 'Banka kredisi dışı finansal araçlar'
+requirements: 
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq: 
+  - question: 'Adat faizi nasıl hesaplanır?'
+    answer: 'Cari bakiyenin gün bazında taşındığı süre ve günlük faiz oranı çarpılarak adat faizi üretilir.'
+  - question: 'Fatura tutarı ne olur?'
+    answer: 'Hesaplanan faiz tutarı KDV oranıyla büyütülerek faturaya esas tutar bulunur.'
+  - question: 'Karar nasıl üretilir?'
+    answer: 'Faiz tutarı ve dönem uygunluğu eşiklerle karşılaştırılır; eksik belge veya dönem hatası İNCELE/DURDUR işareti alır.'
+  - question: 'Mevzuat dayanağı nedir?'
+    answer: 'VUK''nın adat faizi düzenlemeleri çerçevesinde oran ve süre parametreleri AYARLAR sayfasındadır.'
+  - question: 'Çok ortağım var, çalışır mı?'
+    answer: 'Evet; her ortak için ayrı cari takip ve adat hesabı dosyada desteklenir.'
+  - question: 'Rapor çıktısı alabilir miyim?'
+    answer: 'Evet; RAPOR sayfası ortak bazında faiz ve fatura özetini PDF için uygun yönetici çıktısı olarak sunar.'
+screenshots: 
+  - src: '/screenshots/ortaklar-cari-ve-kasa-adat-faiz-faturasi-hesaplayici-1.png'
+    alt: 'Ortaklar Cari & Kasa Adat Faiz Faturası Hesaplayıcı dosyasının ORTAK_CARI sayfası — Ortak cari hareketleri girişi'
+  - src: '/screenshots/ortaklar-cari-ve-kasa-adat-faiz-faturasi-hesaplayici-2.png'
+    alt: 'Ortaklar Cari & Kasa Adat Faiz Faturası Hesaplayıcı dosyasının KARAR sayfası — Karar kapısı, gerekçe ve aksiyonlar'
+  - src: '/screenshots/ortaklar-cari-ve-kasa-adat-faiz-faturasi-hesaplayici-3.png'
+    alt: 'Ortaklar Cari & Kasa Adat Faiz Faturası Hesaplayıcı dosyasının PANO sayfası — Canlı KPI ve yönetici panosu'
+related: 
+  - 'vergi-sgk-ve-maas-karsilik-ayirma-sistemi'
+  - 'kdv-iadesi-azami-alacak-hesabi-dosya-hazirlayici'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

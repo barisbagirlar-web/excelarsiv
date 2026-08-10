@@ -1,0 +1,108 @@
+---
+name: 'KKEG ve Finansman Gider Kısıtlaması Vergi Savunma Seti'
+summary: 'Yabancı kaynak/öz kaynak farkını ve finansman giderlerinin kısıtlama kapsamını hesaplayın; KKEG tutarı, kurumlar vergisi etkisi ve savunma aksiyonunu üretin.'
+category: 'muhasebe-ve-vergi'
+priceTL: 7900
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.41
+sheetCount: 16
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-10'
+sheetMap: 
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası ve dosya kimliği'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç rehberi'
+    kind: 'output'
+  - name: 'DONEM_KAYNAK'
+    purpose: 'Dönem yabancı/öz kaynak girişi'
+    kind: 'input'
+  - name: 'KREDI_LISTESI'
+    purpose: 'Finansman gideri ve kredi kayıtları girişi'
+    kind: 'input'
+  - name: 'HESAP'
+    purpose: 'Tüm ara hesap adımları ve motor katmanı'
+    kind: 'calculation'
+  - name: 'ANALITIK_MOTOR'
+    purpose: 'Analitik modüller (anomali, yoğunlaşma, tahmin, duyarlılık)'
+    kind: 'calculation'
+  - name: 'KONTROLLER'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Karar kapısı, gerekçe ve aksiyon önerileri'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ve yönetici panosu'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık (tornado) analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yazdırılabilir yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs: 
+  - 'Dönem bilançosu (yabancı ve öz kaynak)'
+  - 'Finansman giderleri (faiz, kur farkı, komisyon)'
+  - 'Kısıtlama oranı parametreleri'
+outputs: 
+  - 'Yabancı kaynak/öz kaynak farkı'
+  - 'Kısıtlamaya tabi finansman gideri ve KKEG tutarı'
+  - 'Kurumlar vergisi etkisi ve savunma aksiyonu'
+suitableFor: 
+  - 'Yabancı kaynak kullanan işletmeler'
+  - 'KKEG riskini ölçmek isteyen vergi mükellefleri'
+  - 'Denetim savunması hazırlayan mali müşavirler'
+notSuitableFor: 
+  - 'Öz kaynağıyla tamamen finanse edilen işletmeler'
+  - 'Yatırım teşviki kapsamındaki özel istisnalar'
+requirements: 
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq: 
+  - question: 'Kısıtlama kapsamı nasıl belirlenir?'
+    answer: 'Yabancı kaynakların öz kaynakları aşan kısmı hesaplanır; aşan kısmın finansman giderleri kısıtlama kapsamına girer.'
+  - question: 'KKEG tutarı neyi ifade eder?'
+    answer: 'Vergi kanunlarına göre kanunen kabul edilmeyen gider tutarıdır; kurumlar vergisi matrahına eklenir.'
+  - question: 'Vergi etkisi nasıl hesaplanır?'
+    answer: 'KKEG tutarı güncel kurumlar vergisi oranıyla çarpılarak ek vergi yükü bulunur.'
+  - question: 'Savunma aksiyonu nedir?'
+    answer: 'Karar kapısı, kısıtlama riskine göre belge toplama, hesaplama düzeltme ve beyan savunması aksiyonlarını önerir.'
+  - question: 'Mevzuat dayanağı nedir?'
+    answer: 'Kurumlar Vergisi Kanunu''nun finansman gider kısıtlaması hükümleri AYARLAR''daki parametrelerle yansıtılır.'
+  - question: 'Denetimde sunulabilir mi?'
+    answer: 'Evet; KARAR ve RAPOR sayfaları gerekçe ve aksiyonlarla denetim sunumuna uygun yönetici çıktısı üretir.'
+screenshots: 
+  - src: '/screenshots/kkeg-ve-finansman-gider-kisitlamasi-vergi-savunma-seti-1.png'
+    alt: 'KKEG ve Finansman Gider Kısıtlaması Vergi Savunma Seti dosyasının DONEM_KAYNAK sayfası — Dönem yabancı/öz kaynak girişi'
+  - src: '/screenshots/kkeg-ve-finansman-gider-kisitlamasi-vergi-savunma-seti-2.png'
+    alt: 'KKEG ve Finansman Gider Kısıtlaması Vergi Savunma Seti dosyasının KARAR sayfası — Karar kapısı, gerekçe ve aksiyonlar'
+  - src: '/screenshots/kkeg-ve-finansman-gider-kisitlamasi-vergi-savunma-seti-3.png'
+    alt: 'KKEG ve Finansman Gider Kısıtlaması Vergi Savunma Seti dosyasının PANO sayfası — Canlı KPI ve yönetici panosu'
+related: 
+  - 'kdv-iadesi-azami-alacak-hesabi-dosya-hazirlayici'
+  - 'vergi-sgk-borcunu-tecil-etmeli-miyim-kredi-mi-tecil-mi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

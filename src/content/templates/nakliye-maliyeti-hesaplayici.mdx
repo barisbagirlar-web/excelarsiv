@@ -1,0 +1,105 @@
+---
+name: 'Nakliye Maliyeti Hesaplayıcı'
+summary: 'Araç filosu ve sefer kayıtlarından yakıt, bakım, sürücü ve amortisman maliyetlerini sefer bazında hesaplayın; km ve ton-km başına birim maliyeti görün.'
+category: 'satis-ve-fiyatlama'
+priceTL: 990
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.56
+sheetCount: 15
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-10'
+sheetMap: 
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası ve dosya kimliği'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç rehberi'
+    kind: 'output'
+  - name: 'ARAC_LISTESI'
+    purpose: 'Araç listesi ve maliyet parametreleri girişi'
+    kind: 'input'
+  - name: 'SEFERLER'
+    purpose: 'Sefer kayıtları girişi'
+    kind: 'input'
+  - name: 'HESAP'
+    purpose: 'Tüm ara hesap adımları ve motor katmanı'
+    kind: 'calculation'
+  - name: 'KONTROLLER'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Karar kapısı, gerekçe ve aksiyon önerileri'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ve yönetici panosu'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık (tornado) analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yazdırılabilir yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs: 
+  - 'Araç listesi (yakıt, bakım, amortisman)'
+  - 'Sefer kayıtları (km, ton, gelir)'
+  - 'Maliyet parametreleri (yakıt fiyatı, tüketim)'
+outputs: 
+  - 'Sefer bazında toplam maliyet ve net kâr'
+  - 'Km ve ton-km başına birim maliyet'
+  - 'KARLI/İNCELE/ZARARLI kararı ve aksiyonlar'
+suitableFor: 
+  - 'Kendi filosu olan nakliye firmaları'
+  - 'Sefer maliyetini ölçmek isteyen lojistik şirketleri'
+  - 'Araç kiralama ve nakliye hizmeti verenler'
+notSuitableFor: 
+  - 'Tek araçlık tek seferlik maliyet hesabı (basit hesap yeterli)'
+  - 'Kurumsal filo yönetim yazılımı kullananlar'
+requirements: 
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq: 
+  - question: 'Birim maliyet nasıl hesaplanır?'
+    answer: 'Sefer toplam maliyeti kat edilen km ve taşınan tonla bölünerek km ve ton-km başına maliyet üretilir.'
+  - question: 'Yakıt maliyeti nasıl bulunur?'
+    answer: 'Aracın km başına tüketimi güncel yakıt fiyatıyla çarpılır; AYARLAR''daki parametrelerle çalışır.'
+  - question: 'Amortisman dahil mi?'
+    answer: 'Evet; araç edinim bedeli ve ekonomik ömürden aylık amortisman hesaplanıp sefer maliyetine dağıtılır.'
+  - question: 'Karar nasıl üretilir?'
+    answer: 'Sefer kâr marjı eşiklerle karşılaştırılır; zararlı seferler, yakıt ve bakım yoğunlaşması aksiyon önerisine dönüştürülür.'
+  - question: 'Çok araçlı mı?'
+    answer: 'Evet; filo araç listesi ve seferler tek dosyada toplanır, araç bazında kârlılık karşılaştırılır.'
+  - question: 'Filo karşılaştırma raporu üretir mi?'
+    answer: 'Evet; RAPOR sayfası araç bazında kârlılık ve birim maliyetleri yönetici özeti olarak çıktı verir.'
+screenshots: 
+  - src: '/screenshots/nakliye-maliyeti-hesaplayici-1.png'
+    alt: 'Nakliye Maliyeti Hesaplayıcı dosyasının ARAC_LISTESI sayfası — Araç listesi ve maliyet parametreleri girişi'
+  - src: '/screenshots/nakliye-maliyeti-hesaplayici-2.png'
+    alt: 'Nakliye Maliyeti Hesaplayıcı dosyasının KARAR sayfası — Karar kapısı, gerekçe ve aksiyonlar'
+  - src: '/screenshots/nakliye-maliyeti-hesaplayici-3.png'
+    alt: 'Nakliye Maliyeti Hesaplayıcı dosyasının PANO sayfası — Canlı KPI ve yönetici panosu'
+related: 
+  - 'gunluk-gelir-gider-ve-gercek-karlilik-sistemi'
+  - 'proje-ve-is-bazinda-gercek-karlilik-sistemi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

@@ -1,0 +1,108 @@
+---
+name: 'Şirket Öz Kaynağı Eridi Mi? (TTK 376 Sermaye Tamamlama Cetveli)'
+summary: 'Bilanço bileşenlerinden öz kaynağı ve sermaye kaybını hesaplayın; TTK 376''daki 1/3 ve 2/3 eşikleriyle borca batıklığı izleyin.'
+category: 'finansal-analiz'
+priceTL: 7900
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.52
+sheetCount: 16
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-10'
+sheetMap: 
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası ve dosya kimliği'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç rehberi'
+    kind: 'output'
+  - name: 'DONEM_BILANCO'
+    purpose: 'Dönem bilanço bileşenleri girişi'
+    kind: 'input'
+  - name: 'BORC_LISTESI'
+    purpose: 'Borç ve sermaye kalemleri girişi'
+    kind: 'input'
+  - name: 'HESAP'
+    purpose: 'Tüm ara hesap adımları ve motor katmanı'
+    kind: 'calculation'
+  - name: 'ANALITIK_MOTOR'
+    purpose: 'Analitik modüller (anomali, yoğunlaşma, tahmin, duyarlılık)'
+    kind: 'calculation'
+  - name: 'KONTROLLER'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Karar kapısı, gerekçe ve aksiyon önerileri'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ve yönetici panosu'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık (tornado) analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yazdırılabilir yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs: 
+  - 'Dönem bilançosu (varlıklar, borçlar, öz kaynak)'
+  - 'Sermaye ve yedekler'
+  - 'TTK 376 eşik parametreleri'
+outputs: 
+  - 'Öz kaynak ve sermaye kaybı tutarı'
+  - 'TTK 376 1/3, 2/3 ve borca batıklık durumu'
+  - 'UYGUN/İNCELE/DURDUR kararı'
+suitableFor: 
+  - 'Sermaye kaybı riski yaşayan şirketler'
+  - 'TTK 376 yükümlülüğünü değerlendiren yönetim kurulları'
+  - 'Genel kurul bilgilendirmesi hazırlayan mali müşavirler'
+notSuitableFor: 
+  - 'Sermaye yapısı sağlam şirketler'
+  - 'Halka açık şirketler (SPK düzenlemeleri geçerlidir)'
+requirements: 
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq: 
+  - question: 'Sermaye kaybı nasıl hesaplanır?'
+    answer: 'Toplam öz kaynak, çıkarılmış sermayeyle karşılaştırılır; kayıp tutarı ve oranı bulunur.'
+  - question: 'TTK 376 eşikleri nedir?'
+    answer: 'Öz kaynağın sermayenin 2/3''ünün altına düşmesi genel kurul çağrısı, 1/2''nin altı veya borca batıklık ise daha sıkı yükümlülük doğurur; dosya eşikleri AYARLAR''dan izler.'
+  - question: 'Borca batıklık nasıl belirlenir?'
+    answer: 'Öz kaynağın negatife dönmesi veya varlıkların borçları karşılayamaması durumu tespit edilir.'
+  - question: 'Karar nasıl üretilir?'
+    answer: 'Kayıp oranı eşiklerle karşılaştırılır; 1/3 aşıldıysa İNCELE, 2/3 aşıldıysa veya borca batıksa DURDUR kararı verilir.'
+  - question: 'Yasal yükümlülük bildirimi midir?'
+    answer: 'Hayır. Dosya hesaplamayı gösterir; genel kurul kararı ve kayıt düzeltmeleri için profesyonel danışmanlık gerekir.'
+  - question: 'Yönetim kurulu sunumu üretir mi?'
+    answer: 'Evet; RAPOR sayfası sermaye kaybı ve TTK 376 durumunu yönetici sunumuna uygun özetler.'
+screenshots: 
+  - src: '/screenshots/sirket-oz-kaynagi-eridi-mi-ttk-376-sermaye-tamamlama-cetveli-1.png'
+    alt: 'Şirket Öz Kaynağı Eridi Mi? (TTK 376 Sermaye Tamamlama Cetveli) dosyasının DONEM_BILANCO sayfası — Dönem bilanço bileşenleri girişi'
+  - src: '/screenshots/sirket-oz-kaynagi-eridi-mi-ttk-376-sermaye-tamamlama-cetveli-2.png'
+    alt: 'Şirket Öz Kaynağı Eridi Mi? (TTK 376 Sermaye Tamamlama Cetveli) dosyasının KARAR sayfası — Karar kapısı, gerekçe ve aksiyonlar'
+  - src: '/screenshots/sirket-oz-kaynagi-eridi-mi-ttk-376-sermaye-tamamlama-cetveli-3.png'
+    alt: 'Şirket Öz Kaynağı Eridi Mi? (TTK 376 Sermaye Tamamlama Cetveli) dosyasının PANO sayfası — Canlı KPI ve yönetici panosu'
+related: 
+  - 'vergi-sgk-borcunu-tecil-etmeli-miyim-kredi-mi-tecil-mi'
+  - 'vergi-sgk-ve-maas-karsilik-ayirma-sistemi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

@@ -1,0 +1,105 @@
+---
+name: 'Pazaryeri Net Kâr & Eksik Hakediş Yakalayıcı'
+summary: 'Komisyon, kargo, reklam ve iade sonrası net kârı hesaplayın; beklenen ile gerçek hakedişi karşılaştırıp eksik tahsilatı yakalayın.'
+category: 'satis-ve-fiyatlama'
+priceTL: 2490
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.48
+sheetCount: 15
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-10'
+sheetMap: 
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası ve dosya kimliği'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç rehberi'
+    kind: 'output'
+  - name: 'KALEM_LISTESI'
+    purpose: 'Kalem satış ve gider girişi'
+    kind: 'input'
+  - name: 'HESAP'
+    purpose: 'Tüm ara hesap adımları ve motor katmanı'
+    kind: 'calculation'
+  - name: 'ANALITIK_MOTOR'
+    purpose: 'Analitik modüller (anomali, yoğunlaşma, tahmin, duyarlılık)'
+    kind: 'calculation'
+  - name: 'KONTROLLER'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Karar kapısı, gerekçe ve aksiyon önerileri'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ve yönetici panosu'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık (tornado) analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yazdırılabilir yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs: 
+  - 'Kalem listesi (satış fiyatı, maliyet)'
+  - 'Pazaryeri giderleri (komisyon, kargo, reklam)'
+  - 'Gerçekleşen hakediş tutarları'
+outputs: 
+  - 'Kalem bazında net kâr ve kâr marjı'
+  - 'Beklenen vs gerçek hakediş farkı'
+  - 'GÜÇLÜ/NORMAL/İNCELE kararı'
+suitableFor: 
+  - 'Trendyol, Hepsiburada, Amazon''da satanlar'
+  - 'Pazaryeri komisyon ve giderlerini ölçmek isteyenler'
+  - 'Eksik hakediş tahsilatını yakalamak isteyen e-ticaret firmaları'
+notSuitableFor: 
+  - 'Kendi mağazasında satanlar (pazaryeri komisyonu yok)'
+  - 'Kurumsal e-ticaret yazılımı kullananlar'
+requirements: 
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq: 
+  - question: 'Net kâr nasıl hesaplanır?'
+    answer: 'Satış tutarından maliyet, komisyon, kargo, reklam ve iade giderleri düşülür; kalem bazında net kâr ve marj üretilir.'
+  - question: 'Eksik hakediş nasıl yakalanır?'
+    answer: 'Kalem bazında beklenen hakediş ile pazaryerinden gelen gerçek hakediş karşılaştırılır; fark eşik üzerindeyse kalem işaretlenir.'
+  - question: 'Karar nasıl üretilir?'
+    answer: 'Satış hacmi, net marj ve eksik hakediş oranı birlikte değerlendirilir; GÜÇLÜ/NORMAL/İNCELE kararı verilir.'
+  - question: 'Reklam giderleri dahil mi?'
+    answer: 'Evet; reklam ve kampanya giderleri kalem bazında dağıtılarak gerçek kârlılık gösterilir.'
+  - question: 'Yoğunlaşma analizi ne işe yarar?'
+    answer: 'Satış ve kârın hangi pazaryeri/kalemde yoğunlaştığını gösterir; tek kanal bağımlılığı riskini işaretler.'
+  - question: 'Rapor çıktısı alabilir miyim?'
+    answer: 'Evet; RAPOR sayfası kalem bazında net kâr ve eksik hakedişi yönetici özeti olarak PDF için uygun çıktı verir.'
+screenshots: 
+  - src: '/screenshots/pazaryeri-net-kar-ve-eksik-hakedis-yakalayici-1.png'
+    alt: 'Pazaryeri Net Kâr & Eksik Hakediş Yakalayıcı dosyasının KALEM_LISTESI sayfası — Kalem satış ve gider girişi'
+  - src: '/screenshots/pazaryeri-net-kar-ve-eksik-hakedis-yakalayici-2.png'
+    alt: 'Pazaryeri Net Kâr & Eksik Hakediş Yakalayıcı dosyasının KARAR sayfası — Karar kapısı, gerekçe ve aksiyonlar'
+  - src: '/screenshots/pazaryeri-net-kar-ve-eksik-hakedis-yakalayici-3.png'
+    alt: 'Pazaryeri Net Kâr & Eksik Hakediş Yakalayıcı dosyasının PANO sayfası — Canlı KPI ve yönetici panosu'
+related: 
+  - 'gunluk-gelir-gider-ve-gercek-karlilik-sistemi'
+  - 'aylik-patron-finans-paneli'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

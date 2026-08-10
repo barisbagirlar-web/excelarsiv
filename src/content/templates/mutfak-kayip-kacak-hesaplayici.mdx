@@ -1,0 +1,108 @@
+---
+name: 'Mutfak Kayıp/Kaçak Hesaplayıcı'
+summary: 'Reçete bazlı teorik hammadde tüketimini fiili stok tüketimiyle karşılaştırın; mutfaktaki kayıp ve kaçağı tutar ve oran olarak tespit edin.'
+category: 'stok-ve-uretim'
+priceTL: 2490
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.64
+sheetCount: 16
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-10'
+sheetMap: 
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası ve dosya kimliği'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç rehberi'
+    kind: 'output'
+  - name: 'URUN_LISTESI'
+    purpose: 'Ürün listesi girişi'
+    kind: 'input'
+  - name: 'RECETE'
+    purpose: 'Ürün reçeteleri girişi'
+    kind: 'input'
+  - name: 'STOK'
+    purpose: 'Dönem başı/alış/dönem sonu stok girişi'
+    kind: 'input'
+  - name: 'HESAP'
+    purpose: 'Tüm ara hesap adımları ve motor katmanı'
+    kind: 'calculation'
+  - name: 'KONTROLLER'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Karar kapısı, gerekçe ve aksiyon önerileri'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ve yönetici panosu'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık (tornado) analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yazdırılabilir yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs: 
+  - 'Ürün reçeteleri (hammadde, miktar)'
+  - 'Dönem başı/alış/dönem sonu stokları'
+  - 'Satış adetleri ve birim maliyetler'
+outputs: 
+  - 'Teorik ve fiili tüketim farkı'
+  - 'Hammadde bazında kayıp tutarı ve oranı'
+  - 'KONTROL ALTINDA/İNCELE/KRİTİK KAYIP kararı'
+suitableFor: 
+  - 'Restoran, kafe ve otel mutfakları'
+  - 'Hammadde kaybını ölçmek isteyen gıda işletmeleri'
+  - 'Stok mutabakatı yapan operasyon yöneticileri'
+notSuitableFor: 
+  - 'Reçete bilgisi olmayan işletmeler'
+  - 'Paketli gıda üreticileri (üretim fire reçetesi farklıdır)'
+requirements: 
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq: 
+  - question: 'Teorik tüketim nasıl bulunur?'
+    answer: 'Her ürünün satış adedi, reçetesindeki hammadde miktarıyla çarpılır; tüm ürünler toplanarak teorik tüketim üretilir.'
+  - question: 'Fiili tüketim nasıl bulunur?'
+    answer: 'Dönem başı stok + alışlar − dönem sonu stok formülüyle fiili tüketim hesaplanır.'
+  - question: 'Kayıp oranı ne anlama gelir?'
+    answer: 'Fiili tüketim eksi teorik tüketimin fiili tüketime bölümüdür; eşiklerin üzeri inceleme/kritik işareti alır.'
+  - question: 'Karar nasıl üretilir?'
+    answer: 'Toplam kayıp oranı AYARLAR''daki eşiklerle karşılaştırılır; kayıp yoğunlaşması ve senaryo analizi karar gerekçesine eklenir.'
+  - question: 'Hammadde bazında takip yapabilir miyim?'
+    answer: 'Evet; dosya hammadde bazında kayıp tutarı ve oranı listesi üretir, en yüksek kayıp kalemini işaretler.'
+  - question: 'Rapor çıktısı alabilir miyim?'
+    answer: 'Evet; RAPOR sayfası kayıp yoğunlaşması ve kararla birlikte yazdırılabilir yönetici özeti sunar.'
+screenshots: 
+  - src: '/screenshots/mutfak-kayip-kacak-hesaplayici-1.png'
+    alt: 'Mutfak Kayıp/Kaçak Hesaplayıcı dosyasının URUN_LISTESI sayfası — Ürün listesi girişi'
+  - src: '/screenshots/mutfak-kayip-kacak-hesaplayici-2.png'
+    alt: 'Mutfak Kayıp/Kaçak Hesaplayıcı dosyasının KARAR sayfası — Karar kapısı, gerekçe ve aksiyonlar'
+  - src: '/screenshots/mutfak-kayip-kacak-hesaplayici-3.png'
+    alt: 'Mutfak Kayıp/Kaçak Hesaplayıcı dosyasının PANO sayfası — Canlı KPI ve yönetici panosu'
+related: 
+  - 'uretim-recetesi-ve-zam-yansitma-hesaplayici'
+  - 'stok-satis-ve-nakit-baglanma-sistemi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

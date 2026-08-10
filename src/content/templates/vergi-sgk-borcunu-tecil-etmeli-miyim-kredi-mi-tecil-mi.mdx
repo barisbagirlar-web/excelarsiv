@@ -1,0 +1,105 @@
+---
+name: 'Vergi/SGK Borcunu Tecil Etmeli Miyim? (Kredi mi Tecil mi?)'
+summary: 'Borç aslı ve gecikme zammını toplayın; tecil, kredi ve peşin ödeme seçeneklerinin maliyetini bugünkü değerle karşılaştırıp en uygun yolu önerin.'
+category: 'butce-ve-planlama'
+priceTL: 990
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.24
+sheetCount: 15
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-10'
+sheetMap: 
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası ve dosya kimliği'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç rehberi'
+    kind: 'output'
+  - name: 'BORC_LISTESI'
+    purpose: 'Vergi/SGK borç listesi girişi'
+    kind: 'input'
+  - name: 'HESAP'
+    purpose: 'Tüm ara hesap adımları ve motor katmanı'
+    kind: 'calculation'
+  - name: 'ANALITIK_MOTOR'
+    purpose: 'Analitik modüller (anomali, yoğunlaşma, tahmin, duyarlılık)'
+    kind: 'calculation'
+  - name: 'KONTROLLER'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Karar kapısı, gerekçe ve aksiyon önerileri'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ve yönetici panosu'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık (tornado) analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yazdırılabilir yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs: 
+  - 'Borç listesi (asıl, gecikme zammı, vade)'
+  - 'Tecil taksit parametreleri'
+  - 'Kredi faiz oranı ve onay durumu'
+outputs: 
+  - 'Toplam borç ve seçenek maliyetleri'
+  - 'Seçeneklerin bugünkü değer (NBD) karşılaştırması'
+  - 'En düşük maliyetli yol kararı ve gerekçe'
+suitableFor: 
+  - 'Vergi ve SGK borcu olan işletmeler'
+  - 'Tecil veya kredi kararı veren finans yöneticileri'
+  - 'Borç yapılandırmasını değerlendirenler'
+notSuitableFor: 
+  - 'Yapılandırma kanunları kapsamındaki indirimli ödemeler (özel düzenleme)'
+  - 'İcra takibine düşmüş borçlar'
+requirements: 
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq: 
+  - question: 'Tecil maliyeti nasıl hesaplanır?'
+    answer: 'Borç aslına gecikme zammı eklenir; tecil taksit sayısı ve dönem faizi üzerinden toplam ödeme tutarı bulunur.'
+  - question: 'Krediyle nasıl karşılaştırılır?'
+    answer: 'Kredi anapara+faiz ödemeleri aynı döneme yayılır; iki seçeneğin bugünkü değeri iskonto edilerek karşılaştırılır.'
+  - question: 'Karar nasıl üretilir?'
+    answer: 'Kredi onayı varsa en düşük bugünkü değerli seçenek; onay yoksa tecil ile peşin ödeme arasında karar verilir.'
+  - question: 'Mevzuat dayanağı nedir?'
+    answer: '6183 sayılı Kanun''un 48. maddesindeki tecil düzenlemesi parametreleri AYARLAR sayfasındadır.'
+  - question: 'Kredi faizi nereden alınır?'
+    answer: 'Güncel kredi faiz oranı kullanıcı tarafından AYARLAR sayfasına girilir.'
+  - question: 'Rapor çıktısı alabilir miyim?'
+    answer: 'Evet; RAPOR sayfası seçenek karşılaştırmasını ve önerilen yolu PDF için uygun yönetici özeti olarak sunar.'
+screenshots: 
+  - src: '/screenshots/vergi-sgk-borcunu-tecil-etmeli-miyim-kredi-mi-tecil-mi-1.png'
+    alt: 'Vergi/SGK Borcunu Tecil Etmeli Miyim? (Kredi mi Tecil mi?) dosyasının BORC_LISTESI sayfası — Vergi/SGK borç listesi girişi'
+  - src: '/screenshots/vergi-sgk-borcunu-tecil-etmeli-miyim-kredi-mi-tecil-mi-2.png'
+    alt: 'Vergi/SGK Borcunu Tecil Etmeli Miyim? (Kredi mi Tecil mi?) dosyasının KARAR sayfası — Karar kapısı, gerekçe ve aksiyonlar'
+  - src: '/screenshots/vergi-sgk-borcunu-tecil-etmeli-miyim-kredi-mi-tecil-mi-3.png'
+    alt: 'Vergi/SGK Borcunu Tecil Etmeli Miyim? (Kredi mi Tecil mi?) dosyasının PANO sayfası — Canlı KPI ve yönetici panosu'
+related: 
+  - 'vergi-sgk-ve-maas-karsilik-ayirma-sistemi'
+  - 'sirket-oz-kaynagi-eridi-mi-ttk-376-sermaye-tamamlama-cetveli'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

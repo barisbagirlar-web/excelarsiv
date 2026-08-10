@@ -48,6 +48,19 @@ SAYFALAR = {
     "proje-ve-is-bazinda-gercek-karlilik-sistemi": ["IS_GIRILERI", "HESAP", "PANO"],
     "stok-satis-ve-nakit-baglanma-sistemi": ["STOK_HAREKETLER", "HESAP", "PANO"],
     "vergi-sgk-ve-maas-karsilik-ayirma-sistemi": ["DÖNEM_GELIR_GIDER", "KARSILIK_MOTORU", "PANO"],
+    "amortisman-ve-sabit-kiymet-satis-zamanlama-stratejisti": ["KIYMET_LISTESI", "KARAR", "PANO"],
+    "doviz-acik-pozisyonu-ve-kur-riski-stres-testi": ["DOVIZ_POZISYONLARI", "KARAR", "PANO"],
+    "kdv-iadesi-azami-alacak-hesabi-dosya-hazirlayici": ["KDV_BELGELERI", "KARAR", "PANO"],
+    "kkeg-ve-finansman-gider-kisitlamasi-vergi-savunma-seti": ["DONEM_KAYNAK", "KARAR", "PANO"],
+    "mutfak-kayip-kacak-hesaplayici": ["URUN_LISTESI", "KARAR", "PANO"],
+    "nakliye-maliyeti-hesaplayici": ["ARAC_LISTESI", "KARAR", "PANO"],
+    "ortaklar-cari-ve-kasa-adat-faiz-faturasi-hesaplayici": ["ORTAK_CARI", "KARAR", "PANO"],
+    "pazaryeri-net-kar-ve-eksik-hakedis-yakalayici": ["KALEM_LISTESI", "KARAR", "PANO"],
+    "sirket-oz-kaynagi-eridi-mi-ttk-376-sermaye-tamamlama-cetveli": ["DONEM_BILANCO", "KARAR", "PANO"],
+    "sube-karlilik-ve-nakit-hesaplayici": ["SUBE_LISTESI", "KARAR", "PANO"],
+    "uretim-recetesi-ve-zam-yansitma-hesaplayici": ["RECETE_LISTESI", "KARAR", "PANO"],
+    "vergi-sgk-borcunu-tecil-etmeli-miyim-kredi-mi-tecil-mi": ["BORC_LISTESI", "KARAR", "PANO"],
+    "yeniden-degerleme-yapmali-miyim-vergi-tasarruf-analizi": ["KIYMET_LISTESI", "KARAR", "PANO"],
 }
 
 # Slug → demo veri dolu üretim dosyası eşlemesi. Bu dosyalar üretim betiğinin

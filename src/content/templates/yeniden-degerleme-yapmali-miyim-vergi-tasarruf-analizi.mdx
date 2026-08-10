@@ -1,0 +1,105 @@
+---
+name: 'Yeniden Değerleme Yapmalı Mıyım? (Vergi Tasarruf Analizi)'
+summary: 'Kıymet bazında yeniden değerleme katsayısı, değer artışı ve %2 fon vergisi ile ek amortismanın vergi tasarrufunu karşılaştırın; net fayda kararı üretin.'
+category: 'muhasebe-ve-vergi'
+priceTL: 2490
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.43
+sheetCount: 15
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-10'
+sheetMap: 
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası ve dosya kimliği'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Hızlı başlangıç rehberi'
+    kind: 'output'
+  - name: 'KIYMET_LISTESI'
+    purpose: 'Kıymet listesi ve değerleme girişi'
+    kind: 'input'
+  - name: 'HESAP'
+    purpose: 'Tüm ara hesap adımları ve motor katmanı'
+    kind: 'calculation'
+  - name: 'ANALITIK_MOTOR'
+    purpose: 'Analitik modüller (anomali, yoğunlaşma, tahmin, duyarlılık)'
+    kind: 'calculation'
+  - name: 'KONTROLLER'
+    purpose: 'Girdi tutarlılık ve veri kalitesi kontrolleri'
+    kind: 'calculation'
+  - name: 'KARAR'
+    purpose: 'Karar kapısı, gerekçe ve aksiyon önerileri'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Canlı KPI ve yönetici panosu'
+    kind: 'output'
+  - name: 'SENARYO_DUYARLILIK'
+    purpose: 'Senaryo ve duyarlılık (tornado) analizi'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yazdırılabilir yönetici raporu'
+    kind: 'output'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri seti'
+    kind: 'input'
+  - name: 'DEGISIKLIK_KAYDI'
+    purpose: 'Sürüm değişiklik kaydı'
+    kind: 'output'
+  - name: 'LISTELER'
+    purpose: 'Veri doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşik ayarları'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs: 
+  - 'Kıymet listesi (edinim tarihi, maliyet, ömür)'
+  - 'Yeniden değerleme oranı ve fon vergisi'
+  - 'Kurumlar vergisi oranı'
+outputs: 
+  - 'Yeniden değerleme katsayısı ve değer artışı'
+  - 'Fon vergisi ve ek amortisman'
+  - 'Net vergi tasarrufu ve UYGUN/İNCELE/DURDUR kararı'
+suitableFor: 
+  - 'Taşınmaz ve makine sahibi işletmeler'
+  - 'Vergi tasarrufu analizi yapan mali müşavirler'
+  - 'Enflasyon düzeltmesi ve değerleme kararı alanlar'
+notSuitableFor: 
+  - 'Hizmet şirketleri (kıymet stoğu yoksa)'
+  - 'Enflasyon düzeltmesi uygulanan mükellefler (özel düzenleme)'
+requirements: 
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq: 
+  - question: 'Yeniden değerleme katsayısı nasıl hesaplanır?'
+    answer: 'Kıymetin edinim tarihinden rapor tarihine geçen süre ve ilgili endeks/katsayı kullanılarak değer artışı üretilir.'
+  - question: 'Fon vergisi nedir?'
+    answer: 'Değer artışı tutarı üzerinden hesaplanan %2 oranındaki vergidir; dosya bu tutarı otomatik hesaplar.'
+  - question: 'Vergi tasarrufu nasıl oluşur?'
+    answer: 'Değerlenen kıymet üzerinden kalan ömür boyunca ek amortisman ayrılır; ek amortismanın vergi etkisi tasarruf olarak hesaplanır.'
+  - question: 'Karar nasıl üretilir?'
+    answer: 'Net fayda (tasarruf − fon vergisi) pozitifse UYGUN, sıfıra yakınsa İNCELE, negatifse DURDUR kararı verilir.'
+  - question: 'Mevzuat dayanağı nedir?'
+    answer: 'VUK''nın yeniden değerleme düzenlemeleri kapsamında katsayı ve oran parametreleri AYARLAR sayfasındadır.'
+  - question: 'Rapor çıktısı alabilir miyim?'
+    answer: 'Evet; RAPOR sayfası kıymet bazında tasarruf ve kararı yönetici özeti olarak PDF için uygun çıktı verir.'
+screenshots: 
+  - src: '/screenshots/yeniden-degerleme-yapmali-miyim-vergi-tasarruf-analizi-1.png'
+    alt: 'Yeniden Değerleme Yapmalı Mıyım? (Vergi Tasarruf Analizi) dosyasının KIYMET_LISTESI sayfası — Kıymet listesi ve değerleme girişi'
+  - src: '/screenshots/yeniden-degerleme-yapmali-miyim-vergi-tasarruf-analizi-2.png'
+    alt: 'Yeniden Değerleme Yapmalı Mıyım? (Vergi Tasarruf Analizi) dosyasının KARAR sayfası — Karar kapısı, gerekçe ve aksiyonlar'
+  - src: '/screenshots/yeniden-degerleme-yapmali-miyim-vergi-tasarruf-analizi-3.png'
+    alt: 'Yeniden Değerleme Yapmalı Mıyım? (Vergi Tasarruf Analizi) dosyasının PANO sayfası — Canlı KPI ve yönetici panosu'
+related: 
+  - 'amortisman-ve-sabit-kiymet-satis-zamanlama-stratejisti'
+  - 'kkeg-ve-finansman-gider-kisitlamasi-vergi-savunma-seti'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

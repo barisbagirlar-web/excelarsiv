@@ -146,7 +146,8 @@
       "tier": "ENTERPRISE",
       "fileFormat": "xlsx",
       "storageKey": "paid-products/kacirilan-sgk-tesvikleri-ve-gercek-iscilik-maliyeti-analizi/current.xlsx",
-      "satista": true
+      "satista": true,
+      "sizeMB": 0.27
     },
     "kidem-ihbar-yuku-ve-personel-cikarma-maliyeti-hesaplayici": {
       "name": "Kıdem–İhbar Yükü ve Personel Çıkarma Maliyeti Hesaplayıcı",
@@ -167,13 +168,105 @@
       "tier": "PREMIUM",
       "fileFormat": "xlsx",
       "storageKey": "paid-products/asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli/current.xlsx",
-      "satista": true
+      "satista": true,
+      "sizeMB": 0.13
     },
     "ithalat-depo-teslim-rafa-gelen-net-birim-maliyet": {
       "name": "İthalat Depo Teslim (Rafa Gelen) Net Birim Maliyet",
       "tier": "PREMIUM",
       "fileFormat": "xlsx",
       "storageKey": "paid-products/ithalat-depo-teslim-rafa-gelen-net-birim-maliyet/current.xlsx",
+      "satista": true
+    },
+    "amortisman-ve-sabit-kiymet-satis-zamanlama-stratejisti": {
+      "name": "Amortisman & Sabit Kıymet Satış Zamanlama Stratejisti",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/amortisman-ve-sabit-kiymet-satis-zamanlama-stratejisti/current.xlsx",
+      "satista": true
+    },
+    "doviz-acik-pozisyonu-ve-kur-riski-stres-testi": {
+      "name": "Döviz Açık Pozisyonu ve Kur Riski Stres Testi",
+      "tier": "ENTERPRISE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/doviz-acik-pozisyonu-ve-kur-riski-stres-testi/current.xlsx",
+      "satista": true
+    },
+    "kdv-iadesi-azami-alacak-hesabi-dosya-hazirlayici": {
+      "name": "KDV İadesi Azami Alacak Hesabı & Dosya Hazırlayıcı",
+      "tier": "EXCLUSIVE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/kdv-iadesi-azami-alacak-hesabi-dosya-hazirlayici/current.xlsx",
+      "satista": true
+    },
+    "kkeg-ve-finansman-gider-kisitlamasi-vergi-savunma-seti": {
+      "name": "KKEG ve Finansman Gider Kısıtlaması Vergi Savunma Seti",
+      "tier": "EXCLUSIVE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/kkeg-ve-finansman-gider-kisitlamasi-vergi-savunma-seti/current.xlsx",
+      "satista": true
+    },
+    "mutfak-kayip-kacak-hesaplayici": {
+      "name": "Mutfak Kayıp/Kaçak Hesaplayıcı",
+      "tier": "ENTERPRISE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/mutfak-kayip-kacak-hesaplayici/current.xlsx",
+      "satista": true
+    },
+    "nakliye-maliyeti-hesaplayici": {
+      "name": "Nakliye Maliyeti Hesaplayıcı",
+      "tier": "PRO",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/nakliye-maliyeti-hesaplayici/current.xlsx",
+      "satista": true
+    },
+    "ortaklar-cari-ve-kasa-adat-faiz-faturasi-hesaplayici": {
+      "name": "Ortaklar Cari & Kasa Adat Faiz Faturası Hesaplayıcı",
+      "tier": "ENTERPRISE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/ortaklar-cari-ve-kasa-adat-faiz-faturasi-hesaplayici/current.xlsx",
+      "satista": true
+    },
+    "pazaryeri-net-kar-ve-eksik-hakedis-yakalayici": {
+      "name": "Pazaryeri Net Kâr & Eksik Hakediş Yakalayıcı",
+      "tier": "ENTERPRISE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/pazaryeri-net-kar-ve-eksik-hakedis-yakalayici/current.xlsx",
+      "satista": true
+    },
+    "sirket-oz-kaynagi-eridi-mi-ttk-376-sermaye-tamamlama-cetveli": {
+      "name": "Şirket Öz Kaynağı Eridi Mi? (TTK 376 Sermaye Tamamlama Cetveli)",
+      "tier": "EXCLUSIVE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/sirket-oz-kaynagi-eridi-mi-ttk-376-sermaye-tamamlama-cetveli/current.xlsx",
+      "satista": true
+    },
+    "sube-karlilik-ve-nakit-hesaplayici": {
+      "name": "Şube Kârlılık ve Nakit Hesaplayıcı",
+      "tier": "ENTERPRISE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/sube-karlilik-ve-nakit-hesaplayici/current.xlsx",
+      "satista": true
+    },
+    "uretim-recetesi-ve-zam-yansitma-hesaplayici": {
+      "name": "Üretim Reçetesi & Zam Yansıtma Hesaplayıcı",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/uretim-recetesi-ve-zam-yansitma-hesaplayici/current.xlsx",
+      "satista": true
+    },
+    "vergi-sgk-borcunu-tecil-etmeli-miyim-kredi-mi-tecil-mi": {
+      "name": "Vergi/SGK Borcunu Tecil Etmeli Miyim? (Kredi mi Tecil mi?)",
+      "tier": "PRO",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/vergi-sgk-borcunu-tecil-etmeli-miyim-kredi-mi-tecil-mi/current.xlsx",
+      "satista": true
+    },
+    "yeniden-degerleme-yapmali-miyim-vergi-tasarruf-analizi": {
+      "name": "Yeniden Değerleme Yapmalı Mıyım? (Vergi Tasarruf Analizi)",
+      "tier": "ENTERPRISE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/yeniden-degerleme-yapmali-miyim-vergi-tasarruf-analizi/current.xlsx",
       "satista": true
     }
   }
