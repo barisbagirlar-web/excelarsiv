@@ -102,8 +102,8 @@ function evaluateReleaseProvenance(input: ProvenanceInput): ProvenanceResult {
 
 async function githubJson(path: string, token: string, repository: string): Promise<unknown> {
   const controller = new AbortController();
-  const timeoutMs = Number.parseInt(process.env.RELEASE_PROVENANCE_HTTP_TIMEOUT_MS ?? '20000', 10);
-  const timer = setTimeout(() => controller.abort(), Number.isFinite(timeoutMs) && timeoutMs > 0 ? timeoutMs : 20000);
+  const httpTimeout = Number.parseInt(process.env.RELEASE_PROVENANCE_HTTP_TIMEOUT_MS ?? '20000', 10);
+  const timer = setTimeout(() => controller.abort(), Number.isFinite(httpTimeout) && httpTimeout > 0 ? httpTimeout : 20000);
   try {
     const response = await fetch(`https://api.github.com/repos/${repository}/${path}`, {
       signal: controller.signal,
