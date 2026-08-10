@@ -234,7 +234,7 @@ const SPECS = Object.freeze({
       ['Genel baskı oranı', '=IFERROR(B6/B7,0)', 'oran'],
       ['Demo karar', '=IF(B8>=3,"DURDUR",IF(B8>=1,"İNCELE","UYGUN"))', 'metin'],
     ],
-    aksiyonlar: ['Kasa, cari, borç, karşılık ve stok baskısını birlikte okuyun.', 'Tek bir göstergenin iyi olması genel finans sağlığını garanti etmez.', 'Tam sürüm diğer finans motorlarını ortak yönetim ve karar katmanında birleştirir.'],
+    aksiyonlar: ['Kasa, cari, borç, karşılık ve stok baskısını birlikte okuyun.', 'Tek bir göstergenin iyi olması genel finans sağlığı için yeterli değildir.', 'Tam sürüm diğer finans motorlarını ortak yönetim ve karar katmanında birleştirir.'],
   },
   'asiri-dusuk-teklif-savunma-robotu': {
     karar: 'Aşırı düşük teklif açıklamasında sınırın altında kalan tutarı ve açıklama yeterliliğini gösterir.',
