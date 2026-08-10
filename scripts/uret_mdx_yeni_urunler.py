@@ -90,7 +90,7 @@ URUNLER = {
         "iliskili": ["kdv-iadesi-azami-alacak-hesabi-dosya-hazirlayici", "vergi-sgk-borcunu-tecil-etmeli-miyim-kredi-mi-tecil-mi"],
     },
     "mutfak-kayip-kacak-hesaplayici": {
-        "ad": "Mutfak Kayıp/Kaçak Hesaplayıcı",
+        "ad": "Mutfak Kayıp/Kaçak Tespiti & Menü Kârlılık Analizi",
         "kategori": "stok-ve-uretim",
         "ozet": "Reçete bazlı teorik hammadde tüketimini fiili stok tüketimiyle karşılaştırın; mutfaktaki kayıp ve kaçağı tutar ve oran olarak tespit edin.",
         "girdi": ["Ürün reçeteleri (hammadde, miktar)", "Dönem başı/alış/dönem sonu stokları", "Satış adetleri ve birim maliyetler"],
@@ -108,7 +108,7 @@ URUNLER = {
         "iliskili": ["uretim-recetesi-ve-zam-yansitma-hesaplayici", "stok-satis-ve-nakit-baglanma-sistemi"],
     },
     "nakliye-maliyeti-hesaplayici": {
-        "ad": "Nakliye Maliyeti Hesaplayıcı",
+        "ad": "Sefer Başına Nakliye Maliyeti & Fiyatlandırma Cetveli",
         "kategori": "satis-ve-fiyatlama",
         "ozet": "Araç filosu ve sefer kayıtlarından yakıt, bakım, sürücü ve amortisman maliyetlerini sefer bazında hesaplayın; km ve ton-km başına birim maliyeti görün.",
         "girdi": ["Araç listesi (yakıt, bakım, amortisman)", "Sefer kayıtları (km, ton, gelir)", "Maliyet parametreleri (yakıt fiyatı, tüketim)"],
@@ -180,7 +180,7 @@ URUNLER = {
         "iliskili": ["vergi-sgk-borcunu-tecil-etmeli-miyim-kredi-mi-tecil-mi", "vergi-sgk-ve-maas-karsilik-ayirma-sistemi"],
     },
     "sube-karlilik-ve-nakit-hesaplayici": {
-        "ad": "Şube Kârlılık ve Nakit Hesaplayıcı",
+        "ad": "Bu Şubeyi Kapatmalı Mıyım? (Şube Kârlılık & Nakit Yakış Analizi)",
         "kategori": "finansal-analiz",
         "ozet": "Şube bazında gelir, gider ve nakit akışını toplayın; şube kârlılığını, kâr marjını ve nakit pozisyonunu hesaplayıp şube kararını gerekçesiyle üretin.",
         "girdi": ["Şube listesi (açılış nakit, hedef marj)", "Gelir/gider kayıtları (tarih, şube, kalem, tür)", "Tahsilat/ödeme kayıtları"],

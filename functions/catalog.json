@@ -207,14 +207,14 @@
       "satista": true
     },
     "mutfak-kayip-kacak-hesaplayici": {
-      "name": "Mutfak Kayıp/Kaçak Hesaplayıcı",
+      "name": "Mutfak Kayıp/Kaçak Tespiti & Menü Kârlılık Analizi",
       "tier": "ENTERPRISE",
       "fileFormat": "xlsx",
       "storageKey": "paid-products/mutfak-kayip-kacak-hesaplayici/current.xlsx",
       "satista": true
     },
     "nakliye-maliyeti-hesaplayici": {
-      "name": "Nakliye Maliyeti Hesaplayıcı",
+      "name": "Sefer Başına Nakliye Maliyeti & Fiyatlandırma Cetveli",
       "tier": "PRO",
       "fileFormat": "xlsx",
       "storageKey": "paid-products/nakliye-maliyeti-hesaplayici/current.xlsx",
@@ -242,7 +242,7 @@
       "satista": true
     },
     "sube-karlilik-ve-nakit-hesaplayici": {
-      "name": "Şube Kârlılık ve Nakit Hesaplayıcı",
+      "name": "Bu Şubeyi Kapatmalı Mıyım? (Şube Kârlılık & Nakit Yakış Analizi)",
       "tier": "ENTERPRISE",
       "fileFormat": "xlsx",
       "storageKey": "paid-products/sube-karlilik-ve-nakit-hesaplayici/current.xlsx",
