@@ -13,80 +13,33 @@
     {
       "target": "excelarsiv",
       "public": "dist",
+      "predeploy": ["node scripts/seo/hosting-predeploy.mjs"],
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "cleanUrls": true,
       "trailingSlash": false,
       "rewrites": [
-        {
-          "source": "/api/checkout",
-          "function": { "functionId": "createCheckout", "region": "europe-west1" }
-        },
-        {
-          "source": "/api/checkout-status",
-          "function": { "functionId": "checkoutStatus", "region": "europe-west1" }
-        },
-        {
-          "source": "/api/verify-order",
-          "function": { "functionId": "verifyShopierOrder", "region": "europe-west1" }
-        },
-        {
-          "source": "/api/recover-purchase",
-          "function": { "functionId": "recoverPurchase", "region": "europe-west1" }
-        },
-        {
-          "source": "/api/download-token",
-          "function": { "functionId": "createDownloadToken", "region": "europe-west1" }
-        },
-        {
-          "source": "/api/download",
-          "function": { "functionId": "downloadFile", "region": "europe-west1" }
-        },
-        {
-          "source": "/api/demo-request",
-          "function": { "functionId": "requestProofDemo", "region": "europe-west1" }
-        },
-        {
-          "source": "/api/demo-download",
-          "function": { "functionId": "downloadProofDemo", "region": "europe-west1" }
-        }
+        { "source": "/api/checkout", "function": { "functionId": "createCheckout", "region": "europe-west1" } },
+        { "source": "/api/checkout-status", "function": { "functionId": "checkoutStatus", "region": "europe-west1" } },
+        { "source": "/api/verify-order", "function": { "functionId": "verifyShopierOrder", "region": "europe-west1" } },
+        { "source": "/api/recover-purchase", "function": { "functionId": "recoverPurchase", "region": "europe-west1" } },
+        { "source": "/api/download-token", "function": { "functionId": "createDownloadToken", "region": "europe-west1" } },
+        { "source": "/api/download", "function": { "functionId": "downloadFile", "region": "europe-west1" } },
+        { "source": "/api/demo-request", "function": { "functionId": "requestProofDemo", "region": "europe-west1" } },
+        { "source": "/api/demo-download", "function": { "functionId": "downloadProofDemo", "region": "europe-west1" } }
       ],
       "headers": [
-        {
-          "source": "/**",
-          "headers": [{ "key": "Cache-Control", "value": "no-cache, must-revalidate" }]
-        },
-        {
-          "source": "/api/**",
-          "headers": [
-            { "key": "Cache-Control", "value": "no-store" },
-            { "key": "X-Content-Type-Options", "value": "nosniff" },
-            { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
-          ]
-        },
-        {
-          "source": "/images/*.png",
-          "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
-        },
-        {
-          "source": "/images/*.jpg",
-          "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
-        },
-        {
-          "source": "/*.png",
-          "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
-        },
-        {
-          "source": "/*.svg",
-          "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
-        },
-        {
-          "source": "/_astro/*.css",
-          "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
-        },
-        {
-          "source": "/_astro/*.js",
-          "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
-        }
+        { "source": "/**", "headers": [{ "key": "Cache-Control", "value": "no-cache, must-revalidate" }] },
+        { "source": "/api/**", "headers": [
+          { "key": "Cache-Control", "value": "no-store" },
+          { "key": "X-Content-Type-Options", "value": "nosniff" },
+          { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+        ] },
+        { "source": "/images/*.png", "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }] },
+        { "source": "/images/*.jpg", "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }] },
+        { "source": "/*.png", "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }] },
+        { "source": "/*.svg", "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }] },
+        { "source": "/_astro/*.css", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
+        { "source": "/_astro/*.js", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] }
       ]
     }
   ]
