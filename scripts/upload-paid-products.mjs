@@ -8,7 +8,7 @@
  *
  * Sevk öncesi zorunlu kontroller:
  *   - dosya gerçekten var ve > 0 byte
- *   - xlsx → geçerli ZIP; xlsm → OLE (dizin girdisi) yapısı
+ *   - xlsx/xlsm → geçerli OOXML ZIP paketi
  *   - slug katalogda var; storageKey standarda uygun; extension eşleşiyor
  *   - dosya adı/İçerik demo olduğunu ima ediyorsa reddet
  *   - hedef yalnız private paid-products/ altıdır
@@ -28,7 +28,7 @@ function arg(name) {
 const slug = arg('slug');
 const filePath = arg('file');
 if (!slug || !filePath) {
-  console.error('Kullanım: node scripts/upload-paid-products.mjs --slug <slug> --file <xlsx>');
+  console.error('Kullanım: node scripts/upload-paid-products.mjs --slug <slug> --file <xlsx|xlsm>');
   process.exit(2);
 }
 
@@ -65,34 +65,26 @@ if (base.includes('demo')) {
   console.error('Demo dosyası ücretli ürün olarak sevk edilemez.');
   process.exit(2);
 }
-const isXlsx = expectedKey.endsWith('.xlsx');
-if (isXlsx && !filePath.toLowerCase().endsWith('.xlsx')) {
-  console.error(`Uzantı uyuşmazlığı: katalog xlsx istiyor, dosya ${basename(filePath)}`);
-  process.exit(2);
-}
-if (!isXlsx && !filePath.toLowerCase().endsWith('.xlsm')) {
-  console.error(`Uzantı uyuşmazlığı: katalog xlsm istiyor, dosya ${basename(filePath)}`);
+const expectedExtension = product.fileFormat === 'xlsm' ? '.xlsm' : '.xlsx';
+if (!filePath.toLowerCase().endsWith(expectedExtension)) {
+  console.error(`Uzantı uyuşmazlığı: katalog ${expectedExtension} istiyor, dosya ${basename(filePath)}`);
   process.exit(2);
 }
 
-// Binary yapı doğrulaması: xlsx = ZIP sihirli baytları, xlsm = OLE başlığı
+// XLSX ve XLSM aynı OOXML/ZIP paket ailesindedir.
 const handle = readFileSync(filePath);
-const isZip = handle.readUInt32LE(0) === 0x04034b50;
-const isOle = handle.toString('latin1', 0, 8) === '\xD0\xCF\x11\xE0\xA1\xB1\x1A\xE1';
-if (isXlsx && !isZip) {
-  console.error('Dosya geçerli bir XLSX (ZIP) değil.');
-  process.exit(2);
-}
-if (!isXlsx && !isOle) {
-  console.error('Dosya geçerli bir XLSM (OLE) değil.');
+const signature = handle.length >= 4 ? handle.readUInt32LE(0) : 0;
+const isZip = signature === 0x04034b50 || signature === 0x06054b50 || signature === 0x08074b50;
+if (!isZip) {
+  console.error('Dosya geçerli bir OOXML Excel (ZIP) paketi değil.');
   process.exit(2);
 }
 
 let admin;
 try {
   admin = require('firebase-admin');
-} catch (error) {
-  console.error('firebase-admin gerekli (npm install --prefix scripts firebase-admin)');
+} catch {
+  console.error('firebase-admin gerekli (npm ci --prefix scripts)');
   process.exit(2);
 }
 if (admin.apps.length === 0) admin.initializeApp();
@@ -100,7 +92,7 @@ const bucketName = process.env.STORAGE_BUCKET || 'carbon-web-1265b.firebasestora
 const bucket = admin.storage().bucket(bucketName);
 const file = bucket.file(expectedKey);
 
-const mime = isXlsx
+const mime = expectedKey.endsWith('.xlsx')
   ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
   : 'application/vnd.ms-excel.sheet.macroEnabled.12';
 

@@ -5,9 +5,27 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      force_backend:
+        description: 'Backend Functions deployunu açıkça zorla'
+        required: false
+        type: boolean
+        default: false
+      force_hosting:
+        description: 'Firebase Hosting deployunu açıkça zorla'
+        required: false
+        type: boolean
+        default: false
+      force_delivery:
+        description: 'Private ücretli ürün Storage senkronizasyonunu açıkça zorla'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
+  actions: read
+  pull-requests: read
 
 concurrency:
   group: firebase-production
@@ -30,6 +48,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Verify merged PR provenance and required green CI
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RELEASE_PROVENANCE_RETRIES: '8'
+          RELEASE_PROVENANCE_RETRY_DELAY_MS: '1500'
+        run: node --experimental-strip-types scripts/ci/release-provenance.ts
+
       - name: Detect runtime changes
         id: changes
         shell: bash
@@ -38,13 +63,15 @@ jobs:
 
           backend_changed=false
           hosting_changed=false
+          delivery_changed=false
 
           if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
-            backend_changed=true
-            hosting_changed=true
+            backend_changed='${{ inputs.force_backend }}'
+            hosting_changed='${{ inputs.force_hosting }}'
+            delivery_changed='${{ inputs.force_delivery }}'
           elif ! git rev-parse HEAD^ >/dev/null 2>&1; then
-            backend_changed=true
-            hosting_changed=true
+            echo 'KALDI: parent commit bulunamadı; otomatik production deploy kararı verilmiyor.'
+            exit 1
           else
             if ! git diff --quiet HEAD^ HEAD -- functions/; then
               backend_changed=true
@@ -58,25 +85,36 @@ jobs:
               .firebaserc \
               astro.config.mjs \
               tsconfig.json \
+              package.json \
               package-lock.json \
               scripts/seo/generate-artifacts.mjs \
               scripts/seo/finalize-sitemap-index.mjs \
               scripts/seo/validate-gates.mjs \
-              scripts/seo/lib.mjs \
-              .github/workflows/deploy-firebase.yml; then
+              scripts/seo/lib.mjs; then
               hosting_changed=true
+            fi
+
+            if ! git diff --quiet HEAD^ HEAD -- \
+              delivery/paid-products/ \
+              commerce/catalog.json \
+              scripts/sync-paid-products.mjs \
+              scripts/check-paid-products.mjs \
+              scripts/package.json \
+              scripts/package-lock.json; then
+              delivery_changed=true
             fi
           fi
 
           runtime_changed=false
-          if [[ "$backend_changed" == "true" || "$hosting_changed" == "true" ]]; then
+          if [[ "$backend_changed" == "true" || "$hosting_changed" == "true" || "$delivery_changed" == "true" ]]; then
             runtime_changed=true
           fi
 
           echo "backend_changed=$backend_changed" >> "$GITHUB_OUTPUT"
           echo "hosting_changed=$hosting_changed" >> "$GITHUB_OUTPUT"
+          echo "delivery_changed=$delivery_changed" >> "$GITHUB_OUTPUT"
           echo "runtime_changed=$runtime_changed" >> "$GITHUB_OUTPUT"
-          echo "Runtime decision: backend=$backend_changed hosting=$hosting_changed runtime=$runtime_changed"
+          echo "Runtime decision: backend=$backend_changed hosting=$hosting_changed delivery=$delivery_changed runtime=$runtime_changed"
 
       - name: Use Node.js 22
         uses: actions/setup-node@v4
@@ -161,6 +199,26 @@ jobs:
           console.log(`Project: ${process.env.FIREBASE_PROJECT_ID}`);
           NODE
 
+      - name: Sync changed paid product binaries to private Storage
+        if: steps.changes.outputs.delivery_changed == 'true'
+        env:
+          GCLOUD_PROJECT: ${{ env.FIREBASE_PROJECT_ID }}
+          GOOGLE_CLOUD_PROJECT: ${{ env.FIREBASE_PROJECT_ID }}
+          STORAGE_BUCKET: carbon-web-1265b.firebasestorage.app
+        run: node scripts/sync-paid-products.mjs --apply
+
+      - name: Verify paid product repo-storage SHA-256 parity
+        if: steps.changes.outputs.runtime_changed == 'true'
+        env:
+          GCLOUD_PROJECT: ${{ env.FIREBASE_PROJECT_ID }}
+          GOOGLE_CLOUD_PROJECT: ${{ env.FIREBASE_PROJECT_ID }}
+          STORAGE_BUCKET: carbon-web-1265b.firebasestorage.app
+        shell: bash
+        run: |
+          set -euo pipefail
+          node scripts/check-paid-products.mjs --strict --verify-local-parity
+          echo "Paid product parity gate passed (satışa açık set repo ↔ private Storage byte-identical)."
+
       - name: Decide backend deployment
         if: steps.changes.outputs.runtime_changed == 'true'
         id: backend
@@ -191,7 +249,7 @@ jobs:
             fi
           done
 
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" || "${{ steps.changes.outputs.backend_changed }}" == "true" || "$functions_missing" == "true" ]]; then
+          if [[ "${{ steps.changes.outputs.backend_changed }}" == "true" || "$functions_missing" == "true" ]]; then
             echo "deploy_functions=true" >> "$GITHUB_OUTPUT"
             echo "Backend deployment required."
           else
@@ -298,18 +356,6 @@ jobs:
           console.log(`REAL CHECKOUT 201 OK: ${x.productSlug} tier=${x.tier} amount=${x.amountTL} shopier=${x.shopierUrl}`);
           NODE
           rm -f "$response_file"
-
-      - name: Verify paid product storage readiness (satışa açık set)
-        if: steps.changes.outputs.runtime_changed == 'true'
-        env:
-          GCLOUD_PROJECT: ${{ env.FIREBASE_PROJECT_ID }}
-          GOOGLE_CLOUD_PROJECT: ${{ env.FIREBASE_PROJECT_ID }}
-          STORAGE_BUCKET: carbon-web-1265b.firebasestorage.app
-        shell: bash
-        run: |
-          set -euo pipefail
-          node scripts/check-paid-products.mjs --strict
-          echo "Paid product storage readiness gate passed (tüm satışa açık ürünler READY)."
 
       - name: Verify no catalog product is in sale-disabled state
         if: steps.changes.outputs.runtime_changed == 'true'
