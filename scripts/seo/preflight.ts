@@ -189,7 +189,7 @@ function containsGuarantee(text: string): boolean {
   if (hard.test(text)) return true;
   for (const line of text.split(/\r?\n/)) {
     if (!/\bgaranti\b/iu.test(line)) continue;
-    const compliance = /(garanti[^\n]{0,45}(?:yok|yasak|vermez|değildir|taramas|örüntüsü)|(?:yok|yasak)[^\n]{0,45}garanti)/iu;
+    const compliance = /(garanti[^\n]{0,45}(?:yok|yasak|vermez|etmez|değildir|taramas|örüntüsü)|(?:yok|yasak)[^\n]{0,45}garanti)/iu;
     if (!compliance.test(line)) return true;
   }
   return false;

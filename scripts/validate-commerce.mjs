@@ -144,6 +144,25 @@ for (const slug of Object.keys(catalog.products)) {
   if (!proofSpecs.includes(`'${slug}'`)) errors.push(`${slug}: Proof Demo sözleşmesi eksik.`);
 }
 
+// Proof Demo karar formülü: iç içe IF'te ikinci dalın erişilebilir olması zorunlu.
+// Aynı koşulun iki kez kullanılması veya daralan/genişleyen eşik sırasının ters olması
+// alıcıya ölü karar dalı gösterir (İNCELE hiç üretilmez).
+for (const match of proofSpecs.matchAll(/\['Demo karar',\s*'(=IF\([^']+\))'/g)) {
+  const formula = match[1];
+  if (/IF\(([^,]+),"[^"]+",IF\(\1,/.test(formula)) {
+    errors.push(`Proof Demo karar ölü dal (aynı koşul iki kez): ${formula}`);
+  }
+  const nested = formula.match(/IF\(([^<>]+)([<>]=?)([0-9.]+),"[^"]+",IF\(\1\2([0-9.]+),/);
+  if (nested) {
+    const op = nested[2];
+    const t1 = Number(nested[3]);
+    const t2 = Number(nested[4]);
+    if ((op.startsWith('<') && t2 < t1) || (op.startsWith('>') && t2 > t1)) {
+      errors.push(`Proof Demo karar ölü dal (eşik sırası ters ${op}${t1} → ${op}${t2}): ${formula}`);
+    }
+  }
+}
+
 if (errors.length) {
   console.error(`Commerce validation failed (${errors.length}):`);
   for (const error of errors) console.error(`- ${error}`);
