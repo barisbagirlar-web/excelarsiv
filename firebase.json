@@ -14,7 +14,7 @@
       "target": "excelarsiv",
       "public": "dist",
       "predeploy": [
-        "node scripts/seo/hosting-predeploy.mjs"
+        "node scripts/seo/hosting-predeploy.cjs"
       ],
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "cleanUrls": true,
