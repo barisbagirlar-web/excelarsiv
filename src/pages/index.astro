@@ -2,7 +2,7 @@
 import CommerceLayout from '../layouts/CommerceLayout.astro';
 import HeroSection from '../components/home/HeroSection.astro';
 import TrustStrip from '../components/home/TrustStrip.astro';
-import FeaturedTemplates from '../components/home/FeaturedTemplates.astro';
+import PremiumFeaturedTemplates from '../components/home/PremiumFeaturedTemplates.astro';
 import CommandCenter from '../components/home/CommandCenter.astro';
 import ProofGallery from '../components/home/ProofGallery.astro';
 import CategorySection from '../components/home/CategorySection.astro';
@@ -25,7 +25,7 @@ const searchIndex = await getTemplateSearchIndex();
   <ExperienceRail />
 
   <div id="urunler" data-experience-stage>
-    <FeaturedTemplates templates={featuredTemplates} />
+    <PremiumFeaturedTemplates templates={featuredTemplates} />
   </div>
 
   <div id="sistem" data-experience-stage data-mobile-deferred-rich>
