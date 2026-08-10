@@ -5,15 +5,15 @@ category: 'satis-ve-fiyatlama'
 priceTL: 990
 vatIncluded: true
 fileFormat: xlsx
-sizeMB: 0.13
-sheetCount: 14
+sizeMB: 0.22
+sheetCount: 15
 hasMacros: false
 minExcelVersion: 'Excel 2016 ve üzeri'
 macCompatible: true
 sheetsCompatibility: full
 version: '1.0.0'
-updatedAt: '2026-08-06'
-sheetMap: 
+updatedAt: '2026-08-10'
+sheetMap:
   - name: 'KAPAK'
     purpose: 'Ürün kapak sayfası ve dosya kimliği'
     kind: 'output'
@@ -25,6 +25,9 @@ sheetMap:
     kind: 'input'
   - name: 'HESAP'
     purpose: 'Kanal bazlı net tahsilat hesapları'
+    kind: 'calculation'
+  - name: 'ANALITIK_MOTOR'
+    purpose: 'Analitik modül hesaplamaları'
     kind: 'calculation'
   - name: 'KONTROLLER'
     purpose: 'Girdi tutarlılık ve mutabakat kontrolleri'
@@ -56,46 +59,46 @@ sheetMap:
   - name: 'KILAVUZ'
     purpose: 'Kullanım kılavuzu'
     kind: 'output'
-inputs: 
+inputs:
   - 'Kanal adı ve brüt satış'
   - 'İade tutarı ve komisyon oranı'
   - 'İşlem tarihi'
-outputs: 
+outputs:
   - 'Kanal bazlı net tahsilat'
   - 'Komisyon maliyeti'
   - 'İade oranı ve en pahalı kanal'
-suitableFor: 
+suitableFor:
   - 'Çoklu POS kullanan perakendeciler'
   - 'Online satış yapanlar'
   - 'Kanal maliyetini karşılaştırmak isteyenler'
-notSuitableFor: 
+notSuitableFor:
   - 'Kasa defteri'
   - 'Stok takibi'
-requirements: 
+requirements:
   - 'Excel 2016 veya üzeri'
 updatePolicy: 'Mevzuattan bağımsız yapıdır; iyileştirme sürümleri satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
-faq: 
-  - question: 'Komisyon oranlarını nereden güncellerim?'
-    answer: 'Girdi sayfasındaki komisyon oranı kolonundan her işlem için ayrı ayrı girebilirsiniz.'
-  - question: 'İade nasıl etki eder?'
-    answer: 'İade tutarı brüt satıştan düşülür; komisyon net tutar üzerinden hesaplanır.'
-  - question: 'Kanal sayısını artırabilir miyim?'
-    answer: 'Evet, Girdi sayfasına satır ekleyip Hesap sayfasındaki formül aralıklarını genişletmeniz yeterlidir.'
-  - question: 'Excel sürümüm eski, çalışır mı?'
-    answer: 'Excel 2016 ve üzeri gerekir; kullanılan işlevler standarttır.'
-  - question: 'Kilitli mi? Değiştirebilir miyim?'
-    answer: 'Girdi alanları serbesttir; formül sayfaları şifresiz korumadadır, kaldırıp inceleyebilirsiniz.'
-  - question: 'Lisans tek kullanıcılık mı?'
-    answer: 'Evet, tek lisans tek kullanıcıdır; aynı kullanıcının makul sayıdaki cihazında kullanılabilir.'
-demoFile: /demo/pos-komisyon-ve-net-tahsilat-kontrol-sistemi.xlsx
-screenshots: 
-  - src: '/screenshots/pos-komisyon-ve-net-tahsilat-kontrol-sistemi-1.png'
-    alt: 'POS, Komisyon ve Net Tahsilat Kontrol Sistemi dosyasının POS_HAREKETLER sayfası — POS kanal hareketi girişleri'
-  - src: '/screenshots/pos-komisyon-ve-net-tahsilat-kontrol-sistemi-2.png'
-    alt: 'POS, Komisyon ve Net Tahsilat Kontrol Sistemi dosyasının HESAP sayfası — Kanal bazlı net tahsilat hesapları'
-  - src: '/screenshots/pos-komisyon-ve-net-tahsilat-kontrol-sistemi-3.png'
-    alt: 'POS, Komisyon ve Net Tahsilat Kontrol Sistemi dosyasının PANO sayfası — Yönetim panosu özeti'
-related: 
+faq:
+  - answer: 'Girdi sayfasındaki komisyon oranı kolonundan her işlem için ayrı ayrı girebilirsiniz.'
+    question: 'Komisyon oranlarını nereden güncellerim?'
+  - answer: 'İade tutarı brüt satıştan düşülür; komisyon net tutar üzerinden hesaplanır.'
+    question: 'İade nasıl etki eder?'
+  - answer: 'Evet, Girdi sayfasına satır ekleyip Hesap sayfasındaki formül aralıklarını genişletmeniz yeterlidir.'
+    question: 'Kanal sayısını artırabilir miyim?'
+  - answer: 'Excel 2016 ve üzeri gerekir; kullanılan işlevler standarttır.'
+    question: 'Excel sürümüm eski, çalışır mı?'
+  - answer: 'Girdi alanları serbesttir; formül sayfaları şifresiz korumadadır, kaldırıp inceleyebilirsiniz.'
+    question: 'Kilitli mi? Değiştirebilir miyim?'
+  - answer: 'Evet, tek lisans tek kullanıcıdır; aynı kullanıcının makul sayıdaki cihazında kullanılabilir.'
+    question: 'Lisans tek kullanıcılık mı?'
+demoFile: '/demo/pos-komisyon-ve-net-tahsilat-kontrol-sistemi.xlsx'
+screenshots:
+  - alt: 'POS, Komisyon ve Net Tahsilat Kontrol Sistemi dosyasının POS_HAREKETLER sayfası — POS kanal hareketi girişleri'
+    src: '/screenshots/pos-komisyon-ve-net-tahsilat-kontrol-sistemi-1.png'
+  - alt: 'POS, Komisyon ve Net Tahsilat Kontrol Sistemi dosyasının HESAP sayfası — Kanal bazlı net tahsilat hesapları'
+    src: '/screenshots/pos-komisyon-ve-net-tahsilat-kontrol-sistemi-2.png'
+  - alt: 'POS, Komisyon ve Net Tahsilat Kontrol Sistemi dosyasının PANO sayfası — Yönetim panosu özeti'
+    src: '/screenshots/pos-komisyon-ve-net-tahsilat-kontrol-sistemi-3.png'
+related:
   - 'gunluk-gelir-gider-ve-gercek-karlilik-sistemi'
   - 'akilli-kasa-defteri-ve-nakit-kontrol-sistemi'
 ---

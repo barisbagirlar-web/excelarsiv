@@ -5,15 +5,15 @@ category: 'satis-ve-fiyatlama'
 priceTL: 1490
 vatIncluded: true
 fileFormat: xlsx
-sizeMB: 0.75
+sizeMB: 0.82
 sheetCount: 17
 hasMacros: false
 minExcelVersion: 'Excel 2016 ve üzeri'
 macCompatible: true
 sheetsCompatibility: full
 version: '1.0.0'
-updatedAt: '2026-08-06'
-sheetMap: 
+updatedAt: '2026-08-10'
+sheetMap:
   - name: 'HESAP_PLANI'
     purpose: 'Hesap planı tanımları'
     kind: 'input'
@@ -65,46 +65,46 @@ sheetMap:
   - name: 'KILAVUZ'
     purpose: 'Kullanım kılavuzu'
     kind: 'output'
-inputs: 
+inputs:
   - 'Günlük gelir ve gider tutarları'
   - 'Kategori etiketi (satış, operasyon vb.)'
   - 'Tarih bilgisi'
-outputs: 
+outputs:
   - 'Günlük net kâr ve kümülatif seyir'
   - 'Kategori bazlı marj'
   - 'Dönem genel toplamı'
-suitableFor: 
+suitableFor:
   - 'Serbest meslek sahipleri'
   - 'Küçük perakende ve hizmet işletmeleri'
   - 'Gelir-gider dengesini günlük izlemek isteyenler'
-notSuitableFor: 
+notSuitableFor:
   - 'Cari hesap ve fatura takibi'
   - 'Stok maliyeti'
-requirements: 
+requirements:
   - 'Excel 2016 veya üzeri'
 updatePolicy: 'Mevzuattan bağımsız yapıdır; iyileştirme sürümleri satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
-faq: 
-  - question: 'Kategorileri değiştirebilir miyim?'
-    answer: 'Evet, kategori adlarını kendi işletmenize göre düzenleyebilirsiniz; Çıktı sayfasındaki formüller adlarınızı takip eder.'
-  - question: 'KDV dahil mi ayrı mı girilmeli?'
-    answer: 'Yapı, tutarları KDV dahil kabul eder; tercihinize göre ayrı kolon ekleyebilirsiniz.'
-  - question: 'Excel sürümüm eski, çalışır mı?'
-    answer: 'Excel 2016 ve üzeri gerekir; kullanılan işlevler standarttır.'
-  - question: 'Kilitli mi? Değiştirebilir miyim?'
-    answer: 'Girdi alanları serbesttir; formül sayfaları şifresiz korumadadır, kaldırıp inceleyebilirsiniz.'
-  - question: 'Lisans tek kullanıcılık mı?'
-    answer: 'Evet, tek lisans tek kullanıcıdır; aynı kullanıcının makul sayıdaki cihazında kullanılabilir.'
-  - question: 'Yıllık karşılaştırma yapabilir miyim?'
-    answer: 'Bu yapı tek dönem içindir; yıllık karşılaştırma için aylık raporu ayrı dosyada saklayabilirsiniz.'
-demoFile: /demo/gunluk-gelir-gider-ve-gercek-karlilik-sistemi.xlsx
-screenshots: 
-  - src: '/screenshots/gunluk-gelir-gider-ve-gercek-karlilik-sistemi-1.png'
-    alt: 'Günlük Gelir–Gider ve Gerçek Kârlılık Sistemi dosyasının GELIR_GIDER_KAYIT sayfası — Gelir ve gider kayıt girişleri'
-  - src: '/screenshots/gunluk-gelir-gider-ve-gercek-karlilik-sistemi-2.png'
-    alt: 'Günlük Gelir–Gider ve Gerçek Kârlılık Sistemi dosyasının GUNLUK_OZET sayfası — Günlük net ve kümülatif hesapları'
-  - src: '/screenshots/gunluk-gelir-gider-ve-gercek-karlilik-sistemi-3.png'
-    alt: 'Günlük Gelir–Gider ve Gerçek Kârlılık Sistemi dosyasının PANO sayfası — Yönetim panosu özeti'
-related: 
+faq:
+  - answer: 'Evet, kategori adlarını kendi işletmenize göre düzenleyebilirsiniz; Çıktı sayfasındaki formüller adlarınızı takip eder.'
+    question: 'Kategorileri değiştirebilir miyim?'
+  - answer: 'Yapı, tutarları KDV dahil kabul eder; tercihinize göre ayrı kolon ekleyebilirsiniz.'
+    question: 'KDV dahil mi ayrı mı girilmeli?'
+  - answer: 'Excel 2016 ve üzeri gerekir; kullanılan işlevler standarttır.'
+    question: 'Excel sürümüm eski, çalışır mı?'
+  - answer: 'Girdi alanları serbesttir; formül sayfaları şifresiz korumadadır, kaldırıp inceleyebilirsiniz.'
+    question: 'Kilitli mi? Değiştirebilir miyim?'
+  - answer: 'Evet, tek lisans tek kullanıcıdır; aynı kullanıcının makul sayıdaki cihazında kullanılabilir.'
+    question: 'Lisans tek kullanıcılık mı?'
+  - answer: 'Bu yapı tek dönem içindir; yıllık karşılaştırma için aylık raporu ayrı dosyada saklayabilirsiniz.'
+    question: 'Yıllık karşılaştırma yapabilir miyim?'
+demoFile: '/demo/gunluk-gelir-gider-ve-gercek-karlilik-sistemi.xlsx'
+screenshots:
+  - alt: 'Günlük Gelir–Gider ve Gerçek Kârlılık Sistemi dosyasının GELIR_GIDER_KAYIT sayfası — Gelir ve gider kayıt girişleri'
+    src: '/screenshots/gunluk-gelir-gider-ve-gercek-karlilik-sistemi-1.png'
+  - alt: 'Günlük Gelir–Gider ve Gerçek Kârlılık Sistemi dosyasının GUNLUK_OZET sayfası — Günlük net ve kümülatif hesapları'
+    src: '/screenshots/gunluk-gelir-gider-ve-gercek-karlilik-sistemi-2.png'
+  - alt: 'Günlük Gelir–Gider ve Gerçek Kârlılık Sistemi dosyasının PANO sayfası — Yönetim panosu özeti'
+    src: '/screenshots/gunluk-gelir-gider-ve-gercek-karlilik-sistemi-3.png'
+related:
   - 'akilli-kasa-defteri-ve-nakit-kontrol-sistemi'
   - 'aylik-patron-finans-paneli'
 ---
