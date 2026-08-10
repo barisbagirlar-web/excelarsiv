@@ -15,204 +15,94 @@ type VisualConfig = {
   metricA: string;
   metricB: string;
   metricC: string;
+  labelA: string;
+  labelB: string;
+  labelC: string;
+  sheet: string;
+  chip1: string;
+  chip2: string;
 };
 
 const visuals: Record<string, VisualConfig> = {
-  '13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi': {
-    variant: 'cashflow', eyebrow: '13 HAFTALIK NAKİT', accent: '#087a43', accent2: '#d6a31a', surface: '#f5fbf7',
-    metricA: '₺1,84M', metricB: '₺1,61M', metricC: '+₺230K',
-  },
-  'akilli-kasa-defteri-ve-nakit-kontrol-sistemi': {
-    variant: 'cashbook', eyebrow: 'KASA KONTROL', accent: '#0e6b57', accent2: '#19a77d', surface: '#f2faf8',
-    metricA: '₺428K', metricB: '₺421K', metricC: '₺7,2K',
-  },
-  'aylik-patron-finans-paneli': {
-    variant: 'executive', eyebrow: 'PATRON PANELİ', accent: '#183a59', accent2: '#2f8b66', surface: '#eef3f7',
-    metricA: '₺3,25M', metricB: '%28,7', metricC: '1.250',
-  },
-  'banka-kredi-ve-taksit-takip-sistemi': {
-    variant: 'debt', eyebrow: 'KREDİ & TAKSİT', accent: '#315e9d', accent2: '#6f87bc', surface: '#f3f6fb',
-    metricA: '₺2,14M', metricB: '18 ay', metricC: '₺164K',
-  },
-  'cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi': {
-    variant: 'receivables', eyebrow: 'CARİ RİSK', accent: '#d06d0d', accent2: '#f2a23e', surface: '#fff8ef',
-    metricA: '₺1,24M', metricB: '₺312K', metricC: '%74,8',
-  },
-  'cek-senet-ve-vade-risk-sistemi': {
-    variant: 'maturity', eyebrow: 'VADE RİSKİ', accent: '#8b3a3a', accent2: '#d16b55', surface: '#fff5f3',
-    metricA: '47 adet', metricB: '₺886K', metricC: '6 kritik',
-  },
-  'gunluk-gelir-gider-ve-gercek-karlilik-sistemi': {
-    variant: 'profit', eyebrow: 'GERÇEK KÂRLILIK', accent: '#126a4b', accent2: '#31a56e', surface: '#f3faf6',
-    metricA: '₺985K', metricB: '₺742K', metricC: '%24,7',
-  },
-  'kobi-finans-yonetim-paketi': {
-    variant: 'suite', eyebrow: 'KOBİ FİNANS', accent: '#0c5139', accent2: '#1aa26c', surface: '#edf8f2',
-    metricA: '12 modül', metricB: '7 kontrol', metricC: '1 pano',
-  },
-  'pos-komisyon-ve-net-tahsilat-kontrol-sistemi': {
-    variant: 'pos', eyebrow: 'POS MUTABAKAT', accent: '#6a4f99', accent2: '#9a7cc5', surface: '#f7f3fb',
-    metricA: '₺684K', metricB: '₺17,8K', metricC: '₺666K',
-  },
-  'proje-ve-is-bazinda-gercek-karlilik-sistemi': {
-    variant: 'project', eyebrow: 'PROJE KÂRLILIĞI', accent: '#14669c', accent2: '#32a0c8', surface: '#f1f8fb',
-    metricA: '8 proje', metricB: '%31,4', metricC: '2 riskli',
-  },
-  'stok-satis-ve-nakit-baglanma-sistemi': {
-    variant: 'stock', eyebrow: 'STOK & NAKİT', accent: '#216b8f', accent2: '#4b9cc4', surface: '#f1f8fb',
-    metricA: '2.450', metricB: '₺1,24M', metricC: '18 düşük',
-  },
-  'vergi-sgk-ve-maas-karsilik-ayirma-sistemi': {
-    variant: 'payroll', eyebrow: 'VERGİ · SGK · MAAŞ', accent: '#74508f', accent2: '#b07ac9', surface: '#faf5fc',
-    metricA: '₺286K', metricB: '₺91K', metricC: '24 kişi',
-  },
+  '13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi': { variant:'cashflow', eyebrow:'13 HAFTALIK NAKİT', accent:'#087a43', accent2:'#d6a31a', surface:'#f5fbf7', metricA:'₺1,84M', metricB:'₺1,61M', metricC:'+₺230K', labelA:'GİRİŞ', labelB:'ÇIKIŞ', labelC:'FARK', sheet:'HAFTALIK AKIŞ', chip1:'H01–H13', chip2:'NAKİT' },
+  'akilli-kasa-defteri-ve-nakit-kontrol-sistemi': { variant:'cashbook', eyebrow:'KASA KONTROL', accent:'#0e6b57', accent2:'#19a77d', surface:'#f2faf8', metricA:'₺428K', metricB:'₺421K', metricC:'₺7,2K', labelA:'KASA', labelB:'KAYIT', labelC:'FARK', sheet:'KASA DEFTERİ', chip1:'GİRİŞ/ÇIKIŞ', chip2:'MUTABAKAT' },
+  'aylik-patron-finans-paneli': { variant:'executive', eyebrow:'PATRON PANELİ', accent:'#183a59', accent2:'#2f8b66', surface:'#eef3f7', metricA:'₺3,25M', metricB:'%28,7', metricC:'1.250', labelA:'CİRO', labelB:'MARJ', labelC:'İŞLEM', sheet:'YÖNETİM PANO', chip1:'KPI', chip2:'TREND' },
+  'banka-kredi-ve-taksit-takip-sistemi': { variant:'debt', eyebrow:'KREDİ & TAKSİT', accent:'#315e9d', accent2:'#6f87bc', surface:'#f3f6fb', metricA:'₺2,14M', metricB:'18 ay', metricC:'₺164K', labelA:'BORÇ', labelB:'VADE', labelC:'TAKSİT', sheet:'ÖDEME PLANI', chip1:'DSCR 1,42', chip2:'VADE' },
+  'cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi': { variant:'receivables', eyebrow:'CARİ RİSK', accent:'#d06d0d', accent2:'#f2a23e', surface:'#fff8ef', metricA:'₺1,24M', metricB:'₺312K', metricC:'%74,8', labelA:'ALACAK', labelB:'GECİKMİŞ', labelC:'TAHSİLAT', sheet:'YAŞLANDIRMA', chip1:'0–30', chip2:'90+' },
+  'cek-senet-ve-vade-risk-sistemi': { variant:'maturity', eyebrow:'VADE RİSKİ', accent:'#8b3a3a', accent2:'#d16b55', surface:'#fff5f3', metricA:'47 adet', metricB:'₺886K', metricC:'6 kritik', labelA:'EVRAK', labelB:'TUTAR', labelC:'RİSK', sheet:'VADE TAKVİMİ', chip1:'YOĞUNLUK', chip2:'KRİTİK' },
+  'gunluk-gelir-gider-ve-gercek-karlilik-sistemi': { variant:'profit', eyebrow:'GERÇEK KÂRLILIK', accent:'#126a4b', accent2:'#31a56e', surface:'#f3faf6', metricA:'₺985K', metricB:'₺742K', metricC:'%24,7', labelA:'GELİR', labelB:'GİDER', labelC:'MARJ', sheet:'KÂR KÖPRÜSÜ', chip1:'BRÜT', chip2:'NET' },
+  'kobi-finans-yonetim-paketi': { variant:'suite', eyebrow:'KOBİ FİNANS', accent:'#0c5139', accent2:'#1aa26c', surface:'#edf8f2', metricA:'12 modül', metricB:'7 kontrol', metricC:'1 pano', labelA:'MODÜL', labelB:'KONTROL', labelC:'PANO', sheet:'FİNANS MERKEZİ', chip1:'12 MODÜL', chip2:'AKSİYON' },
+  'pos-komisyon-ve-net-tahsilat-kontrol-sistemi': { variant:'pos', eyebrow:'POS MUTABAKAT', accent:'#6a4f99', accent2:'#9a7cc5', surface:'#f7f3fb', metricA:'₺684K', metricB:'₺17,8K', metricC:'₺666K', labelA:'BRÜT', labelB:'KOMİSYON', labelC:'NET', sheet:'POS MUTABAKAT', chip1:'VISA · MC', chip2:'TROY' },
+  'proje-ve-is-bazinda-gercek-karlilik-sistemi': { variant:'project', eyebrow:'PROJE KÂRLILIĞI', accent:'#14669c', accent2:'#32a0c8', surface:'#f1f8fb', metricA:'8 proje', metricB:'%31,4', metricC:'2 riskli', labelA:'PROJE', labelB:'MARJ', labelC:'RİSK', sheet:'PROJE MATRİSİ', chip1:'GANTT', chip2:'MARJ' },
+  'stok-satis-ve-nakit-baglanma-sistemi': { variant:'stock', eyebrow:'STOK & NAKİT', accent:'#216b8f', accent2:'#4b9cc4', surface:'#f1f8fb', metricA:'2.450', metricB:'₺1,24M', metricC:'18 düşük', labelA:'SKU', labelB:'STOK DEĞERİ', labelC:'KRİTİK', sheet:'STOK HAREKETİ', chip1:'EOQ', chip2:'KRİTİK SKU' },
+  'vergi-sgk-ve-maas-karsilik-ayirma-sistemi': { variant:'payroll', eyebrow:'VERGİ · SGK · MAAŞ', accent:'#74508f', accent2:'#b07ac9', surface:'#faf5fc', metricA:'₺286K', metricB:'₺91K', metricC:'24 kişi', labelA:'TOPLAM', labelB:'SGK', labelC:'PERSONEL', sheet:'BORDRO YÜKÜ', chip1:'SGK', chip2:'VERGİ' },
+  'ithalat-depo-teslim-rafa-gelen-net-birim-maliyet': { variant:'import', eyebrow:'İTHALAT MALİYETİ', accent:'#0b6373', accent2:'#d79a28', surface:'#eff9fa', metricA:'$42,5K', metricB:'₺1,83M', metricC:'₺457,8', labelA:'FOB', labelB:'RAFA GELEN', labelC:'BİRİM', sheet:'MALİYET KÖPRÜSÜ', chip1:'FOB → DEPO', chip2:'CIF + VERGİ' },
+  'kacirilan-sgk-tesvikleri-ve-gercek-iscilik-maliyeti-analizi': { variant:'sgk', eyebrow:'SGK TEŞVİK ANALİZİ', accent:'#166c46', accent2:'#c49528', surface:'#f1f9f4', metricA:'₺184K', metricB:'₺71K', metricC:'%38,6', labelA:'İŞÇİLİK', labelB:'TEŞVİK', labelC:'KAZANIM', sheet:'TEŞVİK MATRİSİ', chip1:'5510 · 6111', chip2:'KAZANIM' },
+  'kidem-ihbar-yuku-ve-personel-cikarma-maliyeti-hesaplayici': { variant:'severance', eyebrow:'KIDEM · İHBAR', accent:'#8a4d2f', accent2:'#d88b4b', surface:'#fff7f1', metricA:'₺492K', metricB:'₺137K', metricC:'₺629K', labelA:'KIDEM', labelB:'İHBAR', labelC:'TOPLAM', sheet:'PERSONEL YÜKÜ', chip1:'KIDEM', chip2:'İHBAR' },
+  'asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli': { variant:'wage', eyebrow:'ÜCRET ZAM ETKİSİ', accent:'#7b5a16', accent2:'#d8a72b', surface:'#fffaf0', metricA:'%24,8', metricB:'%14,2', metricC:'%9,6', labelA:'ÜCRET', labelB:'MALİYET', labelC:'FİYAT', sheet:'ZAM ETKİSİ', chip1:'ÖNCE → SONRA', chip2:'FİYAT' },
+  'fazla-mesai-ve-isci-dava-riski-tespit-dosyasi': { variant:'overtime', eyebrow:'FAZLA MESAİ RİSKİ', accent:'#833c4d', accent2:'#d1677d', surface:'#fff4f6', metricA:'428 sa', metricB:'17 kişi', metricC:'5 yüksek', labelA:'MESAİ', labelB:'PERSONEL', labelC:'RİSK', sheet:'MESAİ TAKVİMİ', chip1:'SAAT', chip2:'DAVA RİSKİ' },
+  'ihaleye-kac-tl-teklif-vermeliyim': { variant:'tender', eyebrow:'TEKLİF KARAR MOTORU', accent:'#31547b', accent2:'#58a1c6', surface:'#f2f7fb', metricA:'₺8,42M', metricB:'%11,8', metricC:'₺7,61M', labelA:'TEKLİF', labelB:'MARJ', labelC:'TABAN', sheet:'TEKLİF BANDI', chip1:'TABAN', chip2:'HEDEF' },
+  'asiri-dusuk-teklif-savunma-robotu': { variant:'defense', eyebrow:'AŞIRI DÜŞÜK TEKLİF', accent:'#4e4b84', accent2:'#8a83c9', surface:'#f6f5fb', metricA:'14 kalem', metricB:'9 kanıt', metricC:'%96', labelA:'KALEM', labelB:'KANIT', labelC:'TAMLIK', sheet:'SAVUNMA DOSYASI', chip1:'KANIT', chip2:'GEREKÇE' },
+  'hakedis-fiyat-farki-hak-kaybi-cetveli': { variant:'progress', eyebrow:'HAKEDİŞ FİYAT FARKI', accent:'#356d58', accent2:'#63a98b', surface:'#f2f8f5', metricA:'₺3,28M', metricB:'₺214K', metricC:'₺63K', labelA:'HAKEDİŞ', labelB:'FARK', labelC:'KAYIP', sheet:'ENDEKS FARKI', chip1:'ENDEKS', chip2:'HAK KAYBI' },
+  'yillara-sari-insaat-stopaj-nakit-akis-planlayici': { variant:'withholding', eyebrow:'STOPAJ NAKİT AKIŞI', accent:'#605b32', accent2:'#a99c50', surface:'#faf9f0', metricA:'₺12,8M', metricB:'₺640K', metricC:'18 ay', labelA:'TAHAKKUK', labelB:'STOPAJ', labelC:'DÖNEM', sheet:'NAKİT TAKVİMİ', chip1:'%5 STOPAJ', chip2:'18 AY' },
+  'taseron-hakedis-kesinti-mutabakati': { variant:'subcontract', eyebrow:'TAŞERON MUTABAKAT', accent:'#53616e', accent2:'#8496a5', surface:'#f4f7f9', metricA:'₺2,14M', metricB:'₺186K', metricC:'₺1,95M', labelA:'BRÜT', labelB:'KESİNTİ', labelC:'NET', sheet:'KESİNTİ CETVELİ', chip1:'BRÜT − KESİNTİ', chip2:'MUTABIK' },
 };
 
-const config = visuals[slug] ?? {
-  variant: 'generic', eyebrow: 'EXCEL SİSTEMİ', accent: '#107c41', accent2: '#45a873', surface: '#f4faf6',
-  metricA: 'CANLI', metricB: 'KONTROL', metricC: 'RAPOR',
-};
+const config = visuals[slug] ?? { variant:'generic', eyebrow:'EXCEL SİSTEMİ', accent:'#107c41', accent2:'#45a873', surface:'#f4faf6', metricA:'CANLI', metricB:'KONTROL', metricC:'RAPOR', labelA:'TOPLAM', labelB:'KONTROL', labelC:'DURUM', sheet:'ÇALIŞMA SAYFASI', chip1:'HESAP', chip2:'RAPOR' };
+const cells = Array.from({ length: 24 });
+const bars = Array.from({ length: 8 });
 ---
 
-<div
-  class={`product-visual product-visual--${config.variant}`}
-  style={`--pv-accent:${config.accent};--pv-accent-2:${config.accent2};--pv-surface:${config.surface}`}
-  aria-label={`${name} katalog önizlemesi`}
->
-  <div class="product-visual__window">
-    <div class="product-visual__bar">
-      <div class="product-visual__dots" aria-hidden="true"><i></i><i></i><i></i></div>
-      <span>{config.eyebrow}</span>
-      <b>EXCEL ARŞİV</b>
+<div class={`product-visual pv-${config.variant}`} style={`--pv-accent:${config.accent};--pv-accent2:${config.accent2};--pv-surface:${config.surface}`} aria-label={`${name} katalog önizlemesi`}>
+  <div class="pv-window">
+    <div class="pv-bar"><div class="pv-dots"><i></i><i></i><i></i></div><span>{config.eyebrow}</span><b>EXCEL ARŞİV</b></div>
+    <div class="pv-tabs"><span class="active">PANO</span><span>VERİ</span><span>HESAP</span><span>RAPOR</span></div>
+    <div class="pv-metrics">
+      <div><small>{config.labelA}</small><strong>{config.metricA}</strong></div>
+      <div><small>{config.labelB}</small><strong>{config.metricB}</strong></div>
+      <div><small>{config.labelC}</small><strong>{config.metricC}</strong></div>
     </div>
-
-    <div class="product-visual__metrics">
-      <div><small>TOPLAM</small><strong>{config.metricA}</strong></div>
-      <div><small>KONTROL</small><strong>{config.metricB}</strong></div>
-      <div><small>DURUM</small><strong>{config.metricC}</strong></div>
+    <div class="pv-sheet">
+      <div class="pv-sheet-head"><b>{config.sheet}</b><span>{config.chip1}</span><span>{config.chip2}</span></div>
+      <div class="pv-cells">{cells.map(() => <i></i>)}</div>
+      <div class="pv-bars">{bars.map(() => <i></i>)}</div>
+      <div class="pv-line"><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="pv-ring"><span>{config.metricC}</span></div>
+      <div class="pv-flow"><span>A</span><i>→</i><span>B</span><i>→</i><span>C</span><i>→</i><span>D</span></div>
+      <div class="pv-badge">{config.chip2}</div>
     </div>
-
-    {config.variant === 'cashflow' && (
-      <div class="pv-layout pv-cashflow">
-        <div class="pv-chart pv-chart--line"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="pv-bars"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="pv-side"><span>H01</span><span>H05</span><span>H09</span><span>H13</span></div>
-      </div>
-    )}
-
-    {config.variant === 'cashbook' && (
-      <div class="pv-layout pv-cashbook">
-        <div class="pv-ledger"><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="pv-ring"><b>%98</b></div>
-        <div class="pv-balance"><i></i><i></i><i></i></div>
-      </div>
-    )}
-
-    {config.variant === 'executive' && (
-      <div class="pv-layout pv-executive">
-        <div class="pv-dark-panel"><span></span><span></span><span></span><span></span></div>
-        <div class="pv-spark"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="pv-donut"><b>28,7</b></div>
-      </div>
-    )}
-
-    {config.variant === 'debt' && (
-      <div class="pv-layout pv-debt">
-        <div class="pv-amort"><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="pv-debt-bars"><i></i><i></i><i></i><i></i></div>
-        <div class="pv-debt-badge">DSCR 1,42</div>
-      </div>
-    )}
-
-    {config.variant === 'receivables' && (
-      <div class="pv-layout pv-receivables">
-        <div class="pv-aging"><i></i><i></i><i></i><i></i></div>
-        <div class="pv-aging-list"><span>0–30</span><span>31–60</span><span>61–90</span><span>90+</span></div>
-        <div class="pv-mini-table"><i></i><i></i><i></i><i></i></div>
-      </div>
-    )}
-
-    {config.variant === 'maturity' && (
-      <div class="pv-layout pv-maturity">
-        <div class="pv-timeline"><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="pv-risk-grid"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="pv-risk-label">VADE YOĞUNLUĞU</div>
-      </div>
-    )}
-
-    {config.variant === 'profit' && (
-      <div class="pv-layout pv-profit">
-        <div class="pv-waterfall"><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="pv-profit-cards"><span>BRÜT</span><span>NET</span><span>MARJ</span></div>
-        <div class="pv-profit-line"></div>
-      </div>
-    )}
-
-    {config.variant === 'suite' && (
-      <div class="pv-layout pv-suite">
-        <div class="pv-suite-grid"><span></span><span></span><span></span><span></span></div>
-        <div class="pv-suite-nav"><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="pv-suite-status"><b>✓</b><b>✓</b><b>!</b></div>
-      </div>
-    )}
-
-    {config.variant === 'pos' && (
-      <div class="pv-layout pv-pos">
-        <div class="pv-pos-cards"><span>VISA</span><span>MC</span><span>TROY</span></div>
-        <div class="pv-settlement"><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="pv-fee"><b>%2,61</b><small>ORT. KOMİSYON</small></div>
-      </div>
-    )}
-
-    {config.variant === 'project' && (
-      <div class="pv-layout pv-project">
-        <div class="pv-gantt"><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="pv-project-margin"><i></i><i></i><i></i></div>
-        <div class="pv-project-score">72%</div>
-      </div>
-    )}
-
-    {config.variant === 'stock' && (
-      <div class="pv-layout pv-stock">
-        <div class="pv-stock-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="pv-stock-table"><span></span><span></span><span></span><span></span></div>
-        <div class="pv-alerts"><b>18</b><small>KRİTİK SKU</small></div>
-      </div>
-    )}
-
-    {config.variant === 'payroll' && (
-      <div class="pv-layout pv-payroll">
-        <div class="pv-payroll-ring"><b>₺91K</b></div>
-        <div class="pv-payroll-list"><span></span><span></span><span></span><span></span></div>
-        <div class="pv-payroll-bars"><i></i><i></i><i></i><i></i></div>
-      </div>
-    )}
-
-    {config.variant === 'generic' && (
-      <div class="pv-layout pv-generic"><span></span><span></span><span></span><span></span></div>
-    )}
   </div>
 </div>
 
 <style>
-  .product-visual { width: 100%; height: 100%; padding: 12px; background: linear-gradient(135deg,var(--pv-surface),#fff 72%); }
-  .product-visual__window { height: 100%; overflow: hidden; border: 1px solid color-mix(in srgb,var(--pv-accent) 18%,#dfe6e2); border-radius: 13px; background: #fff; box-shadow: 0 14px 30px color-mix(in srgb,var(--pv-accent) 10%,transparent); }
-  .product-visual__bar { display:flex;align-items:center;gap:8px;height:30px;padding:0 10px;background:var(--pv-accent);color:#fff;font-family:var(--font-mono);font-size:7px;font-weight:800;letter-spacing:.06em; }
-  .product-visual__bar>b{margin-left:auto;font-size:6.5px;opacity:.85}.product-visual__dots{display:flex;gap:3px}.product-visual__dots i{width:5px;height:5px;border-radius:999px;background:rgba(255,255,255,.62)}
-  .product-visual__metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:8px 9px 6px}.product-visual__metrics>div{min-width:0;padding:6px 7px;border:1px solid #e8ece9;border-radius:8px;background:#fbfcfb}.product-visual__metrics small{display:block;font-family:var(--font-mono);font-size:5.5px;font-weight:800;letter-spacing:.08em;color:#87928b}.product-visual__metrics strong{display:block;margin-top:3px;font-family:var(--font-mono);font-size:9px;color:var(--pv-accent);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .pv-layout{position:relative;height:calc(100% - 82px);min-height:80px;margin:0 9px 9px;border:1px solid #edf0ee;border-radius:9px;background:linear-gradient(#edf2ef 1px,transparent 1px),linear-gradient(90deg,#edf2ef 1px,transparent 1px),#fff;background-size:18px 18px;overflow:hidden}
-  .pv-chart--line{position:absolute;left:9px;right:80px;top:15px;height:42px;border-bottom:1px solid #e6ebe8}.pv-chart--line i{position:absolute;width:28%;height:2px;border-radius:99px;background:var(--pv-accent);transform-origin:left center}.pv-chart--line i:nth-child(1){left:2%;top:31px;transform:rotate(-12deg)}.pv-chart--line i:nth-child(2){left:22%;top:25px;transform:rotate(10deg)}.pv-chart--line i:nth-child(3){left:42%;top:27px;transform:rotate(-23deg)}.pv-chart--line i:nth-child(4){left:61%;top:16px;transform:rotate(16deg)}.pv-chart--line i:nth-child(5){left:77%;top:19px;transform:rotate(-19deg)}.pv-chart--line i:nth-child(6){left:90%;top:10px;width:9%;transform:rotate(0)}.pv-bars{position:absolute;left:12px;right:82px;bottom:9px;display:flex;gap:5px;align-items:flex-end;height:31px}.pv-bars i{flex:1;border-radius:3px 3px 0 0;background:var(--pv-accent-2);opacity:.5}.pv-bars i:nth-child(1){height:34%}.pv-bars i:nth-child(2){height:62%}.pv-bars i:nth-child(3){height:45%}.pv-bars i:nth-child(4){height:78%}.pv-bars i:nth-child(5){height:54%}.pv-bars i:nth-child(6){height:92%}.pv-side{position:absolute;right:9px;top:10px;bottom:9px;width:62px;display:grid;gap:4px}.pv-side span{display:grid;place-items:center;border-radius:5px;background:var(--pv-surface);font:700 6px var(--font-mono);color:var(--pv-accent)}
-  .pv-ledger{position:absolute;left:8px;top:9px;bottom:9px;width:58%;display:grid;gap:4px}.pv-ledger span{border-radius:4px;background:linear-gradient(90deg,var(--pv-surface) 20%,#fff 20% 42%,var(--pv-surface) 42% 62%,#fff 62%);border:1px solid #edf0ee}.pv-ring,.pv-donut,.pv-payroll-ring{position:absolute;right:12px;top:12px;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--pv-accent) 0 78%,#e7ece9 78% 100%)}.pv-ring:after,.pv-donut:after,.pv-payroll-ring:after{content:'';position:absolute;width:35px;height:35px;border-radius:50%;background:#fff}.pv-ring b,.pv-donut b,.pv-payroll-ring b{z-index:2;font:800 7px var(--font-mono);color:var(--pv-accent)}.pv-balance{position:absolute;right:10px;bottom:10px;width:60px;display:flex;gap:4px;align-items:flex-end;height:28px}.pv-balance i{flex:1;background:var(--pv-accent-2);border-radius:3px 3px 0 0}.pv-balance i:nth-child(1){height:45%}.pv-balance i:nth-child(2){height:80%}.pv-balance i:nth-child(3){height:62%}
-  .pv-executive{background:#102233}.pv-dark-panel{position:absolute;left:9px;top:9px;width:54%;height:42px;display:grid;grid-template-columns:1fr 1fr;gap:5px}.pv-dark-panel span{border:1px solid rgba(255,255,255,.09);border-radius:6px;background:rgba(255,255,255,.06)}.pv-spark{position:absolute;left:10px;bottom:10px;width:57%;height:32px;display:flex;align-items:flex-end;gap:4px}.pv-spark i{flex:1;background:linear-gradient(var(--pv-accent-2),#1b5260);border-radius:2px 2px 0 0}.pv-spark i:nth-child(1){height:24%}.pv-spark i:nth-child(2){height:48%}.pv-spark i:nth-child(3){height:38%}.pv-spark i:nth-child(4){height:72%}.pv-spark i:nth-child(5){height:58%}.pv-spark i:nth-child(6){height:90%}.pv-executive .pv-donut{right:14px;top:20px;background:conic-gradient(var(--pv-accent-2) 0 29%,#284559 29% 100%)}.pv-executive .pv-donut:after{background:#102233}.pv-executive .pv-donut b{color:#fff}
-  .pv-amort{position:absolute;left:9px;right:74px;top:9px;bottom:9px;display:grid;gap:4px}.pv-amort span{border-radius:3px;border:1px solid #e8edf4;background:linear-gradient(90deg,#eaf0f8 18%,#fff 18% 42%,#f5f8fc 42% 64%,#fff 64%)}.pv-debt-bars{position:absolute;right:10px;top:9px;width:52px;height:54px;display:flex;gap:4px;align-items:flex-end}.pv-debt-bars i{flex:1;border-radius:3px 3px 0 0;background:var(--pv-accent)}.pv-debt-bars i:nth-child(1){height:94%}.pv-debt-bars i:nth-child(2){height:76%}.pv-debt-bars i:nth-child(3){height:57%}.pv-debt-bars i:nth-child(4){height:39%}.pv-debt-badge{position:absolute;right:10px;bottom:10px;padding:6px 7px;border-radius:6px;background:var(--pv-surface);font:800 6.5px var(--font-mono);color:var(--pv-accent)}
-  .pv-aging{position:absolute;left:13px;top:15px;width:62px;height:62px;border-radius:50%;background:conic-gradient(var(--pv-accent) 0 42%,var(--pv-accent-2) 42% 70%,#f4c782 70% 87%,#f7e6cc 87%)}.pv-aging:after{content:'';position:absolute;inset:16px;border-radius:50%;background:#fff}.pv-aging-list{position:absolute;left:86px;top:14px;display:grid;gap:5px}.pv-aging-list span{font:700 6px var(--font-mono);color:#6a716c}.pv-mini-table{position:absolute;right:9px;top:10px;bottom:10px;width:46%;display:grid;gap:4px}.pv-mini-table i{border-radius:4px;border:1px solid #f1e7d9;background:linear-gradient(90deg,#fff5e8 35%,#fff 35%)}
-  .pv-timeline{position:absolute;left:10px;right:10px;top:14px;height:30px;display:flex;align-items:center;justify-content:space-between}.pv-timeline:before{content:'';position:absolute;left:6px;right:6px;height:2px;background:#ead8d3}.pv-timeline i{z-index:2;width:10px;height:10px;border:3px solid #fff;border-radius:50%;background:var(--pv-accent);box-shadow:0 0 0 1px #ead8d3}.pv-risk-grid{position:absolute;left:11px;right:11px;bottom:12px;display:grid;grid-template-columns:repeat(4,1fr);gap:4px}.pv-risk-grid span{height:17px;border-radius:4px;background:color-mix(in srgb,var(--pv-accent) 16%,#fff)}.pv-risk-grid span:nth-child(3),.pv-risk-grid span:nth-child(6){background:color-mix(in srgb,var(--pv-accent) 52%,#fff)}.pv-risk-grid span:nth-child(7){background:var(--pv-accent)}.pv-risk-label{position:absolute;right:10px;top:49px;font:800 5.5px var(--font-mono);letter-spacing:.08em;color:var(--pv-accent)}
-  .pv-waterfall{position:absolute;left:9px;right:9px;bottom:12px;height:57px;display:flex;align-items:flex-end;gap:7px}.pv-waterfall i{flex:1;border-radius:3px 3px 0 0;background:var(--pv-accent)}.pv-waterfall i:nth-child(1){height:84%}.pv-waterfall i:nth-child(2){height:61%;background:#dd7c5b}.pv-waterfall i:nth-child(3){height:74%;background:var(--pv-accent-2)}.pv-waterfall i:nth-child(4){height:48%;background:#dd7c5b}.pv-waterfall i:nth-child(5){height:68%}.pv-profit-cards{position:absolute;left:10px;right:10px;top:8px;display:flex;gap:5px}.pv-profit-cards span{flex:1;padding:5px;border:1px solid #e5eee8;border-radius:5px;background:#fff;font:800 5.5px var(--font-mono);text-align:center;color:var(--pv-accent)}.pv-profit-line{position:absolute;left:12px;right:12px;bottom:43px;height:2px;background:linear-gradient(90deg,transparent,var(--pv-accent-2),transparent);transform:rotate(-8deg)}
-  .pv-suite-grid{position:absolute;left:9px;right:54px;top:9px;bottom:9px;display:grid;grid-template-columns:1fr 1fr;gap:5px}.pv-suite-grid span{border-radius:6px;border:1px solid #dcece2;background:linear-gradient(135deg,#fff,var(--pv-surface))}.pv-suite-nav{position:absolute;right:9px;top:9px;display:grid;gap:5px;width:37px}.pv-suite-nav i{height:11px;border-radius:4px;background:color-mix(in srgb,var(--pv-accent) 17%,#fff)}.pv-suite-nav i:nth-child(2),.pv-suite-nav i:nth-child(5){background:color-mix(in srgb,var(--pv-accent) 38%,#fff)}.pv-suite-status{position:absolute;right:9px;bottom:9px;display:flex;gap:3px}.pv-suite-status b{display:grid;place-items:center;width:10px;height:10px;border-radius:50%;background:#e2f3e8;font:800 6px var(--font-mono);color:var(--pv-accent)}.pv-suite-status b:last-child{background:#fff0d6;color:#ae7514}
-  .pv-pos-cards{position:absolute;left:10px;top:10px;display:flex;gap:5px}.pv-pos-cards span{padding:5px 8px;border-radius:5px;background:var(--pv-accent);font:800 5.5px var(--font-mono);color:#fff}.pv-pos-cards span:nth-child(2){background:var(--pv-accent-2)}.pv-pos-cards span:nth-child(3){background:#32363d}.pv-settlement{position:absolute;left:11px;right:72px;bottom:12px;height:43px;display:flex;align-items:flex-end;gap:5px}.pv-settlement i{flex:1;border-radius:3px 3px 0 0;background:color-mix(in srgb,var(--pv-accent) 65%,#fff)}.pv-settlement i:nth-child(1){height:42%}.pv-settlement i:nth-child(2){height:70%}.pv-settlement i:nth-child(3){height:55%}.pv-settlement i:nth-child(4){height:88%}.pv-settlement i:nth-child(5){height:76%}.pv-fee{position:absolute;right:10px;top:14px;bottom:13px;width:52px;display:grid;place-content:center;text-align:center;border-radius:7px;background:var(--pv-surface)}.pv-fee b{font:800 10px var(--font-mono);color:var(--pv-accent)}.pv-fee small{margin-top:4px;font:800 4.8px var(--font-mono);color:#7f738b}
-  .pv-gantt{position:absolute;left:10px;right:52px;top:12px;bottom:10px;display:grid;align-content:space-around}.pv-gantt span{height:7px;border-radius:99px;background:linear-gradient(90deg,transparent 8%,var(--pv-accent) 8% 52%,transparent 52%)}.pv-gantt span:nth-child(2){background:linear-gradient(90deg,transparent 25%,var(--pv-accent-2) 25% 69%,transparent 69%)}.pv-gantt span:nth-child(3){background:linear-gradient(90deg,transparent 14%,var(--pv-accent) 14% 80%,transparent 80%)}.pv-gantt span:nth-child(4){background:linear-gradient(90deg,transparent 43%,var(--pv-accent-2) 43% 91%,transparent 91%)}.pv-gantt span:nth-child(5){background:linear-gradient(90deg,transparent 31%,var(--pv-accent) 31% 62%,transparent 62%)}.pv-project-margin{position:absolute;right:9px;bottom:9px;display:flex;gap:3px;align-items:flex-end;width:37px;height:34px}.pv-project-margin i{flex:1;background:var(--pv-accent);border-radius:2px 2px 0 0}.pv-project-margin i:nth-child(1){height:55%}.pv-project-margin i:nth-child(2){height:88%}.pv-project-margin i:nth-child(3){height:69%}.pv-project-score{position:absolute;right:9px;top:9px;width:38px;height:28px;display:grid;place-items:center;border-radius:6px;background:var(--pv-surface);font:800 8px var(--font-mono);color:var(--pv-accent)}
-  .pv-stock-bars{position:absolute;left:10px;right:90px;top:10px;height:49px;display:flex;gap:4px;align-items:flex-end}.pv-stock-bars i{flex:1;border-radius:2px 2px 0 0;background:var(--pv-accent)}.pv-stock-bars i:nth-child(1){height:44%}.pv-stock-bars i:nth-child(2){height:76%}.pv-stock-bars i:nth-child(3){height:59%}.pv-stock-bars i:nth-child(4){height:91%}.pv-stock-bars i:nth-child(5){height:52%}.pv-stock-bars i:nth-child(6){height:69%}.pv-stock-bars i:nth-child(7){height:36%}.pv-stock-table{position:absolute;left:10px;right:90px;bottom:10px;display:grid;gap:3px}.pv-stock-table span{height:7px;border-radius:3px;background:linear-gradient(90deg,#e9f1f5 28%,#fff 28% 52%,#e9f1f5 52% 73%,#fff 73%);border:1px solid #edf2f4}.pv-alerts{position:absolute;right:10px;top:12px;bottom:10px;width:67px;display:grid;place-content:center;text-align:center;border-radius:7px;background:#fff4e9;border:1px solid #f3dcc8}.pv-alerts b{font:800 15px var(--font-mono);color:#c56a24}.pv-alerts small{margin-top:4px;font:800 5px var(--font-mono);color:#9b6d4a}
-  .pv-payroll-ring{left:13px;right:auto;top:18px;background:conic-gradient(var(--pv-accent) 0 32%,var(--pv-accent-2) 32% 67%,#eadff0 67%)}.pv-payroll-list{position:absolute;left:82px;right:10px;top:11px;display:grid;gap:4px}.pv-payroll-list span{height:12px;border-radius:4px;background:linear-gradient(90deg,var(--pv-surface) 38%,#fff 38% 61%,var(--pv-surface) 61% 77%,#fff 77%);border:1px solid #eee7f1}.pv-payroll-bars{position:absolute;left:82px;right:10px;bottom:10px;display:flex;gap:4px;align-items:flex-end;height:26px}.pv-payroll-bars i{flex:1;border-radius:2px 2px 0 0;background:var(--pv-accent-2)}.pv-payroll-bars i:nth-child(1){height:50%}.pv-payroll-bars i:nth-child(2){height:80%}.pv-payroll-bars i:nth-child(3){height:66%}.pv-payroll-bars i:nth-child(4){height:92%}
-  .pv-generic{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:9px}.pv-generic span{border-radius:7px;background:var(--pv-surface);border:1px solid #e2ebe5}
-  @media(max-width:680px){.product-visual{padding:10px}.product-visual__bar{height:28px}.product-visual__metrics{padding:7px}.product-visual__metrics strong{font-size:8.5px}}
+  .product-visual{width:100%;height:100%;padding:12px;background:linear-gradient(135deg,var(--pv-surface),#fff 76%);font-family:var(--font-mono)}
+  .pv-window{height:100%;overflow:hidden;border:1px solid color-mix(in srgb,var(--pv-accent) 20%,#dfe6e2);border-radius:13px;background:#fff;box-shadow:0 14px 30px color-mix(in srgb,var(--pv-accent) 10%,transparent)}
+  .pv-bar{display:flex;align-items:center;gap:8px;height:29px;padding:0 10px;background:var(--pv-accent);color:#fff;font-size:6.7px;font-weight:800;letter-spacing:.065em}.pv-bar>b{margin-left:auto;font-size:6px;opacity:.82}.pv-dots{display:flex;gap:3px}.pv-dots i{width:5px;height:5px;border-radius:50%;background:#ffffffa8}
+  .pv-tabs{display:flex;gap:3px;padding:5px 9px 0}.pv-tabs span{padding:3px 7px;border-radius:4px;background:#f1f4f2;color:#78847d;font-size:5px;font-weight:800}.pv-tabs .active{background:color-mix(in srgb,var(--pv-accent) 12%,#fff);color:var(--pv-accent)}
+  .pv-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;padding:5px 9px 6px}.pv-metrics>div{min-width:0;padding:5px 6px;border:1px solid #e7ece9;border-radius:7px;background:#fbfcfb}.pv-metrics small{display:block;font-size:5px;font-weight:800;letter-spacing:.06em;color:#8a958e}.pv-metrics strong{display:block;margin-top:2px;overflow:hidden;color:var(--pv-accent);font-size:8.5px;text-overflow:ellipsis;white-space:nowrap}
+  .pv-sheet{position:relative;height:calc(100% - 91px);min-height:75px;margin:0 9px 9px;overflow:hidden;border:1px solid #e9eeeb;border-radius:8px;background:linear-gradient(#eef2ef 1px,transparent 1px),linear-gradient(90deg,#eef2ef 1px,transparent 1px),#fff;background-size:17px 17px}.pv-sheet-head{position:absolute;left:8px;right:8px;top:7px;display:flex;align-items:center;gap:4px;z-index:2}.pv-sheet-head b{margin-right:auto;color:var(--pv-accent);font-size:5.4px}.pv-sheet-head span{padding:3px 5px;border-radius:4px;background:var(--pv-surface);color:var(--pv-accent);font-size:4.3px;font-weight:800}
+  .pv-cells{position:absolute;left:9px;right:86px;top:31px;bottom:9px;display:grid;grid-template-columns:repeat(6,1fr);gap:2px}.pv-cells i{border-radius:2px;background:#edf1ef}.pv-cells i:nth-child(5n){background:color-mix(in srgb,var(--pv-accent) 16%,#fff)}
+  .pv-bars{position:absolute;right:10px;bottom:10px;display:flex;align-items:end;gap:3px;width:66px;height:53px}.pv-bars i{flex:1;border-radius:2px 2px 0 0;background:var(--pv-accent2)}.pv-bars i:nth-child(1){height:36%}.pv-bars i:nth-child(2){height:65%}.pv-bars i:nth-child(3){height:48%}.pv-bars i:nth-child(4){height:83%}.pv-bars i:nth-child(5){height:58%}.pv-bars i:nth-child(6){height:94%}.pv-bars i:nth-child(7){height:70%}.pv-bars i:nth-child(8){height:51%}
+  .pv-line,.pv-ring,.pv-flow,.pv-badge{display:none}.pv-badge{position:absolute;right:9px;top:31px;padding:5px 7px;border-radius:5px;background:var(--pv-accent);color:#fff;font-size:4.8px;font-weight:800}
+  .pv-cashflow .pv-cells{right:82px;grid-template-columns:repeat(4,1fr)}.pv-cashflow .pv-line{display:block;position:absolute;left:12px;right:82px;top:42px;height:34px}.pv-cashflow .pv-line i{position:absolute;width:26%;height:2px;border-radius:2px;background:var(--pv-accent);transform-origin:left}.pv-cashflow .pv-line i:nth-child(1){left:2%;top:25px;transform:rotate(-14deg)}.pv-cashflow .pv-line i:nth-child(2){left:22%;top:19px;transform:rotate(14deg)}.pv-cashflow .pv-line i:nth-child(3){left:43%;top:22px;transform:rotate(-22deg)}.pv-cashflow .pv-line i:nth-child(4){left:63%;top:11px;transform:rotate(18deg)}.pv-cashflow .pv-line i:nth-child(5){left:82%;top:15px;width:17%;transform:rotate(-24deg)}
+  .pv-cashbook .pv-bars{display:none}.pv-cashbook .pv-cells{right:72px;grid-template-columns:1fr 1.7fr 1fr 1fr}.pv-cashbook .pv-ring{display:grid;place-items:center;position:absolute;right:12px;top:35px;width:48px;height:48px;border-radius:50%;background:conic-gradient(var(--pv-accent) 0 98%,#e8eeea 98%)}.pv-cashbook .pv-ring:after{content:'';position:absolute;inset:8px;border-radius:50%;background:#fff}.pv-cashbook .pv-ring span{z-index:1;color:var(--pv-accent);font-size:5px}
+  .pv-executive .pv-cells{grid-template-columns:repeat(2,1fr);right:120px}.pv-executive .pv-cells i{background:linear-gradient(135deg,var(--pv-accent),var(--pv-accent2));opacity:.9}.pv-executive .pv-bars{width:100px}.pv-executive .pv-badge{display:block}
+  .pv-debt .pv-cells{grid-template-columns:repeat(4,1fr)}.pv-debt .pv-cells i:nth-child(4n){background:color-mix(in srgb,var(--pv-accent) 24%,#fff)}.pv-debt .pv-badge{display:block}
+  .pv-receivables .pv-cells{right:9px;top:47px;grid-template-columns:repeat(6,1fr)}.pv-receivables .pv-bars{left:12px;right:12px;top:31px;bottom:auto;width:auto;height:13px}.pv-receivables .pv-bars i{height:100%!important;border-radius:2px}.pv-receivables .pv-bars i:nth-child(n+5){opacity:.35}
+  .pv-maturity .pv-cells{right:9px;grid-template-columns:repeat(8,1fr)}.pv-maturity .pv-cells i:nth-child(4n),.pv-maturity .pv-cells i:nth-child(7n){background:color-mix(in srgb,var(--pv-accent) 62%,#fff)}.pv-maturity .pv-bars{display:none}.pv-maturity .pv-badge{display:block}
+  .pv-profit .pv-cells{display:none}.pv-profit .pv-bars{left:18px;right:18px;bottom:12px;width:auto;height:62px}.pv-profit .pv-bars i:nth-child(2),.pv-profit .pv-bars i:nth-child(5){background:#d56d61}.pv-profit .pv-badge{display:block}
+  .pv-suite .pv-cells{right:9px;grid-template-columns:repeat(4,1fr);gap:5px}.pv-suite .pv-cells i{border:1px solid color-mix(in srgb,var(--pv-accent) 18%,#e4ebe7);background:var(--pv-surface)}.pv-suite .pv-bars{display:none}.pv-suite .pv-badge{display:block}
+  .pv-pos .pv-cells{right:82px;grid-template-columns:repeat(4,1fr)}.pv-pos .pv-badge{display:block}.pv-pos .pv-bars i:nth-child(odd){background:var(--pv-accent)}
+  .pv-project .pv-cells{right:92px;grid-template-columns:1fr}.pv-project .pv-cells i{height:7px;background:linear-gradient(90deg,var(--pv-accent) 72%,#edf1ef 72%)}.pv-project .pv-cells i:nth-child(3n){background:linear-gradient(90deg,var(--pv-accent2) 48%,#edf1ef 48%)}.pv-project .pv-badge{display:block}
+  .pv-stock .pv-cells{right:95px;grid-template-columns:repeat(6,1fr)}.pv-stock .pv-bars{width:76px}.pv-stock .pv-badge{display:block}
+  .pv-payroll .pv-cells{right:82px;grid-template-columns:repeat(4,1fr)}.pv-payroll .pv-ring{display:grid;place-items:center;position:absolute;right:12px;top:38px;width:50px;height:50px;border-radius:50%;background:conic-gradient(var(--pv-accent) 0 68%,var(--pv-accent2) 68% 84%,#e8eeea 84%)}.pv-payroll .pv-ring:after{content:'';position:absolute;inset:9px;border-radius:50%;background:#fff}.pv-payroll .pv-bars{display:none}
+  .pv-import .pv-cells{left:120px;right:10px;grid-template-columns:repeat(3,1fr)}.pv-import .pv-flow{display:flex;position:absolute;left:10px;right:10px;top:32px;align-items:center;justify-content:space-between}.pv-import .pv-flow span{padding:4px 6px;border-radius:4px;background:var(--pv-surface);color:var(--pv-accent);font-size:4.5px;font-weight:800}.pv-import .pv-flow i{color:#87928b;font-size:6px;font-style:normal}.pv-import .pv-bars{left:12px;right:auto;bottom:10px;width:96px;height:43px}.pv-import .pv-badge{display:block;top:auto;bottom:10px}
+  .pv-sgk .pv-cells{right:92px;grid-template-columns:repeat(4,1fr)}.pv-sgk .pv-cells i:nth-child(5n),.pv-sgk .pv-cells i:nth-child(7n){background:color-mix(in srgb,var(--pv-accent) 42%,#fff)}.pv-sgk .pv-badge{display:block}.pv-sgk .pv-bars{width:72px}.pv-sgk .pv-bars i:nth-child(3n){background:var(--pv-accent)}
+  .pv-severance .pv-cells{right:100px;grid-template-columns:repeat(5,1fr)}.pv-severance .pv-bars{width:85px;height:45px;bottom:13px}.pv-severance .pv-badge{display:block}.pv-severance .pv-cells i:nth-child(5n){background:color-mix(in srgb,var(--pv-accent) 25%,#fff)}
+  .pv-wage .pv-cells{display:none}.pv-wage .pv-flow{display:flex;position:absolute;left:18px;right:18px;top:38px;align-items:center;justify-content:center;gap:10px}.pv-wage .pv-flow span{display:grid;place-items:center;width:45px;height:31px;border:1px solid #e4e9e6;border-radius:6px;background:#fff;color:var(--pv-accent);font-size:7px;font-weight:800}.pv-wage .pv-flow i{color:var(--pv-accent);font-style:normal}.pv-wage .pv-bars{left:18px;right:18px;bottom:10px;width:auto;height:25px}.pv-wage .pv-badge{display:block}
+  .pv-overtime .pv-cells{right:82px;grid-template-columns:repeat(7,1fr)}.pv-overtime .pv-cells i:nth-child(6n),.pv-overtime .pv-cells i:nth-child(9n){background:color-mix(in srgb,var(--pv-accent) 65%,#fff)}.pv-overtime .pv-bars{display:none}.pv-overtime .pv-ring{display:block;position:absolute;right:15px;top:39px;width:45px;height:45px;border:1px solid var(--pv-accent);border-radius:50%;box-shadow:inset 0 0 0 9px #fff,inset 0 0 0 10px color-mix(in srgb,var(--pv-accent) 40%,#fff)}.pv-overtime .pv-badge{display:block;top:auto;bottom:10px}
+  .pv-tender .pv-cells,.pv-defense .pv-cells{right:9px;top:49px;grid-template-columns:repeat(7,1fr)}.pv-tender .pv-bars,.pv-defense .pv-bars{left:12px;right:12px;top:33px;bottom:auto;width:auto;height:10px}.pv-tender .pv-bars i,.pv-defense .pv-bars i{height:100%!important;border-radius:3px;background:linear-gradient(90deg,#d96c5d,var(--pv-accent2),var(--pv-accent))}.pv-tender .pv-badge,.pv-defense .pv-badge{display:block;top:auto;bottom:10px}.pv-defense .pv-cells i:nth-child(4n){background:color-mix(in srgb,var(--pv-accent) 35%,#fff)}
+  .pv-progress .pv-cells{right:102px;grid-template-columns:repeat(5,1fr)}.pv-progress .pv-bars{display:none}.pv-progress .pv-line{display:grid;position:absolute;right:10px;top:36px;gap:6px;width:80px}.pv-progress .pv-line i{height:7px;border-radius:3px;background:linear-gradient(90deg,var(--pv-accent) 68%,#e8eeea 68%)}.pv-progress .pv-line i:nth-child(2){background:linear-gradient(90deg,var(--pv-accent2) 51%,#e8eeea 51%)}.pv-progress .pv-badge{display:block}
+  .pv-withholding .pv-cells{display:none}.pv-withholding .pv-bars{left:12px;right:88px;width:auto;height:58px}.pv-withholding .pv-badge{display:block}.pv-withholding .pv-flow{display:flex;position:absolute;left:10px;right:10px;top:34px;gap:3px}.pv-withholding .pv-flow span{flex:1;padding:4px 2px;border-radius:3px;background:var(--pv-surface);color:var(--pv-accent);text-align:center;font-size:4.3px}.pv-withholding .pv-flow i{display:none}
+  .pv-subcontract .pv-cells{right:92px;grid-template-columns:repeat(6,1fr)}.pv-subcontract .pv-flow{display:flex;position:absolute;left:10px;right:10px;top:32px;align-items:center;justify-content:center;gap:6px}.pv-subcontract .pv-flow span{padding:4px 7px;border-radius:4px;background:var(--pv-surface);color:var(--pv-accent);font-size:4.5px;font-weight:800}.pv-subcontract .pv-flow i{color:#77847b;font-style:normal}.pv-subcontract .pv-bars{display:none}.pv-subcontract .pv-badge{display:block;top:auto;bottom:10px}
 </style>
