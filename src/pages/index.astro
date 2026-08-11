@@ -10,9 +10,15 @@ import GainSection from '../components/home/GainSection.astro';
 import PurchaseProcess from '../components/home/PurchaseProcess.astro';
 import FinalCTA from '../components/home/FinalCTA.astro';
 import ExperienceRail from '../components/home/ExperienceRail.astro';
-import { getFeaturedTemplates, getTemplateSearchIndex } from '../lib/templates';
+import { getAllTemplates, getTemplateSearchIndex } from '../lib/templates';
 
-const featuredTemplates = await getFeaturedTemplates(6);
+const allTemplates = await getAllTemplates();
+const coreFeaturedTemplates = allTemplates.slice(0, 6);
+const demandPickSlug = 'cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi';
+const demandPick = allTemplates.find((template) => template.slug === demandPickSlug);
+const featuredTemplates = demandPick && !coreFeaturedTemplates.some((template) => template.slug === demandPickSlug)
+  ? [...coreFeaturedTemplates, demandPick]
+  : coreFeaturedTemplates;
 const searchIndex = await getTemplateSearchIndex();
 ---
 
