@@ -21,9 +21,32 @@ export function mountCatalogFilter(): void {
   const search = document.querySelector<HTMLInputElement>('[data-catalog-search]');
   const searchClear = document.querySelector<HTMLButtonElement>('[data-catalog-search-clear]');
   const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-category-filter]'));
-  const empty = document.querySelector<HTMLElement>('[data-empty-state]');
   const resultCount = document.querySelector<HTMLElement>('[data-result-count]');
   const clearAll = document.querySelector<HTMLButtonElement>('[data-catalog-clear]');
+
+  const ensureEmptyState = (): HTMLElement => {
+    const wrap = grid.closest<HTMLElement>('[data-template-grid-wrap]');
+    let empty = grid.parentElement?.querySelector<HTMLElement>('[data-empty-state]') ?? null;
+    if (!empty) {
+      empty = document.createElement('div');
+      empty.className = 'empty-state';
+      empty.dataset.emptyState = '';
+      empty.hidden = true;
+      const icon = document.createElement('span');
+      icon.className = 'empty-state__icon';
+      icon.setAttribute('aria-hidden', 'true');
+      icon.textContent = 'Ø';
+      const title = document.createElement('h2');
+      title.className = 'empty-state__title';
+      title.textContent = 'Sonuç bulunamadı';
+      const text = document.createElement('p');
+      text.className = 'empty-state__text';
+      text.dataset.emptyStateText = '';
+      empty.append(icon, title, text);
+      wrap?.append(empty);
+    }
+    return empty;
+  };
 
   const params = new URLSearchParams(window.location.search);
   let activeCategory = params.get('kategori') ?? '';
@@ -57,7 +80,16 @@ export function mountCatalogFilter(): void {
       if (show) visible += 1;
     }
 
-    if (empty) empty.hidden = visible > 0;
+    const empty = ensureEmptyState();
+    if (empty) {
+      empty.hidden = visible > 0;
+      const text = empty.querySelector<HTMLElement>('[data-empty-state-text]');
+      if (text) {
+        text.textContent = rawQuery.length > 0
+          ? `“${rawQuery}” için eşleşen şablon yok. Farklı bir anahtar kelime deneyin veya kategori filtrelerini temizleyin.`
+          : 'Bu kategoriye uygun şablon bulunamadı.';
+      }
+    }
     if (resultCount) resultCount.textContent = String(visible);
     if (searchClear) searchClear.hidden = rawQuery.length === 0;
     if (clearAll) clearAll.hidden = rawQuery.length === 0 && activeCategory === '';

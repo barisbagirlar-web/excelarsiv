@@ -20,12 +20,27 @@ const featuredTemplates = demandPick && !coreFeaturedTemplates.some((template) =
   ? [...coreFeaturedTemplates, demandPick]
   : coreFeaturedTemplates;
 const searchIndex = await getTemplateSearchIndex();
+const homeItemListLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': new URL('/#itemlist', Astro.site).toString(),
+  numberOfItems: featuredTemplates.length,
+  itemListElement: featuredTemplates.map((template, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    url: new URL(`/sablon/${template.slug}`, Astro.site).toString(),
+    name: template.name,
+  })),
+});
 ---
 
 <CommerceLayout
   title="Excel Şablonları ve Finans Yönetim Sistemleri | Excel Arşiv"
   description="KOBİ'ler için kasa defteri, nakit akış tablosu, cari hesap, stok takip, kârlılık ve maliyet hesaplama Excel şablonları. Gerçek ekranları ve demoları inceleyin."
 >
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={homeItemListLd} />
+  </Fragment>
   <HeroSection searchIndex={searchIndex} />
   <TrustStrip />
   <ExperienceRail />

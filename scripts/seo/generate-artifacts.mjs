@@ -1,5 +1,5 @@
-import { existsSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 import {
   DIST_DIR,
@@ -14,6 +14,7 @@ import {
 
 const MAX_URLS_PER_SITEMAP = 40_000;
 const MAX_UNCOMPRESSED_BYTES = 45 * 1024 * 1024;
+const SCREENSHOTS_DIR = resolve(process.cwd(), 'public/screenshots');
 const artifacts = new Set(['sitemap.xml', 'llms.txt', 'llms-full.txt']);
 
 function atomicWrite(name, content) {
@@ -49,6 +50,33 @@ function sitemapIndexDocument(children) {
     })
     .join('\n');
   return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</sitemapindex>\n`;
+}
+
+function buildImageSitemapEntries(productEntries) {
+  const shots = readdirSync(SCREENSHOTS_DIR).filter((file) => file.endsWith('.png')).sort();
+  return productEntries
+    .map((entry) => {
+      const slug = new URL(entry.loc).pathname.split('/').filter(Boolean).at(-1);
+      const images = shots
+        .filter((file) => file.startsWith(`${slug}-`))
+        .map((file) => `${SITE_ORIGIN}/screenshots/${file}`);
+      if (images.length === 0) return null;
+      return { loc: entry.loc, lastmod: entry.lastmod, images };
+    })
+    .filter(Boolean);
+}
+
+function imageSitemapDocument(entries) {
+  const body = entries
+    .map((entry) => {
+      const lastmod = entry.lastmod ? `\n    <lastmod>${xmlEscape(entry.lastmod)}</lastmod>` : '';
+      const images = entry.images
+        .map((src) => `    <image:image>\n      <image:loc>${xmlEscape(src)}</image:loc>\n    </image:image>`)
+        .join('\n');
+      return `  <url>\n    <loc>${xmlEscape(entry.loc)}</loc>${lastmod}\n${images}\n  </url>`;
+    })
+    .join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${body}\n</urlset>\n`;
 }
 
 function chunkByProtocolLimits(entries) {
@@ -100,17 +128,28 @@ function llmPageLine(page) {
   return `- [${markdownEscape(page.title)}](${page.canonical})${page.description ? ` — ${markdownEscape(page.description)}` : ''}`;
 }
 
+function latestContentDate(indexablePages, templateRecords) {
+  let latest = null;
+  for (const page of indexablePages) {
+    const d = semanticLastModified(page, templateRecords);
+    if (d && (!latest || d > latest)) latest = d;
+  }
+  return latest;
+}
+
 function buildLlmsShort(indexablePages, templateRecords) {
   const products = indexablePages.filter((page) => page.pathname.startsWith('/sablon/'));
   const guides = indexablePages.filter((page) => page.pathname === '/rehber' || page.pathname.startsWith('/rehber/'));
   const categories = indexablePages.filter((page) => page.pathname === '/sablonlar' || page.pathname.startsWith('/sablonlar/'));
   const core = indexablePages.filter((page) => !page.pathname.startsWith('/sablon') && !page.pathname.startsWith('/rehber') && ['/', '/nasil-calisir', '/paketler', '/sss', '/teslimat', '/teslimat-ve-iade'].includes(page.pathname));
+  const lastUpdated = latestContentDate(indexablePages, templateRecords);
 
   const lines = [
     '# Excel Arşiv',
     '',
     '> Excel Arşiv, Türkiye’deki işletmeler için finans, muhasebe ve operasyon odaklı Excel çalışma sistemleri sunar. Bu dosya public, indexlenebilir ve canonical build sayfalarından otomatik üretilir.',
     '',
+    ...(lastUpdated ? [`- Son güncelleme: ${lastUpdated.toISOString().slice(0, 10)}`] : []),
     `- Site: ${SITE_ORIGIN}/`,
     `- Sitemap index: ${SITE_ORIGIN}/sitemap.xml`,
     `- Tam AI/LLM rehberi: ${SITE_ORIGIN}/llms-full.txt`,
@@ -157,6 +196,7 @@ function buildLlmsShort(indexablePages, templateRecords) {
 function buildLlmsFull(indexablePages, templateRecords) {
   const products = indexablePages.filter((page) => page.pathname.startsWith('/sablon/'));
   const pages = indexablePages.filter((page) => !page.pathname.startsWith('/sablon/'));
+  const lastUpdated = latestContentDate(indexablePages, templateRecords);
   const lines = [
     '# Excel Arşiv — Tam AI ve LLM Keşif Rehberi',
     '',
@@ -164,6 +204,7 @@ function buildLlmsFull(indexablePages, templateRecords) {
     '',
     '## Site kimliği',
     '',
+    ...(lastUpdated ? [`- Son güncelleme: ${lastUpdated.toISOString().slice(0, 10)}`] : []),
     '- Marka: Excel Arşiv',
     '- Canonical origin: https://excelarsiv.com',
     '- Dil: Türkçe (tr-TR)',
@@ -243,6 +284,12 @@ const children = [
   ...writeSitemapGroup('pages', generalPages),
   ...writeSitemapGroup('products', products),
 ];
+
+const imageEntries = buildImageSitemapEntries(products);
+if (imageEntries.length > 0) {
+  atomicWrite('sitemap-images.xml', imageSitemapDocument(imageEntries));
+  children.push({ name: 'sitemap-images.xml', count: imageEntries.length });
+}
 
 if (children.length === 0) throw new Error('FAIL_SAFE_EMPTY_SITEMAP_INDEX');
 atomicWrite('sitemap.xml', sitemapIndexDocument(children));

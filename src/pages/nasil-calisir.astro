@@ -24,14 +24,10 @@ const steps = [
 
 const howToLd = JSON.stringify({
   '@context': 'https://schema.org',
-  '@type': 'HowTo',
+  '@type': 'Article',
   name: 'Excel Arşiv şablonu satın alma ve güvenli indirme',
-  step: steps.map((step, index) => ({
-    '@type': 'HowToStep',
-    position: index + 1,
-    name: step.title,
-    text: step.description,
-  })),
+  headline: 'Excel Arşiv şablonu satın alma ve güvenli indirme',
+  articleBody: steps.map((step, index) => `${index + 1}. ${step.title}: ${step.description}`).join('\n'),
 });
 ---
 

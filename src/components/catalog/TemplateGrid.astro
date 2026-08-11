@@ -1,14 +1,12 @@
 ---
 import TemplateCard from './TemplateCard.astro';
-import EmptyState from './EmptyState.astro';
 import type { TemplateViewModel } from '../../lib/templates';
 
 interface Props {
   templates: TemplateViewModel[];
-  query?: string;
 }
 
-const { templates, query = '' } = Astro.props;
+const { templates } = Astro.props;
 ---
 
 <div class="template-grid-wrap">
@@ -35,7 +33,6 @@ const { templates, query = '' } = Astro.props;
       ))
     }
   </ul>
-  <EmptyState query={query} />
 </div>
 
 <script>
@@ -61,5 +58,38 @@ const { templates, query = '' } = Astro.props;
   }
   @media (max-width: 680px) {
     .template-grid { grid-template-columns: 1fr; gap: 14px; }
+  }
+  :global(.empty-state) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 56px 24px;
+    border: 1px dashed var(--xl-border);
+    border-radius: 16px;
+    background: #fff;
+    text-align: center;
+  }
+  :global(.empty-state[hidden]) {
+    display: none;
+  }
+  :global(.empty-state__icon) {
+    font-family: var(--font-mono);
+    font-size: 28px;
+    color: var(--xl-ink-3);
+  }
+  :global(.empty-state__title) {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--xl-ink-900);
+  }
+  :global(.empty-state__text) {
+    max-width: 420px;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--xl-ink-3);
   }
 </style>

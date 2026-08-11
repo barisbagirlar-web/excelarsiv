@@ -32,4 +32,34 @@ Allow: /
 Disallow: /api
 Disallow: /demo
 
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /api
+Disallow: /demo
+
+User-agent: Amazonbot
+Allow: /
+Disallow: /api
+Disallow: /demo
+
+User-agent: meta-externalagent
+Allow: /
+Disallow: /api
+Disallow: /demo
+
+User-agent: CCBot
+Allow: /
+Disallow: /api
+Disallow: /demo
+
+User-agent: Bytespider
+Allow: /
+Disallow: /api
+Disallow: /demo
+
+User-agent: cohere-ai
+Allow: /
+Disallow: /api
+Disallow: /demo
+
 Sitemap: https://excelarsiv.com/sitemap.xml

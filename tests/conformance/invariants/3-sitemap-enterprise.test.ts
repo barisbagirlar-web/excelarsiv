@@ -41,12 +41,17 @@ test('INV-3.7 rehber lastmod kaynağı gerçek guide içerik dosyasıdır', () =
   assert.ok(source?.endsWith('src/content/guides/stok-takip-excel.mdx'), String(source));
 });
 
-test('INV-3.8 ürün semantic lastmod SEO metadata bağımlılığını kapsar', () => {
-  const productSeoFile = resolve(ROOT, 'src/data/productSeo.ts');
-  const seoChangedAt = gitLastModified(productSeoFile);
-  assert.ok(seoChangedAt, 'productSeo.ts git lastmod bulunamadı');
+test('INV-3.8 ürün semantic lastmod ürüne özgü kaynakları kapsar; SEO metadata dosyasını tüm ürünlere damgalamaz', () => {
+  const records = getTemplateRecords();
+  const record = records.get('stok-satis-ve-nakit-baglanma-sistemi');
+  assert.ok(record, 'ürün kaydı bulunamadı');
+  const sourceChangedAt = gitLastModified(record.file);
+  assert.ok(sourceChangedAt, 'ürün mdx git lastmod bulunamadı');
+  const declaredAt = record.updatedAt ? new Date(`${record.updatedAt}T00:00:00.000Z`) : null;
+  assert.ok(declaredAt, 'frontmatter updatedAt bulunamadı');
   const page = { pathname: '/sablon/stok-satis-ve-nakit-baglanma-sistemi' };
-  const semantic = semanticLastModified(page, getTemplateRecords());
+  const semantic = semanticLastModified(page, records);
   assert.ok(semantic, 'semantic lastmod bulunamadı');
-  assert.ok(semantic!.valueOf() >= seoChangedAt!.valueOf(), `${semantic?.toISOString()} < ${seoChangedAt?.toISOString()}`);
+  assert.ok(semantic!.valueOf() >= sourceChangedAt!.valueOf(), `${semantic?.toISOString()} < ${sourceChangedAt?.toISOString()}`);
+  assert.ok(semantic!.valueOf() >= declaredAt!.valueOf(), `${semantic?.toISOString()} < ${declaredAt?.toISOString()}`);
 });

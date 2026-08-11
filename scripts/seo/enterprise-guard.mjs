@@ -156,12 +156,18 @@ if (!existsSync(sitemapIndexPath)) {
       fail(`SITEMAP_CHILD_EXTERNAL: ${childUrl}`);
       continue;
     }
-    const childPath = join(DIST_DIR, child.pathname.replace(/^\//, ''));
+    const childName = child.pathname.replace(/^\//, '');
+    const childPath = join(DIST_DIR, childName);
     if (!existsSync(childPath)) {
       fail(`SITEMAP_CHILD_MISSING: ${child.pathname}`);
       continue;
     }
     const xml = readFileSync(childPath, 'utf8');
+    if (childName === 'sitemap-images.xml') {
+      if (!xml.includes('xmlns:image=')) fail(`SITEMAP_IMAGES_NAMESPACE: ${child.pathname}`);
+      if (!xml.includes('<image:loc>')) fail(`SITEMAP_IMAGES_NO_LOC: ${child.pathname}`);
+      continue;
+    }
     allLocs.push(...xmlValues(xml, 'loc'));
     lastmods.push(...xmlValues(xml, 'lastmod'));
   }
