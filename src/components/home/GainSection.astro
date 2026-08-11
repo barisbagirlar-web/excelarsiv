@@ -1,10 +1,23 @@
 ---
-const beforeItems = ['Son.xlsx', 'Son_Gerçek.xlsx', 'Rapor_v7.xlsx', 'manuel formül kontrolü'];
+const beforeItems = [
+  { label: 'Son.xlsx', tone: 'red' },
+  { label: 'Son_Gerçek_v2.xlsx', tone: 'amber' },
+  { label: 'Rapor_v7.xlsx', tone: 'blue' },
+  { label: 'manuel formül kontrolü', tone: 'red' },
+];
+
 const afterItems = [
-  { label: 'Girdi alanı', value: 'Kontrollü' },
-  { label: 'Hesaplama', value: 'Bağlı' },
-  { label: 'Uyarılar', value: 'Görünür' },
-  { label: 'Yönetim çıktısı', value: 'Hazır' },
+  { label: 'Girdi alanı', value: 'Kontrollü', tone: 'green' },
+  { label: 'Hesaplama', value: 'Bağlı', tone: 'blue' },
+  { label: 'Risk sinyali', value: 'Görünür', tone: 'yellow' },
+  { label: 'Yönetim çıktısı', value: 'Hazır', tone: 'red' },
+];
+
+const proofItems = [
+  { no: '01', title: 'Kurulum işi azalır', copy: 'Dosya yapısı, formül düzeni ve kontrol katmanları hazır gelir.', tone: 'green' },
+  { no: '02', title: 'Tekrar kullanılabilir', copy: 'Aynı işletme sürecini her dönem yeniden kurmak yerine mevcut sistemi güncellersiniz.', tone: 'blue' },
+  { no: '03', title: 'Risk daha erken görünür', copy: 'Nakit, tahsilat ve sapma eşikleri karar anından önce görünür hale gelir.', tone: 'yellow' },
+  { no: '04', title: 'Karar çıktısı hazırdır', copy: 'Ham satırlar yerine yönetimin okuyabileceği özet, grafik ve uyarılar öne çıkar.', tone: 'red' },
 ];
 ---
 
@@ -19,48 +32,125 @@ const afterItems = [
     </div>
 
     <div class="compare-stage">
-      <div class="compare-stage__labels" aria-hidden="true"><span>DAĞINIK ÇALIŞMA</span><span>KURULU SİSTEM</span></div>
+      <div class="compare-stage__labels" aria-hidden="true">
+        <span>DAĞINIK ÇALIŞMA</span>
+        <span>KURULU SİSTEM</span>
+      </div>
+
       <div class="compare-visual">
         <div class="compare-side compare-side--before">
           <div class="messy-desktop">
-            <div class="messy-window is-back"><span>Excel</span><b>Son_Gerçek.xlsx</b><small>=SUM(B2:B18)</small></div>
-            <div class="messy-window is-mid"><span>Excel</span><b>Rapor_v7.xlsx</b><small>#DEĞER!</small></div>
+            <div class="messy-window is-back">
+              <div class="messy-window__title"><span>Excel</span><b>Son_Gerçek_v2.xlsx</b></div>
+              <div class="messy-mini-chart messy-mini-chart--blue"><i></i><i></i><i></i><i></i><i></i></div>
+              <small>Bağlantı: #REF!</small>
+            </div>
+
+            <div class="messy-window is-mid">
+              <div class="messy-window__title"><span>Excel</span><b>Rapor_v7.xlsx</b></div>
+              <div class="messy-pie" aria-hidden="true"></div>
+              <small>Veri tarihi: bilinmiyor</small>
+            </div>
+
             <div class="messy-window is-front">
               <div class="messy-window__bar"><span></span><span></span><span></span><b>Son.xlsx</b></div>
-              <div class="messy-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-              <div class="messy-warning">⚠ Formül kontrolü</div>
+              <div class="messy-sheet-head"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span></div>
+              <div class="messy-grid" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i>
+                <i></i><i></i><i></i><i></i><i></i>
+                <i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="messy-warning messy-warning--yellow">⚠ Hesap kontrolü gerekli</div>
+              <div class="messy-warning messy-warning--red">× 6 formül hatası</div>
             </div>
           </div>
+
           <ul class="compare-list compare-list--before">
-            {beforeItems.map((item) => <li><span>×</span>{item}</li>)}
+            {beforeItems.map((item) => <li class={`tone-${item.tone}`}><span>×</span>{item.label}</li>)}
           </ul>
         </div>
 
         <div class="compare-side compare-side--after">
           <div class="clean-system">
-            <div class="clean-system__top"><span>Excel Arşiv</span><b>Finans_Kontrol_Sistemi.xlsx</b><em>✓ Hazır</em></div>
+            <div class="clean-system__top">
+              <div class="excel-brand"><span>X</span><b>Excel Arşiv</b></div>
+              <strong>Finans_Kontrol_Sistemi.xlsx</strong>
+              <em>● CANLI</em>
+            </div>
+
+            <div class="clean-system__tabs" aria-hidden="true">
+              <span class="is-active">Dashboard</span><span>Girdi</span><span>Nakit</span><span>Risk</span><span>Rapor</span>
+            </div>
+
             <div class="clean-system__body">
-              <div class="clean-system__metrics"><span><small>Nakit</small><b>₺1,25M</b></span><span><small>Net</small><b>₺415K</b></span><span><small>Tahsilat</small><b>%92</b></span></div>
-              <svg viewBox="0 0 420 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 100 L50 92 L100 96 L150 70 L200 77 L250 54 L300 61 L350 32 L420 18" fill="none" stroke="#17864b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <div class="clean-system__status"><span>Girdi ✓</span><span>Hesap ✓</span><span>Kontrol ✓</span><span>Çıktı ✓</span></div>
+              <div class="clean-system__metrics">
+                <span class="metric metric--green"><small>Nakit Pozisyonu</small><b>₺990.000</b><i>▲ %12</i></span>
+                <span class="metric metric--blue"><small>Tahsilat Oranı</small><b>%92</b><i>▲ 4 puan</i></span>
+                <span class="metric metric--yellow"><small>Vergi Rezervi</small><b>₺248.000</b><i>Planlı</i></span>
+                <span class="metric metric--red"><small>Gider Sapması</small><b>%8</b><i>▼ kritik</i></span>
+              </div>
+
+              <div class="clean-system__analytics">
+                <div class="clean-chart-card">
+                  <div class="clean-chart-card__head">
+                    <div><small>GELİR · GİDER · NET TRENDİ</small><b>7 aylık karar görünümü</b></div>
+                    <div class="chart-legend"><span class="green">Gelir</span><span class="blue">Gider</span><span class="yellow">Net</span></div>
+                  </div>
+                  <div class="chart-area" aria-hidden="true">
+                    <div class="chart-grid"></div>
+                    <div class="chart-bars">
+                      <i style="height:34%"></i><i style="height:46%"></i><i style="height:41%"></i><i style="height:58%"></i><i style="height:53%"></i><i style="height:68%"></i><i style="height:79%"></i>
+                    </div>
+                    <svg viewBox="0 0 560 170" preserveAspectRatio="none">
+                      <path d="M8 138 L92 118 L176 109 L260 92 L344 102 L428 75 L552 44" fill="none" stroke="#148447" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M8 151 L92 138 L176 130 L260 120 L344 124 L428 112 L552 95" fill="none" stroke="#2563eb" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M8 160 L92 153 L176 148 L260 142 L344 136 L428 128 L552 118" fill="none" stroke="#f2b705" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div class="chart-months"><span>Oca</span><span>Şub</span><span>Mar</span><span>Nis</span><span>May</span><span>Haz</span><span>Tem</span></div>
+                  </div>
+                </div>
+
+                <div class="decision-panel">
+                  <div class="decision-panel__head"><small>ÖNEMLİ METRİKLER</small><span>4 sinyal</span></div>
+                  <div class="decision-row decision-row--green"><span class="decision-icon">₺</span><div><small>Nakit Pozisyonu</small><b>Güçlü</b></div><em>↑</em></div>
+                  <div class="decision-row decision-row--blue"><span class="decision-icon">✓</span><div><small>Tahsilat</small><b>%92 · İyi</b></div><em>↗</em></div>
+                  <div class="decision-row decision-row--yellow"><span class="decision-icon">!</span><div><small>Borç / Gelir</small><b>%35 · Orta</b></div><em>→</em></div>
+                  <div class="decision-row decision-row--red"><span class="decision-icon">↘</span><div><small>Gider Sapması</small><b>%8 · Yüksek</b></div><em>↓</em></div>
+                </div>
+              </div>
+
+              <div class="clean-system__table">
+                <div class="table-head"><span>Kalem</span><span>Oca</span><span>Şub</span><span>Mar</span><span>Nis</span><span>May</span><span>Haz</span><span>Toplam</span></div>
+                <div class="table-row row-green"><b>Giriş</b><span>310K</span><span>420K</span><span>450K</span><span>480K</span><span>520K</span><span>560K</span><strong>3,35M</strong></div>
+                <div class="table-row row-red"><b>Çıkış</b><span>210K</span><span>260K</span><span>275K</span><span>290K</span><span>310K</span><span>330K</span><strong>2,03M</strong></div>
+                <div class="table-row row-blue"><b>Net</b><span>100K</span><span>160K</span><span>175K</span><span>190K</span><span>210K</span><span>230K</span><strong>1,32M</strong></div>
+              </div>
+
+              <div class="clean-system__footer-tabs" aria-hidden="true">
+                <span class="green">Dashboard</span><span class="blue">Girdi</span><span class="yellow">Nakit</span><span class="red">Risk</span><span>Rapor</span>
+              </div>
             </div>
           </div>
+
           <ul class="compare-list compare-list--after">
-            {afterItems.map((item) => <li><span>✓</span><b>{item.label}</b><em>{item.value}</em></li>)}
+            {afterItems.map((item) => <li class={`tone-${item.tone}`}><span>✓</span><b>{item.label}</b><em>{item.value}</em></li>)}
           </ul>
         </div>
 
         <div class="compare-mask" aria-hidden="true"></div>
         <div class="compare-divider" aria-hidden="true"><span>↔</span></div>
       </div>
+
       <label class="compare-range-label" for="compare-range">Önce / sonra karşılaştırması</label>
       <input id="compare-range" class="compare-range" type="range" min="18" max="82" value="50" data-compare-range />
     </div>
 
     <div class="value-proof-row">
-      <div><span>01</span><strong>Kurulum işi azalır</strong><p>Dosya yapısı, formül düzeni ve kontrol katmanları hazır gelir.</p></div>
-      <div><span>02</span><strong>Tekrar kullanılabilir</strong><p>Aynı işletme sürecini her dönem yeniden kurmak yerine mevcut sistemi güncellersiniz.</p></div>
-      <div><span>03</span><strong>Karar çıktısı görünür</strong><p>Ham satırlar yerine yönetimin okuyabileceği özet ve uyarılar öne çıkar.</p></div>
+      {proofItems.map((item) => (
+        <div class={`proof-card proof-card--${item.tone}`}>
+          <span>{item.no}</span><strong>{item.title}</strong><p>{item.copy}</p>
+        </div>
+      ))}
     </div>
   </div>
 </section>
@@ -76,19 +166,20 @@ const afterItems = [
 </script>
 
 <style>
-  .before-after { padding-block:clamp(78px,9vw,120px); background:#f2f0eb; border-bottom:1px solid #ddd9d0; }
-  .before-after__head { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr); gap:52px; align-items:end; margin-bottom:34px; }.before-after__head h2{max-width:820px;margin:10px 0 0;font-family:var(--font-display);font-size:clamp(38px,4.8vw,66px);line-height:.98;letter-spacing:-.045em;color:#1e221f}.before-after__head h2 em{font-style:normal;color:#0f7b43}.before-after__head>p{margin:0;font-size:14px;line-height:1.7;color:#687069}
-  .compare-stage { position:relative; padding:18px; border:1px solid #d5d1c8; border-radius:28px; background:#fffdf9; box-shadow:0 26px 60px rgba(66,57,42,.08); }
-  .compare-stage__labels { display:flex; justify-content:space-between; gap:16px; margin-bottom:12px; padding:0 8px; font-family:var(--font-mono); font-size:9px; font-weight:700; letter-spacing:.1em; color:#77766f; }
-  .compare-visual { position:relative; display:grid; grid-template-columns:1fr 1fr; min-height:480px; overflow:hidden; border:1px solid #ddd9d0; border-radius:20px; background:#f5f3ee; }
-  .compare-side { min-width:0; padding:34px; }.compare-side--before{background:#f4f0ea}.compare-side--after{background:#edf7f1}
-  .messy-desktop { position:relative; min-height:285px; }.messy-window{position:absolute;width:78%;min-height:190px;border:1px solid #d4cec3;border-radius:12px;background:#fff;box-shadow:0 16px 35px rgba(62,52,38,.11);font-family:var(--font-mono);font-size:9px;color:#6e6b65}.messy-window>span{display:block;padding:9px 12px;border-bottom:1px solid #e4e0da;color:#1a7844}.messy-window>b{display:block;padding:14px 12px 4px;color:#343a35}.messy-window>small{display:block;padding:4px 12px;color:#8a7160}.messy-window.is-back{left:14%;top:10px;transform:rotate(4deg);opacity:.62}.messy-window.is-mid{left:5%;top:52px;transform:rotate(-5deg);opacity:.8}.messy-window.is-front{left:12%;top:86px;min-height:205px;transform:rotate(-1deg);opacity:1;overflow:hidden}.messy-window__bar{display:flex;align-items:center;gap:5px;min-height:30px;padding:0 9px;background:#eeeae4;border-bottom:1px solid #ddd8cf}.messy-window__bar>span{width:6px;height:6px;border-radius:50%;background:#c8c0b5}.messy-window__bar>b{margin-left:6px;font-weight:500;color:#64635d}.messy-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:34px}.messy-grid i{border-right:1px solid #ece8e1;border-bottom:1px solid #ece8e1;background:#fff}.messy-grid i:nth-child(6),.messy-grid i:nth-child(11){background:#fff2ce}.messy-warning{position:absolute;right:10px;bottom:10px;padding:7px 9px;border-radius:7px;background:#fff0d7;color:#8d620d;font-size:8px}
-  .compare-list{display:grid;gap:7px;margin:18px 0 0;padding:0;list-style:none;font-family:var(--font-mono);font-size:9.5px}.compare-list li{display:flex;align-items:center;gap:8px;min-height:32px;padding:0 10px;border-radius:8px}.compare-list--before li{background:rgba(255,255,255,.62);color:#77716a}.compare-list--before span{color:#a14e4e;font-weight:700}.compare-list--after li{display:grid;grid-template-columns:18px 1fr auto;background:rgba(255,255,255,.72);color:#506157}.compare-list--after span{color:#0e7840;font-weight:800}.compare-list--after b{font-weight:600}.compare-list--after em{font-style:normal;color:#0e7840;font-weight:700}
-  .clean-system { min-height:285px; overflow:hidden; border:1px solid #c9dace; border-radius:16px; background:#fff; box-shadow:0 18px 42px rgba(31,73,47,.12); }.clean-system__top{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;min-height:36px;padding:0 12px;border-bottom:1px solid #e0e9e2;background:#f3f7f4;font-family:var(--font-mono);font-size:8px}.clean-system__top span{color:#0d7840;font-weight:700}.clean-system__top b{font-weight:500;color:#6b776f}.clean-system__top em{font-style:normal;padding:4px 7px;border-radius:5px;background:#daf1e3;color:#0d6e3b;font-weight:700}.clean-system__body{padding:17px}.clean-system__metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.clean-system__metrics span{display:flex;flex-direction:column;gap:4px;padding:9px;border:1px solid #e2e9e4;border-radius:9px;background:#fafcfb}.clean-system__metrics small{font-size:7px;color:#78847c}.clean-system__metrics b{font-family:var(--font-mono);font-size:12px}.clean-system svg{width:100%;height:120px;margin-top:12px}.clean-system__status{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.clean-system__status span{padding:6px;border-radius:7px;background:#e5f4ea;text-align:center;font-family:var(--font-mono);font-size:7px;color:#0c7440}
-  .compare-mask { position:absolute; inset:0 0 0 var(--split); pointer-events:none; background:rgba(255,255,255,.0); border-left:1px solid rgba(22,134,75,.22); }
-  .compare-divider { position:absolute; top:0; bottom:0; left:var(--split); width:2px; transform:translateX(-1px); background:#0f7d43; pointer-events:none; box-shadow:0 0 0 1px rgba(255,255,255,.55) }.compare-divider span{position:absolute;top:50%;left:50%;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;transform:translate(-50%,-50%);background:#0f7d43;color:#fff;font-family:var(--font-mono);font-size:12px;box-shadow:0 10px 25px rgba(15,125,67,.22)}
-  .compare-range-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.compare-range{display:block;width:min(460px,80%);margin:18px auto 2px;accent-color:#0f7d43}
-  .value-proof-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.value-proof-row>div{padding:18px;border-top:1px solid #d7d2c8}.value-proof-row span{font-family:var(--font-mono);font-size:9px;font-weight:700;color:#0f7d43}.value-proof-row strong{display:block;margin-top:6px;font-size:15px;color:#242925}.value-proof-row p{margin:6px 0 0;font-size:11.5px;line-height:1.55;color:#6b716c}
-  @media(max-width:900px){.compare-visual{min-height:430px}.compare-side{padding:24px}.messy-window{width:88%}.value-proof-row{grid-template-columns:1fr 1fr}.value-proof-row>div:last-child{grid-column:1/-1}}
-  @media(max-width:680px){.before-after{padding-block:50px}.before-after__head{grid-template-columns:1fr;gap:12px;margin-bottom:22px}.before-after__head h2{font-size:35px}.before-after__head>p{font-size:12.5px;line-height:1.55}.compare-stage{padding:10px;border-radius:19px}.compare-stage__labels{font-size:7px}.compare-visual{grid-template-columns:1fr;min-height:0;overflow:visible;border-radius:14px}.compare-side{padding:16px}.messy-desktop{min-height:230px}.messy-window{width:80%;min-height:155px}.messy-window.is-front{min-height:165px;top:66px}.messy-grid{grid-auto-rows:27px}.clean-system{min-height:230px}.clean-system svg{height:85px}.compare-mask,.compare-divider,.compare-range{display:none}.compare-list{margin-top:12px}.compare-side--after{border-top:1px solid #d9e4dc}.value-proof-row{grid-template-columns:1fr;gap:0;margin-top:14px}.value-proof-row>div:last-child{grid-column:auto}.value-proof-row>div{padding:14px 4px}}
+.before-after{padding-block:clamp(82px,9vw,124px);background:radial-gradient(850px 360px at 15% 6%,rgba(37,99,235,.07),transparent 66%),radial-gradient(760px 320px at 88% 8%,rgba(20,132,71,.09),transparent 68%),linear-gradient(180deg,#f7f5f0 0%,#f2f0eb 100%);border-bottom:1px solid #ddd9d0}
+.before-after__head{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);gap:52px;align-items:end;margin-bottom:36px}.before-after__head h2{max-width:860px;margin:10px 0 0;font-family:var(--font-display);font-size:clamp(38px,4.8vw,66px);line-height:.98;letter-spacing:-.045em;color:#1b201d}.before-after__head h2 em{font-style:normal;background:linear-gradient(92deg,#0f7b43 0%,#167c4c 40%,#2563eb 100%);-webkit-background-clip:text;background-clip:text;color:transparent}.before-after__head>p{margin:0;font-size:14px;line-height:1.7;color:#687069}
+.compare-stage{position:relative;padding:18px;border:1px solid #d4d0c7;border-radius:30px;background:rgba(255,253,249,.92);box-shadow:0 34px 86px rgba(53,47,37,.11),inset 0 1px 0 rgba(255,255,255,.9);backdrop-filter:blur(8px)}
+.compare-stage__labels{display:flex;justify-content:space-between;gap:16px;margin-bottom:12px;padding:0 8px;font:800 9px var(--font-mono);letter-spacing:.1em;color:#77766f}.compare-stage__labels span:last-child{color:#0f7b43}
+.compare-visual{position:relative;display:grid;grid-template-columns:1fr 1fr;min-height:560px;overflow:hidden;border:1px solid #d9d6ce;border-radius:22px;background:#f5f3ee;isolation:isolate}.compare-side{min-width:0;padding:30px}.compare-side--before{background:linear-gradient(155deg,#f5f1eb 0%,#eee9e1 100%)}.compare-side--after{background:radial-gradient(500px 280px at 80% 10%,rgba(37,99,235,.07),transparent 70%),linear-gradient(145deg,#edf8f2 0%,#f5faf7 100%)}
+.messy-desktop{position:relative;min-height:345px}.messy-window{position:absolute;width:77%;min-height:188px;border:1px solid #d4cec3;border-radius:14px;background:#fff;box-shadow:0 18px 42px rgba(62,52,38,.14);font:700 8px var(--font-mono);color:#6e6b65;overflow:hidden}.messy-window__title{display:flex;gap:8px;align-items:center;padding:9px 12px;border-bottom:1px solid #e7e2da;background:#fbfaf8}.messy-window__title span{color:#138148}.messy-window__title b{font-weight:600;color:#555b56}.messy-window>small{display:block;padding:8px 12px;color:#8c625b}.messy-window.is-back{left:18%;top:6px;transform:rotate(4deg);opacity:.72}.messy-window.is-mid{left:4%;top:57px;transform:rotate(-5deg);opacity:.86}.messy-window.is-front{left:11%;top:106px;min-height:228px;transform:rotate(-.8deg);opacity:1}.messy-window__bar{display:flex;align-items:center;gap:5px;min-height:31px;padding:0 9px;background:#ece8e2;border-bottom:1px solid #ddd8cf}.messy-window__bar>span{width:7px;height:7px;border-radius:50%}.messy-window__bar>span:nth-child(1){background:#ef4444}.messy-window__bar>span:nth-child(2){background:#f2b705}.messy-window__bar>span:nth-child(3){background:#22a65a}.messy-window__bar>b{margin-left:7px;font-weight:600;color:#64635d}.messy-mini-chart{display:flex;align-items:end;gap:5px;height:54px;padding:10px 12px}.messy-mini-chart i{width:14%;border-radius:3px 3px 0 0;background:#93b4f2}.messy-mini-chart i:nth-child(1){height:28%}.messy-mini-chart i:nth-child(2){height:52%}.messy-mini-chart i:nth-child(3){height:41%}.messy-mini-chart i:nth-child(4){height:72%}.messy-mini-chart i:nth-child(5){height:60%;background:#f2b705}.messy-pie{width:70px;height:70px;margin:12px;border-radius:50%;background:conic-gradient(#2563eb 0 32%,#148447 32% 62%,#f2b705 62% 80%,#e5484d 80%)}.messy-sheet-head{display:grid;grid-template-columns:repeat(5,1fr);height:22px;background:#f8f6f2;border-bottom:1px solid #e9e4dc}.messy-sheet-head span{display:grid;place-items:center;border-right:1px solid #ebe6df;color:#8f8a81;font-size:7px}.messy-grid{display:grid;grid-template-columns:repeat(5,1fr);grid-auto-rows:33px}.messy-grid i{border-right:1px solid #ece8e1;border-bottom:1px solid #ece8e1;background:#fff}.messy-grid i:nth-child(7),.messy-grid i:nth-child(13){background:#fff3c7}.messy-grid i:nth-child(9),.messy-grid i:nth-child(15){background:#fee2e2}.messy-warning{position:absolute;right:10px;padding:7px 9px;border-radius:7px;font-size:7px;box-shadow:0 5px 12px rgba(0,0,0,.06)}.messy-warning--yellow{bottom:39px;background:#fff2c4;color:#8b6000}.messy-warning--red{bottom:9px;background:#ffe5e5;color:#b42318}
+.compare-list{display:grid;gap:7px;margin:16px 0 0;padding:0;list-style:none;font:700 9px var(--font-mono)}.compare-list li{display:flex;align-items:center;gap:8px;min-height:32px;padding:0 10px;border-radius:9px;border:1px solid transparent}.compare-list--before li{background:rgba(255,255,255,.7);color:#77716a}.compare-list--before .tone-red{border-color:#f6d3d3}.compare-list--before .tone-amber{border-color:#f4dfac}.compare-list--before .tone-blue{border-color:#cdddfc}.compare-list--before li span{font-weight:900;color:#c34444}.compare-list--after li{display:grid;grid-template-columns:18px 1fr auto;background:rgba(255,255,255,.8);color:#506157}.compare-list--after li span{font-weight:900}.compare-list--after li b{font-weight:700}.compare-list--after li em{font-style:normal;font-weight:800}.compare-list--after .tone-green{border-color:#c8ead6}.compare-list--after .tone-green span,.compare-list--after .tone-green em{color:#148447}.compare-list--after .tone-blue{border-color:#cadbfd}.compare-list--after .tone-blue span,.compare-list--after .tone-blue em{color:#2563eb}.compare-list--after .tone-yellow{border-color:#f4df9c}.compare-list--after .tone-yellow span,.compare-list--after .tone-yellow em{color:#b77900}.compare-list--after .tone-red{border-color:#f2c8c8}.compare-list--after .tone-red span,.compare-list--after .tone-red em{color:#cf3d43}
+.clean-system{min-height:392px;overflow:hidden;border:1px solid #c7d9ce;border-radius:18px;background:#fff;box-shadow:0 24px 58px rgba(31,73,47,.15)}.clean-system__top{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;min-height:38px;padding:0 12px;border-bottom:1px solid #e2e9e4;background:linear-gradient(180deg,#f8faf8,#f1f6f3);font:700 7.5px var(--font-mono)}.excel-brand{display:flex;align-items:center;gap:6px;color:#0d7840}.excel-brand span{display:grid;place-items:center;width:18px;height:18px;border-radius:5px;background:#0f7d43;color:white;font-size:9px}.clean-system__top>strong{font-weight:600;color:#657168;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.clean-system__top>em{font-style:normal;padding:4px 7px;border-radius:6px;background:#dcf4e5;color:#0d6e3b;font-weight:900}.clean-system__tabs{display:flex;gap:4px;padding:7px 11px;border-bottom:1px solid #e9eeea;background:#fff;font:700 6.5px var(--font-mono);color:#7d877f}.clean-system__tabs span{padding:5px 8px;border-radius:6px}.clean-system__tabs .is-active{background:#0f7d43;color:#fff}.clean-system__body{padding:13px}.clean-system__metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.metric{display:flex;min-width:0;flex-direction:column;gap:4px;padding:9px;border:1px solid;border-radius:10px;background:#fff}.metric small{font-size:6.3px;color:#727d75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.metric b{font:900 10px var(--font-mono);color:#1e2822}.metric i{font-style:normal;font:800 6px var(--font-mono)}.metric--green{border-color:#c9e6d4;background:#f5fcf7}.metric--green i{color:#148447}.metric--blue{border-color:#cbdafd;background:#f6f9ff}.metric--blue i{color:#2563eb}.metric--yellow{border-color:#f2dfae;background:#fffaf0}.metric--yellow i{color:#a56d00}.metric--red{border-color:#f2cccc;background:#fff7f7}.metric--red i{color:#d33f45}
+.clean-system__analytics{display:grid;grid-template-columns:minmax(0,1fr) 145px;gap:8px;margin-top:9px}.clean-chart-card,.decision-panel{border:1px solid #e2e8e4;border-radius:11px;background:#fcfdfc}.clean-chart-card{padding:9px}.clean-chart-card__head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.clean-chart-card__head small{display:block;font:800 6.3px var(--font-mono);letter-spacing:.04em;color:#727d75}.clean-chart-card__head b{display:block;margin-top:2px;font-size:8px;color:#38443c}.chart-legend{display:flex;gap:8px;font:800 5.8px var(--font-mono)}.chart-legend span:before{content:'';display:inline-block;width:6px;height:6px;margin-right:3px;border-radius:2px;vertical-align:-1px}.chart-legend .green:before{background:#148447}.chart-legend .blue:before{background:#2563eb}.chart-legend .yellow:before{background:#f2b705}.chart-area{position:relative;height:132px;margin-top:6px;overflow:hidden}.chart-grid{position:absolute;inset:2px 0 20px;background:repeating-linear-gradient(to bottom,#edf1ee 0 1px,transparent 1px 28px)}.chart-bars{position:absolute;inset:14px 6px 20px;display:grid;grid-template-columns:repeat(7,1fr);gap:9px;align-items:end;opacity:.2}.chart-bars i{display:block;border-radius:3px 3px 0 0;background:#148447}.chart-area svg{position:absolute;inset:4px 0 20px;width:100%;height:calc(100% - 24px)}.chart-months{position:absolute;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(7,1fr);font:700 5.8px var(--font-mono);text-align:center;color:#7b847e}.decision-panel{padding:8px}.decision-panel__head{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}.decision-panel__head small{font:800 6px var(--font-mono);color:#727d75}.decision-panel__head span{padding:3px 5px;border-radius:5px;background:#edf2ef;font:800 5.5px var(--font-mono);color:#66716a}.decision-row{display:grid;grid-template-columns:22px 1fr auto;gap:6px;align-items:center;padding:6px 0;border-top:1px solid #edf0ee}.decision-icon{display:grid;place-items:center;width:20px;height:20px;border-radius:6px;font:900 8px var(--font-mono)}.decision-row small{display:block;font-size:5.8px;color:#77817a}.decision-row b{display:block;margin-top:1px;font:800 6.5px var(--font-mono);color:#344139}.decision-row em{font-style:normal;font-size:10px;font-weight:900}.decision-row--green .decision-icon{background:#e3f5e9;color:#148447}.decision-row--green em{color:#148447}.decision-row--blue .decision-icon{background:#e8f0ff;color:#2563eb}.decision-row--blue em{color:#2563eb}.decision-row--yellow .decision-icon{background:#fff4cf;color:#a56d00}.decision-row--yellow em{color:#a56d00}.decision-row--red .decision-icon{background:#ffe8e8;color:#d33f45}.decision-row--red em{color:#d33f45}
+.clean-system__table{margin-top:9px;overflow:hidden;border:1px solid #dfe7e2;border-radius:9px;font:700 5.8px var(--font-mono)}.table-head,.table-row{display:grid;grid-template-columns:1.25fr repeat(7,1fr)}.table-head{background:#0f7d43;color:#fff}.table-head span,.table-row>*{padding:5px 4px;border-right:1px solid rgba(219,227,222,.75);text-align:right}.table-head span:first-child,.table-row>*:first-child{text-align:left}.table-row{border-top:1px solid #e6ece8;color:#647069;background:#fff}.table-row strong{font-weight:900}.row-green strong,.row-green span{color:#148447}.row-red strong,.row-red span{color:#cf3d43}.row-blue strong,.row-blue span{color:#2563eb}.clean-system__footer-tabs{display:flex;gap:5px;margin-top:8px;font:800 5.8px var(--font-mono)}.clean-system__footer-tabs span{padding:5px 7px;border-radius:6px;background:#f1f3f2;color:#6f7a73}.clean-system__footer-tabs .green{background:#dcf3e4;color:#0f7d43}.clean-system__footer-tabs .blue{background:#e6efff;color:#2563eb}.clean-system__footer-tabs .yellow{background:#fff1bd;color:#8e6100}.clean-system__footer-tabs .red{background:#ffe2e2;color:#c53239}
+.compare-mask{position:absolute;inset:0 0 0 var(--split);pointer-events:none;background:rgba(255,255,255,0);border-left:1px solid rgba(15,125,67,.22)}.compare-divider{position:absolute;top:0;bottom:0;left:var(--split);width:2px;transform:translateX(-1px);background:linear-gradient(180deg,#2563eb 0%,#148447 36%,#f2b705 68%,#e5484d 100%);pointer-events:none;box-shadow:0 0 0 1px rgba(255,255,255,.7)}.compare-divider span{position:absolute;top:50%;left:50%;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;transform:translate(-50%,-50%);background:linear-gradient(135deg,#0f7d43,#2563eb);color:#fff;font:900 12px var(--font-mono);box-shadow:0 12px 28px rgba(24,83,111,.28),0 0 0 5px rgba(255,255,255,.82)}
+.compare-range-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.compare-range{display:block;width:min(480px,80%);margin:18px auto 2px;accent-color:#0f7d43}
+.value-proof-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}.proof-card{position:relative;overflow:hidden;padding:18px 18px 19px;border:1px solid #ddd;border-radius:15px;background:rgba(255,255,255,.66);box-shadow:0 10px 30px rgba(62,57,48,.04)}.proof-card:before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--proof-color)}.proof-card span{font:900 9px var(--font-mono);color:var(--proof-color)}.proof-card strong{display:block;margin-top:7px;font-size:15px;color:#242925}.proof-card p{margin:6px 0 0;font-size:11px;line-height:1.55;color:#6b716c}.proof-card--green{--proof-color:#148447;border-color:#cde4d6}.proof-card--blue{--proof-color:#2563eb;border-color:#d1ddf7}.proof-card--yellow{--proof-color:#d29a00;border-color:#f1dfac}.proof-card--red{--proof-color:#d33f45;border-color:#f0cccc}
+@media(max-width:1050px){.compare-visual{min-height:520px}.compare-side{padding:24px}.clean-system__analytics{grid-template-columns:1fr}.decision-panel{display:grid;grid-template-columns:repeat(2,1fr);gap:0 8px}.decision-panel__head{grid-column:1/-1}.value-proof-row{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.before-after{padding-block:52px}.before-after__head{grid-template-columns:1fr;gap:12px;margin-bottom:22px}.before-after__head h2{font-size:35px}.before-after__head>p{font-size:12.5px;line-height:1.55}.compare-stage{padding:10px;border-radius:20px}.compare-stage__labels{font-size:7px}.compare-visual{grid-template-columns:1fr;min-height:0;overflow:visible;border-radius:15px}.compare-side{padding:16px}.messy-desktop{min-height:270px}.messy-window{width:80%;min-height:145px}.messy-window.is-front{min-height:185px;top:78px}.messy-grid{grid-auto-rows:25px}.clean-system{min-height:0}.clean-system__metrics{grid-template-columns:1fr 1fr}.clean-system__analytics{grid-template-columns:1fr}.decision-panel{grid-template-columns:1fr 1fr}.clean-system__table{overflow-x:auto}.table-head,.table-row{min-width:520px}.compare-mask,.compare-divider,.compare-range{display:none}.compare-list{margin-top:12px}.compare-side--after{border-top:1px solid #d9e4dc}.value-proof-row{grid-template-columns:1fr 1fr;gap:9px}.proof-card{padding:14px}.proof-card strong{font-size:13px}.proof-card p{font-size:10.5px}}
+@media(max-width:480px){.value-proof-row{grid-template-columns:1fr}.decision-panel{grid-template-columns:1fr}.clean-system__metrics{grid-template-columns:1fr 1fr}.chart-legend{display:none}}
 </style>
