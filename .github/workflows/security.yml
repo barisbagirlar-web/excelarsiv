@@ -3,54 +3,13 @@ name: Security Gates
 on:
   pull_request:
   push:
-    branches: [main, content/rehber-enterprise-2500-release]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  rehber-enterprise-generation:
-    if: github.ref == 'refs/heads/content/rehber-enterprise-2500-release'
-    name: Rehber enterprise generate + build + guard + clean commit
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Use Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: npm
-      - name: Install dependencies
-        run: npm ci
-      - name: Normalize one-shot generator marker to MDX-native syntax
-        run: sed -i "s|const MARK='<!-- ENTERPRISE-DEPTH-V1 -->';|const MARK='{/* ENTERPRISE-DEPTH-V1 */}';|" scripts/generate-rehber-enterprise.mjs
-      - name: Generate 2.800+ enterprise guides
-        run: node scripts/generate-rehber-enterprise.mjs
-      - name: Build and repository tests before output commit
-        run: npm test
-      - name: Rehber 2.500+ hard guard before output commit
-        run: npx tsx scripts/seo/content-contract.ts --site excelarsiv
-      - name: Remove temporary generation artifacts and restore canonical workflow
-        run: |
-          git fetch origin main
-          git checkout origin/main -- .github/workflows/security.yml
-          rm -f .github/workflows/rehber-enterprise-one-shot.yml
-          rm -f scripts/generate-rehber-enterprise.mjs
-      - name: Verify clean patch and commit only verified deliverables
-        run: |
-          git config user.name "excelarsiv-release-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add src/content/guides docs/seo/KARAR_DEFTERI.md scripts/seo/content-contract.ts .github/workflows/security.yml .github/workflows/rehber-enterprise-one-shot.yml scripts/generate-rehber-enterprise.mjs
-          git diff --cached --check
-          git status --short
-          git commit -m "content: ship enterprise 2500+ word rehber authority layer"
-          git push origin HEAD:content/rehber-enterprise-2500-release
-
   production-dependency-audit:
     name: Production dependency audit
     runs-on: ubuntu-latest
