@@ -25,10 +25,12 @@ import { SHOPIER } from '../data/shopier';
           <strong>Veri sorumlusu:</strong> {SATICI.gercekKisi} — {SATICI.marka} ({SATICI.site.replace('https://', '')}).
           İletişim: {SATICI.eposta} · {SATICI.telefon}.
           <br />
-          <strong>Ödeme / veri işleyen:</strong> {SHOPIER.marka} ({SHOPIER.site}) — {SHOPIER.rol}.
+          <strong>Ödeme / veri işleyen:</strong> {SHOPIER.marka} (
+          <a class="text-accent-primary underline underline-offset-4" href={SHOPIER.magazaUrl} rel="noopener noreferrer">{SHOPIER.magazaUrl.replace('https://', '')}</a>
+          ) — {SHOPIER.rol}.
           Excel Arşiv, sipariş doğrulaması için Shopier Orders API ({SHOPIER.apiBase}) üzerinden
           yetkili erişim token’ı ile sunucu tarafında sorgu yapar; token tarayıcıya veya kaynak
-          koduna yazılmaz.
+          koduna yazılmaz. Dokümantasyon: {SHOPIER.gelistiriciDokuman}.
         </p>
       </section>
       <section>

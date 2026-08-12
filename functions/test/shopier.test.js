@@ -93,3 +93,11 @@ test('order list extractor accepts common API envelopes', () => {
   assert.equal(extractOrders({ orders: [{ id: 1 }] }).length, 1);
   assert.equal(extractOrders({ data: { items: [{ id: 1 }] } }).length, 1);
 });
+
+test('access token assert rejects empty and malformed secrets', () => {
+  const { assertAccessToken } = require('../shopier-api');
+  assert.throws(() => assertAccessToken(''), { code: 'SHOPIER_TOKEN_MISSING' });
+  assert.throws(() => assertAccessToken('not-a-jwt'), { code: 'SHOPIER_TOKEN_MALFORMED' });
+  const sample = `${'a'.repeat(20)}.${'b'.repeat(20)}.${'c'.repeat(20)}`;
+  assert.equal(assertAccessToken(`  ${sample}  `), sample);
+});

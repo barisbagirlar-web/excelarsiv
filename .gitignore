@@ -17,6 +17,11 @@ firebase-debug.log*
 .env
 .env.production
 
+# Shopier / payment secrets — never commit
+SHOPIER*.txt
+*Shopier*token*
+*_ACCESS_TOKEN*
+
 # local credentials / private keys
 firebase-service-account.json
 firebase-service-account*.json
