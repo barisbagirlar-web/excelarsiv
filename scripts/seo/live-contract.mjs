@@ -2,6 +2,7 @@
 // robots.txt -> sitemap.xml -> her child 200 -> her URL 200 + self-canonical
 // + noindex yok + H1 + JSON-LD. Index lastmod ISO + future değil.
 import { resolve } from 'node:path';
+import { isImageSitemapChild } from './validate-gates.mjs';
 
 const BASE = process.env.SEO_BASE_URL ?? 'https://excelarsiv.com';
 const RETRY = 5;
@@ -81,6 +82,7 @@ for (const entry of indexEntries) {
 }
 
 const allUrls = new Set();
+let imageSitemapCount = 0;
 for (const entry of indexEntries) {
   const child = await get(entry.loc);
   check(child.status === 200, `child HTTP ${child.status}: ${entry.loc}`);
@@ -90,6 +92,16 @@ for (const entry of indexEntries) {
   check(!child.text.includes('<priority>'), `child priority içeriyor: ${entry.loc}`);
   const urls = parseUrls(child.text);
   check(urls.length > 0, `child 0 URL: ${entry.loc}`);
+
+  // Google image sitemap, ürün sayfa URL'sini products child ile yeniden listeler.
+  // Bu protokol gereği doğru; sayfa <loc> duplicate sayılmaz (enterprise-guard ile aynı).
+  if (isImageSitemapChild(entry.loc, child.text)) {
+    imageSitemapCount += 1;
+    check(child.text.includes('xmlns:image='), `image sitemap namespace eksik: ${entry.loc}`);
+    check(child.text.includes('<image:loc>'), `image sitemap image:loc yok: ${entry.loc}`);
+    continue;
+  }
+
   for (const loc of urls) {
     if (allUrls.has(loc)) {
       check(false, `duplicate URL: ${loc}`);
@@ -97,6 +109,7 @@ for (const entry of indexEntries) {
     allUrls.add(loc);
   }
 }
+check(imageSitemapCount > 0, 'sitemap index içinde image sitemap child yok');
 
 check(allUrls.has(`${BASE}/`), 'homepage sitemap içinde yok');
 

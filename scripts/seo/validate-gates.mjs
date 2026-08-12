@@ -30,6 +30,21 @@ export function findDuplicateLocs(locs) {
   return [...duplicates];
 }
 
+/** Google image sitemap child: sayfa <loc> products ile yeniden listelenir; aggregate duplicate sayılmaz. */
+export function isImageSitemapChild(childLoc, xml = '') {
+  try {
+    const name = new URL(childLoc).pathname.split('/').filter(Boolean).at(-1) ?? '';
+    if (/^sitemap-images(?:-\d+)?\.xml$/i.test(name)) return true;
+  } catch {
+    /* ignore invalid URL */
+  }
+  return typeof xml === 'string' && (xml.includes('xmlns:image=') || xml.includes('<image:loc>'));
+}
+
+export function shouldAggregatePageLocs(childLoc, xml = '') {
+  return !isImageSitemapChild(childLoc, xml);
+}
+
 export function findFutureLastmods(entries, nowIso = new Date().toISOString()) {
   return entries.filter((entry) => entry.lastmod && isFuture(entry.lastmod, nowIso));
 }

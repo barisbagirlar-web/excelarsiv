@@ -55,3 +55,14 @@ test('INV-3.8 ürün semantic lastmod ürüne özgü kaynakları kapsar; SEO met
   assert.ok(semantic!.valueOf() >= sourceChangedAt!.valueOf(), `${semantic?.toISOString()} < ${sourceChangedAt?.toISOString()}`);
   assert.ok(semantic!.valueOf() >= declaredAt!.valueOf(), `${semantic?.toISOString()} < ${declaredAt?.toISOString()}`);
 });
+
+test('INV-3.9 image sitemap sayfa loc ürün sitemap ile çakışsa bile aggregate duplicate sayılmaz', async () => {
+  const { isImageSitemapChild, shouldAggregatePageLocs } = await import('../../../scripts/seo/validate-gates.mjs');
+  const imageLoc = 'https://excelarsiv.com/sitemap-images.xml';
+  const productLoc = 'https://excelarsiv.com/sitemap-products.xml';
+  const imageXml = '<?xml version="1.0"?><urlset xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"><image:loc>x</image:loc></urlset>';
+  assert.equal(isImageSitemapChild(imageLoc, imageXml), true);
+  assert.equal(shouldAggregatePageLocs(imageLoc, imageXml), false);
+  assert.equal(isImageSitemapChild(productLoc, '<urlset><loc>https://excelarsiv.com/sablon/a</loc></urlset>'), false);
+  assert.equal(shouldAggregatePageLocs(productLoc), true);
+});
