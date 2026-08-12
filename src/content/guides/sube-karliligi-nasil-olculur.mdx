@@ -5,8 +5,8 @@ description: "Şube bazlı gerçek kârlılığı ortak gider dağıtımı, stok
 primaryQuery: "şube karlılığı nasıl hesaplanır"
 productSlug: "sube-karlilik-ve-nakit-hesaplayici"
 category: "finansal-analiz"
-updatedAt: "2026-08-12"
-editorialApprovalRef: "2026-08-12T20:22:00Z"
+updatedAt: "2026-08-13"
+editorialApprovalRef: "2026-08-12T21:55:00Z"
 dataAsset: false
 takeaways:
   - "Şube cirosunu kârlılık sanmayın; şube kaynak tüketimini ortak giderlerle birlikte ölçün."
@@ -56,3 +56,158 @@ Bu nedenle “şube zarar ediyor, kapatalım” kararı ile “şube kapatılır
 Her ay aynı tarihte satış, maliyet, stok ve tahsilat verilerini kapatın; dağıtım anahtarlarını sabit tutun; sapma nedenlerini şube yöneticisiyle eşleştirin. İki dönem üst üste aynı sorun görünüyorsa bunu tek seferlik dalgalanma değil yapısal problem olarak işaretleyin.
 
 Bu analizi hazır şube bazlı kârlılık ve nakit çerçevesiyle yürütmek için [Şube Kârlılık ve Nakit Hesaplayıcı](/sablon/sube-karlilik-ve-nakit-hesaplayici) ürününü inceleyin. Diğer araçlar [Finansal Analiz Excel şablonları](/sablonlar/finansal-analiz) altında yer alır.
+
+{/* ENTERPRISE-DEPTH-V1 */}
+
+## Kurumsal uygulama standardı: hesap değil karar sistemi
+
+şube kârlılığı ve şube bazlı nakit performansı dosyasında asıl risk hesap hatasından önce sınıflandırma hatasıdır. Aynı isimle farklı ekonomik anlamdaki kalemleri toplamak veya farklı dönemleri karşılaştırmak doğru formülle dahi yanlış yönetim kararı üretir. Finansal analizde kurumsal kalite, tek bir oranı doğru hesaplamaktan çok verinin aynı ekonomik anlamı taşımasını sağlamaktır. Dönem, KDV/vergi bazları, maliyet sınıfları ve tek seferlik kalemler tutarlı değilse grafik ne kadar iyi görünürse görünsün sonuç savunulamaz. Yönetim katmanı bu nedenle her göstergenin kaynağını, karşılaştırma bazını ve karar sahibini açıkça göstermelidir.
+
+Bu rehberde kullanılan ana performans ölçüsü **şube geliri, doğrudan maliyet, paylaştırılmış ortak gider ve yerel nakit dönüşümü** olarak düşünülmelidir. Temel hesap omurgası şöyledir: **Şube katkısı = şube net geliri − şubeye doğrudan ait maliyetler; tam sonuç için tanımlı ve açıklanabilir ortak gider payları ayrıca gösterilir**. Bu ifade bir başlangıçtır; gerçek modelde hangi satırların dahil edildiği, veri tarihi, para birimi, durum kodu ve varsa istisnalar ayrıca tanımlanmalıdır.
+
+## Veri sözlüğünü formülden önce kurun
+
+Bir Excel sisteminin en pahalı hataları genellikle formülde değil, aynı kavramın farklı kişilerce farklı anlamda kullanılmasında oluşur. Bu nedenle ilk sayfa “Girdi” olsa bile arka planda küçük bir veri sözlüğü bulunmalıdır. Her alan için ad, açıklama, veri tipi, zorunluluk, kaynak, güncelleme sıklığı ve sorumlu belirlenmelidir. şube kârlılığı ve şube bazlı nakit performansı için çekirdek alanlar şunlardır:
+
+- şube kodlu satış
+- şube personel ve kira maliyeti
+- yerel operasyon giderleri
+- stok ve fire
+- ortak merkez giderleri
+- şube tahsilat/nakit verisi
+
+Bu alanların hiçbiri sırf tablo dolsun diye eklenmemelidir. Bir alan ya hesap üretmeli, ya bir kontrolü beslemeli ya da kararın kanıtını taşımalıdır. Kullanılmayan kolon veri kalitesini artırmaz; tam tersine kullanıcıyı gereksiz girişe zorlar ve zamanla boş/yanlış değer oranını yükseltir. Kod alanları mümkün olduğunca tekil olmalı, serbest metin yalnız açıklama gereken yerde kullanılmalıdır.
+
+Veri kaynağı birden fazlaysa “hangisi doğru?” kuralı baştan yazılmalıdır. Örneğin banka hareketi ile iç kayıt uyuşmadığında bankanın mı, ERP çıktısının mı, onaylı mutabakatın mı referans alınacağı belirlenmeden otomasyon yapılmamalıdır. Aynı şekilde rapor tarihi değiştiğinde geçmiş görünümün yeniden yazılmaması için dönem kapanışı veya snapshot yaklaşımı kullanılmalıdır.
+
+## Hesap zincirini denetlenebilir tasarlayın
+
+Kurumsal dosyada sonuç hücresinden geriye doğru üç adımda kaynağa ulaşılabilmelidir: yönetim KPI'ı → ara hesap → ham kayıt. Gizli, dağınık veya elle üzerine yazılabilen formüller bu zinciri bozar. Ana hesap **Şube katkısı = şube net geliri − şubeye doğrudan ait maliyetler; tam sonuç için tanımlı ve açıklanabilir ortak gider payları ayrıca gösterilir** mantığına dayanıyorsa bile, pay ve payda ya da giriş-çıkış bileşenleri ayrı kolonlarda görülebilmelidir.
+
+Toplam kontrolü ayrıca tutulmalıdır. Örneğin detay satır toplamı ile panel KPI'ı aynı olmalı; dönemler arası devreden bakiye varsa bir önceki kapanış yeni dönemin açılışına eşitlenmelidir. Yuvarlama farkı, kur farkı veya mahsup gibi teknik farklar için “diğer” kovası açmak yerine neden kodu kullanmak daha doğrudur. Diğer kovası büyüyorsa modelin sınıflandırma sözlüğü yetersizdir.
+
+Formüllerde sabit oran veya eşik gömmek yerine AYARLAR/PARAMETRELER tablosu kullanılmalıdır. Değişebilen oranların yanında yürürlük tarihi, kaynak ve son güncelleme alanı tutulması özellikle vergi, bordro, banka, komisyon ve sözleşme koşullarında kritik bir kontroldür. Böylece parametre değiştiğinde yüzlerce formülü aramak yerine tek kontrollü kayıt güncellenir.
+
+## Gerçekçi örnek: sonucu değil nedeni okuyun
+
+AVM şubesi en yüksek ciroyu üretebilir fakat yüksek kira, personel yoğunluğu ve fire nedeniyle daha düşük katkı bırakabilir. Merkez giderlerinin dağıtım yöntemi de sıralamayı değiştirebilir; bu nedenle doğrudan katkı ile tam yüklenmiş sonucu iki ayrı katmanda göstermek daha güvenlidir.
+
+Bu örnekte yönetimin soracağı asıl soru “rakam kaç?” değildir; rakamı değiştiren sürücü nedir ve hangi aksiyon bu sürücüyü etkiler? Dosya, sonucu neden ağacına bağlamalıdır. Fiyat, miktar, vade, adet, maliyet, oran veya zamanlama gibi sürücüler ayrı sütunlara ayrıldığında “neden değişti?” sorusu rapor sahibinin yorumuna bağımlı kalmaz.
+
+Aynı örneği en az üç görünümde test etmek yararlıdır: mevcut/baz durum, aşağı yönlü stres ve yönetim aksiyonu sonrası durum. Senaryo hücreleri geçmiş gerçekleşen veriyi değiştirmemeli; yalnız geleceğe veya karar değişkenine uygulanmalıdır. Her senaryonun hangi varsayımı değiştirdiği açıkça yazılmalıdır.
+
+## Yönetim kararlarını KPI'dan ayırmayın
+
+şube kârlılığı ve şube bazlı nakit performansı dosyası aşağıdaki kararları mümkün olduğunca doğrudan desteklemelidir:
+
+- hangi şube gerçekten değer yaratıyor
+- ortak gider dağıtımı sonucu ne kadar değiştiriyor
+- şube kapatma/büyütme kararı neye dayanmalı
+- ciro yüksekliği nakit kalitesini maskeliyor mu
+
+Her karar için üç şey görünür olmalıdır: **tetik**, **sahip** ve **son tarih**. Örneğin bir KPI eşik dışına çıktığında yalnız kırmızı renge dönmesi yeterli değildir. “Kim bakacak, hangi veriyle doğrulayacak ve hangi tarihe kadar ne yapacak?” soruları cevaplanmıyorsa dashboard dekorasyon olarak kalır.
+
+Eşikler mutlak veya göreli olabilir. Mutlak eşik işletmenin minimum nakit, maksimum gecikme veya minimum marj gibi politikasını temsil eder. Göreli eşik ise bütçeye, geçen döneme veya hareketli ortalamaya göre sapmayı gösterir. İkisini aynı anda kullanmak, küçük tutarlı ama yüksek yüzdeli sapmalarla büyük tutarlı ama düşük yüzdeli sapmaları daha doğru önceliklendirir.
+
+## Kontrol çerçevesi ve mutabakat kapıları
+
+Aşağıdaki kontroller “iyi olur” listesi değil, dosyanın güvenilirliği için kapı olarak görülmelidir:
+
+- şube kodunu kaynağında zorunlu tut
+- merkez giderini tek anahtarla kör dağıtma
+- tek seferlik açılış/kapanış maliyetlerini ayır
+- kârlılık ile nakdi ayrı göster
+
+Kontrol sonucu yalnız “OK/HATA” olmamalıdır. Hata satırı, beklenen değer, bulunan değer, fark ve önerilen kontrol adımını göstermelidir. Böylece kullanıcı alarmı kapatmak için neye bakacağını bilir. Kontrolün kendisi de kaynaktan türemeli; örneğin “toplamlar eşit” gibi elle işaretlenen onay kurumsal kanıt değildir.
+
+Mutabakat zamanlaması önemlidir. Günlük veriyle çalışan sistemde ay sonunda tek mutabakat geç kalabilir; aylık yönetim raporunda ise her hareketi günlük kapatmak gereksiz olabilir. Sıklık, verinin değişim hızına ve yanlış kararın maliyetine göre seçilmelidir. Yüksek para veya dava/uyuşmazlık riski taşıyan kalemlerde daha sık kontrol mantıklıdır.
+
+## İstisna yönetimi: her şeyi değil sapmayı gösterin
+
+Premium bir yönetim dosyasının en önemli özelliklerinden biri kullanıcının binlerce satırı okumak zorunda kalmamasıdır. Normal akış detay tablosunda kalır; yönetim ekranına yalnız eşiği aşan, geciken, eksik eşleşen veya olağandışı değişen kayıt çıkar. İstisna kuyruğu kayıt kimliği, tutar, gün, neden ve sorumluyu göstermelidir.
+
+İstisna kapatıldığında satır silinmemeli. Kapanış tarihi, aksiyon notu ve gerekiyorsa onaylayan kişi saklanmalıdır. Bu tarihçe hem süreç iyileştirmesi hem de “aynı sorun neden tekrarlandı?” incelemesi için değerlidir. Sürekli aynı tür alarm çıkıyorsa tek tek kayıt düzeltmek yerine kök neden, veri giriş ekranı veya iş kuralı üzerinde ele alınmalıdır.
+
+## Duyarlılık ve stres testi
+
+Tek bir baz tahmin, özellikle fiyat, vade, talep veya maliyet oynaklığı olan işletmelerde sahte kesinlik yaratır. şube kârlılığı ve şube bazlı nakit performansı için hangi iki veya üç değişken sonucu en çok etkiliyorsa onları ayrı hücrelerde oynatın. Her değişken için makul kötü, baz ve iyi değer belirleyin; uç değerleri sırf güzel sonuç üretmek için kullanmayın.
+
+Stres testinin amacı korkutucu bir tablo yapmak değil, kararın kırılma noktasını bulmaktır. Hangi değişken hangi seviyeye geldiğinde karar değişiyor? Örneğin marj hangi maliyette kabul edilemez hale geliyor, nakit hangi haftada negatife dönüyor, stok hangi teslim süresinde yetersiz kalıyor? Bu eşik yönetimin önceden aksiyon almasını sağlar.
+
+## Dönem kapama ve versiyonlama
+
+Dosya her yeni dönemde kopyalanıp isim değiştirilirse kısa sürede “final_v7_son2.xlsx” tipi kontrolsüz bir arşiv oluşur. Bunun yerine dönem anahtarı, veri kesim tarihi ve versiyon numarası kullanılmalıdır. Geçmiş kapanmış dönem mümkün olduğunca kilitlenmeli; düzeltme gerekiyorsa kim, ne zaman, neden değiştirdi bilgisi tutulmalıdır.
+
+Tahmin ile gerçekleşen birbirine yazılmamalıdır. İlk tahmin, güncel tahmin ve gerçekleşen ayrı alanlar olduğunda tahmin kalitesi ölçülebilir. Bu, özellikle bütçe, nakit, tahsilat ve stok kararlarında yönetimin öğrenme döngüsünü güçlendirir: yalnız sonuç değil, tahmin hatasının yönü ve büyüklüğü de izlenir.
+
+## Rol ve yetki tasarımı
+
+Excel dosyası çok kişi tarafından kullanılacaksa “herkes her hücreyi değiştirir” yaklaşımı kurumsal değildir. Veri giren, kontrol eden ve karar veren roller ayrılmalıdır. Girdi alanları belirgin, formül ve referans alanları korumalı olmalı; yönetim ekranında teknik kolonlar görünmemelidir. Kritik parametre değişikliği için en azından değişiklik notu zorunlu tutulmalıdır.
+
+Kişisel veya hassas veri gerekiyorsa yalnız iş amacı için gerekli alanlar tutulmalı, gereksiz kişisel veri eklenmemelidir. Dosya paylaşımı da bu minimizasyonla uyumlu olmalıdır. Rehberdeki örnekler temsili olmalı; gerçek müşteri, çalışan veya banka verisini demo amacıyla çoğaltmak doğru değildir.
+
+## Sık yapılan hataları kök nedene göre sınıflandırın
+
+Birinci hata **tanım hatasıdır**: aynı kelime farklı kişilerce farklı ekonomik anlamda kullanılır. İkinci hata **zaman hatasıdır**: işlem tarihi, vade, tahsil veya ödeme tarihi birbirine karıştırılır. Üçüncü hata **anahtar hatasıdır**: müşteri, ürün, proje veya belge isimle eşleştirilir ve yazım farkı kayıtları böler. Dördüncü hata **parametre hatasıdır**: değişebilen oranlar formül içine gömülür. Beşinci hata **kanıt hatasıdır**: sonuç vardır fakat hangi satırlardan geldiği gösterilemez.
+
+Bu sınıflandırmayı hata kayıt tablosunda kullanın. Her düzeltmede yalnız hücreyi değiştirmek yerine hata türünü seçin. Birkaç dönem sonra hangi tür kusurun tekrarlandığı ölçülebilir. Aynı hata ailesi sürekli çıkıyorsa eğitim, veri doğrulama, entegrasyon veya süreç tasarımı değişmelidir.
+
+## Yönetim toplantısında nasıl okunmalı?
+
+Paneli soldan sağa bir hikâye gibi tasarlayın: önce sonuç, sonra değişim, sonra neden, sonra risk, son olarak aksiyon. Bir toplantıda önce detay satırlarına inmek yerine en büyük üç olumlu ve üç olumsuz sapmayı konuşmak daha etkilidir. Detay yalnız kararın doğrulanması gerektiğinde açılır.
+
+Renk sayısını sınırlayın. Kırmızı yalnız eylem gerektiren istisna için, nötr renkler normal durum için kullanılmalıdır. Her şey renkliyse hiçbir şey öncelikli değildir. Benzer biçimde ondalık basamak ve grafik sayısını artırmak analitik kaliteyi yükseltmez; yönetim kararının hassasiyetine yetecek seviyede gösterim kullanılmalıdır.
+
+## İç denetim için 12 maddelik kapanış testi
+
+1. Veri kesim tarihi açık mı?
+2. Ana kayıt kimlikleri tekil mi?
+3. Açılış/kapanış veya detay/panel toplamı mutabık mı?
+4. Değişebilen parametrelerin kaynak ve yürürlük tarihi var mı?
+5. Formüller girdi hücreleriyle karışmış mı?
+6. İstisna eşikleri açıklanabilir mi?
+7. En önemli sapmaların nedeni kodlanmış mı?
+8. Aksiyon sahibinin ve hedef tarihinin kaydı var mı?
+9. Geçmiş kapanmış dönem iz bırakmadan değiştirilebiliyor mu?
+10. Baz ve stres senaryosu aynı ham gerçekleşeni bozmadan çalışıyor mu?
+11. Yönetim KPI'ından ham kayda geri iz sürülebiliyor mu?
+12. Dosya boş veri veya eksik alan durumunda yanıltıcı sıfır üretmek yerine uyarı veriyor mu?
+
+Bu testlerden biri başarısızsa dosya “çalışıyor” olabilir ama kurumsal olarak tamamlanmış sayılmamalıdır. Özellikle mutabakat, parametre kaynağı ve izlenebilirlik hataları doğrudan yanlış karar riskidir.
+
+## 30 günlük uygulama planı
+
+İlk hafta tanımları ve veri sözlüğünü sabitleyin; eski veriyi hemen içeri taşımak yerine doğru anahtar ve kategori yapısını kurun. İkinci hafta sınırlı bir dönem veya küçük örneklemle hesap zincirini test edin. Üçüncü hafta gerçek veriyle mutabakat, istisna ve stres senaryolarını çalıştırın. Dördüncü hafta yönetim ekranını sadeleştirin, gereksiz KPI'ları kaldırın ve kapanış prosedürünü yazılı hale getirin.
+
+Başlangıçta her ihtimali modellemeye çalışmak yerine kritik karar zincirini uçtan uca doğru kurmak daha değerlidir. İlk sürüm güvenilir olduktan sonra yeni kırılımlar eklenebilir. Bunun tersi, yani onlarca grafik ve kolonla başlayıp veri disiplinini sonra çözmeye çalışmak, bakım borcunu büyütür.
+
+## Sonuç: başarı ölçütü dosyanın büyüklüğü değil karar kalitesidir
+
+şube kârlılığı ve şube bazlı nakit performansı için iyi Excel sistemi, kullanıcıya yalnız toplam vermemelidir. **şube geliri, doğrudan maliyet, paylaştırılmış ortak gider ve yerel nakit dönüşümü** sonucunu üretmeli, sonucu **Şube katkısı = şube net geliri − şubeye doğrudan ait maliyetler; tam sonuç için tanımlı ve açıklanabilir ortak gider payları ayrıca gösterilir** zincirine bağlamalı, istisnayı işaretlemeli ve yönetimin ne yapacağını görünür kılmalıdır. Veriyi güncellemek kolay, geçmişi denetlemek mümkün ve kararın kaynağını açıklamak hızlı olmalıdır.
+
+Bu standarda ulaşıldığında dosya kişisel hesap tablosu olmaktan çıkar; tekrar edilebilir bir yönetim kontrolüne dönüşür. Rehberin başındaki temel uygulamayı bu kurumsal kontrol katmanıyla birlikte kullanın ve işletmenizin eşiklerini, sorumlularını, veri kaynaklarını kendi koşullarınıza göre açıkça tanımlayın.
+
+
+### Kontrol kartı 1: şube kodunu kaynağında zorunlu tut
+
+Bu kontrol, **şube kârlılığı ve şube bazlı nakit performansı** sürecinde yalnız teknik doğruluk için değil, yönetim kararının tekrar edilebilir olması için uygulanır. Önce ilgili ham kayıtların dönem ve kimlik bütünlüğünü doğrulayın; ardından hesaplanan **şube geliri, doğrudan maliyet, paylaştırılmış ortak gider ve yerel nakit dönüşümü** sonucunun detay toplamıyla eşleştiğini kontrol edin. Fark oluşursa sonuç hücresini elle düzeltmek yerine farkın kaynağını neden koduyla kaydedin. Bu kartın karar bağlantısı “hangi şube gerçekten değer yaratıyor” sorusudur. Kontrol geçmeden bu soruya verilen cevap nihai kabul edilmemelidir. Kanıt olarak veri kesim tarihi, kontrol sonucu, fark varsa tutarı ve aksiyon sahibini saklayın. Böylece sonraki kapanışta aynı sorunun tekrar edip etmediği ölçülebilir.
+
+### Kontrol kartı 2: merkez giderini tek anahtarla kör dağıtma
+
+Bu kontrol, **şube kârlılığı ve şube bazlı nakit performansı** sürecinde yalnız teknik doğruluk için değil, yönetim kararının tekrar edilebilir olması için uygulanır. Önce ilgili ham kayıtların dönem ve kimlik bütünlüğünü doğrulayın; ardından hesaplanan **şube geliri, doğrudan maliyet, paylaştırılmış ortak gider ve yerel nakit dönüşümü** sonucunun detay toplamıyla eşleştiğini kontrol edin. Fark oluşursa sonuç hücresini elle düzeltmek yerine farkın kaynağını neden koduyla kaydedin. Bu kartın karar bağlantısı “ortak gider dağıtımı sonucu ne kadar değiştiriyor” sorusudur. Kontrol geçmeden bu soruya verilen cevap nihai kabul edilmemelidir. Kanıt olarak veri kesim tarihi, kontrol sonucu, fark varsa tutarı ve aksiyon sahibini saklayın. Böylece sonraki kapanışta aynı sorunun tekrar edip etmediği ölçülebilir.
+
+### Kontrol kartı 3: tek seferlik açılış/kapanış maliyetlerini ayır
+
+Bu kontrol, **şube kârlılığı ve şube bazlı nakit performansı** sürecinde yalnız teknik doğruluk için değil, yönetim kararının tekrar edilebilir olması için uygulanır. Önce ilgili ham kayıtların dönem ve kimlik bütünlüğünü doğrulayın; ardından hesaplanan **şube geliri, doğrudan maliyet, paylaştırılmış ortak gider ve yerel nakit dönüşümü** sonucunun detay toplamıyla eşleştiğini kontrol edin. Fark oluşursa sonuç hücresini elle düzeltmek yerine farkın kaynağını neden koduyla kaydedin. Bu kartın karar bağlantısı “şube kapatma/büyütme kararı neye dayanmalı” sorusudur. Kontrol geçmeden bu soruya verilen cevap nihai kabul edilmemelidir. Kanıt olarak veri kesim tarihi, kontrol sonucu, fark varsa tutarı ve aksiyon sahibini saklayın. Böylece sonraki kapanışta aynı sorunun tekrar edip etmediği ölçülebilir.
+
+### Kontrol kartı 4: kârlılık ile nakdi ayrı göster
+
+Bu kontrol, **şube kârlılığı ve şube bazlı nakit performansı** sürecinde yalnız teknik doğruluk için değil, yönetim kararının tekrar edilebilir olması için uygulanır. Önce ilgili ham kayıtların dönem ve kimlik bütünlüğünü doğrulayın; ardından hesaplanan **şube geliri, doğrudan maliyet, paylaştırılmış ortak gider ve yerel nakit dönüşümü** sonucunun detay toplamıyla eşleştiğini kontrol edin. Fark oluşursa sonuç hücresini elle düzeltmek yerine farkın kaynağını neden koduyla kaydedin. Bu kartın karar bağlantısı “ciro yüksekliği nakit kalitesini maskeliyor mu” sorusudur. Kontrol geçmeden bu soruya verilen cevap nihai kabul edilmemelidir. Kanıt olarak veri kesim tarihi, kontrol sonucu, fark varsa tutarı ve aksiyon sahibini saklayın. Böylece sonraki kapanışta aynı sorunun tekrar edip etmediği ölçülebilir.
+
+### Kontrol kartı 5: şube kodunu kaynağında zorunlu tut
+
+Bu kontrol, **şube kârlılığı ve şube bazlı nakit performansı** sürecinde yalnız teknik doğruluk için değil, yönetim kararının tekrar edilebilir olması için uygulanır. Önce ilgili ham kayıtların dönem ve kimlik bütünlüğünü doğrulayın; ardından hesaplanan **şube geliri, doğrudan maliyet, paylaştırılmış ortak gider ve yerel nakit dönüşümü** sonucunun detay toplamıyla eşleştiğini kontrol edin. Fark oluşursa sonuç hücresini elle düzeltmek yerine farkın kaynağını neden koduyla kaydedin. Bu kartın karar bağlantısı “hangi şube gerçekten değer yaratıyor” sorusudur. Kontrol geçmeden bu soruya verilen cevap nihai kabul edilmemelidir. Kanıt olarak veri kesim tarihi, kontrol sonucu, fark varsa tutarı ve aksiyon sahibini saklayın. Böylece sonraki kapanışta aynı sorunun tekrar edip etmediği ölçülebilir.
+
+### Kontrol kartı 6: merkez giderini tek anahtarla kör dağıtma
+
+Bu kontrol, **şube kârlılığı ve şube bazlı nakit performansı** sürecinde yalnız teknik doğruluk için değil, yönetim kararının tekrar edilebilir olması için uygulanır. Önce ilgili ham kayıtların dönem ve kimlik bütünlüğünü doğrulayın; ardından hesaplanan **şube geliri, doğrudan maliyet, paylaştırılmış ortak gider ve yerel nakit dönüşümü** sonucunun detay toplamıyla eşleştiğini kontrol edin. Fark oluşursa sonuç hücresini elle düzeltmek yerine farkın kaynağını neden koduyla kaydedin. Bu kartın karar bağlantısı “ortak gider dağıtımı sonucu ne kadar değiştiriyor” sorusudur. Kontrol geçmeden bu soruya verilen cevap nihai kabul edilmemelidir. Kanıt olarak veri kesim tarihi, kontrol sonucu, fark varsa tutarı ve aksiyon sahibini saklayın. Böylece sonraki kapanışta aynı sorunun tekrar edip etmediği ölçülebilir.

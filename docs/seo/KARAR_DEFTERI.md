@@ -26,3 +26,12 @@ Not: Domain değişimi, HSTS preload, disavow, toplu 410 ve dış platformlarda 
 | 2026-08-12T20:35:00Z | Barış | Rehber yayın onayı (2026-08-12T20:35:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
 | 2026-08-12T20:36:00Z | Barış | Rehber yayın onayı (2026-08-12T20:36:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
 | 2026-08-12T20:37:00Z | Barış | Rehber yayın onayı (2026-08-12T20:37:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+
+
+## 2026-08-12T21:55:00Z — Rehber Enterprise 2.500+ kelime batch editorial approval
+
+- Kapsam: src/content/guides altındaki 22 rehberin tamamı.
+- Karar: Her rehber görünür gövdede en az 2.500 kelime hard gate; bu batch hedefi en az 2800 kelimedir.
+- Editoryal denetim: veri → hesap → kontrol → karar → kanıt zinciri, bağlamsal ürün/kategori ilişkisi ve people-first uygulama derinliği zorunludur.
+- Yayın şartı: content-contract, similarity, product owner, registry/SEO ve standart CI kapıları yeşil olmadan merge/deploy yok.
+- Onay referansı: 2026-08-12T21:55:00Z
