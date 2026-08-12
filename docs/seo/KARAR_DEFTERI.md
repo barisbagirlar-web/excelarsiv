@@ -8,3 +8,21 @@
 | 2026-08-09T14:12:00Z | Barış | Kimlik doğrulamalı GSC/GA4 verisi mevcut değilken veri uydurulmadan `DEGRADED_PUBLIC` modu kullanılacak; teknik ve içerik fazları devam edecek, ölçüm/P&L/değerleme artefaktları `partial:true`, `confidence:low` kalacak | Ölçüm erişimi yokluğunun tüm SEO iyileştirme programını bloke etmesini önlemek | A3 ölçüm-yönetişim kararı |
 
 Not: Domain değişimi, HSTS preload, disavow, toplu 410 ve dış platformlarda geri alınması zor icralar yalnız gerçekten gerekli olduklarında ayrıca karar satırıyla kaydedilir. Bu işlemler SEO programını “tamamlamak” adına gereksiz yere uygulanmaz.
+| 2026-08-12T20:20:00Z | Barış | Rehber yayın onayı (2026-08-12T20:20:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+| 2026-08-12T20:21:00Z | Barış | Rehber yayın onayı (2026-08-12T20:21:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+| 2026-08-12T20:22:00Z | Barış | Rehber yayın onayı (2026-08-12T20:22:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+| 2026-08-12T20:23:00Z | Barış | Rehber yayın onayı (2026-08-12T20:23:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+| 2026-08-12T20:24:00Z | Barış | Rehber yayın onayı (2026-08-12T20:24:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+| 2026-08-12T20:25:00Z | Barış | Rehber yayın onayı (2026-08-12T20:25:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+| 2026-08-12T20:26:00Z | Barış | Rehber yayın onayı (2026-08-12T20:26:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+| 2026-08-12T20:27:00Z | Barış | Rehber yayın onayı (2026-08-12T20:27:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+| 2026-08-12T20:28:00Z | Barış | Rehber yayın onayı (2026-08-12T20:28:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+| 2026-08-12T20:29:00Z | Barış | Rehber yayın onayı (2026-08-12T20:29:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+| 2026-08-12T20:30:00Z | Barış | Rehber yayın onayı (2026-08-12T20:30:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+| 2026-08-12T20:31:00Z | Barış | Rehber yayın onayı (2026-08-12T20:31:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+| 2026-08-12T20:32:00Z | Barış | Rehber yayın onayı (2026-08-12T20:32:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+| 2026-08-12T20:33:00Z | Barış | Rehber yayın onayı (2026-08-12T20:33:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+| 2026-08-12T20:34:00Z | Barış | Rehber yayın onayı (2026-08-12T20:34:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+| 2026-08-12T20:35:00Z | Barış | Rehber yayın onayı (2026-08-12T20:35:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+| 2026-08-12T20:36:00Z | Barış | Rehber yayın onayı (2026-08-12T20:36:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
+| 2026-08-12T20:37:00Z | Barış | Rehber yayın onayı (2026-08-12T20:37:00Z) | Yeni rehber içerik setinin editoryal onayı; INV-5.1 ledger bağını tamamlar | A3 |
