@@ -2,14 +2,32 @@
 
 /**
  * Shopier API istemcisi — tek kaynak.
- * Token: Firebase Secret SHOPIER_ACCESS_TOKEN (koda yazılmaz).
+ * Token: Firebase Secret SHOPIER_ACCESS_TOKEN (koda / repoya yazılmaz).
+ * Mağaza: https://www.shopier.com/excelarsiv
  * Dokümantasyon: https://developer.shopier.com (Orders API v1)
  */
 
 const { getTierByProductId } = require('./catalog');
 
 const SHOPIER_API_BASE = 'https://api.shopier.com/v1';
+const SHOPIER_STORE_URL = 'https://www.shopier.com/excelarsiv';
 const SHOPIER_REQUEST_TIMEOUT_MS = 6_000;
+
+function assertAccessToken(token) {
+  const value = String(token ?? '').trim();
+  if (!value) {
+    const error = new Error('SHOPIER_TOKEN_MISSING');
+    error.code = 'SHOPIER_TOKEN_MISSING';
+    throw error;
+  }
+  // PAT / JWT: üç segment. Ham secret sızıntısını loglamamak için yalnızca biçim kontrolü.
+  if (value.split('.').length !== 3 || value.length < 40) {
+    const error = new Error('SHOPIER_TOKEN_MALFORMED');
+    error.code = 'SHOPIER_TOKEN_MALFORMED';
+    throw error;
+  }
+  return value;
+}
 
 function normalizeEmail(value) {
   return String(value ?? '').trim().toLowerCase();
@@ -98,6 +116,7 @@ function unwrapOrderPayload(payload) {
 }
 
 async function shopierRequest(path, token, { timeoutMs = SHOPIER_REQUEST_TIMEOUT_MS } = {}) {
+  const accessToken = assertAccessToken(token);
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
   try {
@@ -105,14 +124,16 @@ async function shopierRequest(path, token, { timeoutMs = SHOPIER_REQUEST_TIMEOUT
       method: 'GET',
       headers: {
         accept: 'application/json',
-        authorization: `Bearer ${token}`,
+        authorization: `Bearer ${accessToken}`,
       },
       signal: controller.signal,
     });
 
     if (!response.ok) {
       const error = new Error(`SHOPIER_API_${response.status}`);
-      error.code = 'SHOPIER_API_ERROR';
+      error.code = response.status === 401 || response.status === 403
+        ? 'SHOPIER_AUTH_DENIED'
+        : 'SHOPIER_API_ERROR';
       error.httpStatus = response.status;
       throw error;
     }
@@ -123,8 +144,10 @@ async function shopierRequest(path, token, { timeoutMs = SHOPIER_REQUEST_TIMEOUT
 }
 
 async function fetchShopierOrderById(orderId, token) {
+  const id = String(orderId ?? '').trim();
+  if (!id) return null;
   try {
-    const payload = await shopierRequest(`/orders/${encodeURIComponent(orderId)}`, token);
+    const payload = await shopierRequest(`/orders/${encodeURIComponent(id)}`, token);
     return normalizeShopierOrder(unwrapOrderPayload(payload));
   } catch (error) {
     if (error?.httpStatus === 404) return null;
@@ -132,9 +155,17 @@ async function fetchShopierOrderById(orderId, token) {
   }
 }
 
+async function fetchRecentShopierOrders(token, { limit = 50 } = {}) {
+  const safeLimit = Math.min(Math.max(Number(limit) || 50, 1), 100);
+  const payload = await shopierRequest(`/orders?limit=${safeLimit}`, token);
+  return extractOrders(payload).map((raw) => normalizeShopierOrder(raw));
+}
+
 module.exports = {
   SHOPIER_API_BASE,
+  SHOPIER_STORE_URL,
   SHOPIER_REQUEST_TIMEOUT_MS,
+  assertAccessToken,
   normalizeEmail,
   validEmail,
   numericValue,
@@ -144,4 +175,5 @@ module.exports = {
   unwrapOrderPayload,
   shopierRequest,
   fetchShopierOrderById,
+  fetchRecentShopierOrders,
 };

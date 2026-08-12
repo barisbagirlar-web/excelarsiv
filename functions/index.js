@@ -16,6 +16,7 @@ const {
   orderIsPaid,
   unwrapOrderPayload,
   shopierRequest,
+  fetchRecentShopierOrders,
 } = require('./shopier-api');
 
 initializeApp();
@@ -163,8 +164,7 @@ async function acquireReconcileLease(checkoutRef) {
 async function reconcileFromRecentOrders(checkoutRef, checkout, token) {
   if (!(await acquireReconcileLease(checkoutRef))) return false;
 
-  const payload = await shopierRequest('/orders?limit=50', token);
-  const orders = extractOrders(payload).map(normalizeShopierOrder);
+  const orders = await fetchRecentShopierOrders(token, { limit: 50 });
   const candidates = orders
     .filter((order) => orderMatchesCheckout(order, checkout))
     .sort((a, b) => Date.parse(b.dateCreated || 0) - Date.parse(a.dateCreated || 0));
