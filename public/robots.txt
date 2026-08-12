@@ -53,4 +53,6 @@ Sitemap: https://excelarsiv.com/sitemap.xml
 # Makine kataloğu: https://excelarsiv.com/katalog.json
 # LLM keşif: https://excelarsiv.com/llms.txt
 # AI / E-E-A-T kimlik: https://excelarsiv.com/ai.txt
+# humans.txt: https://excelarsiv.com/humans.txt
+# security.txt: https://excelarsiv.com/.well-known/security.txt
 # Uzman profili: https://excelarsiv.com/hakkinda

@@ -104,6 +104,8 @@ export function buildAiTxt(lastUpdatedIsoDate) {
     `- llms.txt: ${site}/llms.txt`,
     `- llms-full.txt: ${site}/llms-full.txt`,
     `- Makine kataloğu: ${site}/katalog.json`,
+    `- humans.txt: ${site}/humans.txt`,
+    `- security.txt: ${site}/.well-known/security.txt`,
     '',
     '## E-E-A-T varlığı',
     '',

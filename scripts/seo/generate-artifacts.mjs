@@ -11,7 +11,7 @@ import {
   semanticLastModified,
   xmlEscape,
 } from './lib.mjs';
-import { buildAiTxt, buildEeatMarkdownSection } from './eeat-ssot.mjs';
+import { EEAT, buildAiTxt, buildEeatMarkdownSection } from './eeat-ssot.mjs';
 
 const MAX_URLS_PER_SITEMAP = 40_000;
 const MAX_UNCOMPRESSED_BYTES = 45 * 1024 * 1024;
@@ -323,6 +323,38 @@ const katalog = {
   currency: 'TRY',
   language: 'tr-TR',
   productCount: [...templates.values()].length,
+  eeat: {
+    brand: EEAT.marka,
+    author: {
+      name: EEAT.yazar.ad,
+      jobTitle: EEAT.yazar.unvan,
+      role: EEAT.yazar.rol,
+      summary: EEAT.yazar.ozet,
+      profileUrl: EEAT.yazar.profil,
+      email: EEAT.yazar.eposta,
+      image: EEAT.yazar.foto,
+      credentials: EEAT.yazar.kimlikler,
+      knowsAbout: EEAT.yazar.knowsAbout,
+      sameAs: EEAT.yazar.sameAs,
+    },
+    seller: {
+      legalName: EEAT.satici.unvan,
+      taxID: EEAT.satici.vkn,
+      taxIDNote: EEAT.satici.vknNotu,
+      telephone: EEAT.satici.telefon,
+      email: EEAT.satici.eposta,
+      addressNote: EEAT.satici.adresNotu,
+    },
+    trustPages: EEAT.guvenSayfalari,
+    discovery: {
+      aiTxt: `${SITE_ORIGIN}/ai.txt`,
+      llmsTxt: `${SITE_ORIGIN}/llms.txt`,
+      llmsFullTxt: `${SITE_ORIGIN}/llms-full.txt`,
+      humansTxt: `${SITE_ORIGIN}/humans.txt`,
+      securityTxt: `${SITE_ORIGIN}/.well-known/security.txt`,
+      about: `${SITE_ORIGIN}/hakkinda`,
+    },
+  },
   products: [...templates.values()]
     .map((product) => ({
       slug: product.slug ?? product.id,
