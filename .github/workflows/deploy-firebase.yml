@@ -90,6 +90,7 @@ jobs:
               scripts/seo/generate-artifacts.mjs \
               scripts/seo/finalize-sitemap-index.mjs \
               scripts/seo/validate-gates.mjs \
+              scripts/seo/live-contract.mjs \
               scripts/seo/lib.mjs; then
               hosting_changed=true
             fi
