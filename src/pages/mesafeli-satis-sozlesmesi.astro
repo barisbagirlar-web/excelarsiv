@@ -1,17 +1,18 @@
 ---
 import CommerceLayout from '../layouts/CommerceLayout.astro';
 import SectionLabel from '../components/SectionLabel.astro';
+import { SATICI, IADE_POLITIKASI } from '../data/satici';
 ---
 
 <CommerceLayout
   title="Mesafeli Satış Sözleşmesi — Excel Arşiv"
-  description="Excel Arşiv dijital ürün satışlarına ilişkin Mesafeli Satış Sözleşmesi: taraflar, ürün, ödeme, teslimat ve cayma hakkı."
+  description="Excel Arşiv dijital ürün satışlarına ilişkin Mesafeli Satış Sözleşmesi: satıcı kimliği, ürün, ödeme, teslimat ve cayma hakkı."
 >
   <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
     <SectionLabel number={2} label="Sözleşme" />
     <h1 class="display mt-6">Mesafeli Satış Sözleşmesi</h1>
     <p class="lead mt-6">
-      Bu sözleşme, excelarsiv.com üzerinden satışa sunulan dijital ürünlerin satışına
+      Bu sözleşme, {SATICI.site.replace('https://', '')} üzerinden satışa sunulan dijital ürünlerin satışına
       uygulanır. Satın alma işleminin tamamlanmasıyla sözleşme kurulmuş sayılır.
     </p>
 
@@ -19,8 +20,15 @@ import SectionLabel from '../components/SectionLabel.astro';
       <section>
         <h2 class="h3">1 · Taraflar</h2>
         <p class="body-sm mt-3">
-          Satıcı: Excel Arşiv (excelarsiv.com). Alıcı: Satın alma işlemini gerçekleştiren
-          gerçek veya tüzel kişi.
+          <strong>Satıcı:</strong> {SATICI.gercekKisi} ({SATICI.marka} — {SATICI.site.replace('https://', '')}).
+          <br />
+          E-posta: {SATICI.eposta}
+          <br />
+          Telefon: {SATICI.telefon}
+          <br />
+          Adres / vergi kimliği: {SATICI.adresBeyani}
+          <br />
+          <strong>Alıcı:</strong> Satın alma işlemini gerçekleştiren gerçek veya tüzel kişi.
         </p>
       </section>
       <section>
@@ -48,14 +56,8 @@ import SectionLabel from '../components/SectionLabel.astro';
         </p>
       </section>
       <section>
-        <h2 class="h3">5 · Cayma hakkı</h2>
-        <p class="body-sm mt-3">
-          Mesafeli Sözleşmeler Yönetmeliği uyarınca, tüketicinin onayıyla ifasına başlanan
-          dijital içerik teslimlerinde cayma hakkı kullanılamaz. Bu kapsamda indirme
-          bağlantısı, teslimatı takiben alıcıya gönderildiği andan itibaren cayma hakkı
-          kullanılamaz. Teslimat sonrası hatalı dosya durumunda telafi koşulları Teslimat ve
-          İade sayfasında düzenlenmiştir.
-        </p>
+        <h2 class="h3">5 · Cayma hakkı (dijital içerik)</h2>
+        <p class="body-sm mt-3">{IADE_POLITIKASI.ozet}</p>
       </section>
       <section>
         <h2 class="h3">6 · Fatura</h2>

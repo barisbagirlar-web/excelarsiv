@@ -15,6 +15,7 @@ import ProductHeroPremium from '../../components/product/ProductHeroPremium.astr
 import YazarKutusu from '../../components/YazarKutusu.astro';
 import { getCommerceProduct } from '../../lib/shopier';
 import { yazarPersonId } from '../../data/yazar';
+import { IADE_POLITIKASI } from '../../data/satici';
 
 export async function getStaticPaths() {
   const templates = await getCollection('templates');
@@ -85,10 +86,7 @@ const jsonLd = {
         hasMerchantReturnPolicy: {
           '@type': 'MerchantReturnPolicy',
           applicableCountry: 'TR',
-          returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
-          merchantReturnDays: 7,
-          returnMethod: 'https://schema.org/ReturnByMail',
-          returnFees: 'https://schema.org/FreeReturn',
+          returnPolicyCategory: IADE_POLITIKASI.schemaCategory,
           merchantReturnLink: returnPolicyUrl,
         },
       },

@@ -2,6 +2,7 @@
 import CommerceLayout from '../layouts/CommerceLayout.astro';
 import SectionLabel from '../components/SectionLabel.astro';
 import Button from '../components/Button.astro';
+import { SATICI } from '../data/satici';
 
 const contactLd = JSON.stringify({
   '@context': 'https://schema.org',
@@ -13,16 +14,18 @@ const contactLd = JSON.stringify({
   isPartOf: { '@id': new URL('/#website', Astro.site).toString() },
   mainEntity: {
     '@type': 'ContactPoint',
-    email: 'barisbagirlar@gmail.com',
+    email: SATICI.eposta,
+    telephone: SATICI.telefonE164,
     contactType: 'customer support',
     availableLanguage: 'tr-TR',
+    areaServed: 'TR',
   },
 });
 ---
 
 <CommerceLayout
   title="İletişim — Excel Arşiv | Satış, Lisans ve Fatura Desteği"
-  description="Excel Arşiv ile iletişime geçin. Satış, lisans, fatura ve uyarlama sorularınız için e-posta gönderin veya SSS'ye bakın."
+  description="Excel Arşiv ile iletişime geçin. Satış, lisans, fatura ve uyarlama sorularınız için e-posta veya telefon ile ulaşın."
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={contactLd} />
@@ -44,16 +47,20 @@ const contactLd = JSON.stringify({
         <div class="col-span-12 border-t border-rule-hairline pt-6 lg:col-span-4">
           <h2 class="h3">E-posta</h2>
           <p class="body-sm mt-3">
-            <a href="mailto:barisbagirlar@gmail.com" class="font-mono text-sm text-accent-primary underline underline-offset-4 hover:text-accent-hover">
-              barisbagirlar@gmail.com
+            <a href={`mailto:${SATICI.eposta}`} class="font-mono text-sm text-accent-primary underline underline-offset-4 hover:text-accent-hover">
+              {SATICI.eposta}
             </a>
           </p>
           <p class="body-sm mt-2">Fatura ve ödeme belgeleri için sipariş numaranızı ekleyin.</p>
         </div>
         <div class="col-span-12 border-t border-rule-hairline pt-6 lg:col-span-4">
-          <h2 class="h3">Çalışma saatleri</h2>
-          <p class="body-sm mt-3">Hafta içi 09.00–18.00 (Türkiye saati).</p>
-          <p class="body-sm mt-2">Hafta sonu gelen talepler pazartesi işlenir.</p>
+          <h2 class="h3">Telefon</h2>
+          <p class="body-sm mt-3">
+            <a href={SATICI.telefonTelHref} class="font-mono text-sm text-accent-primary underline underline-offset-4 hover:text-accent-hover">
+              {SATICI.telefon}
+            </a>
+          </p>
+          <p class="body-sm mt-2">Hafta içi 09.00–18.00 (Türkiye saati).</p>
         </div>
         <div class="col-span-12 border-t border-rule-hairline pt-6 lg:col-span-4">
           <h2 class="h3">Sık sorulanlar</h2>
