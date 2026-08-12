@@ -2,19 +2,20 @@
 import CommerceLayout from '../layouts/CommerceLayout.astro';
 import SectionLabel from '../components/SectionLabel.astro';
 import Button from '../components/Button.astro';
+import { SATICI } from '../data/satici';
 ---
 
 <CommerceLayout
   title="Kurumsal Lisans — Excel Arşiv"
-  description="Çok kullanıcılı / ofis çapında Excel Arşiv kurumsal lisans talebi. MERSIS ve fatura bilgileri yazılı süreçte alınır."
+  description="Çok kullanıcılı / ofis çapında Excel Arşiv kurumsal lisans talebi. Satıcı VKN yayında; MERSIS ve kayıtlı adres fatura sürecinde."
 >
   <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
     <SectionLabel number={3} label="Kurumsal" />
     <h1 class="display mt-6">Kurumsal ve çok kullanıcılı lisans</h1>
     <p class="lead mt-6">
       Standart ürün lisansı tek kullanıcı içindir. Ofis, holding veya 10+ kullanıcı için
-      kurumsal paket teklifi hazırlanır. MERSIS / vergi kimliği fatura sürecinde talep edilir;
-      sitede uydurulmuş kimlik numarası yayınlanmaz.
+      kurumsal paket teklifi hazırlanır. Satıcı vergi kimlik no (VKN): {SATICI.vkn}.
+      Kayıtlı işyeri adresi ve MERSIS (varsa) fatura / yazılı süreçte paylaşılır; uydurma adres yayınlanmaz.
     </p>
     <div class="mt-10 space-y-6 body-sm">
       <p>· Kullanıcı sayısı, dikey ürün seti ve güncelleme süresi teklifte netleşir.</p>

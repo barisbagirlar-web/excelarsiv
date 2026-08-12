@@ -1,0 +1,7 @@
+Contact: mailto:barisbagirlar@gmail.com
+Contact: tel:+905393333303
+Expires: 2027-08-13T00:00:00.000Z
+Preferred-Languages: tr, en
+Canonical: https://excelarsiv.com/.well-known/security.txt
+Policy: https://excelarsiv.com/kvkk-aydinlatma
+Hiring: https://excelarsiv.com/ortaklik-mali-musavir

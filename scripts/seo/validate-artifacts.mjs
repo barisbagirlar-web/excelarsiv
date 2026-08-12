@@ -136,6 +136,19 @@ if (!/^User-agent:\s*\*/mi.test(robots)) fail('robots.txt: genel User-agent kura
 if (/Disallow:\s*\/$/mi.test(robots)) fail('robots.txt: sitewide crawl block tespit edildi');
 if (!robots.includes(`Sitemap: ${SITE_ORIGIN}/sitemap.xml`)) fail('robots.txt: canonical sitemap.xml bildirimi eksik');
 
+if (!existsSync(join(DIST_DIR, 'katalog.json'))) {
+  fail('katalog.json: dosya yok');
+} else {
+  const katalog = JSON.parse(readFileSync(join(DIST_DIR, 'katalog.json'), 'utf8'));
+  if (!katalog.eeat?.author?.name) fail('katalog.json: eeat.author eksik');
+  if (katalog.eeat?.seller?.taxID !== '25403091318') fail('katalog.json: eeat.seller.taxID VKN eşleşmiyor');
+  if (!katalog.eeat?.discovery?.aiTxt) fail('katalog.json: eeat.discovery.aiTxt eksik');
+}
+
+for (const name of ['humans.txt', '.well-known/security.txt']) {
+  if (!existsSync(join(DIST_DIR, name))) fail(`${name}: dosya yok`);
+}
+
 for (const llmName of ['llms.txt', 'llms-full.txt', 'ai.txt']) {
   const content = readRequired(llmName);
   if (!content.includes(`${SITE_ORIGIN}/sitemap.xml`)) fail(`${llmName}: sitemap referansı eksik`);
@@ -151,6 +164,8 @@ for (const llmName of ['llms.txt', 'llms-full.txt', 'ai.txt']) {
       `${SITE_ORIGIN}/llms-full.txt`,
       `${SITE_ORIGIN}/ai.txt`,
       `${SITE_ORIGIN}/katalog.json`,
+      `${SITE_ORIGIN}/humans.txt`,
+      `${SITE_ORIGIN}/.well-known/security.txt`,
       SITE_ORIGIN,
       `${SITE_ORIGIN}/`,
       `${SITE_ORIGIN}/images/baris-bagirlar.jpg`,

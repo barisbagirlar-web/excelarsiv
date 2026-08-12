@@ -1,0 +1,16 @@
+/* TEAM */
+Yazar / uzman: Barış Bağırlar
+Unvan: Finansal Karar Sistemleri
+Site: https://excelarsiv.com/hakkinda
+E-posta: barisbagirlar@gmail.com
+SameAs: https://www.linkedin.com/in/barisbagirlar/
+
+/* THANKS */
+Marka: Excel Arşiv
+Satıcı: Barış Bağırlar — Excel Arşiv
+VKN: 25403091318 (gerçek kişi vergi kimliği)
+
+/* SITE */
+Standards: HTML5, JSON-LD, llms.txt, ai.txt
+Dil: Türkçe (tr-TR)
+Son güncelleme: 2026-08-13
