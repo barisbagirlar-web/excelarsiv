@@ -62,7 +62,8 @@ const kindLabel: Record<string, string> = { input: 'Girdi', calculation: 'Hesap'
         width="1200"
         height="750"
         loading={priority ? 'eager' : 'lazy'}
-        decoding="async"
+        fetchpriority={priority ? 'high' : 'auto'}
+        decoding={priority ? 'sync' : 'async'}
       />
     ) : (
       <CatalogProductVisual slug={slug} name={name} />
