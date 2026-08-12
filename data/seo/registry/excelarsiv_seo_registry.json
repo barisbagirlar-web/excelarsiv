@@ -16,7 +16,7 @@
   },
   "mode": "DEGRADED_PUBLIC",
   "source": {
-    "builtIndexableUrlCount": 228,
+    "builtIndexableUrlCount": 229,
     "commercialProductCount": 35,
     "guideCount": 4,
     "phase0Artifact": "data/seo/tam_map.json"
@@ -76,6 +76,20 @@
       "canonical": "https://excelarsiv.com/cerez-politikasi",
       "ownerRoute": null,
       "notes": null
+    },
+    {
+      "pageId": "excelarsiv:demo",
+      "route": "/demo",
+      "type": "legal",
+      "status": "live",
+      "primaryQueryClusterId": null,
+      "primaryEntity": "/demo",
+      "searchIntent": null,
+      "templateId": null,
+      "serpFeatureTargets": [],
+      "canonical": "https://excelarsiv.com/demo",
+      "ownerRoute": null,
+      "notes": "Registry parity sync — otomatik eklendi."
     },
     {
       "pageId": "excelarsiv:demo-kullanim-kosullari",
