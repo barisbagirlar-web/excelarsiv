@@ -20,7 +20,8 @@ function staticInputErrors(): string[] {
   const errors:string[]=[];
   const robots=readFileSync(resolve(ROOT,'public/robots.txt'),'utf8');
   if(!robots.includes('Sitemap: https://excelarsiv.com/sitemap.xml')) errors.push('INV-3.1 canonical sitemap root robots içinde yok');
-  if(!robots.includes('Disallow: /api') || !robots.includes('Disallow: /demo')) errors.push('INV-3.2 blockedSections robots ile uyumsuz');
+  if(!robots.includes('Disallow: /api')) errors.push('INV-3.2 blockedSections robots ile uyumsuz');
+  if(robots.includes('Disallow: /demo')) errors.push('INV-3.2 /demo SEO kapıları robots ile engellenmemeli');
   const registry=JSON.parse(readFileSync(resolve(ROOT,'data/seo/registry/excelarsiv_seo_registry.json'),'utf8')) as Registry;
   for(const record of registry.records){ if(record.status==='retired') errors.push(`INV-3.1 retired registry kaydı: ${String(record.route)}`); }
   return errors;
