@@ -1,7 +1,9 @@
 ---
 import CommerceLayout from '../../layouts/CommerceLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import YazarKutusu from '../../components/YazarKutusu.astro';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { yazarPersonId } from '../../data/yazar';
 
 export async function getStaticPaths() {
   const guides = await getCollection('guides');
@@ -19,6 +21,7 @@ const fallbackGuides = allGuides.filter((item) => item.id !== guide.id && item.d
 const otherGuides = [...sameCategoryGuides, ...fallbackGuides].slice(0, 3);
 const guideUrl = new URL(`/rehber/${guide.id}`, Astro.site).href;
 const organizationId = new URL('/#organization', Astro.site).href;
+const personId = yazarPersonId(Astro.site ?? 'https://excelarsiv.com/');
 const webpageId = `${guideUrl}#webpage`;
 const articleId = `${guideUrl}#article`;
 const productId = `${new URL(`/sablon/${guide.data.productSlug}`, Astro.site).href}#product`;
@@ -33,7 +36,7 @@ const guideLd = {
       dateModified: guide.data.updatedAt,
       inLanguage: 'tr-TR',
       mainEntityOfPage: { '@id': webpageId },
-      author: { '@id': organizationId },
+      author: { '@id': personId },
       publisher: { '@id': organizationId },
       about: { '@id': productId },
     },
@@ -64,7 +67,10 @@ const updatedLabel = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: '
     </header>
 
     <div class="guide-layout">
-      <article class="guide-prose"><Content /></article>
+      <article class="guide-prose">
+        <Content />
+        <YazarKutusu varyant="rehber" />
+      </article>
       <aside class="guide-side">
         <div class="guide-side__card">
           <span>HAZIR UYGULAMA</span>

@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import iconSprite from '../icons/sprite.svg?raw';
+import { YAZAR, yazarPersonId } from '../data/yazar';
 
 interface Props {
   title: string;
@@ -33,6 +34,7 @@ const legalLinks = [
 ];
 
 const year = new Date().getFullYear();
+const canonical = new URL(Astro.url.pathname, site).toString();
 
 const orgLd = JSON.stringify({
   '@context': 'https://schema.org',
@@ -46,9 +48,12 @@ const orgLd = JSON.stringify({
     },
     {
       '@type': 'Organization',
-      '@id': new URL('#organization', site).toString(),
+      '@id': new URL('/#organization', site).toString(),
       name: 'Excel Arşiv',
       url: site.toString(),
+      email: YAZAR.eposta,
+      sameAs: [...YAZAR.sameAs],
+      founder: { '@id': yazarPersonId(site) },
     },
   ],
 });
@@ -63,12 +68,14 @@ const orgLd = JSON.stringify({
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description ?? ''} />
-    <link rel="canonical" href={new URL(Astro.url.pathname, site)} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="tr" href={canonical} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Excel Arşiv" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description ?? ''} />
-    <meta property="og:url" content={new URL(Astro.url.pathname, site)} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="tr_TR" />
     <meta property="og:image" content={new URL('/og.png', site)} />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
