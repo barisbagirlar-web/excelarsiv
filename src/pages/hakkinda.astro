@@ -1,0 +1,326 @@
+---
+import CommerceLayout from '../layouts/CommerceLayout.astro';
+import { YAZAR, yazarPersonLd } from '../data/yazar';
+
+const site = Astro.site ?? new URL('https://excelarsiv.com/');
+const pageUrl = new URL('/hakkinda', site).href;
+const organizationId = new URL('/#organization', site).href;
+const person = yazarPersonLd(site);
+
+const aboutLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    person,
+    {
+      '@type': 'AboutPage',
+      '@id': `${pageUrl}#about`,
+      url: pageUrl,
+      name: `${YAZAR.ad} — Excel Arşiv`,
+      description: YAZAR.ozet,
+      inLanguage: 'tr-TR',
+      isPartOf: { '@id': new URL('/#website', site).href },
+      mainEntity: { '@id': person['@id'] },
+      about: { '@id': person['@id'] },
+      breadcrumb: { '@id': `${pageUrl}#breadcrumb` },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${pageUrl}#breadcrumb`,
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Ana Sayfa', item: new URL('/', site).href },
+        { '@type': 'ListItem', position: 2, name: 'Hakkında', item: pageUrl },
+      ],
+    },
+    {
+      '@type': 'Organization',
+      '@id': organizationId,
+      founder: { '@id': person['@id'] },
+    },
+  ],
+};
+---
+
+<CommerceLayout
+  title={`${YAZAR.ad} | Excel Arşiv — Finansal Karar Sistemleri`}
+  description={`${YAZAR.ad}: ${YAZAR.unvan}. Bankacı; Tarımkon Danışma Kurulu üyesi. Excel Arşiv şablonlarını tasarlayan ve denetleyen uzman.`}
+  ogType="profile"
+>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(aboutLd)} />
+  </Fragment>
+
+  <main class="hakkinda">
+    <header class="hakkinda__hero">
+      <p class="hakkinda__kicker">E-E-A-T · UZMAN PROFİLİ</p>
+      <div class="hakkinda__kimlik">
+        <img
+          class="hakkinda__foto"
+          src={YAZAR.foto}
+          width={YAZAR.fotoGenislik}
+          height={YAZAR.fotoYukseklik}
+          alt={`${YAZAR.ad} — ${YAZAR.unvan}`}
+          loading="eager"
+          decoding="async"
+        />
+        <div>
+          <h1>{YAZAR.ad}</h1>
+          <p class="hakkinda__unvan">{YAZAR.unvan}</p>
+          <p class="hakkinda__rol">{YAZAR.rolUzun}</p>
+          <ul class="hakkinda__rozet">
+            {YAZAR.kimlikler.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <section class="hakkinda__blok" aria-labelledby="neden-baslik">
+      <h2 id="neden-baslik">Neden bu şablonları yapıyorum?</h2>
+      <p>{YAZAR.neden}</p>
+      <p>
+        Her dosya; saha gerçekliği, denetlenebilir formül mimarisi ve yöneticiye sunulabilir karar
+        çıktısı standardında tasarlanır ve denetlenir. Amaç hesap makinesi değil; işletmenin
+        kritik kararını netleştiren bir sistemdir.
+      </p>
+    </section>
+
+    <section class="hakkinda__blok" aria-labelledby="deneyim-baslik">
+      <h2 id="deneyim-baslik">Uzmanlık ve doğrulanabilir kimlik</h2>
+      <p>{YAZAR.ozet}</p>
+      <div class="hakkinda__kanit-grid">
+        <a
+          class="hakkinda__kanit"
+          href="https://www.tarimkon.org/danisma-kurulu/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <span>DOĞRULANMIŞ ÜYELİK</span>
+          <strong>Tarımkon Danışma Kurulu</strong>
+          <p>Uluslararası Tarım ve Gıda Konfederasyonu — Genel Başkan Danışmanı listesinde.</p>
+        </a>
+        <a
+          class="hakkinda__kanit"
+          href="https://www.linkedin.com/in/barisbagirlar/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          <span>PROFESYONEL PROFİL</span>
+          <strong>LinkedIn</strong>
+          <p>İş geçmişi, yetkinlikler ve kurumsal bağlantılar için birincil doğrulama yüzeyi.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="hakkinda__blok" aria-labelledby="platform-baslik">
+      <h2 id="platform-baslik">İlgili karar sistemleri</h2>
+      <ul class="hakkinda__platform">
+        {
+          YAZAR.platformlar.map((p) => (
+            <li>
+              <a href={p.url} rel="noopener noreferrer" target="_blank">
+                {p.ad}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="hakkinda__cta">
+      <p>Excel Arşiv şablonlarını inceleyin — her ürün aynı tasarım ve denetim standardındadır.</p>
+      <div>
+        <a href="/sablonlar">Şablonlara git →</a>
+        <a href="/iletisim">İletişim</a>
+      </div>
+    </section>
+  </main>
+</CommerceLayout>
+
+<style>
+  .hakkinda {
+    width: min(920px, calc(100% - 48px));
+    margin-inline: auto;
+    padding: 36px 0 110px;
+  }
+  .hakkinda__hero {
+    padding: clamp(28px, 4vw, 48px);
+    border: 1px solid #d5e2d9;
+    border-radius: 24px;
+    background: linear-gradient(155deg, #0b3727 0%, #124d38 55%, #1a5c44 100%);
+    color: #fff;
+  }
+  .hakkinda__kicker {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: #86d9a8;
+  }
+  .hakkinda__kimlik {
+    display: grid;
+    grid-template-columns: 148px minmax(0, 1fr);
+    gap: 28px;
+    align-items: center;
+    margin-top: 22px;
+  }
+  .hakkinda__foto {
+    width: 148px;
+    height: 148px;
+    border-radius: 999px;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+  }
+  .hakkinda__kimlik h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(34px, 4vw, 48px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .hakkinda__unvan {
+    margin: 10px 0 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #b7efcb;
+  }
+  .hakkinda__rol {
+    margin: 12px 0 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: rgba(245, 255, 249, 0.78);
+  }
+  .hakkinda__rozet {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .hakkinda__rozet li {
+    padding: 7px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    font-size: 10px;
+    font-weight: 700;
+    color: #dff8e9;
+  }
+  .hakkinda__blok {
+    margin-top: 42px;
+    padding-top: 28px;
+    border-top: 1px solid #e1e9e3;
+  }
+  .hakkinda__blok h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(26px, 3vw, 34px);
+    letter-spacing: -0.03em;
+    color: #15291d;
+  }
+  .hakkinda__blok p {
+    margin: 14px 0 0;
+    font-size: 14.5px;
+    line-height: 1.75;
+    color: #46554c;
+  }
+  .hakkinda__kanit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .hakkinda__kanit {
+    display: block;
+    padding: 18px;
+    border: 1px solid #d8e3dc;
+    border-radius: 16px;
+    background: #f7faf8;
+    text-decoration: none;
+    color: inherit;
+  }
+  .hakkinda__kanit:hover {
+    border-color: #0b7440;
+  }
+  .hakkinda__kanit span {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: #0b7440;
+  }
+  .hakkinda__kanit strong {
+    display: block;
+    margin-top: 8px;
+    font-size: 16px;
+    color: #173022;
+  }
+  .hakkinda__kanit p {
+    margin: 8px 0 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #66756c;
+  }
+  .hakkinda__platform {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .hakkinda__platform a {
+    display: block;
+    padding: 14px 16px;
+    border: 1px solid #dce5df;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 750;
+    color: #0b7440;
+    text-decoration: none;
+  }
+  .hakkinda__platform a:hover {
+    background: #f3f8f5;
+  }
+  .hakkinda__cta {
+    margin-top: 48px;
+    padding: 24px;
+    border-radius: 18px;
+    background: #103d2c;
+    color: #fff;
+  }
+  .hakkinda__cta p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: rgba(245, 255, 249, 0.82);
+  }
+  .hakkinda__cta div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 16px;
+  }
+  .hakkinda__cta a {
+    font-size: 12px;
+    font-weight: 800;
+    color: #96e5b6;
+    text-decoration: none;
+  }
+  @media (max-width: 760px) {
+    .hakkinda {
+      width: calc(100% - 28px);
+      padding-top: 20px;
+    }
+    .hakkinda__kimlik,
+    .hakkinda__kanit-grid,
+    .hakkinda__platform {
+      grid-template-columns: 1fr;
+    }
+    .hakkinda__foto {
+      width: 112px;
+      height: 112px;
+    }
+  }
+</style>

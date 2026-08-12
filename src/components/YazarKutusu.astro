@@ -1,0 +1,146 @@
+---
+import { YAZAR } from '../data/yazar';
+
+interface Props {
+  /** sablon: ürün altı denetim satırı · rehber: makale yazar kutusu · kompakt: dar yan sütun */
+  varyant?: 'sablon' | 'rehber' | 'kompakt';
+}
+
+const { varyant = 'sablon' } = Astro.props;
+const sinif = `yazar-kutusu yazar-kutusu--${varyant}`;
+---
+
+<aside class={sinif} itemscope itemtype="https://schema.org/Person" aria-label={`${YAZAR.ad} — ${YAZAR.rolKisa}`}>
+  <a class="yazar-kutusu__foto-link" href={YAZAR.profilYolu} itemprop="url">
+    <img
+      class="yazar-kutusu__foto"
+      src={YAZAR.fotoKucuk}
+      srcset={`${YAZAR.fotoKucuk} 96w, ${YAZAR.foto} 512w`}
+      sizes="64px"
+      width="64"
+      height="64"
+      alt={`${YAZAR.ad} portresi`}
+      loading="lazy"
+      decoding="async"
+      itemprop="image"
+    />
+  </a>
+  <div class="yazar-kutusu__govde">
+    <p class="yazar-kutusu__etiket">{varyant === 'rehber' ? 'YAZAR' : 'TASARLAYAN VE DENETLEYEN'}</p>
+    <p class="yazar-kutusu__ad">
+      <a href={YAZAR.profilYolu} rel="author" itemprop="name">{YAZAR.ad}</a>
+    </p>
+    <p class="yazar-kutusu__unvan" itemprop="jobTitle">{YAZAR.unvan}</p>
+    <p class="yazar-kutusu__metin" itemprop="description">
+      {varyant === 'rehber' ? YAZAR.ozet : YAZAR.rolUzun}
+    </p>
+    <ul class="yazar-kutusu__kanit">
+      <li>
+        <a href="https://www.tarimkon.org/danisma-kurulu/" rel="noopener noreferrer" target="_blank" itemprop="sameAs">
+          Tarımkon Danışma Kurulu
+        </a>
+      </li>
+      <li>
+        <a href="https://www.linkedin.com/in/barisbagirlar/" rel="noopener noreferrer" target="_blank" itemprop="sameAs">
+          LinkedIn
+        </a>
+      </li>
+      <li><a href={YAZAR.profilYolu}>Tam profil →</a></li>
+    </ul>
+  </div>
+</aside>
+
+<style>
+  .yazar-kutusu {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    gap: 14px 16px;
+    align-items: start;
+    padding: 18px 18px 16px;
+    border: 1px solid #d8e3dc;
+    border-radius: 16px;
+    background: linear-gradient(165deg, #fbfefc 0%, #f2f7f4 100%);
+  }
+  .yazar-kutusu--rehber {
+    margin-top: 40px;
+    border-color: #cfe0d5;
+  }
+  .yazar-kutusu--kompakt {
+    padding: 14px;
+    border-radius: 14px;
+  }
+  .yazar-kutusu__foto {
+    display: block;
+    width: 64px;
+    height: 64px;
+    border-radius: 999px;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px #c9d8cf;
+  }
+  .yazar-kutusu__etiket {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: #0b7440;
+  }
+  .yazar-kutusu__ad {
+    margin: 4px 0 0;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #15291d;
+  }
+  .yazar-kutusu__ad a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .yazar-kutusu__ad a:hover {
+    color: #0b7440;
+  }
+  .yazar-kutusu__unvan {
+    margin: 3px 0 0;
+    font-size: 11px;
+    font-weight: 650;
+    color: #4a5b51;
+  }
+  .yazar-kutusu__metin {
+    margin: 8px 0 0;
+    font-size: 11.5px;
+    line-height: 1.55;
+    color: #5a6a61;
+  }
+  .yazar-kutusu__kanit {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .yazar-kutusu__kanit a {
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    font-weight: 750;
+    letter-spacing: 0.02em;
+    color: #0b7440;
+    text-decoration: none;
+    text-underline-offset: 2px;
+  }
+  .yazar-kutusu__kanit a:hover {
+    text-decoration: underline;
+  }
+  @media (max-width: 620px) {
+    .yazar-kutusu {
+      grid-template-columns: 56px minmax(0, 1fr);
+      gap: 12px;
+      padding: 14px;
+    }
+    .yazar-kutusu__foto {
+      width: 56px;
+      height: 56px;
+    }
+  }
+</style>

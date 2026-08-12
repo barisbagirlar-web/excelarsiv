@@ -9,17 +9,20 @@ import MobileCommerceBar from '../components/MobileCommerceBar.astro';
 import AnalyticsBootstrap from '../components/AnalyticsBootstrap.astro';
 import ConsentBanner from '../components/ConsentBanner.astro';
 import { getProductSeoByPath } from '../data/productSeo';
+import { YAZAR, yazarPersonId, yazarPersonLd } from '../data/yazar';
 
 interface Props {
   title: string;
   description?: string;
   robots?: string;
+  ogType?: string;
 }
 
 const {
   title,
   description,
   robots = 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1',
+  ogType = 'website',
 } = Astro.props;
 const site = Astro.site ?? new URL('https://excelarsiv.com/');
 const canonical = new URL(Astro.url.pathname, site).toString();
@@ -47,18 +50,21 @@ const orgLd = JSON.stringify({
         width: 1200,
         height: 1200,
       },
-      email: 'barisbagirlar@gmail.com',
+      email: YAZAR.eposta,
+      sameAs: [...YAZAR.sameAs],
+      founder: { '@id': yazarPersonId(site) },
       address: {
         '@type': 'PostalAddress',
         addressCountry: 'TR',
       },
       contactPoint: {
         '@type': 'ContactPoint',
-        email: 'barisbagirlar@gmail.com',
+        email: YAZAR.eposta,
         contactType: 'customer support',
         availableLanguage: 'tr-TR',
       },
     },
+    yazarPersonLd(site),
     {
       '@type': 'WebSite',
       '@id': new URL('/#website', site).toString(),
@@ -99,7 +105,9 @@ const orgLd = JSON.stringify({
     <meta name="robots" content={robots} />
     {gscVerification && <meta name="google-site-verification" content={gscVerification} />}
     <link rel="canonical" href={canonical} />
-    <meta property="og:type" content="website" />
+    <link rel="alternate" hreflang="tr" href={canonical} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="Excel Arşiv" />
     <meta property="og:title" content={resolvedTitle} />
     <meta property="og:description" content={resolvedDescription} />

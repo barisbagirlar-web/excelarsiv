@@ -92,6 +92,20 @@
       "notes": null
     },
     {
+      "pageId": "excelarsiv:hakkinda",
+      "route": "/hakkinda",
+      "type": "other",
+      "status": "live",
+      "primaryQueryClusterId": null,
+      "primaryEntity": "Barış Bağırlar",
+      "searchIntent": "navigational",
+      "templateId": null,
+      "serpFeatureTargets": [],
+      "canonical": "https://excelarsiv.com/hakkinda",
+      "ownerRoute": null,
+      "notes": "E-E-A-T uzman profili; Organization.founder ve Article/Product author Person hedefi."
+    },
+    {
       "pageId": "excelarsiv:iletisim",
       "route": "/iletisim",
       "type": "other",
