@@ -27,6 +27,8 @@ jobs:
           cache: npm
       - name: Install dependencies
         run: npm ci
+      - name: Normalize one-shot generator marker to MDX-native syntax
+        run: sed -i "s|const MARK='<!-- ENTERPRISE-DEPTH-V1 -->';|const MARK='{/* ENTERPRISE-DEPTH-V1 */}';|" scripts/generate-rehber-enterprise.mjs
       - name: Generate 2.800+ enterprise guides
         run: node scripts/generate-rehber-enterprise.mjs
       - name: Build and repository tests before output commit
