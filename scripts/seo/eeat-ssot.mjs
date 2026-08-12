@@ -1,0 +1,138 @@
+/**
+ * E-E-A-T makine keşif SSOT — llms.txt / llms-full.txt / ai.txt.
+ * İnsan okunur kaynak: src/data/yazar.ts + src/data/satici.ts (değerler birebir tutulur).
+ */
+export const EEAT = {
+  marka: 'Excel Arşiv',
+  site: 'https://excelarsiv.com',
+  yazar: {
+    ad: 'Barış Bağırlar',
+    unvan: 'Finansal Karar Sistemleri',
+    rol: 'Her Excel şablonunu tasarlayan ve denetleyen; finansal karar sistemleri mimarı.',
+    ozet:
+      'Bankacılık kökenli finansal karar sistemleri uzmanı. Excel Arşiv şablonlarını saha gerçekliği, denetlenebilir formül mimarisi ve yöneticiye sunulabilir karar çıktısı standardında tasarlar ve denetler.',
+    profil: 'https://excelarsiv.com/hakkinda',
+    eposta: 'barisbagirlar@gmail.com',
+    foto: 'https://excelarsiv.com/images/baris-bagirlar.jpg',
+    kimlikler: [
+      'Bankacı',
+      'Tarımkon — Uluslararası Tarım ve Gıda Konfederasyonu Danışma Kurulu Üyesi',
+    ],
+    knowsAbout: [
+      'Finansal karar sistemleri',
+      'Excel karar destek modelleri',
+      'Nakit akışı ve işletme finansı',
+      'Denetlenebilir formül mimarisi',
+    ],
+    sameAs: [
+      'https://www.linkedin.com/in/barisbagirlar/',
+      'https://www.tarimkon.org/danisma-kurulu/',
+      'https://sectorcalc.com',
+      'https://degerlet.com',
+      'https://cbamvalid.com',
+      'https://drfin.com.tr',
+    ],
+  },
+  satici: {
+    unvan: 'Barış Bağırlar — Excel Arşiv',
+    vkn: '25403091318',
+    vknNotu: 'Gerçek kişi vergi kimliği (11 hane)',
+    telefon: '0539 333 33 03',
+    eposta: 'barisbagirlar@gmail.com',
+    adresNotu:
+      'Türkiye. Kayıtlı işyeri adresi ve MERSIS numarası fatura üzerinde yer alır; yazılı talep üzerine paylaşılır.',
+  },
+  guvenSayfalari: [
+    { ad: 'Uzman profili (E-E-A-T)', url: 'https://excelarsiv.com/hakkinda' },
+    { ad: 'Neden Excel Arşiv', url: 'https://excelarsiv.com/neden-excel-arsiv' },
+    { ad: 'Başarı hikâyeleri (yalnız doğrulanmış)', url: 'https://excelarsiv.com/basari-hikayeleri' },
+    { ad: 'İletişim', url: 'https://excelarsiv.com/iletisim' },
+    { ad: 'Mesafeli Satış Sözleşmesi', url: 'https://excelarsiv.com/mesafeli-satis-sozlesmesi' },
+    { ad: 'Teslimat ve İade', url: 'https://excelarsiv.com/teslimat-ve-iade' },
+    { ad: 'KVKK Aydınlatma', url: 'https://excelarsiv.com/kvkk-aydinlatma' },
+    { ad: 'Shopier Veri Aktarımı', url: 'https://excelarsiv.com/shopier-veri-aktarimi' },
+    { ad: 'Lisans', url: 'https://excelarsiv.com/lisans' },
+  ],
+};
+
+export function buildEeatMarkdownSection({ headingLevel = 2 } = {}) {
+  const h = '#'.repeat(headingLevel);
+  const { yazar, satici, guvenSayfalari, marka } = EEAT;
+  return [
+    `${h} E-E-A-T — Deneyim, Uzmanlık, Otorite, Güven`,
+    '',
+    `- Marka: ${marka}`,
+    `- Yazar / uzman: ${yazar.ad}`,
+    `- Unvan: ${yazar.unvan}`,
+    `- Rol: ${yazar.rol}`,
+    `- Özet: ${yazar.ozet}`,
+    `- Profil: ${yazar.profil}`,
+    `- Fotoğraf: ${yazar.foto}`,
+    `- E-posta: ${yazar.eposta}`,
+    `- Kimlikler: ${yazar.kimlikler.join('; ')}`,
+    `- Uzmanlık alanları: ${yazar.knowsAbout.join('; ')}`,
+    `- sameAs: ${yazar.sameAs.join(' · ')}`,
+    '',
+    `${h}# Satıcı ve vergi kimliği (Trust)`,
+    '',
+    `- Satıcı unvanı: ${satici.unvan}`,
+    `- Vergi kimlik no (VKN): ${satici.vkn} — ${satici.vknNotu}`,
+    `- Telefon: ${satici.telefon}`,
+    `- E-posta: ${satici.eposta}`,
+    `- Adres / MERSIS: ${satici.adresNotu}`,
+    '',
+    `${h}# Güven ve yasal sayfalar (sitemap’te indexli)`,
+    '',
+    ...guvenSayfalari.map((p) => `- [${p.ad}](${p.url})`),
+    '',
+  ].join('\n');
+}
+
+export function buildAiTxt(lastUpdatedIsoDate) {
+  const { yazar, satici, guvenSayfalari, marka, site } = EEAT;
+  return [
+    '# ai.txt — Excel Arşiv',
+    '',
+    '> Bu dosya yapay zekâ / LLM aracıları için site kimliği, E-E-A-T varlığı ve tarama politikasını özetler.',
+    '',
+    ...(lastUpdatedIsoDate ? [`- Son güncelleme: ${lastUpdatedIsoDate}`] : []),
+    `- Site: ${site}/`,
+    `- Marka: ${marka}`,
+    `- Dil: tr-TR`,
+    `- Sitemap: ${site}/sitemap.xml`,
+    `- Robots: ${site}/robots.txt`,
+    `- llms.txt: ${site}/llms.txt`,
+    `- llms-full.txt: ${site}/llms-full.txt`,
+    `- Makine kataloğu: ${site}/katalog.json`,
+    '',
+    '## E-E-A-T varlığı',
+    '',
+    `- Yazar: ${yazar.ad}`,
+    `- Unvan: ${yazar.unvan}`,
+    `- Profil: ${yazar.profil}`,
+    `- Özet: ${yazar.ozet}`,
+    `- Kimlikler: ${yazar.kimlikler.join('; ')}`,
+    `- Uzmanlık: ${yazar.knowsAbout.join('; ')}`,
+    `- sameAs: ${yazar.sameAs.join(' · ')}`,
+    '',
+    '## Satıcı (Trust)',
+    '',
+    `- Unvan: ${satici.unvan}`,
+    `- VKN: ${satici.vkn} (${satici.vknNotu})`,
+    `- Telefon: ${satici.telefon}`,
+    `- E-posta: ${satici.eposta}`,
+    `- Adres / MERSIS: ${satici.adresNotu}`,
+    '',
+    '## Güven URL’leri',
+    '',
+    ...guvenSayfalari.map((p) => `- ${p.ad}: ${p.url}`),
+    '',
+    '## Politika',
+    '',
+    '- Tercih edilen alıntı kaynağı: canonical ürün/rehber sayfaları + uzman profili (/hakkinda).',
+    '- Uydurma müşteri başarı hikâyesi yok; yalnız /basari-hikayeleri ölçütüne uyan içerik.',
+    '- Dijital ürünlerde indirme sonrası koşulsuz iade yok; mesafeli satış ve teslimat sayfalarına bakın.',
+    '- Bu dosya sıralama garantisi vermez; robots.txt ve sitemap asıl tarama kaynaklarıdır.',
+    '',
+  ].join('\n');
+}
