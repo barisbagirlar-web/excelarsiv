@@ -13,7 +13,10 @@ const { guide } = Astro.props;
 const { Content } = await render(guide);
 const templates = await getCollection('templates');
 const product = templates.find((item) => item.id === guide.data.productSlug);
-const otherGuides = (await getCollection('guides')).filter((item) => item.id !== guide.id).slice(0, 3);
+const allGuides = await getCollection('guides');
+const sameCategoryGuides = allGuides.filter((item) => item.id !== guide.id && item.data.category === guide.data.category);
+const fallbackGuides = allGuides.filter((item) => item.id !== guide.id && item.data.category !== guide.data.category);
+const otherGuides = [...sameCategoryGuides, ...fallbackGuides].slice(0, 3);
 const guideUrl = new URL(`/rehber/${guide.id}`, Astro.site).href;
 const organizationId = new URL('/#organization', Astro.site).href;
 const webpageId = `${guideUrl}#webpage`;
@@ -78,7 +81,7 @@ const updatedLabel = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: '
     </div>
 
     <section class="guide-related">
-      <p>DİĞER KARAR REHBERLERİ</p>
+      <p>AYNI KONU KÜMESİNDEN REHBERLER</p>
       <div>{otherGuides.map((item) => <a href={`/rehber/${item.id}`}>{item.data.title}<span>→</span></a>)}</div>
     </section>
   </div>
