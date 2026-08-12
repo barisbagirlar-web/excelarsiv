@@ -1,0 +1,58 @@
+---
+import CommerceLayout from '../../layouts/CommerceLayout.astro';
+import SectionLabel from '../../components/SectionLabel.astro';
+import Button from '../../components/Button.astro';
+---
+
+<CommerceLayout
+  title="Asgari Ücret Zam Etkisi — Ücretsiz Web Hesaplayıcı"
+  description="Asgari ücret zammının personel maliyeti ve fiyat ayarına etkisini hızlı hesaplayın; tam Excel sistemine geçiş yolu."
+>
+  <section class="mx-auto max-w-3xl px-4 pb-16 pt-8">
+    <SectionLabel number={7} label="Lead Magnet" />
+    <h1 class="display mt-6">Asgari ücret zam etkisi — mini hesaplayıcı</h1>
+    <p class="lead mt-6">
+      Kabaca maliyet artışını görün. Detaylı senaryo, fiyat yansıtma ve rapor için tam Excel
+      ürününe geçin. Bu sayfa karar desteğidir; mali müşavirlik yerine geçmez.
+    </p>
+
+    <form class="mt-10 grid gap-4 rounded-2xl border border-rule-hairline bg-surface-elevated p-6" data-asgari-form>
+      <label class="grid gap-2">
+        <span class="font-mono text-xs text-ink-500">Mevcut aylık brüt işveren maliyeti (TL)</span>
+        <input class="min-h-11 rounded-lg border border-rule-hairline px-3" name="mevcut" type="number" min="0" step="1" required value="30000" />
+      </label>
+      <label class="grid gap-2">
+        <span class="font-mono text-xs text-ink-500">Zam oranı (%)</span>
+        <input class="min-h-11 rounded-lg border border-rule-hairline px-3" name="oran" type="number" min="0" max="100" step="0.1" required value="30" />
+      </label>
+      <label class="grid gap-2">
+        <span class="font-mono text-xs text-ink-500">Personel sayısı</span>
+        <input class="min-h-11 rounded-lg border border-rule-hairline px-3" name="adet" type="number" min="1" step="1" required value="5" />
+      </label>
+      <button type="submit" class="min-h-11 rounded-lg bg-accent-primary px-4 font-mono text-sm text-white">Hesapla</button>
+      <p class="font-mono text-sm text-ink-700" data-asgari-sonuc aria-live="polite">Sonuç burada görünür.</p>
+    </form>
+
+    <div class="mt-10 flex flex-wrap gap-3">
+      <Button href="/sablon/asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli#satin-al">Tam Excel sistemini al</Button>
+      <Button href="/demo/asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli" variant="secondary">Proof Demo</Button>
+    </div>
+  </section>
+</CommerceLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-asgari-form]');
+  const sonuc = document.querySelector<HTMLElement>('[data-asgari-sonuc]');
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const mevcut = Number(data.get('mevcut') || 0);
+    const oran = Number(data.get('oran') || 0) / 100;
+    const adet = Number(data.get('adet') || 1);
+    const yeni = mevcut * (1 + oran);
+    const fark = (yeni - mevcut) * adet;
+    if (sonuc) {
+      sonuc.textContent = `Yaklaşık aylık ek işveren yükü: ${Math.round(fark).toLocaleString('tr-TR')} TL (kabaca; tam model Excel’de).`;
+    }
+  });
+</script>

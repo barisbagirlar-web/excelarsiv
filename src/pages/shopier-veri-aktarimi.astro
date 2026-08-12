@@ -1,0 +1,82 @@
+---
+import CommerceLayout from '../layouts/CommerceLayout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import { SATICI } from '../data/satici';
+import { SHOPIER } from '../data/shopier';
+---
+
+<CommerceLayout
+  title="Shopier Veri Aktarımı ve Ödeme İşleme — Excel Arşiv"
+  description="Excel Arşiv ile Shopier arasında KVKK kapsamında kişisel veri aktarımı, işleme amaçları ve sınırları."
+>
+  <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
+    <SectionLabel number={5} label="Shopier · KVKK" />
+    <h1 class="display mt-6">Shopier Veri Aktarımı Sözleşmesi (Bilgilendirme)</h1>
+    <p class="lead mt-6">
+      Bu metin, {SATICI.marka} ile {SHOPIER.marka} arasındaki ödeme ve sipariş sürecinde
+      kişisel verilerin aktarımına ilişkin bilgilendirmedir. Kart verisi Excel Arşiv’e gelmez.
+    </p>
+    <p class="mt-3 text-xs text-ink-400">Sürüm: 13.08.2026-v1 · Veri sorumlusu: {SATICI.gercekKisi} ({SATICI.marka})</p>
+
+    <div class="mt-12 space-y-10">
+      <section>
+        <h2 class="h3">1 · Taraflar ve roller</h2>
+        <p class="body-sm mt-3">
+          <strong>Veri sorumlusu:</strong> {SATICI.gercekKisi} — {SATICI.marka} ({SATICI.site.replace('https://', '')}).
+          İletişim: {SATICI.eposta} · {SATICI.telefon}.
+          <br />
+          <strong>Ödeme / veri işleyen:</strong> {SHOPIER.marka} ({SHOPIER.site}) — {SHOPIER.rol}.
+          Excel Arşiv, sipariş doğrulaması için Shopier Orders API ({SHOPIER.apiBase}) üzerinden
+          yetkili erişim token’ı ile sunucu tarafında sorgu yapar; token tarayıcıya veya kaynak
+          koduna yazılmaz.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">2 · Aktarılan ve aktarılmayan veriler</h2>
+        <p class="body-sm mt-3"><strong>Aktarılır / işlenir:</strong></p>
+        <ul class="body-sm mt-2 list-disc space-y-1 pl-5">
+          {SHOPIER.aktarilanVeriler.map((item) => <li>{item}</li>)}
+        </ul>
+        <p class="body-sm mt-3"><strong>Aktarılmaz:</strong></p>
+        <ul class="body-sm mt-2 list-disc space-y-1 pl-5">
+          {SHOPIER.aktarilmayan.map((item) => <li>{item}</li>)}
+        </ul>
+      </section>
+      <section>
+        <h2 class="h3">3 · Amaç ve hukuki sebep</h2>
+        <p class="body-sm mt-3">
+          {SHOPIER.amac} Hukuki dayanak: sözleşmenin kurulması ve ifası (KVKK m.5/2-c) ile
+          veri sorumlusunun meşru menfaati çerçevesinde güvenlik ve suistimal önleme.
+          Pazarlama iletişimi bu aktarımdan doğmaz; pazarlama için ayrı açık rıza gerekir
+          (<a class="text-accent-primary underline underline-offset-4" href="/pazarlama-acik-riza">Pazarlama Açık Rıza</a>).
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">4 · Saklama ve güvenlik</h2>
+        <p class="body-sm mt-3">
+          Excel Arşiv tarafında sipariş kimliği özet (hash) ve teslimat yetkisi kayıtları tutulur;
+          ham kart verisi tutulmaz. Shopier’deki saklama süreleri Shopier’in kendi politikasına tabidir.
+          API erişimi sunucu ortamında secret olarak yönetilir.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">5 · Yurt dışı aktarım</h2>
+        <p class="body-sm mt-3">
+          Shopier’in altyapısının yurt dışında konumlanması hâlinde KVKK m.9 ve ilgili ikincil
+          düzenlemelerdeki yeterlilik / uygun güvence mekanizmaları değerlendirilir. Detaylı
+          aydınlatma için
+          <a class="text-accent-primary underline underline-offset-4" href="/kvkk-aydinlatma">KVKK Aydınlatma Metni</a>’ne bakın.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">6 · Başvuru</h2>
+        <p class="body-sm mt-3">
+          KVKK m.11 hakları ve Shopier aktarımına ilişkin talepler:
+          <a class="text-accent-primary underline underline-offset-4" href={`mailto:${SATICI.eposta}`}>{SATICI.eposta}</a>
+          veya
+          <a class="text-accent-primary underline underline-offset-4" href={SATICI.telefonTelHref}>{SATICI.telefon}</a>.
+        </p>
+      </section>
+    </div>
+  </section>
+</CommerceLayout>

@@ -1,0 +1,28 @@
+---
+import CommerceLayout from '../layouts/CommerceLayout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import Button from '../components/Button.astro';
+---
+
+<CommerceLayout
+  title="Kurumsal Lisans — Excel Arşiv"
+  description="Çok kullanıcılı / ofis çapında Excel Arşiv kurumsal lisans talebi. MERSIS ve fatura bilgileri yazılı süreçte alınır."
+>
+  <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
+    <SectionLabel number={3} label="Kurumsal" />
+    <h1 class="display mt-6">Kurumsal ve çok kullanıcılı lisans</h1>
+    <p class="lead mt-6">
+      Standart ürün lisansı tek kullanıcı içindir. Ofis, holding veya 10+ kullanıcı için
+      kurumsal paket teklifi hazırlanır. MERSIS / vergi kimliği fatura sürecinde talep edilir;
+      sitede uydurulmuş kimlik numarası yayınlanmaz.
+    </p>
+    <div class="mt-10 space-y-6 body-sm">
+      <p>· Kullanıcı sayısı, dikey ürün seti ve güncelleme süresi teklifte netleşir.</p>
+      <p>· Toplu fatura ve e-arşiv süreci desteklenir.</p>
+      <p>· Ortaklık kanalı için <a class="underline underline-offset-4" href="/ortaklik-mali-musavir">mali müşavir programı</a>.</p>
+    </div>
+    <div class="mt-10">
+      <Button href="/iletisim">Kurumsal talep gönder</Button>
+    </div>
+  </section>
+</CommerceLayout>

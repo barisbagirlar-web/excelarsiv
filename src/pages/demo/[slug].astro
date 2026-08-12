@@ -1,0 +1,52 @@
+---
+import CommerceLayout from '../../layouts/CommerceLayout.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Button from '../../components/Button.astro';
+
+export async function getStaticPaths() {
+  const templates = await getCollection('templates');
+  return templates.map((template) => ({
+    params: { slug: template.id },
+    props: { template },
+  }));
+}
+
+interface Props {
+  template: CollectionEntry<'templates'>;
+}
+
+const { template } = Astro.props;
+const t = template.data;
+const productUrl = `/sablon/${template.id}`;
+const demoAnchor = `${productUrl}#demo-indir`;
+const title = `${t.name} — Ücretsiz Proof Demo | Excel Arşiv`;
+const description = `${t.name} için ücretsiz Proof Demo: gerçek formül mimarisini e-posta ile indirin. ChatGPT ile üretilmiş rastgele tablodan farklı; denetlenmiş karar sistemi demosu.`;
+---
+
+<CommerceLayout title={title} description={description}>
+  <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
+    <p class="font-mono text-xs tracking-widest text-ink-400">PROOF DEMO · SEO AÇILIŞ</p>
+    <h1 class="display mt-4">{t.name} — ücretsiz demo</h1>
+    <p class="lead mt-6">{t.summary}</p>
+    <p class="body-sm mt-6">
+      Bu sayfa, “ücretsiz {t.name.toLocaleLowerCase('tr-TR')} excel” arayan kullanıcılar için
+      indexlenebilir demo kapısıdır. Demo, ürünün formül ve karar mantığını kısıtlı veri ile gösterir;
+      tam sürüm satın alma sonrası ExcelArşiv üzerinden indirilir.
+    </p>
+    <div class="mt-10 flex flex-wrap gap-3">
+      <Button href={demoAnchor}>Proof Demo’yu başlat</Button>
+      <Button href={`${productUrl}#satin-al`} variant="secondary">Tam sürümü incele</Button>
+    </div>
+    <ul class="mt-10 space-y-3 body-sm">
+      <li>· Minimum Excel: {t.minExcelVersion}</li>
+      <li>· Sayfa sayısı: {t.sheetCount}</li>
+      <li>· Fiyat (KDV dahil): {t.priceTL.toLocaleString('tr-TR')} TL</li>
+      <li>· Dil / locale: Türkçe arayüz; formül ayıracı virgül. İngilizce Excel’de bölge ayarını TR yapın.</li>
+    </ul>
+    <p class="body-sm mt-8 text-ink-500">
+      Yapay zekâ ile üretilmiş genel şablondan fark: saha denetlenmiş formül, ürün sayfasındaki
+      teknik künye ve
+      <a class="underline underline-offset-4" href="/neden-excel-arsiv">neden Excel Arşiv</a> ölçütleri.
+    </p>
+  </section>
+</CommerceLayout>

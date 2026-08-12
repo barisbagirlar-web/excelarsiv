@@ -36,7 +36,7 @@ const satista = product?.satista !== false;
       <>
         <form class="checkout-card__form" data-checkout-form novalidate>
           <label for={`checkout-email-${productSlug}`}>
-            <span>E-posta</span>
+            <span>E-posta (Shopier’de kullanacağınız adres)</span>
             <input
               id={`checkout-email-${productSlug}`}
               name="email"
@@ -53,10 +53,25 @@ const satista = product?.satista !== false;
           </button>
         </form>
 
+        <noscript>
+          <p class="checkout-card__hint" style="margin-top:12px">
+            JavaScript kapalı. Satın alma için
+            <a href="/teslimat">teslimat / kurtarma sayfasını</a> açın veya
+            <a href="/iletisim">iletişime</a> yazın. Reklam engelleyici API çağrılarını kesiyorsa
+            geçici olarak izin verin.
+          </p>
+        </noscript>
+
         <div class="checkout-card__microcopy" aria-label="Satın alma bilgileri">
           <span>KDV dahil</span><i aria-hidden="true"></i><span>Tek ödeme</span><i aria-hidden="true"></i><span>Abonelik yok</span>
         </div>
-        <p class="checkout-card__hint">Shopier’de de aynı e-postayı kullanın. Ödeme tamamlanınca Shopier onay ekranındaki “ExcelArşiv’e Dön ve Dosyanı İndir” bağlantısıyla <a href="/teslimat">teslimat sayfasına</a> dönün.</p>
+        <p class="checkout-card__hint">
+          Shopier’de <strong>aynı e-postayı</strong> kullanın. Kart başka kişiye ait olsa bile ödeme e-postası
+          bu alanda yazdığınız adresle eşleşmelidir; aksi halde teslimat kilitlenir — o durumda
+          <a href="/teslimat">sipariş numarasıyla kurtarma</a> kullanın. Ödeme sonrası “ExcelArşiv’e Dön”
+          bağlantısını kapatmayın; kaybolursa /teslimat sayfasından devam edin.
+        </p>
+        <p class="checkout-card__hint">Locale: Türkçe Excel / virgül formül ayıracı. İngilizce Excel’de bölgeyi Türkiye yapın; aksi halde formüller bozulabilir — iade gerekçesi olmaz.</p>
 
         <div class="checkout-card__progress hidden" data-checkout-progress aria-live="polite">
           <p class="checkout-card__status" data-checkout-status></p>

@@ -17,6 +17,10 @@ const { productSlug, name } = Astro.props;
   </div>
 
   <p class="demo-card__lead">{name} için 20 kayıtlık değerlendirme sürümünü hemen bilgisayarınıza indirin.</p>
+  <p class="demo-card__lead">
+    <a href={`/demo/${productSlug}`}>Ücretsiz demo açılış sayfası</a>
+    — arama ve paylaşım için kalıcı bağlantı.
+  </p>
 
   <form class="demo-card__form" data-demo-form>
     <label class="demo-card__email">

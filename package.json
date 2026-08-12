@@ -13,6 +13,7 @@
     "generate": "node scripts/validate-commerce.mjs",
     "validate:commerce": "node scripts/validate-commerce.mjs",
     "guard:source": "node scripts/guard-source-language.mjs",
+    "sbom": "node scripts/generate-sbom.mjs",
     "seo:generate": "node scripts/seo/generate-artifacts.mjs",
     "seo:finalize": "node scripts/seo/finalize-sitemap-index.mjs",
     "seo:validate": "node scripts/seo/validate-artifacts.mjs",

@@ -6,7 +6,17 @@ const { defineSecret } = require('firebase-functions/params');
 const { initializeApp } = require('firebase-admin/app');
 const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
 const { getStorage } = require('firebase-admin/storage');
-const { TIERS, PRODUCTS, getTierByProductId } = require('./catalog');
+const { TIERS, PRODUCTS } = require('./catalog');
+const {
+  normalizeEmail,
+  validEmail,
+  numericValue,
+  normalizeShopierOrder,
+  extractOrders,
+  orderIsPaid,
+  unwrapOrderPayload,
+  shopierRequest,
+} = require('./shopier-api');
 
 initializeApp();
 
@@ -19,7 +29,6 @@ const CHECKOUT_TTL_MS = 2 * 60 * 60 * 1000;
 const DOWNLOAD_TOKEN_TTL_MS = 5 * 60 * 1000;
 const SHOPIER_RECHECK_MS = 8 * 1000;
 const MAX_CHECKOUTS_PER_IP_HOUR = 20;
-const SHOPIER_API_BASE = 'https://api.shopier.com/v1';
 
 const functionDefaults = {
   region: REGION,
@@ -33,14 +42,6 @@ function sendJson(res, status, payload) {
   res.set('Cache-Control', 'no-store');
   res.set('Content-Type', 'application/json; charset=utf-8');
   res.send(JSON.stringify(payload));
-}
-
-function normalizeEmail(value) {
-  return String(value ?? '').trim().toLowerCase();
-}
-
-function validEmail(value) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) && value.length <= 254;
 }
 
 function sha256(value) {
@@ -89,80 +90,6 @@ async function enforceCheckoutRateLimit(req) {
   });
 }
 
-function numericValue(value) {
-  if (typeof value === 'number' && Number.isFinite(value)) return value;
-  const text = String(value ?? '').trim();
-  if (!text) return null;
-
-  const stripped = text.replace(/\s/g, '').replace(/₺|TL|TRY/gi, '');
-  const normalized = stripped.includes(',')
-    ? stripped.replace(/\.(?=\d{3}(?:\D|$))/g, '').replace(',', '.')
-    : stripped;
-  const parsed = Number(normalized);
-  return Number.isFinite(parsed) ? parsed : null;
-}
-
-function normalizeShopierOrder(raw) {
-  const lineItems = Array.isArray(raw?.lineItems)
-    ? raw.lineItems
-    : Array.isArray(raw?.line_items)
-      ? raw.line_items
-      : [];
-
-  const email = normalizeEmail(
-    raw?.shippingInfo?.email ??
-      raw?.shipping_info?.email ??
-      raw?.billingInfo?.email ??
-      raw?.billing_info?.email ??
-      raw?.email,
-  );
-
-  const amount = numericValue(
-    raw?.totals?.total ?? raw?.total ?? raw?.totalPrice ?? raw?.total_price ?? raw?.amount,
-  );
-  const currency = String(raw?.currency ?? 'TRY').trim().toUpperCase();
-  const id = String(raw?.id ?? raw?.orderId ?? raw?.order_id ?? '').trim();
-  const paymentStatus = String(
-    raw?.paymentStatus ?? raw?.payment_status ?? raw?.transaction?.status ?? '',
-  ).trim().toLowerCase();
-  const dateCreated = String(raw?.dateCreated ?? raw?.date_created ?? raw?.createdAt ?? raw?.created_at ?? '').trim();
-
-  const knownTiers = new Set();
-  let knownQuantity = 0;
-  for (const item of lineItems) {
-    const productId = item?.productId ?? item?.product_id;
-    const tier = getTierByProductId(productId);
-    if (tier) {
-      knownTiers.add(tier);
-      knownQuantity += Number(item?.quantity ?? 1) || 0;
-    }
-  }
-
-  return {
-    id,
-    email,
-    amount,
-    currency,
-    paymentStatus,
-    dateCreated,
-    tier: knownTiers.size === 1 ? [...knownTiers][0] : null,
-    knownQuantity,
-    raw,
-  };
-}
-
-function extractOrders(payload) {
-  if (Array.isArray(payload)) return payload;
-  for (const value of [payload?.orders, payload?.items, payload?.data?.orders, payload?.data?.items, payload?.data]) {
-    if (Array.isArray(value)) return value;
-  }
-  return [];
-}
-
-function orderIsPaid(order) {
-  return ['paid', 'completed', 'successful', 'success'].includes(order.paymentStatus);
-}
-
 function orderMatchesCheckout(order, checkout) {
   if (!order?.id || !orderIsPaid(order)) return false;
   if (!validEmail(order.email) || sha256(order.email) !== checkout.emailHash) return false;
@@ -174,31 +101,6 @@ function orderMatchesCheckout(order, checkout) {
   const checkoutTime = checkout.createdAt?.toMillis?.() ?? 0;
   if (Number.isFinite(orderTime) && checkoutTime && orderTime < checkoutTime - 5 * 60 * 1000) return false;
   return true;
-}
-
-async function shopierRequest(path, token) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 6_000);
-  try {
-    const response = await fetch(`${SHOPIER_API_BASE}${path}`, {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        authorization: `Bearer ${token}`,
-      },
-      signal: controller.signal,
-    });
-
-    if (!response.ok) {
-      const error = new Error(`SHOPIER_API_${response.status}`);
-      error.code = 'SHOPIER_API_ERROR';
-      error.httpStatus = response.status;
-      throw error;
-    }
-    return await response.json();
-  } finally {
-    clearTimeout(timeout);
-  }
 }
 
 function pendingKey(emailHash, tier) {
@@ -444,7 +346,7 @@ exports.verifyShopierOrder = onRequest(
 
     try {
       const payload = await shopierRequest(`/orders/${encodeURIComponent(orderId)}`, SHOPIER_ACCESS_TOKEN.value());
-      const order = normalizeShopierOrder(payload?.data?.order ?? payload?.data ?? payload?.order ?? payload);
+      const order = normalizeShopierOrder(unwrapOrderPayload(payload));
       if (!orderMatchesCheckout(order, checkout)) {
         return sendJson(res, 409, { error: 'ORDER_DOES_NOT_MATCH' });
       }

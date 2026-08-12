@@ -1,0 +1,55 @@
+---
+import CommerceLayout from '../layouts/CommerceLayout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import Button from '../components/Button.astro';
+---
+
+<CommerceLayout
+  title="Neden Excel Arşiv? — Denetlenmiş Karar Sistemi"
+  description="ChatGPT ile üretilmiş genel tablodan fark: denetlenmiş formül mimarisi, mevzuat güncelliği, yöneticiye sunulabilir karar çıktısı ve satış sonrası kanıt."
+>
+  <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
+    <SectionLabel number={1} label="Moat" />
+    <h1 class="display mt-6">Yapay zekâ bedavaya şablon üretir. Biz karar sistemi satarız.</h1>
+    <p class="lead mt-6">
+      “Bana 13 haftalık nakit akışı yap” prompt’u bir tablo üretir. Excel Arşiv ürünü ise
+      girdi disiplini, denetlenebilir formül, senaryo/karar paneli ve satışa uygun rapor
+      katmanıyla işletmenin yanlış karardan korunmasını hedefler.
+    </p>
+
+    <div class="mt-12 space-y-10">
+      <section>
+        <h2 class="h3">1 · Denetim ve kanıt</h2>
+        <p class="body-sm mt-3">
+          Ürünler üretim mandası ve kapı testleriyle denetlenir. Formül teknolojisi bilinçli
+          olarak eski uyumluluk sınırlarında tutulur; rastgele XLOOKUP/LAMBDA yığını yoktur.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">2 · Mevzuat ve Türkiye iş dili</h2>
+        <p class="body-sm mt-3">
+          KDV, SGK, VUK, TTK ve saha diline uygun etiketler. Güncelleme politikası ürün
+          sayfasında yazılıdır; “bir kez üretildi ve unutuldu” modeli yoktur.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">3 · Karar çıktısı</h2>
+        <p class="body-sm mt-3">
+          Yönetici özeti, risk/güven göstergeleri ve aksiyon önerileri — ham hücre yığını değil.
+          Demo ile satın almadan önce gerçek ekranı görürsünüz.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">4 · Teslimat ve sorumluluk</h2>
+        <p class="body-sm mt-3">
+          Shopier ile ödeme, ExcelArşiv ile sunucu tarafı doğrulama, güvenli indirme ve yasal
+          metinler. Prompt çıktısında bunlar yoktur.
+        </p>
+      </section>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <Button href="/sablonlar">Şablonları incele</Button>
+        <Button href="/hakkinda" variant="secondary">Yazarı tanı</Button>
+      </div>
+    </div>
+  </section>
+</CommerceLayout>

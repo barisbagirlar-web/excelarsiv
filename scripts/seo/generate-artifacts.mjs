@@ -214,7 +214,10 @@ function buildLlmsFull(indexablePages, templateRecords) {
     '- Sitemap index: https://excelarsiv.com/sitemap.xml',
     '- Robots: https://excelarsiv.com/robots.txt',
     '- Katalog: https://excelarsiv.com/sablonlar',
+    '- Makine kataloğu (JSON): https://excelarsiv.com/katalog.json',
     '- Rehber: https://excelarsiv.com/rehber',
+    '- Satın alma (ürün sayfası #satin-al): her ürün URL’sinde Shopier ödeme başlatma',
+    '- Neden Excel Arşiv (moat): https://excelarsiv.com/neden-excel-arsiv',
     '',
     '## Public sayfalar',
     '',
@@ -242,6 +245,8 @@ function buildLlmsFull(indexablePages, templateRecords) {
     if (product?.sheetCount) lines.push(`- Çalışma sayfası sayısı: ${product.sheetCount}`);
     if (product?.version) lines.push(`- Sürüm: ${product.version}`);
     if (product?.updatedAt) lines.push(`- Ürün içerik tarihi: ${product.updatedAt}`);
+    lines.push(`- Satın alma: ${page.canonical}#satin-al`);
+    lines.push(`- Demo açılış: ${SITE_ORIGIN}/demo/${slug}`);
     lines.push('');
   }
 
@@ -295,6 +300,32 @@ if (children.length === 0) throw new Error('FAIL_SAFE_EMPTY_SITEMAP_INDEX');
 atomicWrite('sitemap.xml', sitemapIndexDocument(children));
 atomicWrite('llms.txt', buildLlmsShort(indexablePages, templates));
 atomicWrite('llms-full.txt', buildLlmsFull(indexablePages, templates));
+
+const katalog = {
+  generatedAt: new Date().toISOString(),
+  site: SITE_ORIGIN,
+  currency: 'TRY',
+  language: 'tr-TR',
+  productCount: [...templates.values()].length,
+  products: [...templates.values()]
+    .map((product) => ({
+      slug: product.slug ?? product.id,
+      name: product.name,
+      summary: product.summary ?? null,
+      category: product.category ?? null,
+      priceTL: product.priceTL ?? null,
+      vatIncluded: product.vatIncluded ?? true,
+      fileFormat: product.fileFormat ?? null,
+      sheetCount: product.sheetCount ?? null,
+      version: product.version ?? null,
+      updatedAt: product.updatedAt ?? null,
+      url: `${SITE_ORIGIN}/sablon/${product.slug ?? product.id}`,
+      buyUrl: `${SITE_ORIGIN}/sablon/${product.slug ?? product.id}#satin-al`,
+      demoUrl: `${SITE_ORIGIN}/demo/${product.slug ?? product.id}`,
+    }))
+    .sort((a, b) => String(a.slug).localeCompare(String(b.slug), 'tr')),
+};
+atomicWrite('katalog.json', `${JSON.stringify(katalog, null, 2)}\n`);
 
 const manifestChildren = children.map((child) => ({
   file: child.name,

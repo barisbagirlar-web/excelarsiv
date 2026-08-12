@@ -51,12 +51,17 @@ function productRoutes(): string[] {
   return Object.keys(catalog.products).map((slug) => `/sablon/${slug}`);
 }
 
+function demoRoutes(): string[] {
+  return productRoutes().map((route) => route.replace('/sablon/', '/demo/'));
+}
+
 function sourceIndexableRoutes(): string[] {
   return [...new Set([
     ...staticAstroRoutes(),
     ...categoryRoutes(),
     ...guideRoutes(),
     ...productRoutes(),
+    ...demoRoutes(),
   ])].sort();
 }
 
@@ -88,4 +93,4 @@ function main(): void {
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main();
 
-export { EXIT, categoryRoutes, guideRoutes, normalizeRoute, productRoutes, registryParity, sourceIndexableRoutes, staticAstroRoutes };
+export { EXIT, categoryRoutes, demoRoutes, guideRoutes, normalizeRoute, productRoutes, registryParity, sourceIndexableRoutes, staticAstroRoutes };

@@ -26,6 +26,14 @@ jobs:
         run: npm audit --omit=dev --audit-level=high
       - name: Audit Functions production dependencies
         run: npm audit --prefix functions --omit=dev --audit-level=high
+      - name: Generate SBOM
+        run: npm run sbom
+      - name: Upload SBOM artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: excelarsiv-sbom
+          path: sbom/
+          if-no-files-found: error
 
   trivy:
     name: Trivy

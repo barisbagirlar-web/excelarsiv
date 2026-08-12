@@ -6,7 +6,7 @@ const { defineSecret } = require('firebase-functions/params');
 const { getApps, initializeApp } = require('firebase-admin/app');
 const { getFirestore, Timestamp, FieldValue } = require('firebase-admin/firestore');
 const { TIERS, PRODUCTS } = require('./catalog');
-const { normalizeShopierOrder } = require('./index')._test;
+const { fetchShopierOrderById } = require('./shopier-api');
 
 if (getApps().length === 0) initializeApp();
 const db = getFirestore();
@@ -14,7 +14,6 @@ const SHOPIER_ACCESS_TOKEN = defineSecret('SHOPIER_ACCESS_TOKEN');
 
 const REGION = 'europe-west1';
 const MAX_RECOVERIES_PER_IP_HOUR = 10;
-const SHOPIER_API_BASE = 'https://api.shopier.com/v1';
 
 function sendJson(res, status, payload) {
   res.status(status);
@@ -63,23 +62,7 @@ async function enforceRecoveryRateLimit(req) {
 }
 
 async function fetchShopierOrder(orderId, token) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 6_000);
-  try {
-    const response = await fetch(`${SHOPIER_API_BASE}/orders/${encodeURIComponent(orderId)}`, {
-      headers: {
-        accept: 'application/json',
-        authorization: `Bearer ${token}`,
-      },
-      signal: controller.signal,
-    });
-    if (response.status === 404) return null;
-    if (!response.ok) throw new Error(`SHOPIER_API_${response.status}`);
-    const payload = await response.json();
-    return normalizeShopierOrder(payload?.data?.order ?? payload?.data ?? payload?.order ?? payload);
-  } finally {
-    clearTimeout(timeout);
-  }
+  return fetchShopierOrderById(orderId, token);
 }
 
 function paidOrderMatches(order, emailHash, product) {
