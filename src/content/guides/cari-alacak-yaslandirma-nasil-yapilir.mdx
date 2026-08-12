@@ -1,0 +1,83 @@
+---
+title: "Cari Alacak Yaşlandırma Nasıl Yapılır? Tahsilat Önceliği Rehberi"
+seoTitle: "Cari Alacak Yaşlandırma Nasıl Yapılır? | Excel Rehberi"
+description: "Cari alacakları vade ve gecikme gününe göre yaşlandırın; 0–30, 31–60, 61–90 ve 90+ gün gruplarıyla tahsilat riskini ve müşteri önceliğini yönetin."
+primaryQuery: "cari alacak yaşlandırma nasıl yapılır"
+productSlug: "cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi"
+category: "muhasebe-ve-vergi"
+updatedAt: "2026-08-12"
+editorialApprovalRef: "2026-08-12T20:39:00Z"
+dataAsset: false
+takeaways:
+  - "Alacağı yalnız toplam bakiye olarak değil, vadesi geçmiş gün sayısına göre risk katmanlarına ayırın."
+  - "Fatura tarihi yerine sözleşmesel vade tarihini gecikme hesabının başlangıç noktası olarak kullanın."
+  - "Yaşlandırma sonucunu tahsilat aksiyonu, müşteri limiti ve 13 haftalık nakit planıyla birlikte yönetin."
+---
+
+**Cari alacak yaşlandırma**, müşterilerden beklenen tahsilatları yalnız toplam bakiye olarak değil, vadesinden itibaren ne kadar süredir açık kaldığına göre sınıflandırma yöntemidir. Amaç muhasebe dökümü üretmek değil; tahsilat önceliğini, müşteri riskini ve nakit akışındaki güven seviyesini yönetmektir.
+
+Bir müşterinin 500 bin TL borcu olması tek başına yeterli bilgi değildir. Borcun tamamı henüz vadeye gelmemişse risk profili başka; 300 bin TL'si 90 günden uzun süredir gecikmişse başkadır.
+
+## 1. Gecikme gününü doğru tarihten hesaplayın
+
+Yaşlandırma hesabının temeli vade tarihidir. Fatura tarihi ile vade tarihini karıştırmayın. Her açık kalem için rapor tarihi ile sözleşmesel vade tarihi arasındaki gün farkını hesaplayın. Vadesi gelmemiş kalemleri ayrıca “vadesi gelmemiş” grubunda tutmak tahsilat baskısını daha doğru gösterir.
+
+## 2. Yaşlandırma kovalarını standartlaştırın
+
+KOBİ yönetiminde pratik bir başlangıç yapısı şudur:
+
+- vadesi gelmemiş,
+- 0–30 gün gecikmiş,
+- 31–60 gün gecikmiş,
+- 61–90 gün gecikmiş,
+- 90+ gün gecikmiş.
+
+İş modeliniz daha kısa veya uzun vadeler kullanıyorsa aralıklar değişebilir; ancak dönemler arasında aynı kova mantığını koruyun. Her ay farklı aralık kullanmak trend analizini bozar.
+
+## 3. Müşteri toplamı ile fatura detayını birlikte tutun
+
+Tahsilat ekibi müşteri toplamını görmek ister; risk analizi ise hangi faturaların yaşlandığını bilmek zorundadır. Bu nedenle ham veri fatura/işlem seviyesinde kalmalı, rapor müşteri bazında toplulaştırılmalıdır.
+
+Müşteri kartında toplam alacak, vadesi geçmiş alacak, 60+ gün gecikmiş tutar ve en eski açık kalemin gecikme günü birlikte gösterilebilir.
+
+## 4. Kısmi tahsilatları açık kalemle eşleştirin
+
+Müşteri 100 bin TL'lik faturanın 40 bin TL'sini ödediğinde yaşlandırmaya 100 bin TL taşımayın. Açık kalan 60 bin TL aynı vade tarihini koruyarak yaşlanmalıdır. Genel hesaba gelen ödemeleri hangi faturaya ait olduğu bilinmeden rastgele kapatmak, risk dağılımını bozar.
+
+## 5. Yaşlandırmayı tahsilat önceliğine çevirin
+
+En yüksek bakiyeli müşteriyi otomatik olarak ilk sıraya koymak doğru olmayabilir. Öncelik puanında en az üç unsuru birlikte kullanın: gecikme günü, açık tutar ve müşterinin geçmiş ödeme davranışı.
+
+Örneğin 30 bin TL'lik ama 120 gündür açık bir kalem, 300 bin TL'lik ve henüz vadesi gelmemiş alacaktan daha acil olabilir.
+
+## 6. Müşteri limitini yaşlandırmayla bağlayın
+
+Satış ekibi yeni sipariş alırken yalnız toplam cari bakiyeyi değil, bakiyenin yaşını da görmelidir. Belirli gecikme eşiğini aşan müşteri için yeni vadeli satış limiti düşürülebilir veya yönetici onayı istenebilir.
+
+Bu bağlantı kurulmadığında tahsilat sorunu büyürken satış aynı müşteriye yeni risk eklemeye devam edebilir.
+
+## 7. Nakit akışında güven seviyesini değiştirin
+
+90 gündür geciken alacağı gelecek haftanın “kesin tahsilatı” gibi 13 haftalık nakit akışına yazmak nakit planını yapay olarak güçlü gösterir. Yaşlandırma grubuna göre tahsilat güven seviyesi veya senaryo katsayısı tanımlayın.
+
+Amaç alacağı keyfi iskonto etmek değil; geçmiş davranışı karar modeline taşımaktır.
+
+## 8. Aylık tahsilat trendini ölçün
+
+Her ay şu göstergeleri arşivleyin:
+
+- toplam ticari alacak,
+- toplam vadesi geçmiş alacak,
+- 60+ ve 90+ gün tutarı,
+- en büyük gecikmiş müşteriler,
+- tahsil edilen eski alacak tutarı.
+
+Toplam alacak değişmese bile 90+ gün grubunun büyümesi tahsilat kalitesinin bozulduğunu gösterir.
+
+## 9. Yaşlandırma raporunun hata kontrolleri
+
+Açık kalemlerin toplamı cari hesap toplamına eşit olmalıdır. Negatif gecikme günleri vadesi gelmemiş gruba gitmeli, boş vade tarihleri ayrı hata kuyruğuna alınmalı, kapalı faturalar yaşlandırma tablosunda görünmemelidir.
+
+Bu kontroller yoksa görsel olarak düzgün bir yaşlandırma raporu yanlış karar üretebilir.
+
+Cari hesap, tahsilat, yaşlandırma ve müşteri riskini aynı sistemde izlemek için [Cari Hesap, Tahsilat ve Müşteri Risk Takip Sistemi](/sablon/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi) ürününü inceleyin. İlgili diğer çözümler [Muhasebe ve Vergi Excel şablonları](/sablonlar/muhasebe-ve-vergi) kategorisindedir.
