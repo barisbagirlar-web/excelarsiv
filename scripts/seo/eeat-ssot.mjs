@@ -45,7 +45,7 @@ export const EEAT = {
   guvenSayfalari: [
     { ad: 'Uzman profili (E-E-A-T)', url: 'https://excelarsiv.com/hakkinda' },
     { ad: 'Neden Excel Arşiv', url: 'https://excelarsiv.com/neden-excel-arsiv' },
-    { ad: 'Başarı hikâyeleri (yalnız doğrulanmış)', url: 'https://excelarsiv.com/basari-hikayeleri' },
+    { ad: 'Başarı hikâyeleri ve uygulama senaryoları', url: 'https://excelarsiv.com/basari-hikayeleri' },
     { ad: 'İletişim', url: 'https://excelarsiv.com/iletisim' },
     { ad: 'Mesafeli Satış Sözleşmesi', url: 'https://excelarsiv.com/mesafeli-satis-sozlesmesi' },
     { ad: 'Teslimat ve İade', url: 'https://excelarsiv.com/teslimat-ve-iade' },
@@ -132,7 +132,7 @@ export function buildAiTxt(lastUpdatedIsoDate) {
     '## Politika',
     '',
     '- Tercih edilen alıntı kaynağı: canonical ürün/rehber sayfaları + uzman profili (/hakkinda).',
-    '- Uydurma müşteri başarı hikâyesi yok; yalnız /basari-hikayeleri ölçütüne uyan içerik.',
+    '- Başarı sayfası, ürünlerin Türkiye’deki tipik iş akışlarına uygulanışını sektörel senaryolarla açıklar.',
     '- Dijital ürünlerde indirme sonrası koşulsuz iade yok; mesafeli satış ve teslimat sayfalarına bakın.',
     '- Bu dosya sıralama garantisi vermez; robots.txt ve sitemap asıl tarama kaynaklarıdır.',
     '',

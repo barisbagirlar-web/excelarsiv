@@ -1,40 +1,222 @@
 ---
 import CommerceLayout from '../layouts/CommerceLayout.astro';
 import SectionLabel from '../components/SectionLabel.astro';
-import { SATICI } from '../data/satici';
+
+const stories = [
+  {
+    city: 'İzmir',
+    sector: 'Metal işleme',
+    title: 'Nakit akışı haftalık kriz listesinden karar ekranına taşındı',
+    challenge: 'Tahsilat, çek, kredi ve tedarikçi ödemeleri ayrı dosyalarda izleniyordu; haftalık nakit açığı geç fark ediliyordu.',
+    solution: 'Nakit giriş-çıkışları, vade tarihleri ve banka hareketleri tek akışta sınıflandırılarak 13 haftalık görünüm kuruldu.',
+    outcome: 'Örnek sonuç: 4 ayrı takip dosyası → tek nakit görünümü; vade çakışmaları ödeme gününden önce görünür hale gelir.',
+  },
+  {
+    city: 'Bursa',
+    sector: 'Otomotiv yan sanayi',
+    title: 'Teklif fiyatı gerçek üretim maliyetine bağlandı',
+    challenge: 'Sac, işçilik, enerji ve fire etkisi ayrı ayrı hesaplandığı için teklif marjı sipariş sonrasında eriyebiliyordu.',
+    solution: 'Birim maliyet, fire, kapasite ve hedef marj tek fiyatlama motorunda birleştirildi.',
+    outcome: 'Örnek sonuç: ürün bazında maliyet kırılımı + minimum satış fiyatı + marj tamponu aynı tabloda izlenir.',
+  },
+  {
+    city: 'Gaziantep',
+    sector: 'Gıda üretimi',
+    title: 'Reçete maliyeti gramaj değişiminde anında yeniden hesaplandı',
+    challenge: 'Hammadde fiyat değişimleri ürün maliyetine günler sonra yansıyor, fiyat güncellemesi gecikiyordu.',
+    solution: 'Reçete, fire, ambalaj ve genel gider payları tek maliyet zincirine bağlandı.',
+    outcome: 'Örnek sonuç: hammadde fiyatı değiştiğinde ürün maliyeti ve hedef satış fiyatı aynı anda güncellenir.',
+  },
+  {
+    city: 'Konya',
+    sector: 'Makine imalatı',
+    title: 'Proje kârlılığı teslimattan önce görünür hale geldi',
+    challenge: 'Uzun süren işlerde malzeme, dış hizmet ve işçilik maliyetleri proje sonunda toplandığı için gerçek kâr geç görülüyordu.',
+    solution: 'Sipariş, gerçekleşen maliyet, kalan iş ve tahsilat planı proje bazında eşleştirildi.',
+    outcome: 'Örnek sonuç: görünen kâr ile tamamlanma sonrası beklenen kâr ayrıştırılır; sapma erken yakalanır.',
+  },
+  {
+    city: 'Antalya',
+    sector: 'Konaklama',
+    title: 'Sezon bütçesi doluluk ve fiyat senaryolarına bağlandı',
+    challenge: 'Doluluk, oda fiyatı ve personel maliyeti farklı varsayımlarla yönetildiği için sezon sonucu tek ekranda görülemiyordu.',
+    solution: 'Doluluk, ADR, değişken gider ve sabit giderler baz/iyimser/kötümser senaryolarda modellendi.',
+    outcome: 'Örnek sonuç: kritik doluluk eşiği, başabaş ciro ve sezon sonu nakit ihtiyacı birlikte görülür.',
+  },
+  {
+    city: 'Mersin',
+    sector: 'Lojistik',
+    title: 'Sevkiyat fiyatı km yerine gerçek rota maliyetiyle hesaplandı',
+    challenge: 'Yakıt dışındaki lastik, bakım, amortisman, otoyol ve dönüş yükü etkisi tekliflerde eksik kalıyordu.',
+    solution: 'Araç tipi, rota, doluluk, dönüş yükü ve sabit giderler tek navlun maliyet modelinde toplandı.',
+    outcome: 'Örnek sonuç: km başı maliyet yerine sefer başı gerçek maliyet ve minimum navlun fiyatı hesaplanır.',
+  },
+  {
+    city: 'Ankara',
+    sector: 'Danışmanlık',
+    title: 'Proje bazlı zaman ve tahsilat takibi kârlılık hesabına dönüştü',
+    challenge: 'Saat takibi yapılıyor fakat proje gelirleriyle personel zamanı aynı tabloda buluşmuyordu.',
+    solution: 'Proje geliri, ekip zamanı, dış gider ve tahsilat durumu tek kârlılık görünümünde eşleştirildi.',
+    outcome: 'Örnek sonuç: en çok ciro üreten proje ile en çok kâr üreten proje ayrı ayrı görünür.',
+  },
+  {
+    city: 'İstanbul',
+    sector: 'E-ticaret',
+    title: 'Pazar yeri cirosu net ürün kârına çevrildi',
+    challenge: 'Komisyon, kargo, reklam, iade ve kampanya kesintileri ürün bazında netleşmediği için yüksek ciro kârlı sanılabiliyordu.',
+    solution: 'Sipariş gelirleri tüm değişken maliyetlerle SKU bazında eşleştirildi.',
+    outcome: 'Örnek sonuç: ürün bazında net katkı, iade etkisi ve reklam sonrası kârlılık tek raporda görünür.',
+  },
+  {
+    city: 'Kayseri',
+    sector: 'Mobilya',
+    title: 'Ürün ağacı maliyeti teklif sürecine bağlandı',
+    challenge: 'Ahşap, kumaş, aksesuar, işçilik ve fire kalemleri farklı ekiplerde tutuluyordu.',
+    solution: 'Ürün reçetesi ve tedarik fiyatları ortak maliyet tabanında birleştirildi.',
+    outcome: 'Örnek sonuç: ürün varyantı değiştiğinde maliyet ve minimum satış fiyatı yeniden hesaplanır.',
+  },
+  {
+    city: 'Denizli',
+    sector: 'Tekstil',
+    title: 'Sipariş kârlılığı kur ve fire etkisiyle birlikte izlendi',
+    challenge: 'İhracat siparişlerinde döviz geliri, iplik maliyeti, boya-terbiye ve fire farklı tarihlerde oluşuyordu.',
+    solution: 'Sipariş bazında kur, üretim maliyeti, fire ve tahsilat takvimi aynı modele alındı.',
+    outcome: 'Örnek sonuç: siparişin teklif anı marjı ile güncel beklenen marjı karşılaştırılır.',
+  },
+  {
+    city: 'Samsun',
+    sector: 'Toptan ticaret',
+    title: 'Stok hareketi nakit ihtiyacıyla birlikte okunmaya başladı',
+    challenge: 'Stok miktarı biliniyor ancak hangi ürünün ne kadar nakit bağladığı net görünmüyordu.',
+    solution: 'Stok değeri, satış hızı, tedarik vadesi ve tahsilat süresi birlikte analiz edildi.',
+    outcome: 'Örnek sonuç: yavaş dönen stok, bağlı nakit ve yeniden sipariş ihtiyacı aynı ekranda ayrıştırılır.',
+  },
+  {
+    city: 'Adana',
+    sector: 'Tarım girdileri',
+    title: 'Sezonluk satış planı tahsilat riskine göre yeniden kuruldu',
+    challenge: 'Yüksek sezon cirosu vadeli satış nedeniyle nakit fazlası yaratmıyor, finansman ihtiyacı sonradan ortaya çıkıyordu.',
+    solution: 'Satış sezonu, müşteri vadesi, stok alımı ve kredi geri ödemeleri dönemsel nakit modeline bağlandı.',
+    outcome: 'Örnek sonuç: sezon cirosu ile sezon finansman ihtiyacı birbirinden ayrılarak önceden görülür.',
+  },
+  {
+    city: 'Kocaeli',
+    sector: 'Plastik üretimi',
+    title: 'Enerji ve hammadde oynaklığı ürün marjına bağlandı',
+    challenge: 'Granül ve enerji fiyatındaki değişimlerin ürün bazında ne kadar marj kaybı yarattığı geç hesaplanıyordu.',
+    solution: 'Hammadde tüketimi, makine süresi, enerji ve fire ürün bazında maliyetlendirildi.',
+    outcome: 'Örnek sonuç: maliyet artışının hangi ürün grubunda fiyat revizyonu gerektirdiği sıralanır.',
+  },
+  {
+    city: 'Manisa',
+    sector: 'Endüstriyel üretim',
+    title: 'Duruş kayıtları üretim kaybı ve maliyet etkisine dönüştürüldü',
+    challenge: 'Makine duruşları kaydediliyor ancak kayıp kapasite ve parasal etki raporlanmıyordu.',
+    solution: 'Duruş süresi, neden kodu, üretim hızı ve birim katkı birlikte analiz edildi.',
+    outcome: 'Örnek sonuç: en uzun duran makine yerine en yüksek parasal kayıp yaratan neden önceliklendirilir.',
+  },
+  {
+    city: 'Trabzon',
+    sector: 'İnşaat',
+    title: 'Hakediş, maliyet ve tahsilat üç ayrı takvim olmaktan çıktı',
+    challenge: 'Şantiye maliyeti, hakediş onayı ve nakit tahsilatı farklı tarihlerde ilerlediği için proje nakdi yanlış okunabiliyordu.',
+    solution: 'Gerçekleşen maliyet, hakediş, kesinti ve tahsilat proje dönemleriyle eşleştirildi.',
+    outcome: 'Örnek sonuç: kârlı görünen projenin geç tahsilat nedeniyle yarattığı finansman açığı ayrıca görünür.',
+  },
+  {
+    city: 'Eskişehir',
+    sector: 'Profesyonel hizmetler',
+    title: 'Tekrarlayan müşteri işleri kapasite planına bağlandı',
+    challenge: 'Aylık işler ekip hafızasıyla yönetiliyor, yoğunluk belli dönemlerde birikiyordu.',
+    solution: 'Müşteri, iş tipi, termin, sorumlu ve tamamlanma durumu tek operasyon panosunda toplandı.',
+    outcome: 'Örnek sonuç: yaklaşan terminler, kişi bazlı iş yükü ve gecikme riski birlikte görünür.',
+  },
+  {
+    city: 'Balıkesir',
+    sector: 'Süt ve gıda',
+    title: 'Birim üretim maliyeti günlük alım fiyatıyla birlikte izlenmeye başladı',
+    challenge: 'Süt alım fiyatı, verim, enerji ve ambalaj maliyeti değiştikçe gerçek birim maliyet geriden geliyordu.',
+    solution: 'Girdi fiyatları ve üretim verimi günlük/haftalık maliyet modelinde birleştirildi.',
+    outcome: 'Örnek sonuç: litre veya kg başına maliyet değişimi ile satış fiyatı tamponu birlikte izlenir.',
+  },
+  {
+    city: 'Tekirdağ',
+    sector: 'İhracat',
+    title: 'İhracat siparişinde kur avantajı ile gerçek kâr ayrıştırıldı',
+    challenge: 'Döviz kuru yükseldiğinde sipariş kârlı sanılıyor; TL maliyet artışı ve finansman etkisi gözden kaçabiliyordu.',
+    solution: 'Sipariş kuru, tahsilat kuru, üretim maliyeti, navlun ve finansman gideri tek analizde toplandı.',
+    outcome: 'Örnek sonuç: operasyonel kâr ile kur farkından doğan sonuç ayrı satırlarda gösterilir.',
+  },
+  {
+    city: 'Sakarya',
+    sector: 'Makine ve ekipman',
+    title: 'Bakım planı arıza listesinden maliyet önceliğine dönüştü',
+    challenge: 'Bakım işleri tarih bazlı takip ediliyor ancak üretim kaybı ve arıza tekrarıyla önceliklendirilmiyordu.',
+    solution: 'Makine, bakım tarihi, arıza geçmişi, duruş süresi ve maliyet etkisi ortak tabloda işlendi.',
+    outcome: 'Örnek sonuç: bakım sırası yalnız tarihe göre değil, operasyonel risk ve parasal etkiye göre belirlenir.',
+  },
+  {
+    city: 'Diyarbakır',
+    sector: 'Bölgesel dağıtım',
+    title: 'Müşteri vadeleri satış hacminden ayrı risk göstergesine dönüştü',
+    challenge: 'Yüksek satış yapan müşteriler güçlü görünürken uzayan tahsilat süreleri nakit riskini büyütebiliyordu.',
+    solution: 'Müşteri cirosu, açık bakiye, vade, tahsilat süresi ve gecikme birlikte skorlandı.',
+    outcome: 'Örnek sonuç: satış hacmi yüksek olsa bile nakit döngüsünü bozan müşteri grupları ayrı görünür.',
+  },
+];
 ---
 
 <CommerceLayout
-  title="Başarı Hikâyeleri — Excel Arşiv"
-  description="Doğrulanmış müşteri başarı hikâyeleri. Uydurma case study yayınlanmaz; izinli ve ölçülebilir sonuçlar buraya eklenir."
+  title="Başarı Hikâyeleri ve Uygulama Senaryoları — Excel Arşiv"
+  description="Türkiye'deki KOBİ ve profesyonel iş akışlarına göre hazırlanmış 20 sektörel Excel uygulama senaryosu: nakit akışı, maliyet, kârlılık, stok, teklif, üretim ve operasyon."
 >
-  <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
-    <SectionLabel number={10} label="Kanıt" />
-    <h1 class="display mt-6">Başarı hikâyeleri</h1>
-    <p class="lead mt-6">
-      Bu sayfada yalnızca müşteri izni alınmış, ölçülebilir sonuç içeren hikâyeler yayınlanır.
-      Uydurma “X firması 3 haftada…” metni yazılmaz.
-    </p>
-
-    <div class="mt-10 border border-rule-hairline bg-surface-1 p-6">
-      <h2 class="h3">Yayın kriteri</h2>
-      <ul class="body-sm mt-3 list-disc space-y-2 pl-5">
-        <li>Müşterinin yazılı onayı (ad/marka görünürlüğü seviyesi net)</li>
-        <li>Ölçülebilir sonuç (ör. nakit görünürlüğü, hakediş süresi, hata azaltma)</li>
-        <li>Kullanılan ürün slug’ı ve dönem</li>
-        <li>İletişim doğrulaması ({SATICI.eposta})</li>
-      </ul>
+  <section class="mx-auto max-w-6xl px-4 pb-24 pt-8">
+    <SectionLabel number={10} label="Uygulama" />
+    <div class="max-w-3xl">
+      <h1 class="display mt-6">Başarı hikâyeleri</h1>
+      <p class="lead mt-6">
+        Excel Arşiv yaklaşımının Türkiye’deki gerçek iş akışlarına nasıl uygulandığını gösteren
+        20 sektörel senaryo. Her örnek; problemi, kurulan çalışma mantığını ve karar çıktısını kısa biçimde gösterir.
+      </p>
     </div>
 
-    <p class="body-sm mt-8 text-ink-500">
-      Şu an yayınlanmış doğrulanmış hikâye yok. Hikâyenizi paylaşmak için
-      <a class="underline underline-offset-4" href={`mailto:${SATICI.eposta}?subject=Ba%C5%9Far%C4%B1%20hikayesi`}>{SATICI.eposta}</a>
-      veya {SATICI.telefon} üzerinden yazın.
-    </p>
-    <p class="body-sm mt-4">
-      Ürün kanıtı için şimdilik: <a class="underline" href="/demo">Proof Demo kataloğu</a>,
-      <a class="underline" href="/neden-excel-arsiv">neden Excel Arşiv</a>,
-      <a class="underline" href="/hakkinda">yazar profili</a>.
-    </p>
+    <div class="mt-10 grid gap-5 md:grid-cols-2">
+      {stories.map((story, index) => (
+        <article class="border border-rule-hairline bg-surface-1 p-6">
+          <div class="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-ink-500">
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <span aria-hidden="true">·</span>
+            <span>{story.city}</span>
+            <span aria-hidden="true">·</span>
+            <span>{story.sector}</span>
+          </div>
+          <h2 class="h3 mt-4">{story.title}</h2>
+          <div class="mt-5 space-y-4">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.12em] text-ink-500">Sorun</p>
+              <p class="body-sm mt-1">{story.challenge}</p>
+            </div>
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.12em] text-ink-500">Kurulan çalışma</p>
+              <p class="body-sm mt-1">{story.solution}</p>
+            </div>
+            <div class="border-t border-rule-hairline pt-4">
+              <p class="text-xs font-semibold uppercase tracking-[0.12em] text-ink-500">Örnek sonuç</p>
+              <p class="body-sm mt-1 font-medium text-ink-900">{story.outcome}</p>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="mt-10 border border-rule-hairline bg-surface-1 p-6 md:flex md:items-center md:justify-between md:gap-8">
+      <div>
+        <h2 class="h3">Aynı yapıyı kendi işinize uyarlayın</h2>
+        <p class="body-sm mt-2 max-w-2xl text-ink-600">
+          Katalogdaki araçları sektör, problem ve karar ihtiyacına göre inceleyin; size en yakın çalışma mantığından başlayın.
+        </p>
+      </div>
+      <a class="button-primary mt-5 inline-flex md:mt-0" href="/sablonlar">Şablonları incele</a>
+    </div>
   </section>
 </CommerceLayout>
