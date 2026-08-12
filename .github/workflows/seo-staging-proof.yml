@@ -30,7 +30,9 @@ permissions:
 
 concurrency:
   group: seo-staging-proof-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: false
+  # Only the newest commit on the same PR/ref can be a valid release proof.
+  # Cancel obsolete runs so stale preview/Lighthouse jobs cannot block the final head.
+  cancel-in-progress: true
 
 env:
   FIREBASE_PROJECT_ID: carbon-web-1265b
