@@ -9,9 +9,13 @@ export const SATICI = {
   telefon: '0539 333 33 03',
   telefonE164: '+905393333303',
   telefonTelHref: 'tel:+905393333303',
-  /** Kayıtlı işyeri adresi / VKN / MERSIS kullanıcıdan gelmeden uydurulmaz. */
+  /**
+   * Gerçek kişi vergi kimliği (11 hane). Kullanıcı VKN olarak iletti;
+   * TCKN checksum doğrulandı (kurumsal 10 haneli VKN değil).
+   */
+  vkn: '25403091318',
   adresBeyani:
-    'Türkiye. Kayıtlı işyeri adresi, vergi kimlik numarası ve MERSIS numarası fatura üzerinde yer alır; yazılı talep üzerine paylaşılır.',
+    'Türkiye. Vergi kimlik no: 25403091318 (gerçek kişi). Kayıtlı işyeri adresi ve MERSIS numarası fatura üzerinde yer alır; yazılı talep üzerine paylaşılır.',
   ulke: 'TR',
 } as const;
 
