@@ -55,10 +55,10 @@ const satista = product?.satista !== false;
 
         <noscript>
           <p class="checkout-card__hint" style="margin-top:12px">
-            JavaScript kapalı. Satın alma için
-            <a href="/teslimat">teslimat / kurtarma sayfasını</a> açın veya
-            <a href="/iletisim">iletişime</a> yazın. Reklam engelleyici API çağrılarını kesiyorsa
-            geçici olarak izin verin.
+            JavaScript kapalı veya engellenmiş. Doğrudan Shopier ödeme sayfasına gidin:
+            <a href={tierInfo.tier.shopierUrl} rel="noopener noreferrer sponsored">{tierInfo.tier.shopierUrl}</a>.
+            Ödeme sonrası <a href="/teslimat">/teslimat</a> sayfasında sipariş numarası + Shopier e-postası ile
+            indirmeyi açın. Sorun olursa <a href="/iletisim">iletişim</a>.
           </p>
         </noscript>
 

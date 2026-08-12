@@ -34,6 +34,8 @@ const {
   fileFormat = 'xlsx',
   sheetMap = [],
   outputs = [],
+  preview,
+  priority = false,
 } = Astro.props;
 
 const price = priceTL.toLocaleString('tr-TR');
@@ -52,7 +54,19 @@ const kindLabel: Record<string, string> = { input: 'Girdi', calculation: 'Hesap'
   data-summary={summary}
 >
   <a class="tcard__preview" href={`/sablon/${slug}`} aria-label={`${name} ürününü incele`}>
-    <CatalogProductVisual slug={slug} name={name} />
+    {preview ? (
+      <img
+        class="tcard__shot"
+        src={preview.src}
+        alt={preview.alt}
+        width="1200"
+        height="750"
+        loading={priority ? 'eager' : 'lazy'}
+        decoding="async"
+      />
+    ) : (
+      <CatalogProductVisual slug={slug} name={name} />
+    )}
     <span class="tcard__preview-label">ÜRÜNE ÖZEL ÖNİZLEME</span>
     <span class="tcard__preview-open">Detayda gerçek ekranlar ↗</span>
   </a>
@@ -119,6 +133,13 @@ const kindLabel: Record<string, string> = { input: 'Girdi', calculation: 'Hesap'
     border-bottom: 1px solid var(--xl-grid);
     background: #f4f8f5;
     text-decoration: none;
+  }
+  .tcard__shot {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top left;
   }
   .tcard__preview::after {
     content: '';

@@ -16,7 +16,7 @@
   },
   "mode": "DEGRADED_PUBLIC",
   "source": {
-    "builtIndexableUrlCount": 229,
+    "builtIndexableUrlCount": 233,
     "commercialProductCount": 35,
     "guideCount": 4,
     "phase0Artifact": "data/seo/tam_map.json"
@@ -62,6 +62,20 @@
       "canonical": "https://excelarsiv.com",
       "ownerRoute": "/",
       "notes": "DEGRADED_PUBLIC: ölçüm ve link-count alanları veri gelene kadar null."
+    },
+    {
+      "pageId": "excelarsiv:basari-hikayeleri",
+      "route": "/basari-hikayeleri",
+      "type": "landing",
+      "status": "live",
+      "primaryQueryClusterId": null,
+      "primaryEntity": "/basari-hikayeleri",
+      "searchIntent": null,
+      "templateId": null,
+      "serpFeatureTargets": [],
+      "canonical": "https://excelarsiv.com/basari-hikayeleri",
+      "ownerRoute": null,
+      "notes": "Registry parity sync — otomatik eklendi."
     },
     {
       "pageId": "excelarsiv:cerez-politikasi",
@@ -3658,6 +3672,48 @@
       "canonical": "https://excelarsiv.com/sablonlar/stok-ve-uretim",
       "ownerRoute": "/sablonlar/stok-ve-uretim",
       "notes": null
+    },
+    {
+      "pageId": "excelarsiv:sektor:e-ticaret-karlilik",
+      "route": "/sektor/e-ticaret-karlilik",
+      "type": "landing",
+      "status": "live",
+      "primaryQueryClusterId": null,
+      "primaryEntity": "/sektor/e-ticaret-karlilik",
+      "searchIntent": null,
+      "templateId": null,
+      "serpFeatureTargets": [],
+      "canonical": "https://excelarsiv.com/sektor/e-ticaret-karlilik",
+      "ownerRoute": null,
+      "notes": "Registry parity sync — otomatik eklendi."
+    },
+    {
+      "pageId": "excelarsiv:sektor:insaat-hakedis",
+      "route": "/sektor/insaat-hakedis",
+      "type": "landing",
+      "status": "live",
+      "primaryQueryClusterId": null,
+      "primaryEntity": "/sektor/insaat-hakedis",
+      "searchIntent": null,
+      "templateId": null,
+      "serpFeatureTargets": [],
+      "canonical": "https://excelarsiv.com/sektor/insaat-hakedis",
+      "ownerRoute": null,
+      "notes": "Registry parity sync — otomatik eklendi."
+    },
+    {
+      "pageId": "excelarsiv:sektor:kafe-restoran-nakit",
+      "route": "/sektor/kafe-restoran-nakit",
+      "type": "landing",
+      "status": "live",
+      "primaryQueryClusterId": null,
+      "primaryEntity": "/sektor/kafe-restoran-nakit",
+      "searchIntent": null,
+      "templateId": null,
+      "serpFeatureTargets": [],
+      "canonical": "https://excelarsiv.com/sektor/kafe-restoran-nakit",
+      "ownerRoute": null,
+      "notes": "Registry parity sync — otomatik eklendi."
     },
     {
       "pageId": "excelarsiv:shopier-veri-aktarimi",

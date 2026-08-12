@@ -55,6 +55,15 @@ function demoRoutes(): string[] {
   return productRoutes().map((route) => route.replace('/sablon/', '/demo/'));
 }
 
+function sektorRoutes(): string[] {
+  // Keep in sync with src/data/sektorler.ts (CI cannot import Astro src easily).
+  return [
+    '/sektor/kafe-restoran-nakit',
+    '/sektor/insaat-hakedis',
+    '/sektor/e-ticaret-karlilik',
+  ];
+}
+
 function sourceIndexableRoutes(): string[] {
   return [...new Set([
     ...staticAstroRoutes(),
@@ -62,6 +71,7 @@ function sourceIndexableRoutes(): string[] {
     ...guideRoutes(),
     ...productRoutes(),
     ...demoRoutes(),
+    ...sektorRoutes(),
   ])].sort();
 }
 
@@ -93,4 +103,4 @@ function main(): void {
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main();
 
-export { EXIT, categoryRoutes, demoRoutes, guideRoutes, normalizeRoute, productRoutes, registryParity, sourceIndexableRoutes, staticAstroRoutes };
+export { EXIT, categoryRoutes, demoRoutes, guideRoutes, normalizeRoute, productRoutes, registryParity, sektorRoutes, sourceIndexableRoutes, staticAstroRoutes };
