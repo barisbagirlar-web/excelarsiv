@@ -1,0 +1,94 @@
+/* /paketler — structural repair + readability floor.
+   Scoped to .pkg-page so other commerce pages keep their own visual contract. */
+
+.pkg-page .pkg-eyebrow{font-size:11px!important;line-height:1.2!important}
+.pkg-page .pkg-section-head>p{font-size:15px!important;line-height:1.72!important}
+.pkg-page .pkg-btn{font-size:12px!important}
+.pkg-page .pkg-hero__lead{font-size:16px!important;line-height:1.72!important}
+.pkg-page .pkg-hero__price span{font-size:10.5px!important;line-height:1.5!important}
+.pkg-page .pkg-proofline span{font-size:10.5px!important;line-height:1.55!important}
+.pkg-page .pkg-visual-bar b{font-size:9px!important}
+.pkg-page .pkg-float small{font-size:9.5px!important}
+.pkg-page .pkg-float strong{font-size:14px!important}
+.pkg-page .pkg-decision__intro p{font-size:15px!important;line-height:1.76!important}
+.pkg-page .pkg-state>span{font-size:10.5px!important}
+.pkg-page .pkg-state li{font-size:14px!important;line-height:1.55!important}
+
+/* Root cause repair: markup contains direct <li> children, while the old layout rules
+   were attached to a non-existent <a>. Apply the card layout to the actual element. */
+.pkg-page .pkg-chain__rail>li{
+  display:flex!important;
+  min-width:0!important;
+  min-height:184px!important;
+  flex-direction:column!important;
+  gap:10px!important;
+  padding:24px 14px 20px!important;
+  border-right:1px solid rgba(255,255,255,.10)!important;
+  overflow:hidden!important;
+}
+.pkg-page .pkg-chain__rail>li:last-child{border-right:0!important}
+.pkg-page .pkg-chain__num{font-size:10.5px!important;line-height:1.2!important}
+.pkg-page .pkg-chain__rail strong{
+  display:block!important;
+  max-width:100%!important;
+  font-size:13.5px!important;
+  line-height:1.3!important;
+  overflow-wrap:anywhere!important;
+  word-break:normal!important;
+}
+.pkg-page .pkg-chain__rail small{
+  display:block!important;
+  max-width:100%!important;
+  font-size:12.5px!important;
+  line-height:1.55!important;
+  color:rgba(255,255,255,.72)!important;
+  overflow-wrap:anywhere!important;
+}
+.pkg-page .pkg-chain__value span{font-size:10px!important;line-height:1.35!important}
+.pkg-page .pkg-chain__value strong{font-size:20px!important}
+
+.pkg-page .pkg-shot__top b{font-size:9px!important}
+.pkg-page .pkg-shot figcaption strong{font-size:13px!important}
+.pkg-page .pkg-shot figcaption span{font-size:12px!important;line-height:1.5!important}
+.pkg-page .pkg-proof__action>span{font-size:13px!important;line-height:1.55!important}
+.pkg-page .pkg-value__copy p{font-size:15px!important;line-height:1.76!important}
+.pkg-page .pkg-value__matrix span{font-size:10px!important}
+.pkg-page .pkg-value__matrix strong{font-size:15.5px!important}
+.pkg-page .pkg-value__matrix p{font-size:13px!important;line-height:1.58!important}
+.pkg-page .pkg-buyflow__steps b{font-size:10px!important}
+.pkg-page .pkg-buyflow__steps strong{font-size:15.5px!important}
+.pkg-page .pkg-buyflow__steps span{font-size:13px!important;line-height:1.55!important}
+.pkg-page .pkg-offer__copy p{font-size:15px!important;line-height:1.76!important}
+.pkg-page .pkg-text-link{font-size:11.5px!important}
+.pkg-page .pkg-offer__label{font-size:10.5px!important}
+.pkg-page .pkg-offer__meta{font-size:10.5px!important}
+.pkg-page .pkg-offer__demo{font-size:11px!important}
+.pkg-page .pkg-offer__trust span{font-size:10px!important;line-height:1.45!important}
+.pkg-page .pkg-faq__intro p{font-size:13.5px!important;line-height:1.7!important}
+.pkg-page .pkg-faq summary{font-size:14.5px!important;line-height:1.45!important}
+.pkg-page .pkg-faq details p{font-size:13.5px!important;line-height:1.72!important}
+
+@media(max-width:1050px){
+  .pkg-page .pkg-chain__rail>li{min-height:168px!important}
+}
+
+@media(max-width:720px){
+  .pkg-page .pkg-section-head>p{font-size:14px!important}
+  .pkg-page .pkg-hero__lead{font-size:15px!important}
+  .pkg-page .pkg-btn{font-size:11px!important}
+  .pkg-page .pkg-chain__rail>li{
+    min-height:168px!important;
+    flex:0 0 72%!important;
+    padding:20px 16px!important;
+  }
+  .pkg-page .pkg-chain__rail strong{font-size:14px!important}
+  .pkg-page .pkg-chain__rail small{font-size:12.5px!important}
+  .pkg-page .pkg-value__matrix p{font-size:12.5px!important}
+  .pkg-page .pkg-offer__copy p{font-size:14px!important}
+  .pkg-page .pkg-sticky span{font-size:9px!important}
+  .pkg-page .pkg-sticky a{font-size:11px!important}
+}
+
+@media(max-width:430px){
+  .pkg-page .pkg-chain__rail>li{flex-basis:82%!important}
+}
