@@ -16,7 +16,7 @@ import {
 
 const failures = [];
 const warnings = [];
-const requiredArtifacts = ['sitemap.xml', 'robots.txt', 'llms.txt', 'llms-full.txt'];
+const requiredArtifacts = ['sitemap.xml', 'robots.txt', 'llms.txt', 'llms-full.txt', 'ai.txt'];
 
 function fail(message) {
   failures.push(message);
@@ -136,12 +136,25 @@ if (!/^User-agent:\s*\*/mi.test(robots)) fail('robots.txt: genel User-agent kura
 if (/Disallow:\s*\/$/mi.test(robots)) fail('robots.txt: sitewide crawl block tespit edildi');
 if (!robots.includes(`Sitemap: ${SITE_ORIGIN}/sitemap.xml`)) fail('robots.txt: canonical sitemap.xml bildirimi eksik');
 
-for (const llmName of ['llms.txt', 'llms-full.txt']) {
+for (const llmName of ['llms.txt', 'llms-full.txt', 'ai.txt']) {
   const content = readRequired(llmName);
   if (!content.includes(`${SITE_ORIGIN}/sitemap.xml`)) fail(`${llmName}: sitemap referansı eksik`);
+  if (!content.includes('E-E-A-T') && !content.includes('E-E-A-T varlığı')) fail(`${llmName}: E-E-A-T bölümü eksik`);
+  if (!content.includes('25403091318')) fail(`${llmName}: satıcı VKN eksik`);
+  if (!content.includes(`${SITE_ORIGIN}/hakkinda`)) fail(`${llmName}: uzman profili /hakkinda eksik`);
   const urls = [...content.matchAll(/https:\/\/excelarsiv\.com[^\s)\]>]*/g)].map((m) => m[0].replace(/[.,;:]$/, ''));
   for (const url of urls) {
-    if ([`${SITE_ORIGIN}/sitemap.xml`, `${SITE_ORIGIN}/robots.txt`, `${SITE_ORIGIN}/llms.txt`, `${SITE_ORIGIN}/llms-full.txt`, SITE_ORIGIN].includes(url)) continue;
+    if ([
+      `${SITE_ORIGIN}/sitemap.xml`,
+      `${SITE_ORIGIN}/robots.txt`,
+      `${SITE_ORIGIN}/llms.txt`,
+      `${SITE_ORIGIN}/llms-full.txt`,
+      `${SITE_ORIGIN}/ai.txt`,
+      `${SITE_ORIGIN}/katalog.json`,
+      SITE_ORIGIN,
+      `${SITE_ORIGIN}/`,
+      `${SITE_ORIGIN}/images/baris-bagirlar.jpg`,
+    ].includes(url)) continue;
     const normalized = normalizeCanonical(url);
     if (normalized && !expected.has(normalized)) warn(`${llmName}: sitemap dışı public referans -> ${url}`);
   }

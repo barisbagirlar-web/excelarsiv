@@ -52,3 +52,5 @@ Disallow: /api
 Sitemap: https://excelarsiv.com/sitemap.xml
 # Makine kataloğu: https://excelarsiv.com/katalog.json
 # LLM keşif: https://excelarsiv.com/llms.txt
+# AI / E-E-A-T kimlik: https://excelarsiv.com/ai.txt
+# Uzman profili: https://excelarsiv.com/hakkinda

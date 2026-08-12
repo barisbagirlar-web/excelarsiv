@@ -11,11 +11,12 @@ import {
   semanticLastModified,
   xmlEscape,
 } from './lib.mjs';
+import { buildAiTxt, buildEeatMarkdownSection } from './eeat-ssot.mjs';
 
 const MAX_URLS_PER_SITEMAP = 40_000;
 const MAX_UNCOMPRESSED_BYTES = 45 * 1024 * 1024;
 const SCREENSHOTS_DIR = resolve(process.cwd(), 'public/screenshots');
-const artifacts = new Set(['sitemap.xml', 'llms.txt', 'llms-full.txt']);
+const artifacts = new Set(['sitemap.xml', 'llms.txt', 'llms-full.txt', 'ai.txt']);
 
 function atomicWrite(name, content) {
   const target = join(DIST_DIR, name);
@@ -141,7 +142,7 @@ function buildLlmsShort(indexablePages, templateRecords) {
   const products = indexablePages.filter((page) => page.pathname.startsWith('/sablon/'));
   const guides = indexablePages.filter((page) => page.pathname === '/rehber' || page.pathname.startsWith('/rehber/'));
   const categories = indexablePages.filter((page) => page.pathname === '/sablonlar' || page.pathname.startsWith('/sablonlar/'));
-  const core = indexablePages.filter((page) => !page.pathname.startsWith('/sablon') && !page.pathname.startsWith('/rehber') && ['/', '/nasil-calisir', '/paketler', '/sss', '/teslimat', '/teslimat-ve-iade'].includes(page.pathname));
+  const core = indexablePages.filter((page) => !page.pathname.startsWith('/sablon') && !page.pathname.startsWith('/rehber') && ['/', '/nasil-calisir', '/paketler', '/sss', '/teslimat', '/teslimat-ve-iade', '/hakkinda', '/neden-excel-arsiv', '/iletisim', '/mesafeli-satis-sozlesmesi'].includes(page.pathname));
   const lastUpdated = latestContentDate(indexablePages, templateRecords);
 
   const lines = [
@@ -153,10 +154,14 @@ function buildLlmsShort(indexablePages, templateRecords) {
     `- Site: ${SITE_ORIGIN}/`,
     `- Sitemap index: ${SITE_ORIGIN}/sitemap.xml`,
     `- Tam AI/LLM rehberi: ${SITE_ORIGIN}/llms-full.txt`,
+    `- AI kimlik dosyası: ${SITE_ORIGIN}/ai.txt`,
     `- Katalog: ${SITE_ORIGIN}/sablonlar`,
     `- Rehberler: ${SITE_ORIGIN}/rehber`,
+    `- Uzman profili (E-E-A-T): ${SITE_ORIGIN}/hakkinda`,
     '- Dil: Türkçe (tr-TR)',
     '- Para birimi: Türk Lirası (TL)',
+    '',
+    buildEeatMarkdownSection({ headingLevel: 2 }).trimEnd(),
     '',
     '## Başlangıç ve satın alma kaynakları',
     '',
@@ -213,11 +218,15 @@ function buildLlmsFull(indexablePages, templateRecords) {
     '- Dosya türleri: .xlsx / .xlsm (ürüne göre)',
     '- Sitemap index: https://excelarsiv.com/sitemap.xml',
     '- Robots: https://excelarsiv.com/robots.txt',
+    '- AI kimlik: https://excelarsiv.com/ai.txt',
     '- Katalog: https://excelarsiv.com/sablonlar',
     '- Makine kataloğu (JSON): https://excelarsiv.com/katalog.json',
     '- Rehber: https://excelarsiv.com/rehber',
     '- Satın alma (ürün sayfası #satin-al): her ürün URL’sinde Shopier ödeme başlatma',
     '- Neden Excel Arşiv (moat): https://excelarsiv.com/neden-excel-arsiv',
+    '- Uzman profili (E-E-A-T): https://excelarsiv.com/hakkinda',
+    '',
+    buildEeatMarkdownSection({ headingLevel: 2 }).trimEnd(),
     '',
     '## Public sayfalar',
     '',
@@ -300,6 +309,13 @@ if (children.length === 0) throw new Error('FAIL_SAFE_EMPTY_SITEMAP_INDEX');
 atomicWrite('sitemap.xml', sitemapIndexDocument(children));
 atomicWrite('llms.txt', buildLlmsShort(indexablePages, templates));
 atomicWrite('llms-full.txt', buildLlmsFull(indexablePages, templates));
+{
+  const lastUpdated = latestContentDate(indexablePages, templates);
+  atomicWrite(
+    'ai.txt',
+    buildAiTxt(lastUpdated ? lastUpdated.toISOString().slice(0, 10) : null),
+  );
+}
 
 const katalog = {
   generatedAt: new Date().toISOString(),
