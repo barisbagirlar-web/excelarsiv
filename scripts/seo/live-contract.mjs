@@ -19,11 +19,17 @@ async function get(url) {
       const timer = setTimeout(() => controller.abort(), 20_000);
       const res = await fetch(url, { signal: controller.signal, redirect: 'follow' });
       clearTimeout(timer);
-      return {
+      const payload = {
         status: res.status,
         contentType: res.headers.get('content-type') ?? '',
         text: await res.text(),
       };
+      // Hosting propagate / edge 502-504: geçici; tekrar dene.
+      if ([502, 503, 504].includes(payload.status) && attempt < RETRY) {
+        await new Promise((r) => setTimeout(r, RETRY_DELAY_MS * attempt));
+        continue;
+      }
+      return payload;
     } catch {
       if (attempt === RETRY) return { status: 0, contentType: '', text: '' };
       await new Promise((r) => setTimeout(r, RETRY_DELAY_MS));
