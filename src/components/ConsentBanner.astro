@@ -16,24 +16,25 @@
 
 <button type="button" class="consent-manage" data-consent-manage hidden>Çerez Tercihleri</button>
 
-<script>
-  const layer = document.querySelector<HTMLElement>('[data-consent-layer]');
-  const accept = document.querySelector<HTMLButtonElement>('[data-consent-accept]');
-  const reject = document.querySelector<HTMLButtonElement>('[data-consent-reject]');
-  const manage = document.querySelector<HTMLButtonElement>('[data-consent-manage]');
+<script is:inline>
+  (() => {
+    const layer = document.querySelector('[data-consent-layer]');
+    const accept = document.querySelector('[data-consent-accept]');
+    const reject = document.querySelector('[data-consent-reject]');
+    const manage = document.querySelector('[data-consent-manage]');
+    const api = window.ExcelArsivConsent;
+    if (!layer || !accept || !reject || !manage || !api) return;
 
-  const api = window.ExcelArsivConsent;
-  if (layer && accept && reject && manage && api) {
     const showManager = () => {
       layer.hidden = false;
       manage.hidden = true;
-      window.requestAnimationFrame(() => accept.focus());
+      requestAnimationFrame(() => accept.focus());
     };
     const hideManager = () => {
       layer.hidden = true;
       manage.hidden = false;
     };
-    const choose = (status: 'granted' | 'denied') => {
+    const choose = (status) => {
       api.setStatus(status);
       hideManager();
     };
@@ -47,13 +48,13 @@
     window.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && api.getStatus() !== null && !layer.hidden) hideManager();
     });
-  }
+  })();
 </script>
 
 <style>
-  .consent-layer{position:fixed;inset:0;z-index:1000;display:grid;place-items:end center;padding:20px;background:rgba(14,29,20,.34);backdrop-filter:blur(3px)}
+  .consent-layer{position:fixed;inset:0;z-index:1000;display:grid;place-items:end center;padding:20px;background:rgba(14,29,20,.34)}
   .consent-layer[hidden],.consent-manage[hidden]{display:none!important}
-  .consent-card{width:min(720px,100%);padding:22px;border:1px solid #cbdad1;border-radius:18px;background:#fff;box-shadow:0 24px 70px rgba(12,42,25,.24)}
+  .consent-card{width:min(720px,100%);padding:22px;border:1px solid #cbdad1;border-radius:18px;background:#fff;box-shadow:0 24px 70px rgba(12,42,25,.24);contain:layout paint style}
   .consent-kicker{margin:0;font-family:var(--font-mono);font-size:9px;font-weight:800;letter-spacing:.12em;color:#0b7440}
   .consent-card h2{margin:7px 0 0;font-family:var(--font-display);font-size:25px;line-height:1.05;color:#14271d}
   .consent-card p:not(.consent-kicker){margin:11px 0 0;font-size:12px;line-height:1.6;color:#5d6c63}
