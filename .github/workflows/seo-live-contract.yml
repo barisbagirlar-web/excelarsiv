@@ -68,6 +68,8 @@ jobs:
           [[ "${#children[@]}" -gt 0 ]] || { echo 'P0: sitemap index has no child sitemaps'; exit 1; }
 
           : > "$TMP/urls.txt"
+          image_sitemap_seen='false'
+          image_sitemap_url_count=0
           for child in "${children[@]}"; do
             name="${child#${ORIGIN}/}"
             fetch_exact_with_retry "$child" "$TMP/$name"
@@ -76,15 +78,28 @@ jobs:
               echo "P0: deprecated/noisy sitemap fields in $name"
               exit 1
             fi
+
+            # Google image sitemap protocol intentionally reuses the canonical product <loc>
+            # while attaching image:image metadata. Validate that child independently, but do
+            # not mix those repeated locs into the canonical page inventory/duplicate gate.
+            if [[ "$name" == 'sitemap-images.xml' ]]; then
+              image_sitemap_seen='true'
+              image_sitemap_url_count="$(grep -oE '<loc>https://excelarsiv\.com/[^<]*</loc>' "$TMP/$name" | wc -l | tr -d ' ')"
+              [[ "$image_sitemap_url_count" -gt 0 ]] || { echo 'P0: image sitemap has zero product URLs'; exit 1; }
+              grep -Fq '<image:image>' "$TMP/$name" || { echo 'P0: image sitemap has no image:image entries'; exit 1; }
+              continue
+            fi
+
             grep -oE '<loc>https://excelarsiv\.com/[^<]*</loc>' "$TMP/$name" | sed -E 's#</?loc>##g' >> "$TMP/urls.txt"
           done
 
+          [[ "$image_sitemap_seen" == 'true' ]] || { echo 'P0: sitemap-images.xml missing from sitemap index'; exit 1; }
           total_urls="$(wc -l < "$TMP/urls.txt" | tr -d ' ')"
-          [[ "$total_urls" -gt 0 ]] || { echo 'P0: sitemap has zero URLs'; exit 1; }
+          [[ "$total_urls" -gt 0 ]] || { echo 'P0: sitemap has zero canonical URLs'; exit 1; }
           grep -Fxq "$ORIGIN/" "$TMP/urls.txt" || { echo 'P0: homepage missing from sitemap contract'; exit 1; }
 
           duplicates="$(sort "$TMP/urls.txt" | uniq -d)"
-          [[ -z "$duplicates" ]] || { echo "P0: duplicate sitemap URLs"; echo "$duplicates"; exit 1; }
+          [[ -z "$duplicates" ]] || { echo "P0: duplicate canonical sitemap URLs"; echo "$duplicates"; exit 1; }
 
           index=0
           while IFS= read -r url; do
@@ -127,4 +142,4 @@ jobs:
           NODE
           done < "$TMP/urls.txt"
 
-          echo "SEO LIVE CONTRACT PASS — $total_urls canonical 200/indexable URL across ${#children[@]} child sitemap(s), AI discovery files + IndexNow key live."
+          echo "SEO LIVE CONTRACT PASS — $total_urls canonical 200/indexable URL across ${#children[@]} child sitemap(s), image URLs=$image_sitemap_url_count, AI discovery files + IndexNow key live."
