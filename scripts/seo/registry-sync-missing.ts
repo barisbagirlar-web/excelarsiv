@@ -18,6 +18,8 @@ function typeFor(route) {
   if (route.startsWith('/rehber/')) return 'guide';
   if (route.startsWith('/demo/')) return 'landing';
   if (route.startsWith('/hesaplayici/')) return 'landing';
+  if (route.startsWith('/sektor/')) return 'landing';
+  if (route === '/basari-hikayeleri') return 'landing';
   if (route.startsWith('/sablonlar')) return 'category';
   return 'legal';
 }

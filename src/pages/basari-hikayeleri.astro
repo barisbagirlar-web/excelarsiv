@@ -1,0 +1,40 @@
+---
+import CommerceLayout from '../layouts/CommerceLayout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import { SATICI } from '../data/satici';
+---
+
+<CommerceLayout
+  title="Başarı Hikâyeleri — Excel Arşiv"
+  description="Doğrulanmış müşteri başarı hikâyeleri. Uydurma case study yayınlanmaz; izinli ve ölçülebilir sonuçlar buraya eklenir."
+>
+  <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
+    <SectionLabel number={10} label="Kanıt" />
+    <h1 class="display mt-6">Başarı hikâyeleri</h1>
+    <p class="lead mt-6">
+      Bu sayfada yalnızca müşteri izni alınmış, ölçülebilir sonuç içeren hikâyeler yayınlanır.
+      Uydurma “X firması 3 haftada…” metni yazılmaz.
+    </p>
+
+    <div class="mt-10 border border-rule-hairline bg-surface-1 p-6">
+      <h2 class="h3">Yayın kriteri</h2>
+      <ul class="body-sm mt-3 list-disc space-y-2 pl-5">
+        <li>Müşterinin yazılı onayı (ad/marka görünürlüğü seviyesi net)</li>
+        <li>Ölçülebilir sonuç (ör. nakit görünürlüğü, hakediş süresi, hata azaltma)</li>
+        <li>Kullanılan ürün slug’ı ve dönem</li>
+        <li>İletişim doğrulaması ({SATICI.eposta})</li>
+      </ul>
+    </div>
+
+    <p class="body-sm mt-8 text-ink-500">
+      Şu an yayınlanmış doğrulanmış hikâye yok. Hikâyenizi paylaşmak için
+      <a class="underline underline-offset-4" href={`mailto:${SATICI.eposta}?subject=Ba%C5%9Far%C4%B1%20hikayesi`}>{SATICI.eposta}</a>
+      veya {SATICI.telefon} üzerinden yazın.
+    </p>
+    <p class="body-sm mt-4">
+      Ürün kanıtı için şimdilik: <a class="underline" href="/demo">Proof Demo kataloğu</a>,
+      <a class="underline" href="/neden-excel-arsiv">neden Excel Arşiv</a>,
+      <a class="underline" href="/hakkinda">yazar profili</a>.
+    </p>
+  </section>
+</CommerceLayout>
