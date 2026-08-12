@@ -28,7 +28,7 @@
         "OAI-SearchBot": "allow", "ChatGPT-User": "allow", "GPTBot": "allow", "ClaudeBot": "allow", "PerplexityBot": "allow", "Google-Extended": "allow"
       }
     },
-    "blockedSections": ["/api", "/demo"],
+    "blockedSections": ["/api"],
     "perplexityQuery": null
   },
   "business": { "verticals": ["ecommerce"], "revenueModel": "ecommerce" }

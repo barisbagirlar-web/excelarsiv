@@ -1,0 +1,63 @@
+---
+import CommerceLayout from '../layouts/CommerceLayout.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import { SATICI } from '../data/satici';
+---
+
+<CommerceLayout
+  title="Pazarlama Açık Rıza — Excel Arşiv"
+  description="Excel Arşiv’de aydınlatma ile pazarlama açık rızasının ayrımı; e-posta pazarlaması için rıza koşulları."
+>
+  <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
+    <SectionLabel number={6} label="Açık Rıza" />
+    <h1 class="display mt-6">Pazarlama Açık Rıza ve Aydınlatma Ayrımı</h1>
+    <p class="lead mt-6">
+      Satın alma, teslimat ve ölçüm için gerekli işleme ile pazarlama iletişimi birbirinden ayrılır.
+      Bu sayfa, pazarlama amacıyla açık rıza isteneceği durumları netleştirir.
+    </p>
+    <p class="mt-3 text-xs text-ink-400">Sürüm: 13.08.2026-v1 · Veri sorumlusu: {SATICI.gercekKisi}</p>
+
+    <div class="mt-12 space-y-10">
+      <section>
+        <h2 class="h3">1 · Aydınlatma ≠ açık rıza</h2>
+        <p class="body-sm mt-3">
+          <a class="text-accent-primary underline underline-offset-4" href="/kvkk-aydinlatma">KVKK Aydınlatma Metni</a>
+          bilgilendirme yükümlülüğünü yerine getirir. Okumak veya satın almak, pazarlama
+          iletişimi için açık rıza sayılmaz.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">2 · Rıza olmadan yapılan işlemler</h2>
+        <p class="body-sm mt-3">
+          Sipariş doğrulama, dijital teslimat, fatura, destek, güvenlik, zorunlu çerezler ve
+          (izin verilmişse) ölçüm — bunlar hizmet ifası / meşru menfaat / açık rıza dışı
+          hukuki sebeplere dayanır. Shopier ödeme aktarımı
+          <a class="text-accent-primary underline underline-offset-4" href="/shopier-veri-aktarimi">ayrı metinde</a> açıklanır.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">3 · Pazarlama açık rızası ne zaman istenir?</h2>
+        <p class="body-sm mt-3">
+          Ürün duyurusu, kampanya, bülten veya benzeri ticari elektronik ileti gönderilecekse
+          ayrı, özgür, bilgilendirilmiş ve geri alınabilir açık rıza alınır. Rıza kutusu
+          önceden işaretli olmaz; vermezseniz satın alma engellenmez.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">4 · Rızanın kapsamı ve geri alma</h2>
+        <p class="body-sm mt-3">
+          Rıza yalnızca belirtilen iletişim kanalı ve amaç için geçerlidir. Geri alma:
+          {SATICI.eposta} veya {SATICI.telefon}. Geri alma, yasal saklama zorunluluklarını
+          ve devam eden sipariş/teslimat kayıtlarını etkilemez.
+        </p>
+      </section>
+      <section>
+        <h2 class="h3">5 · Güncel durum</h2>
+        <p class="body-sm mt-3">
+          Bu sürümde site genelinde otomatik pazarlama bülteni gönderimi yoktur. Lead magnet
+          veya bülten formu eklendiğinde rıza kaydı bu sayfadaki kurallara göre tutulur.
+        </p>
+      </section>
+    </div>
+  </section>
+</CommerceLayout>
