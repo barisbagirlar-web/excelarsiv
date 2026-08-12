@@ -1,17 +1,19 @@
 ---
 import CommerceLayout from '../layouts/CommerceLayout.astro';
 import SectionLabel from '../components/SectionLabel.astro';
+import { SATICI, IADE_POLITIKASI } from '../data/satici';
 ---
 
 <CommerceLayout
   title="Teslimat ve İade — Excel Arşiv"
-  description="Dijital ürün teslimat süreci, süresi ve hatalı dosyaya ilişkin telafi koşulları."
+  description="Dijital Excel ürünlerinde teslimat süreci ve cayma/iade yasağı; hatalı dosya telafisi koşulları."
 >
   <section class="mx-auto max-w-3xl px-4 pb-24 pt-8">
     <SectionLabel number={3} label="Teslimat · İade" />
     <h1 class="display mt-6">Teslimat ve İade</h1>
     <p class="lead mt-6">
       Dijital ürünlerin teslimat biçimi, süresi ve hatalı dosyaya ilişkin telafi koşulları.
+      Koşulsuz iade uygulanmaz.
     </p>
 
     <div class="mt-12 space-y-10">
@@ -33,11 +35,11 @@ import SectionLabel from '../components/SectionLabel.astro';
         </p>
       </section>
       <section>
-        <h2 class="h3">3 · İade ve cayma hakkı</h2>
+        <h2 class="h3">3 · İade ve cayma hakkı — dijital içerikte yok</h2>
+        <p class="body-sm mt-3">{IADE_POLITIKASI.ozet}</p>
         <p class="body-sm mt-3">
-          Dijital içeriklerde uygulanacak cayma hakkı ve istisnalar yürürlükteki tüketici mevzuatına,
-          sözleşme koşullarına ve teslimatın başlatılmasına ilişkin gerekli onaylara göre değerlendirilir.
-          Hatalı veya vaat edilen nitelikleri taşımayan dosyalara ilişkin yasal haklar saklıdır.
+          7 gün koşulsuz iade vaadi verilmez. İndirilen dosyanın alıcıda kalmasıyla “bedava ürün”
+          suistimali kabul edilmez.
         </p>
       </section>
       <section>
@@ -46,15 +48,17 @@ import SectionLabel from '../components/SectionLabel.astro';
           Dosyanın ürün sayfasında vaat edilen işlevi yerine getirmediği tespit edilirse,
           alıcı teslimat tarihinden itibaren 7 gün içinde satıcıya yazmalıdır. Telafi kapsamı:
           hatanın düzeltilmiş sürümünün sunulması; hatanın giderilememesi durumunda mevzuat ve
-          sözleşme koşulları çerçevesinde uygun çözüm uygulanması.
+          sözleşme koşulları çerçevesinde uygun çözüm uygulanması. Bu süreç koşulsuz iade değildir.
         </p>
       </section>
       <section>
         <h2 class="h3">5 · Talep kanalı</h2>
         <p class="body-sm mt-3">
           Hatalı dosya ve teslimat talepleri, Shopier sipariş numarasıyla birlikte
-          barisbagirlar@gmail.com adresine iletilir. Talepler iş günlerinde 48 saat içinde
-          yanıtlanır.
+          <a class="text-accent-primary underline underline-offset-4" href={`mailto:${SATICI.eposta}`}>{SATICI.eposta}</a>
+          veya
+          <a class="text-accent-primary underline underline-offset-4" href={SATICI.telefonTelHref}>{SATICI.telefon}</a>
+          üzerinden iletilir. Talepler iş günlerinde 48 saat içinde yanıtlanır.
         </p>
       </section>
     </div>

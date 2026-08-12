@@ -10,6 +10,7 @@ import AnalyticsBootstrap from '../components/AnalyticsBootstrap.astro';
 import ConsentBanner from '../components/ConsentBanner.astro';
 import { getProductSeoByPath } from '../data/productSeo';
 import { YAZAR, yazarPersonId, yazarPersonLd } from '../data/yazar';
+import { SATICI } from '../data/satici';
 
 interface Props {
   title: string;
@@ -60,8 +61,10 @@ const orgLd = JSON.stringify({
       contactPoint: {
         '@type': 'ContactPoint',
         email: YAZAR.eposta,
+        telephone: SATICI.telefonE164,
         contactType: 'customer support',
         availableLanguage: 'tr-TR',
+        areaServed: 'TR',
       },
     },
     yazarPersonLd(site),
