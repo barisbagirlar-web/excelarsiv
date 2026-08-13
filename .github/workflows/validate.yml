@@ -68,3 +68,28 @@ jobs:
           done
           test "$count" -eq "$expected" || { echo "HATA: $expected Proof Demo bekleniyor, bulunan $count"; exit 1; }
           echo "$count/$expected Proof Demo LibreOffice tarafından açıldı ve yeniden kaydedildi."
+
+      - name: Validate paid product workbook integrity with LibreOffice
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t files < <(find delivery/paid-products -type f \( -name 'current.xlsx' -o -name 'current.xlsm' \) -print | sort)
+          test "${#files[@]}" -gt 0 || { echo 'HATA: ücretli ürün kaynağı bulunamadı'; exit 1; }
+          count=0
+          for file in "${files[@]}"; do
+            count=$((count+1))
+            outdir="/tmp/paid-product-recalc/$count"
+            mkdir -p "$outdir"
+            libreoffice --headless --convert-to xlsx --outdir "$outdir" "$file" >/tmp/lo-paid.log 2>&1 || {
+              echo "HATA: ücretli workbook açılamadı: $file"
+              cat /tmp/lo-paid.log
+              exit 1
+            }
+            generated="$(find "$outdir" -maxdepth 1 -type f -name '*.xlsx' -print -quit)"
+            test -n "$generated" && test -s "$generated" || {
+              echo "HATA: ücretli workbook yeniden kaydedilemedi: $file"
+              cat /tmp/lo-paid.log
+              exit 1
+            }
+          done
+          echo "$count ücretli ürün workbook'u LibreOffice tarafından açıldı ve yeniden kaydedildi."
