@@ -28,7 +28,7 @@ const core = require('./index');
 const { createCheckout } = require('./safe-checkout');
 const { recoverPurchase } = require('./recover');
 const { requestProofDemo } = require('./proof-demo-v3');
-const { downloadProofDemo } = require('./proof-demo-v31');
+const { downloadProofDemo } = require('./proof-demo-v32');
 
 module.exports = {
   createCheckout,
