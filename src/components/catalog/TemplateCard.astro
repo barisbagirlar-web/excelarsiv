@@ -54,14 +54,17 @@ const kindLabel: Record<string, string> = { input: 'Girdi', calculation: 'Hesap'
   data-summary={summary}
 >
   <a class="tcard__preview" href={`/sablon/${slug}`} aria-label={`${name} ürününü incele`}>
-    {preview ? (
+    {priority ? (
+      <CatalogProductVisual slug={slug} name={name} />
+    ) : preview ? (
       <img
         class="tcard__shot"
         src={preview.src}
         alt={preview.alt}
         width="1200"
         height="750"
-        loading={priority ? 'eager' : 'lazy'}
+        loading="lazy"
+        fetchpriority="auto"
         decoding="async"
       />
     ) : (

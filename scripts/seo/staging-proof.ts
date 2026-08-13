@@ -105,9 +105,31 @@ function evaluateInpLab(inp: InpLab, thresholds: Thresholds): { inpLabMs: number
   return { inpLabMs: inp.inpLabMs, inpBudgetMs: thresholds.inpP75Ms, inpEventCount: count, inpMeasurementMode: inp.measurementMode ?? 'synthetic-event-timing', pass: inp.inpLabMs <= thresholds.inpP75Ms };
 }
 
+const sleep = (ms: number) => new Promise<void>((resolveWait) => setTimeout(resolveWait, ms));
+
 async function get(url: string): Promise<HttpSnapshot> {
-  const response = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(20_000), headers: { 'user-agent': 'ExcelArsiv-SEO-Staging-Proof/1.0' } });
-  return { status: response.status, url: response.url, text: await response.text() };
+  const timeouts = [4_000, 8_000, 12_000];
+  let lastError: unknown;
+  for (let attempt = 0; attempt < timeouts.length; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        redirect: 'follow',
+        signal: AbortSignal.timeout(timeouts[attempt]),
+        headers: { 'user-agent': 'ExcelArsiv-SEO-Staging-Proof/1.0' },
+      });
+      if ([502, 503, 504].includes(response.status) && attempt < timeouts.length - 1) {
+        await response.body?.cancel().catch(() => undefined);
+        await sleep(750 * (attempt + 1));
+        continue;
+      }
+      return { status: response.status, url: response.url, text: await response.text() };
+    } catch (error) {
+      lastError = error;
+      if (attempt === timeouts.length - 1) throw error;
+      await sleep(750 * (attempt + 1));
+    }
+  }
+  throw lastError instanceof Error ? lastError : new Error(`HTTP_FETCH_FAILED:${url}`);
 }
 
 function stagingUrl(base: URL, route: string): string {

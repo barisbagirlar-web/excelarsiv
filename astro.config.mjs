@@ -9,9 +9,9 @@ export default defineConfig({
   site: 'https://excelarsiv.com',
   trailingSlash: 'never',
 
-  // Commerce pages use several small component stylesheets above the fold.
-  // Inlining them removes the mobile Lighthouse render-blocking chain without
-  // changing page semantics, assets, or visual design.
+  // Kritik CSS'i HTML'e gömerek ürün/katalog ilk paint yolundaki ayrı CSS
+  // isteklerini kaldır. Katalog ilk kartı artık ağ bağımsız hafif görsel
+  // kullandığı için önceki ağır-PNG LCP regresyonu bu kombinasyonda yoktur.
   build: {
     inlineStylesheets: 'always',
   },

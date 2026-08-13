@@ -13,7 +13,7 @@ const { templates } = Astro.props;
   <ul class="template-grid" data-template-grid>
     {
       templates.map((template, index) => (
-        <li data-template-item data-priority={index < 3 ? 'true' : undefined}>
+        <li data-template-item data-priority={index === 0 ? 'true' : undefined}>
           <TemplateCard
             slug={template.slug}
             name={template.name}
@@ -27,7 +27,7 @@ const { templates } = Astro.props;
             sheetMap={template.sheetMap}
             outputs={template.outputs}
             preview={template.preview}
-            priority={index < 3}
+            priority={index === 0}
           />
         </li>
       ))
@@ -52,8 +52,9 @@ const { templates } = Astro.props;
   }
   .template-grid > *,
   .template-grid li { min-width: 0; }
-  /* Keep the first visible row fully rendered. Off-screen cards retain an
-     intrinsic footprint but skip initial style/layout/paint work until needed. */
+  /* The first card is the mobile LCP candidate and must remain immediately
+     renderable. Following cards preserve their footprint while deferring
+     style/layout/paint until they approach the viewport. */
   .template-grid li:not([data-priority='true']) {
     content-visibility: auto;
     contain-intrinsic-size: 440px;
