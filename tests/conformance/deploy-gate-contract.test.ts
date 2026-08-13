@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { BACKEND_PATHS, DELIVERY_PATHS, HOSTING_PATHS } from '../../scripts/ci/detect-runtime-changes.ts';
 
 const ROOT = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 const workflow = readFileSync(resolve(ROOT, '.github/workflows/deploy-firebase.yml'), 'utf8');
@@ -17,16 +18,20 @@ test('deploy gate — production önce merged PR + required green CI provenance 
 
 test('deploy classifier — package.json runtime girdisi, workflow dosyası runtime girdisi değildir', () => {
   assert.ok(classifier.length > 0, 'runtime classifier bulunamadı');
-  assert.match(classifier, /package\.json/);
-  assert.doesNotMatch(classifier, /\.github\/workflows\/deploy-firebase\.yml/);
+  assert.match(classifier, /scripts\/ci\/detect-runtime-changes\.ts/);
+  assert.ok(HOSTING_PATHS.includes('package.json'));
+  assert.equal(
+    (HOSTING_PATHS as readonly string[]).includes('.github/workflows/deploy-firebase.yml'),
+    false,
+  );
 });
 
 test('deploy classifier — paid delivery ayrı runtime sınıfıdır', () => {
-  assert.match(classifier, /delivery_changed=false/);
-  assert.match(classifier, /delivery\/paid-products\//);
-  assert.match(classifier, /scripts\/sync-paid-products\.mjs/);
-  assert.match(classifier, /scripts\/check-paid-products\.mjs/);
-  assert.match(classifier, /delivery_changed.*runtime_changed|runtime_changed.*delivery_changed/s);
+  assert.ok(DELIVERY_PATHS.includes('delivery/paid-products/'));
+  assert.ok(DELIVERY_PATHS.includes('scripts/sync-paid-products.mjs'));
+  assert.ok(DELIVERY_PATHS.includes('scripts/check-paid-products.mjs'));
+  assert.equal((HOSTING_PATHS as readonly string[]).includes('delivery/paid-products/'), false);
+  assert.equal((BACKEND_PATHS as readonly string[]).includes('delivery/paid-products/'), false);
 });
 
 test('paid delivery — sync apply sonrası exact repo-storage parity gate zorunlu', () => {
