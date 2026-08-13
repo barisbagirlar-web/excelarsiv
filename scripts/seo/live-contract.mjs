@@ -27,11 +27,10 @@ async function get(url) {
   let lastError = '';
   for (let attempt = 1; attempt <= RETRY; attempt++) {
     const timeoutMs = attempt === RETRY ? 45_000 : 20_000;
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), timeoutMs);
       const res = await fetch(url, { signal: controller.signal, redirect: 'follow' });
-      clearTimeout(timer);
       const payload = {
         status: res.status,
         contentType: res.headers.get('content-type') ?? '',
@@ -47,6 +46,8 @@ async function get(url) {
       lastError = errorLabel(error);
       if (attempt === RETRY) return { status: 0, contentType: '', text: '', error: lastError };
       await sleep(RETRY_DELAY_MS * attempt);
+    } finally {
+      clearTimeout(timer);
     }
   }
   return { status: 0, contentType: '', text: '', error: lastError };
