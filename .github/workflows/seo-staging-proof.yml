@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/seo-staging-proof.yml'
+      - '.github/workflows/deploy-firebase.yml'
+      - 'scripts/ci/**'
       - 'scripts/seo/staging-proof.ts'
       - 'tests/conformance/wave2-c2-staging.test.ts'
       - 'data/seo/staging_proof.json'
@@ -16,6 +18,8 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/seo-staging-proof.yml'
+      - '.github/workflows/deploy-firebase.yml'
+      - 'scripts/ci/**'
       - 'scripts/seo/staging-proof.ts'
       - 'tests/conformance/wave2-c2-staging.test.ts'
       - 'data/seo/staging_proof.json'

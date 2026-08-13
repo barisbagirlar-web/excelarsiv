@@ -57,64 +57,12 @@ jobs:
 
       - name: Detect runtime changes
         id: changes
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          backend_changed=false
-          hosting_changed=false
-          delivery_changed=false
-
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
-            backend_changed='${{ inputs.force_backend }}'
-            hosting_changed='${{ inputs.force_hosting }}'
-            delivery_changed='${{ inputs.force_delivery }}'
-          elif ! git rev-parse HEAD^ >/dev/null 2>&1; then
-            echo 'KALDI: parent commit bulunamadı; otomatik production deploy kararı verilmiyor.'
-            exit 1
-          else
-            if ! git diff --quiet HEAD^ HEAD -- functions/; then
-              backend_changed=true
-            fi
-
-            if ! git diff --quiet HEAD^ HEAD -- \
-              src/ \
-              public/ \
-              commerce/ \
-              firebase.json \
-              .firebaserc \
-              astro.config.mjs \
-              tsconfig.json \
-              package.json \
-              package-lock.json \
-              scripts/seo/generate-artifacts.mjs \
-              scripts/seo/finalize-sitemap-index.mjs \
-              scripts/seo/validate-gates.mjs \
-              scripts/seo/lib.mjs; then
-              hosting_changed=true
-            fi
-
-            if ! git diff --quiet HEAD^ HEAD -- \
-              delivery/paid-products/ \
-              commerce/catalog.json \
-              scripts/sync-paid-products.mjs \
-              scripts/check-paid-products.mjs \
-              scripts/package.json \
-              scripts/package-lock.json; then
-              delivery_changed=true
-            fi
-          fi
-
-          runtime_changed=false
-          if [[ "$backend_changed" == "true" || "$hosting_changed" == "true" || "$delivery_changed" == "true" ]]; then
-            runtime_changed=true
-          fi
-
-          echo "backend_changed=$backend_changed" >> "$GITHUB_OUTPUT"
-          echo "hosting_changed=$hosting_changed" >> "$GITHUB_OUTPUT"
-          echo "delivery_changed=$delivery_changed" >> "$GITHUB_OUTPUT"
-          echo "runtime_changed=$runtime_changed" >> "$GITHUB_OUTPUT"
-          echo "Runtime decision: backend=$backend_changed hosting=$hosting_changed delivery=$delivery_changed runtime=$runtime_changed"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          INPUT_FORCE_BACKEND: ${{ inputs.force_backend }}
+          INPUT_FORCE_HOSTING: ${{ inputs.force_hosting }}
+          INPUT_FORCE_DELIVERY: ${{ inputs.force_delivery }}
+        run: node --experimental-strip-types scripts/ci/detect-runtime-changes.ts
 
       - name: Use Node.js 22
         uses: actions/setup-node@v4
