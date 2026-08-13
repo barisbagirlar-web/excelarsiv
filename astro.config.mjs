@@ -9,17 +9,14 @@ export default defineConfig({
   site: 'https://excelarsiv.com',
   trailingSlash: 'never',
 
-  // Astro'nun seçici CSS inlining davranışını koru. 12 KiB eşiği katalogdaki
-  // küçük component/page CSS parçalarını kritik render zincirinden çıkarırken
-  // büyük CommerceLayout stilini ayrı ve cacheable bırakır.
+  // Kritik CSS'i HTML'e gömerek ürün/katalog ilk paint yolundaki ayrı CSS
+  // isteklerini kaldır. Katalog ilk kartı artık ağ bağımsız hafif görsel
+  // kullandığı için önceki ağır-PNG LCP regresyonu bu kombinasyonda yoktur.
   build: {
-    inlineStylesheets: 'auto',
+    inlineStylesheets: 'always',
   },
 
   vite: {
-    build: {
-      assetsInlineLimit: 12 * 1024,
-    },
     plugins: [tailwindcss()]
   },
 
