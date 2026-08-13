@@ -311,6 +311,7 @@ jobs:
           node scripts/seo/validate-artifacts.mjs
 
       - name: Deploy Firebase Hosting
+        id: hosting
         if: steps.changes.outputs.hosting_changed == 'true'
         env:
           CI: "true"
@@ -427,7 +428,7 @@ jobs:
         run: node scripts/seo/live-contract.mjs
 
       - name: Verify live IndexNow ownership key
-        if: steps.changes.outputs.hosting_changed == 'true'
+        if: always() && steps.changes.outputs.hosting_changed == 'true' && steps.hosting.conclusion == 'success'
         shell: bash
         run: |
           set -euo pipefail
@@ -437,7 +438,7 @@ jobs:
           echo 'INDEXNOW KEY LIVE PASS'
 
       - name: Submit changed and new URLs to IndexNow
-        if: steps.changes.outputs.hosting_changed == 'true'
+        if: always() && steps.changes.outputs.hosting_changed == 'true' && steps.hosting.conclusion == 'success'
         run: node scripts/seo/indexnow.mjs
 
       - name: Upload production SEO proof bundle

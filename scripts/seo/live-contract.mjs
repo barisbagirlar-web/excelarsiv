@@ -5,37 +5,51 @@ import { resolve } from 'node:path';
 import { isImageSitemapChild } from './validate-gates.mjs';
 
 const BASE = process.env.SEO_BASE_URL ?? 'https://excelarsiv.com';
-const RETRY = 5;
+const RETRY = 6;
 const RETRY_DELAY_MS = 2000;
 const FUTURE_GRACE_MS = 5 * 60 * 1000;
+const TRANSIENT_STATUS = new Set([408, 425, 429, 500, 502, 503, 504]);
 
 const failures = [];
 let checks = 0;
 
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+function errorLabel(error) {
+  if (!error) return 'fetch_failed';
+  if (error.name === 'AbortError' || error.code === 'ABORT_ERR') return 'abort';
+  return String(error.cause?.code || error.code || error.message || 'fetch_failed');
+}
+
 async function get(url) {
+  let lastError = '';
   for (let attempt = 1; attempt <= RETRY; attempt++) {
+    const timeoutMs = attempt === RETRY ? 45_000 : 20_000;
     try {
       const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 20_000);
+      const timer = setTimeout(() => controller.abort(), timeoutMs);
       const res = await fetch(url, { signal: controller.signal, redirect: 'follow' });
       clearTimeout(timer);
       const payload = {
         status: res.status,
         contentType: res.headers.get('content-type') ?? '',
         text: await res.text(),
+        error: '',
       };
-      // Hosting propagate / edge 502-504: geçici; tekrar dene.
-      if ([502, 503, 504].includes(payload.status) && attempt < RETRY) {
-        await new Promise((r) => setTimeout(r, RETRY_DELAY_MS * attempt));
+      if (TRANSIENT_STATUS.has(payload.status) && attempt < RETRY) {
+        await sleep(RETRY_DELAY_MS * attempt);
         continue;
       }
       return payload;
-    } catch {
-      if (attempt === RETRY) return { status: 0, contentType: '', text: '' };
-      await new Promise((r) => setTimeout(r, RETRY_DELAY_MS));
+    } catch (error) {
+      lastError = errorLabel(error);
+      if (attempt === RETRY) return { status: 0, contentType: '', text: '', error: lastError };
+      await sleep(RETRY_DELAY_MS * attempt);
     }
   }
-  return { status: 0, contentType: '', text: '' };
+  return { status: 0, contentType: '', text: '', error: lastError };
 }
 
 function check(ok, message) {
@@ -124,7 +138,7 @@ check(homepage.status === 200, `homepage HTTP ${homepage.status}`);
 
 for (const url of allUrls) {
   const res = await get(url);
-  check(res.status === 200, `URL HTTP ${res.status}: ${url}`);
+  check(res.status === 200, `URL HTTP ${res.status}: ${url}${res.error ? ` (${res.error})` : ''}`);
   if (res.status !== 200) continue;
   const canonical = res.text.match(/<link[^>]+rel=["']canonical["'][^>]*href=["']([^"']+)["']/i)?.[1];
   check(canonical === url, `self-canonical değil: ${url} (canonical=${canonical})`);
