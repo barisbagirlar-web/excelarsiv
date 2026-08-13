@@ -12,6 +12,12 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 firebase-debug.log*
+firebase-debug*.log
+**/* 2.log
+**/* 2.astro
+**/* 2.js
+**/* 2.ts
+**/* 2.mjs
 
 # environment variables
 .env
