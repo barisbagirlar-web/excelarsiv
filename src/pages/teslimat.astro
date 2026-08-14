@@ -130,20 +130,20 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
   const status = root?.querySelector('[data-status]');
   const detail = root?.querySelector('[data-detail]');
   const download = root?.querySelector('[data-download]');
-  const shopierLink = root?.querySelector('[data-shopier-link]');
+  const shopierLink = root?.querySelector<HTMLAnchorElement>('[data-shopier-link]');
   const manual = root?.querySelector('[data-manual]');
   const orderForm = root?.querySelector('[data-order-form]');
-  const orderId = root?.querySelector('[data-order-id]');
+  const orderId = root?.querySelector<HTMLInputElement>('[data-order-id]');
   const recoveryForm = root?.querySelector('[data-recovery-form]');
-  const recoveryProduct = root?.querySelector('[data-recovery-product]');
-  const recoveryEmail = root?.querySelector('[data-recovery-email]');
-  const recoveryOrder = root?.querySelector('[data-recovery-order]');
+  const recoveryProduct = root?.querySelector<HTMLSelectElement>('[data-recovery-product]');
+  const recoveryEmail = root?.querySelector<HTMLInputElement>('[data-recovery-email]');
+  const recoveryOrder = root?.querySelector<HTMLInputElement>('[data-recovery-order]');
   const recoverySubmit = root?.querySelector('[data-recovery-submit]');
   const recoveryMessage = root?.querySelector('[data-recovery-message]');
 
-  let checkout = null;
+  let checkout: any = null;
   let startedAt = Date.now();
-  let timer = null;
+  let timer: any = null;
 
   function loadStored() {
     try {
@@ -153,7 +153,7 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
     }
   }
 
-  function saveStored(value) {
+  function saveStored(value: any) {
     checkout = value;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
@@ -164,7 +164,7 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
 
   checkout = loadStored();
 
-  async function postJson(url, body) {
+  async function postJson(url: string, body: any) {
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -172,19 +172,19 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
     });
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) {
-      const error = new Error(payload?.error || 'REQUEST_FAILED');
+      const error = new Error(payload?.error || 'REQUEST_FAILED') as Error & { code?: string };
       error.code = payload?.error || 'REQUEST_FAILED';
       throw error;
     }
     return payload;
   }
 
-  function setStatus(headline, description = '') {
+  function setStatus(headline: string, description = '') {
     if (status) status.textContent = headline;
     if (detail) detail.textContent = description;
   }
 
-  function activateCheckout(value) {
+  function activateCheckout(value: any) {
     saveStored(value);
     startedAt = Date.now();
     emptyState?.classList.add('hidden');
@@ -270,10 +270,10 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
         fileType: fileTypeFromDownloadUrl(downloadUrl),
       });
       setStatus('İndirme başladı', 'Excel dosyanız bilgisayarınıza indiriliyor.');
-    } catch (error) {
+    } catch (error: any) {
       setStatus(
         'Dosya indirilemedi',
-        error.code === 'FILE_NOT_READY'
+        error?.code === 'FILE_NOT_READY'
           ? 'Ödemeniz kayıtlı; satış dosyasının özel teslim deposuna yüklenmesi bekleniyor.'
           : 'Geçici bir hata oluştu. İndirme butonunu yeniden kullanabilirsiniz.',
       );
@@ -313,15 +313,15 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
       const restored = { ...result, savedAt: Date.now(), deliveryUrl: '/teslimat' };
       activateCheckout(restored);
       showPaid();
-    } catch (error) {
-      const messages = {
+    } catch (error: any) {
+      const messages: Record<string, string> = {
         ORDER_DOES_NOT_MATCH: 'Sipariş; seçilen ürünün fiyat seviyesi, e-posta veya tutarıyla eşleşmedi.',
         ORDER_ALREADY_USED: 'Bu Shopier siparişi başka bir Excel ürünü için daha önce kullanılmış.',
         INVALID_ORDER_ID: 'Shopier sipariş numarasını kontrol edin.',
         RATE_LIMITED: 'Çok fazla doğrulama denemesi yapıldı. Bir süre sonra yeniden deneyin.',
         VERIFICATION_TEMPORARILY_UNAVAILABLE: 'Shopier doğrulaması geçici olarak kullanılamıyor. Birkaç dakika sonra yeniden deneyin.',
       };
-      if (recoveryMessage) recoveryMessage.textContent = messages[error.code] || 'Satın alma geri yüklenemedi. Bilgileri kontrol edip yeniden deneyin.';
+      if (recoveryMessage) recoveryMessage.textContent = (error?.code && messages[error.code]) || 'Satın alma geri yüklenemedi. Bilgileri kontrol edip yeniden deneyin.';
     } finally {
       recoverySubmit?.removeAttribute('disabled');
     }
