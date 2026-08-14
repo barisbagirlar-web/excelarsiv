@@ -141,7 +141,9 @@ if (!demoComponent.includes('/api/demo-request')) errors.push('DemoDownloadBox P
 
 const proofSpecs = fs.readFileSync(path.join(root, 'functions/proof-demo-specs.js'), 'utf8');
 for (const slug of Object.keys(catalog.products)) {
-  if (!proofSpecs.includes(`'${slug}'`)) errors.push(`${slug}: Proof Demo sözleşmesi eksik.`);
+  if (!proofSpecs.includes(`'${slug}'`) && !proofSpecs.includes(`"${slug}"`)) {
+    errors.push(`${slug}: Proof Demo sözleşmesi eksik.`);
+  }
 }
 
 // Proof Demo karar formülü: iç içe IF'te ikinci dalın erişilebilir olması zorunlu.

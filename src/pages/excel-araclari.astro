@@ -1,0 +1,370 @@
+---
+import CommerceLayout from '../layouts/CommerceLayout.astro';
+import CatalogSearch from '../components/catalog/CatalogSearch.astro';
+import CatalogFilters from '../components/catalog/CatalogFilters.astro';
+import TemplateGrid from '../components/catalog/TemplateGrid.astro';
+import { categories } from '../lib/categories';
+import { getAllTemplates } from '../lib/templates';
+
+const templates = await getAllTemplates();
+const minPriceTL = templates.length > 0 ? Math.min(...templates.map((t) => t.priceTL)) : undefined;
+const categoryCounts = Object.fromEntries(
+  categories.map((category) => [
+    category.slug,
+    templates.filter((template) => template.categorySlug === category.slug).length,
+  ]),
+);
+
+const pageTitle = "Excel Hesaplama ve Yönetim Araçları — Dr. Fin & Excel Arşiv";
+const pageDescription = "Finans, nakit akışı, cari hesap, stok ve borç yönetimi için kullanıma hazır premium Excel karar sistemleri. WhatsApp ile anında sipariş verin.";
+
+const catalogLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': new URL('/excel-araclari#itemlist', Astro.site).toString(),
+  numberOfItems: templates.length,
+  itemListElement: templates.map((template, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    url: new URL(`/sablon/${template.slug}`, Astro.site).toString(),
+    name: template.name,
+  })),
+});
+
+const catalogPageLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': new URL('/excel-araclari#collection', Astro.site).toString(),
+  url: new URL('/excel-araclari', Astro.site).toString(),
+  name: pageTitle,
+  description: pageDescription,
+  inLanguage: 'tr-TR',
+  isPartOf: { '@id': new URL('/#website', Astro.site).toString() },
+  mainEntity: { '@id': new URL('/excel-araclari#itemlist', Astro.site).toString() },
+});
+
+const catalogBreadcrumbLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Ana Sayfa', item: new URL('/', Astro.site).toString() },
+    { '@type': 'ListItem', position: 2, name: 'Excel Araçları', item: new URL('/excel-araclari', Astro.site).toString() },
+  ],
+});
+
+const waGeneralMsg = encodeURIComponent("Merhaba, Dr. Fin / Excel Arşiv hesaplama araçları hakkında detaylı bilgi ve tavsiye almak istiyorum.");
+const waGeneralUrl = `https://wa.me/905393333303?text=${waGeneralMsg}`;
+---
+
+<CommerceLayout title={pageTitle} description={pageDescription}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={catalogLd} />
+    <script type="application/ld+json" set:html={catalogPageLd} />
+    <script type="application/ld+json" set:html={catalogBreadcrumbLd} />
+  </Fragment>
+
+  <section class="tools-hero" aria-labelledby="tools-title">
+    <div class="site-container tools-hero__inner">
+      <div class="tools-hero__copy">
+        <span class="tools-hero__eyebrow">DR. FİN & EXCEL ARŞİV · PREMIUM SİSTEMLER</span>
+        <h1 id="tools-title">Finansal Excel Karar ve Hesaplama Araçları</h1>
+        <p>KOBİ'ler, mali müşavirler ve finans yöneticileri için tamamen formüllü, kullanıma hazır Excel karar mekanizmaları. WhatsApp hattımız üzerinden anında bilgi alabilir ve sipariş verebilirsiniz.</p>
+      </div>
+
+      <div class="tools-hero__proof" aria-label="Katalog özet bilgileri">
+        <div class="tools-hero__proof-item">
+          <b>{templates.length}</b>
+          <span>Aktif Excel Aracı</span>
+        </div>
+        <div class="tools-hero__proof-item">
+          <b>{categories.length}</b>
+          <span>İşletme Alanı</span>
+        </div>
+        {minPriceTL && (
+          <div class="tools-hero__proof-item">
+            <b>{minPriceTL.toLocaleString('tr-TR')} TL</b>
+            <span>Başlayan Fiyat</span>
+          </div>
+        )}
+        <div class="tools-hero__proof-item tools-hero__proof-wp">
+          <a href={waGeneralUrl} target="_blank" rel="noopener noreferrer" class="tools-hero__wp-pill">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+              <path d="M12.012 2c-5.508 0-9.987 4.479-9.987 9.987 0 1.763.459 3.484 1.332 5.003L2 22l5.127-1.341a9.96 9.96 0 0 0 4.885 1.328h.004c5.508 0 9.987-4.479 9.987-9.987 0-2.668-1.039-5.176-2.926-7.063A9.923 9.923 0 0 0 12.012 2zm5.727 14.129c-.237.667-1.378 1.282-1.905 1.345-.487.058-1.121.082-3.642-.958-3.08-1.272-5.06-4.421-5.213-4.624-.153-.203-1.246-1.657-1.246-3.161 0-1.504.787-2.245 1.066-2.548.279-.303.61-.379.813-.379.203 0 .407.002.585.011.188.009.442-.07.69.525.254.61.864 2.11.94 2.263.076.153.127.33.025.534-.102.203-.153.33-.305.508-.153.178-.32.398-.458.534-.153.153-.313.319-.136.624.178.305.792 1.307 1.7 2.117 1.168 1.042 2.153 1.365 2.458 1.518.305.153.483.127.661-.076.178-.203.762-.89 0.966-1.195.203-.305.407-.254.686-.153.279.102 1.779.84 2.084.992.305.153.508.229.585.356.076.127.076.737-.161 1.404z"/>
+            </svg>
+            WhatsApp Danışma Hattı
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="katalog" class="catalog-section" aria-labelledby="catalog-list-title">
+    <div class="site-container">
+      <div class="catalog-command">
+        <div class="catalog-command__head">
+          <div>
+            <span class="catalog-command__eyebrow">HESAPLAMA ARAÇLARI KATALOĞU</span>
+            <h2 id="catalog-list-title">İhtiyacınıza uygun finansal aracı seçin.</h2>
+          </div>
+          <p class="catalog-command__result" aria-live="polite">
+            <strong data-result-count>{templates.length}</strong> araç listeleniyor
+          </p>
+        </div>
+
+        <div class="catalog-command__search">
+          <CatalogSearch />
+        </div>
+
+        <div class="catalog-command__filters">
+          <CatalogFilters counts={categoryCounts} totalCount={templates.length} />
+          <button type="button" class="catalog-command__clear" data-catalog-clear hidden>Filtreleri temizle</button>
+        </div>
+      </div>
+
+      <TemplateGrid templates={templates} />
+
+      <aside class="tools-guide" aria-label="Sipariş ve Teslimat Güvenceleri">
+        <div class="tools-guide__card">
+          <span class="tools-guide__num">01</span>
+          <div>
+            <strong>WhatsApp ile Anında İletişim</strong>
+            <p>İlgilendiğiniz aracın butonuna tıklayarak doğrudan WhatsApp üzerinden Barış Bağırlar ile iletişime geçebilirsiniz.</p>
+          </div>
+        </div>
+        <div class="tools-guide__card">
+          <span class="tools-guide__num">02</span>
+          <div>
+            <strong>Açık Formül & Kilitsiz Yapı</strong>
+            <p>Tüm Excel araçlarımız tamamen açık formüllüdür, makro/şifre kilidi içermez ve özelleştirilebilir.</p>
+          </div>
+        </div>
+        <div class="tools-guide__card">
+          <span class="tools-guide__num">03</span>
+          <div>
+            <strong>Anında E-Posta & WhatsApp Teslimatı</strong>
+            <p>Sipariş sonrası .xlsx dosyası ve kullanım kılavuzu anında doğrudan tarafınıza iletilir.</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Sticky WhatsApp Widget -->
+  <a href={waGeneralUrl} target="_blank" rel="noopener noreferrer" class="sticky-wa-btn" title="WhatsApp Danışma Hattı">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+      <path d="M12.012 2c-5.508 0-9.987 4.479-9.987 9.987 0 1.763.459 3.484 1.332 5.003L2 22l5.127-1.341a9.96 9.96 0 0 0 4.885 1.328h.004c5.508 0 9.987-4.479 9.987-9.987 0-2.668-1.039-5.176-2.926-7.063A9.923 9.923 0 0 0 12.012 2zm5.727 14.129c-.237.667-1.378 1.282-1.905 1.345-.487.058-1.121.082-3.642-.958-3.08-1.272-5.06-4.421-5.213-4.624-.153-.203-1.246-1.657-1.246-3.161 0-1.504.787-2.245 1.066-2.548.279-.303.61-.379.813-.379.203 0 .407.002.585.011.188.009.442-.07.69.525.254.61.864 2.11.94 2.263.076.153.127.33.025.534-.102.203-.153.33-.305.508-.153.178-.32.398-.458.534-.153.153-.313.319-.136.624.178.305.792 1.307 1.7 2.117 1.168 1.042 2.153 1.365 2.458 1.518.305.153.483.127.661-.076.178-.203.762-.89 0.966-1.195.203-.305.407-.254.686-.153.279.102 1.779.84 2.084.992.305.153.508.229.585.356.076.127.076.737-.161 1.404z"/>
+    </svg>
+    <span>WhatsApp Sipariş</span>
+  </a>
+</CommerceLayout>
+
+<style>
+  .tools-hero {
+    background: radial-gradient(800px 240px at 80% 0%, rgba(13, 112, 64, 0.08), transparent 75%), #ffffff;
+    padding-block: clamp(32px, 5vw, 54px) 28px;
+  }
+  .tools-hero__inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 36px;
+    align-items: flex-end;
+  }
+  .tools-hero__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--xl-green-dark, #0d7040);
+  }
+  .tools-hero h1 {
+    margin: 8px 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: #0f1e15;
+  }
+  .tools-hero p {
+    max-width: 700px;
+    margin: 12px 0 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #435449;
+  }
+  .tools-hero__proof {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    border-radius: 16px;
+    background: #f4f8f5;
+  }
+  .tools-hero__proof-item {
+    display: flex;
+    flex-direction: column;
+    padding-right: 14px;
+    border-right: 1px solid #dce6e0;
+  }
+  .tools-hero__proof-item:last-child {
+    border-right: 0;
+    padding-right: 0;
+  }
+  .tools-hero__proof-item b {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 800;
+    color: #0e1e14;
+  }
+  .tools-hero__proof-item span {
+    font-size: 9px;
+    color: #64756b;
+    margin-top: 2px;
+  }
+  .tools-hero__wp-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: #25d366;
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.22);
+  }
+  .tools-hero__wp-pill:hover {
+    background: #20bd5a;
+  }
+
+  .catalog-section {
+    padding-block: 28px clamp(60px, 8vw, 96px);
+    background: #fbfdfc;
+  }
+  .catalog-command {
+    padding: 20px;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 12px 36px rgba(16, 40, 26, 0.05);
+  }
+  .catalog-command__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 16px;
+  }
+  .catalog-command__eyebrow {
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: #0d7040;
+  }
+  .catalog-command__head h2 {
+    margin: 4px 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(20px, 2.5vw, 28px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #0e1e14;
+  }
+  .catalog-command__result {
+    margin: 0;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #f1f5f2;
+    font-family: var(--font-mono);
+    font-size: 9.5px;
+    color: #55665c;
+  }
+  .catalog-command__result strong { color: #0e1e14; }
+  .catalog-command__search { max-width: 760px; }
+  .catalog-command__filters {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .catalog-command__clear {
+    flex: 0 0 auto;
+    min-height: 36px;
+    padding: 0 10px;
+    border: 0;
+    background: transparent;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 800;
+    color: #0d7040;
+    cursor: pointer;
+  }
+  .catalog-command__clear:hover { text-decoration: underline; }
+  .catalog-section > .site-container > :global(.template-grid-wrap) { margin-top: 24px; }
+
+  .tools-guide {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 36px;
+  }
+  .tools-guide__card {
+    display: flex;
+    gap: 12px;
+    padding: 20px;
+    border-radius: 16px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(16, 40, 26, 0.04);
+  }
+  .tools-guide__num {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: #e4f4ea;
+    color: #0d7040;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 800;
+  }
+  .tools-guide__card strong { display: block; font-size: 13px; color: #0e1e14; }
+  .tools-guide__card p { margin: 4px 0 0; font-size: 11.5px; line-height: 1.5; color: #526358; }
+
+  .sticky-wa-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: #25d366;
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 10px 28px rgba(37, 211, 102, 0.35);
+    transition: transform 200ms ease-out, background 200ms ease-out;
+  }
+  .sticky-wa-btn:hover {
+    background: #20bd5a;
+    transform: scale(1.04);
+  }
+
+  @media (max-width: 900px) {
+    .tools-hero__inner { grid-template-columns: 1fr; gap: 20px; }
+    .tools-guide { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 680px) {
+    .tools-hero h1 { font-size: 30px; }
+    .tools-hero__proof { flex-wrap: wrap; }
+    .tools-hero__proof-item { border-right: 0; }
+    .sticky-wa-btn span { display: none; }
+    .sticky-wa-btn { padding: 14px; }
+  }
+</style>

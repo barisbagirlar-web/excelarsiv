@@ -46,7 +46,7 @@ const themes: Record<string, Partial<Theme>> = {
 };
 
 const paletteByFamily: Record<string,[string,string,string,string,string]> = {
-  cashflow:['#0d8a4b','#e5484d','#2563eb','#f59e0b','#f2fbf6'], cashbook:['#0f766e','#2563eb','#e5484d','#f59e0b','#f0fdfa'], executive:['#166534','#2563eb','#7c3aed','#f59e0b','#f5f3ff'], debt:['#2563eb','#f97316','#e5484d','#16a34a','#eff6ff'], receivables:['#0f766e','#f59e0b','#e5484d','#2563eb','#f0fdfa'], maturity:['#b42318','#f97316','#f59e0b','#0f766e','#fff7ed'], profit:['#15803d','#2563eb','#f59e0b','#dc2626','#f0fdf4'], suite:['#075985','#15803d','#7c3aed','#f59e0b','#eff6ff'], pos:['#7c3aed','#2563eb','#16a34a','#f97316','#faf5ff'], project:['#0369a1','#16a34a','#f59e0b','#e5484d','#f0f9ff'], stock:['#7c3aed','#2563eb','#16a34a','#f59e0b','#faf5ff'], payroll:['#0891b2','#7c3aed','#16a34a','#f59e0b','#ecfeff'], import:['#0e7490','#2563eb','#f59e0b','#e5484d','#ecfeff'], sgk:['#15803d','#f59e0b','#2563eb','#7c3aed','#f0fdf4'], severance:['#9a3412','#e5484d','#f59e0b','#2563eb','#fff7ed'], wage:['#a16207','#f97316','#2563eb','#16a34a','#fffbeb'], overtime:['#9f1239','#e5484d','#f59e0b','#2563eb','#fff1f2'], tender:['#1d4ed8','#0f766e','#f59e0b','#e5484d','#eff6ff'], defense:['#5b21b6','#2563eb','#e5484d','#f59e0b','#f5f3ff'], progress:['#0f766e','#2563eb','#f59e0b','#e5484d','#f0fdfa'], withholding:['#854d0e','#f59e0b','#2563eb','#16a34a','#fffbeb'], subcontract:['#475569','#2563eb','#f59e0b','#16a34a','#f8fafc'], asset:['#475569','#0f766e','#f59e0b','#2563eb','#f8fafc'], fx:['#1d4ed8','#0f766e','#e5484d','#f59e0b','#eff6ff'], vat:['#7c3aed','#2563eb','#16a34a','#f59e0b','#faf5ff'], taxdefense:['#6b21a8','#e5484d','#f59e0b','#2563eb','#faf5ff'], kitchen:['#b45309','#e5484d','#16a34a','#2563eb','#fff7ed'], logistics:['#0369a1','#f97316','#16a34a','#e5484d','#f0f9ff'], adat:['#475569','#2563eb','#f59e0b','#e5484d','#f8fafc'], marketplace:['#7c3aed','#f97316','#2563eb','#16a34a','#faf5ff'], capital:['#991b1b','#e5484d','#f59e0b','#2563eb','#fff1f2'], branch:['#0f766e','#2563eb','#16a34a','#f59e0b','#f0fdfa'], recipe:['#4d7c0f','#f59e0b','#f97316','#2563eb','#f7fee7'], financing:['#1e40af','#7c3aed','#f59e0b','#16a34a','#eff6ff'], revaluation:['#166534','#0f766e','#f59e0b','#2563eb','#f0fdf4']
+  cashflow:['#0d8a4b','#2563eb','#f59e0b','#e5484d','#f2fbf6'], cashbook:['#0f766e','#2563eb','#f59e0b','#e5484d','#f0fdfa'], executive:['#166534','#7c3aed','#f59e0b','#2563eb','#f5f3ff'], debt:['#2563eb','#f97316','#e5484d','#16a34a','#eff6ff'], receivables:['#0f766e','#f59e0b','#e5484d','#2563eb','#f0fdfa'], maturity:['#b42318','#f97316','#f59e0b','#0f766e','#fff7ed'], profit:['#15803d','#2563eb','#f59e0b','#dc2626','#f0fdf4'], suite:['#075985','#15803d','#7c3aed','#f59e0b','#eff6ff'], pos:['#7c3aed','#2563eb','#16a34a','#f97316','#faf5ff'], project:['#0369a1','#16a34a','#f59e0b','#e5484d','#f0f9ff'], stock:['#7c3aed','#2563eb','#16a34a','#f59e0b','#faf5ff'], payroll:['#0891b2','#7c3aed','#16a34a','#f59e0b','#ecfeff'], import:['#0e7490','#2563eb','#f59e0b','#e5484d','#ecfeff'], sgk:['#15803d','#f59e0b','#2563eb','#7c3aed','#f0fdf4'], severance:['#9a3412','#e5484d','#f59e0b','#2563eb','#fff7ed'], wage:['#a16207','#f97316','#2563eb','#16a34a','#fffbeb'], overtime:['#9f1239','#e5484d','#f59e0b','#2563eb','#fff1f2'], tender:['#1d4ed8','#0f766e','#f59e0b','#e5484d','#eff6ff'], defense:['#5b21b6','#2563eb','#e5484d','#f59e0b','#f5f3ff'], progress:['#0f766e','#2563eb','#f59e0b','#e5484d','#f0fdfa'], withholding:['#854d0e','#f59e0b','#2563eb','#16a34a','#fffbeb'], subcontract:['#475569','#2563eb','#f59e0b','#16a34a','#f8fafc'], asset:['#475569','#0f766e','#f59e0b','#2563eb','#f8fafc'], fx:['#1d4ed8','#0f766e','#e5484d','#f59e0b','#eff6ff'], vat:['#7c3aed','#2563eb','#16a34a','#f59e0b','#faf5ff'], taxdefense:['#6b21a8','#e5484d','#f59e0b','#2563eb','#faf5ff'], kitchen:['#b45309','#e5484d','#16a34a','#2563eb','#fff7ed'], logistics:['#0369a1','#f97316','#16a34a','#e5484d','#f0f9ff'], adat:['#475569','#2563eb','#f59e0b','#e5484d','#f8fafc'], marketplace:['#7c3aed','#f97316','#2563eb','#16a34a','#faf5ff'], capital:['#991b1b','#e5484d','#f59e0b','#2563eb','#fff1f2'], branch:['#0f766e','#2563eb','#16a34a','#f59e0b','#f0fdfa'], recipe:['#4d7c0f','#f59e0b','#f97316','#2563eb','#f7fee7'], financing:['#1e40af','#7c3aed','#f59e0b','#16a34a','#eff6ff'], revaluation:['#166534','#0f766e','#f59e0b','#2563eb','#f0fdf4']
 };
 
 const fallback: Theme = { eyebrow:'EXCEL KARAR SİSTEMİ', sheet:'YÖNETİM PANELİ', labels:['TOPLAM','KONTROL','SONUÇ','RİSK'], metrics:['CANLI','OTOMATİK','HAZIR','İZLE'], accent:'#107c41', accent2:'#2563eb', accent3:'#f59e0b', accent4:'#e5484d', tint:'#f4faf6', family:'generic' };
@@ -55,53 +55,314 @@ const family = partial.family ?? 'generic';
 const palette = paletteByFamily[family] ?? [fallback.accent,fallback.accent2,fallback.accent3,fallback.accent4,fallback.tint];
 const config: Theme = { ...fallback, ...partial, accent:palette[0], accent2:palette[1], accent3:palette[2], accent4:palette[3], tint:palette[4], family };
 let hash = 0; for (const ch of slug) hash = (hash * 31 + ch.charCodeAt(0)) >>> 0;
-const layout = hash % 7;
-const density = (hash >>> 3) % 3;
-const cells = Array.from({ length: density === 0 ? 24 : density === 1 ? 30 : 36 });
-const bars = Array.from({ length: 8 });
-const rows = Array.from({ length: 5 });
+const bars = Array.from({ length: 7 });
 ---
 
-<div class={`product-visual pv-family-${config.family} pv-layout-${layout} pv-density-${density}`} style={`--pv-a:${config.accent};--pv-b:${config.accent2};--pv-c:${config.accent3};--pv-d:${config.accent4};--pv-tint:${config.tint}`} aria-label={`${name} ürününe özel Excel önizlemesi`}>
-  <div class="pv-glow pv-glow-a"></div><div class="pv-glow pv-glow-b"></div>
-  <div class="pv-window">
-    <div class="pv-titlebar"><span class="pv-app">X</span><b>{config.eyebrow}</b><small>{name.slice(0,28)}.xlsx</small><i></i><i></i><i></i></div>
-    <div class="pv-tabs"><b>Dashboard</b><span>Girdi</span><span>Hesap</span><span>Analiz</span><span>Rapor</span></div>
-    <div class="pv-kpis">
-      {config.labels.map((label, i) => <div class={`kpi kpi-${i}`}><small>{label}</small><strong>{config.metrics[i]}</strong><em>{i===3?'● İzle':'↑ '+(12-i*2)+'%'}</em></div>)}
+<div class={`product-visual pv-family-${config.family}`} style={`--pv-a:${config.accent};--pv-b:${config.accent2};--pv-c:${config.accent3};--pv-d:${config.accent4};--pv-tint:${config.tint}`} aria-label={`${name} ürününe özel Excel önizlemesi`}>
+  <div class="pv-backdrop"></div>
+  <div class="pv-card-window">
+    <div class="pv-header">
+      <div class="pv-window-dots">
+        <span class="dot dot-close"></span>
+        <span class="dot dot-min"></span>
+        <span class="dot dot-max"></span>
+      </div>
+      <div class="pv-badge-pill">{config.eyebrow}</div>
+      <span class="pv-file-name">{name.slice(0,26)}.xlsx</span>
     </div>
-    <div class="pv-main">
-      <div class="pv-chart">
-        <div class="pv-chart-head"><b>{config.sheet}</b><span><i></i>Gerçek</span><span><i></i>Plan</span><span><i></i>Risk</span></div>
-        <div class="pv-plot">
-          <div class="pv-bars">{bars.map((_,i)=><i style={`--h:${30 + ((hash >> (i%8)) % 61)}%`}></i>)}</div>
-          <svg viewBox="0 0 240 82" preserveAspectRatio="none" aria-hidden="true"><polyline points="0,64 28,54 56,58 84,38 112,44 140,29 168,36 198,19 240,12" fill="none" stroke="var(--pv-b)" stroke-width="3" stroke-linecap="round"/><polyline points="0,70 28,66 56,63 84,58 112,52 140,48 168,41 198,38 240,31" fill="none" stroke="var(--pv-c)" stroke-width="2" stroke-dasharray="5 4"/></svg>
+
+    <div class="pv-kpi-grid">
+      {config.labels.map((label, i) => (
+        <div class={`pv-kpi-box pv-kpi-${i}`}>
+          <span class="pv-kpi-label">{label}</span>
+          <strong class="pv-kpi-val">{config.metrics[i]}</strong>
+          <span class="pv-kpi-trend">{i === 3 ? '● Canlı' : '↑ %' + (14 - i * 3)}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="pv-body">
+      <div class="pv-chart-card">
+        <div class="pv-chart-top">
+          <span class="pv-sheet-title">{config.sheet} ANALİZİ</span>
+          <span class="pv-live-pill">Otomatik Hesaplama</span>
+        </div>
+        <div class="pv-bars-container">
+          {bars.map((_, i) => (
+            <div class="pv-bar-wrapper">
+              <div class="pv-bar-fill" style={`height: ${35 + ((hash >> (i % 7)) % 58)}%; background: ${i % 2 === 0 ? 'var(--pv-a)' : 'var(--pv-b)'}`}></div>
+            </div>
+          ))}
         </div>
       </div>
-      <div class="pv-side">
-        <div class="pv-donut"><span>{config.metrics[2]}</span></div>
-        <div class="pv-risk"><small>RİSK SİNYALİ</small><b>{config.labels[3]}</b><strong>{config.metrics[3]}</strong><i></i></div>
+
+      <div class="pv-side-card">
+        <div class="pv-donut-box">
+          <span class="pv-donut-val">{config.metrics[2]}</span>
+          <small>Net Oran</small>
+        </div>
+        <div class="pv-status-chip">
+          <span>{config.labels[3]}</span>
+          <strong>{config.metrics[3]}</strong>
+        </div>
       </div>
     </div>
-    <div class="pv-bottom">
-      <div class="pv-table"><div class="pv-table-head"><b>{config.sheet}</b><span>Oca</span><span>Şub</span><span>Mar</span><span>Nis</span><span>May</span></div>{rows.map((_,r)=><div class="pv-table-row"><b>{r===0?'Giriş':r===1?'Çıkış':r===2?'Net':r===3?'Fark':'Durum'}</b>{Array.from({length:5}).map((_,c)=><span class={(r+c+layout)%5===0?'hot':''}>{r===4?((c+r)%2?'İyi':'İzle'):(120+r*45+c*30)+'.000'}</span>)}</div>)}</div>
-      <div class="pv-cells">{cells.map((_,i)=><i class={(i+layout)%7===0?'hot':''}></i>)}</div>
+
+    <div class="pv-footer-strip">
+      <span class="pv-foot-check">✓ %100 Excel Formül Güvencesi</span>
+      <span class="pv-foot-brand">EXCEL ARŞİV</span>
     </div>
-    <div class="pv-footer"><span>✓ Otomatik hesaplama</span><span>● Canlı kontrol</span><b>EXCEL ARŞİV</b></div>
   </div>
 </div>
 
 <style>
-.product-visual{position:relative;width:100%;height:100%;min-height:205px;padding:12px;overflow:hidden;background:linear-gradient(135deg,var(--pv-tint),#fff 55%,color-mix(in srgb,var(--pv-b) 7%,#fff));font-family:var(--font-mono);isolation:isolate}.pv-glow{position:absolute;width:130px;height:130px;border-radius:50%;filter:blur(42px);opacity:.16;z-index:-1}.pv-glow-a{left:-35px;top:-25px;background:var(--pv-a)}.pv-glow-b{right:-20px;bottom:-35px;background:var(--pv-b)}
-.pv-window{height:100%;overflow:hidden;border:1px solid color-mix(in srgb,var(--pv-a) 20%,#dfe6e2);border-radius:15px;background:rgba(255,255,255,.97);box-shadow:0 18px 42px color-mix(in srgb,var(--pv-a) 12%,transparent)}
-.pv-titlebar{display:flex;align-items:center;gap:6px;height:27px;padding:0 9px;border-bottom:1px solid #e9eeeb;background:linear-gradient(90deg,color-mix(in srgb,var(--pv-a) 8%,#fff),#fff);font-size:5.6px;color:#617068}.pv-app{display:grid;place-items:center;width:16px;height:16px;border-radius:3px;background:var(--pv-a);color:#fff;font-weight:900;font-size:8px}.pv-titlebar b{color:var(--pv-a);font-size:6.2px}.pv-titlebar small{margin-right:auto;max-width:115px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pv-titlebar>i{width:5px;height:5px;border-radius:50%;background:#d8dfdb}.pv-titlebar>i:nth-last-child(3){background:var(--pv-d)}.pv-titlebar>i:nth-last-child(2){background:var(--pv-c)}.pv-titlebar>i:last-child{background:var(--pv-a)}
-.pv-tabs{display:flex;gap:3px;padding:5px 8px 0}.pv-tabs>*{padding:3px 6px;border-radius:4px;font-size:4.7px;color:#7c8780}.pv-tabs b{background:color-mix(in srgb,var(--pv-a) 11%,#fff);color:var(--pv-a)}
-.pv-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:5px 8px}.kpi{min-width:0;padding:6px;border:1px solid #e7ece9;border-radius:7px;background:#fff}.kpi-0{border-color:color-mix(in srgb,var(--pv-a) 24%,#e7ece9);background:color-mix(in srgb,var(--pv-a) 5%,#fff)}.kpi-1{border-color:color-mix(in srgb,var(--pv-b) 24%,#e7ece9);background:color-mix(in srgb,var(--pv-b) 5%,#fff)}.kpi-2{border-color:color-mix(in srgb,var(--pv-c) 26%,#e7ece9);background:color-mix(in srgb,var(--pv-c) 6%,#fff)}.kpi-3{border-color:color-mix(in srgb,var(--pv-d) 24%,#e7ece9);background:color-mix(in srgb,var(--pv-d) 5%,#fff)}.kpi small{display:block;font-size:4.3px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#718078}.kpi strong{display:block;margin-top:2px;font-size:7.2px;color:#17231c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.kpi em{display:block;margin-top:2px;font-size:4.1px;font-style:normal;color:var(--pv-a)}.kpi-3 em{color:var(--pv-d)}
-.pv-main{display:grid;grid-template-columns:minmax(0,1fr) 82px;gap:6px;padding:0 8px 5px}.pv-chart,.pv-side>div,.pv-table,.pv-cells{border:1px solid #e9eeeb;border-radius:7px;background:#fff}.pv-chart{padding:6px}.pv-chart-head{display:flex;align-items:center;gap:7px;font-size:4.2px;color:#77837b}.pv-chart-head b{margin-right:auto;color:#34433a;font-size:4.8px}.pv-chart-head span i{display:inline-block;width:5px;height:5px;margin-right:3px;border-radius:1px;background:var(--pv-a)}.pv-chart-head span:nth-child(3) i{background:var(--pv-b)}.pv-chart-head span:nth-child(4) i{background:var(--pv-d)}.pv-plot{position:relative;height:52px;margin-top:4px;overflow:hidden;background:linear-gradient(#eef2ef 1px,transparent 1px);background-size:100% 13px}.pv-plot svg{position:absolute;inset:2px 0 0;width:100%;height:48px}.pv-bars{position:absolute;inset:5px 3px 4px;display:flex;align-items:flex-end;gap:5px}.pv-bars i{flex:1;height:var(--h);border-radius:2px 2px 0 0;background:linear-gradient(180deg,color-mix(in srgb,var(--pv-a) 75%,#fff),var(--pv-a));opacity:.72}.pv-bars i:nth-child(3n){background:linear-gradient(180deg,color-mix(in srgb,var(--pv-d) 62%,#fff),var(--pv-d));opacity:.42}
-.pv-side{display:grid;grid-template-rows:1fr 1fr;gap:5px}.pv-side>div{position:relative;overflow:hidden}.pv-donut{display:grid;place-items:center}.pv-donut:before{content:'';width:42px;height:42px;border-radius:50%;background:conic-gradient(var(--pv-a) 0 38%,var(--pv-b) 38% 66%,var(--pv-c) 66% 84%,var(--pv-d) 84%);box-shadow:inset 0 0 0 10px #fff}.pv-donut span{position:absolute;font-size:5px;font-weight:900;color:#27362d}.pv-risk{padding:6px}.pv-risk small{display:block;font-size:3.9px;color:var(--pv-d);font-weight:800}.pv-risk b{display:block;margin-top:2px;font-size:4.5px;color:#64736a}.pv-risk strong{display:block;margin-top:2px;font-size:6.5px;color:var(--pv-d)}.pv-risk i{position:absolute;left:7px;right:7px;bottom:7px;height:4px;border-radius:3px;background:linear-gradient(90deg,var(--pv-a) 0 48%,var(--pv-c) 48% 73%,var(--pv-d) 73%)}
-.pv-bottom{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(80px,.45fr);gap:5px;padding:0 8px 6px}.pv-table{overflow:hidden}.pv-table-head,.pv-table-row{display:grid;grid-template-columns:1.2fr repeat(5,1fr);align-items:center;min-height:13px;border-bottom:1px solid #eef2ef}.pv-table-row:last-child{border-bottom:0}.pv-table-head{background:var(--pv-a);color:#fff}.pv-table-head>*{font-size:3.8px;text-align:center}.pv-table-head b,.pv-table-row b{text-align:left;padding-left:5px}.pv-table-row>*{font-size:3.6px;text-align:center;color:#657269}.pv-table-row b{font-weight:800;color:#344139}.pv-table-row span.hot{background:color-mix(in srgb,var(--pv-d) 9%,#fff);color:var(--pv-d);font-weight:800}.pv-cells{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;padding:5px}.pv-cells i{min-height:5px;border-radius:1px;background:#edf2ef}.pv-cells i:nth-child(4n){background:color-mix(in srgb,var(--pv-a) 17%,#fff)}.pv-cells i.hot{background:color-mix(in srgb,var(--pv-c) 35%,#fff)}
-.pv-footer{display:flex;gap:10px;align-items:center;padding:0 9px 6px;font-size:3.8px;color:#77837b}.pv-footer span:first-child{color:var(--pv-a)}.pv-footer b{margin-left:auto;color:var(--pv-a);letter-spacing:.05em}
-/* Her slug hash'i 7 yerleşimden birini seçer; family+layout+density kombinasyonu ürünleri fiilen ayrıştırır. */
-.pv-layout-1 .pv-main{grid-template-columns:88px minmax(0,1fr)}.pv-layout-1 .pv-chart{order:2}.pv-layout-1 .pv-side{order:1}.pv-layout-2 .pv-kpis{grid-template-columns:1.25fr .75fr 1.1fr .9fr}.pv-layout-2 .pv-bottom{grid-template-columns:.48fr 1.52fr}.pv-layout-3 .pv-main{grid-template-columns:minmax(0,1fr) 96px}.pv-layout-3 .pv-side{grid-template-rows:1.2fr .8fr}.pv-layout-3 .pv-donut:before{border-radius:8px;background:linear-gradient(135deg,var(--pv-a),var(--pv-b));box-shadow:none}.pv-layout-4 .pv-chart{background:linear-gradient(135deg,color-mix(in srgb,var(--pv-a) 6%,#fff),#fff)}.pv-layout-4 .pv-bars i:nth-child(even){background:var(--pv-b)}.pv-layout-5 .pv-kpis{grid-template-columns:repeat(2,1fr);}.pv-layout-5 .kpi{padding:4px 6px}.pv-layout-5 .pv-main{grid-template-columns:minmax(0,1fr) 72px}.pv-layout-6 .pv-bottom{grid-template-columns:1fr}.pv-layout-6 .pv-cells{display:none}.pv-density-2 .pv-cells{grid-template-columns:repeat(9,1fr)}
-@media(max-width:680px){.product-visual{min-height:190px;padding:8px}.pv-titlebar small{max-width:88px}.pv-main{grid-template-columns:minmax(0,1fr) 70px}.pv-bottom{grid-template-columns:1fr}.pv-cells{display:none}.pv-table-head>*:nth-child(n+5),.pv-table-row>*:nth-child(n+5){display:none}.pv-table-head,.pv-table-row{grid-template-columns:1.2fr repeat(3,1fr)}}
+.product-visual {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 210px;
+  padding: 12px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--pv-tint), #ffffff 70%, color-mix(in srgb, var(--pv-a) 6%, #ffffff));
+  font-family: var(--font-mono);
+  isolation: isolate;
+}
+
+.pv-backdrop {
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--pv-a) 12%, transparent) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.pv-card-window {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: 14px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(15, 30, 22, 0.07);
+  overflow: hidden;
+}
+
+.pv-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--pv-a) 6%, #ffffff), #ffffff);
+}
+
+.pv-window-dots {
+  display: flex;
+  gap: 4px;
+}
+
+.pv-window-dots .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+.dot-close { background: #ff5f56; }
+.dot-min { background: #ffbd2e; }
+.dot-max { background: #27c93f; }
+
+.pv-badge-pill {
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--pv-a) 12%, #ffffff);
+  color: var(--pv-a);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.pv-file-name {
+  margin-left: auto;
+  font-size: 8px;
+  color: #78857e;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pv-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  padding: 8px 12px;
+}
+
+.pv-kpi-box {
+  padding: 7px 8px;
+  border-radius: 9px;
+  background: #f8faf9;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pv-kpi-0 { background: color-mix(in srgb, var(--pv-a) 8%, #ffffff); }
+.pv-kpi-1 { background: color-mix(in srgb, var(--pv-b) 8%, #ffffff); }
+.pv-kpi-2 { background: color-mix(in srgb, var(--pv-c) 9%, #ffffff); }
+.pv-kpi-3 { background: color-mix(in srgb, var(--pv-d) 8%, #ffffff); }
+
+.pv-kpi-label {
+  font-size: 7px;
+  font-weight: 800;
+  color: #64736a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pv-kpi-val {
+  font-size: 11px;
+  font-weight: 800;
+  color: #17231c;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pv-kpi-trend {
+  font-size: 7px;
+  font-weight: 700;
+  color: var(--pv-a);
+}
+.pv-kpi-3 .pv-kpi-trend { color: var(--pv-d); }
+
+.pv-body {
+  display: grid;
+  grid-template-columns: 1fr 90px;
+  gap: 8px;
+  padding: 0 12px 8px;
+  flex: 1;
+}
+
+.pv-chart-card {
+  padding: 8px;
+  border-radius: 9px;
+  background: #f9fbf9;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pv-chart-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.pv-sheet-title {
+  font-size: 8px;
+  font-weight: 800;
+  color: #2c3a32;
+}
+
+.pv-live-pill {
+  padding: 1px 6px;
+  border-radius: 5px;
+  background: #e4f4ea;
+  color: #0b7040;
+  font-size: 7px;
+  font-weight: 800;
+}
+
+.pv-bars-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 48px;
+  margin-top: 6px;
+  padding: 0 4px;
+}
+
+.pv-bar-wrapper {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.pv-bar-fill {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  opacity: 0.85;
+}
+
+.pv-side-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pv-donut-box {
+  flex: 1;
+  padding: 8px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--pv-a) 7%, #ffffff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.pv-donut-val {
+  font-size: 11px;
+  font-weight: 900;
+  color: var(--pv-a);
+}
+
+.pv-donut-box small {
+  font-size: 7px;
+  color: #64736a;
+  margin-top: 2px;
+}
+
+.pv-status-chip {
+  padding: 6px 8px;
+  border-radius: 9px;
+  background: #f8faf9;
+  display: flex;
+  flex-direction: column;
+}
+
+.pv-status-chip span {
+  font-size: 7px;
+  color: #728279;
+}
+
+.pv-status-chip strong {
+  font-size: 10px;
+  color: var(--pv-d);
+}
+
+.pv-footer-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background: #f1f5f2;
+  font-size: 7.5px;
+  font-weight: 800;
+  color: #55645c;
+}
+
+.pv-foot-check { color: var(--pv-a); }
+.pv-foot-brand { letter-spacing: 0.05em; color: #1e2b24; }
+
+@media (max-width: 680px) {
+  .product-visual { min-height: 190px; padding: 8px; }
+  .pv-kpi-val { font-size: 10px; }
+  .pv-body { grid-template-columns: 1fr; }
+  .pv-side-card { display: none; }
+}
 </style>
