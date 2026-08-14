@@ -7,7 +7,7 @@ const recoveryProducts = Object.entries(shopierCatalog.products)
   .map(([slug, product]) => ({
     slug,
     name: product.name,
-    priceTL: shopierCatalog.tiers[product.tier].priceTL,
+    priceTL: shopierCatalog.tiers[product.tier as keyof typeof shopierCatalog.tiers]?.priceTL,
   }))
   .sort((a, b) => a.name.localeCompare(b.name, 'tr'));
 ---
