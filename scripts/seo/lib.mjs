@@ -15,6 +15,8 @@ const CATEGORY_DATA_FILE = resolve(process.cwd(), 'src/lib/categories.ts');
 const CATEGORY_PAGE_FILE = resolve(process.cwd(), 'src/pages/sablonlar/[kategori].astro');
 const CATALOG_PAGE_FILE = resolve(process.cwd(), 'src/pages/sablonlar.astro');
 const GUIDE_INDEX_FILE = resolve(process.cwd(), 'src/pages/rehber.astro');
+const SEKTOR_DATA_FILE = resolve(process.cwd(), 'src/data/sektorler.ts');
+const SEKTOR_PAGE_FILE = resolve(process.cwd(), 'src/pages/sektor/[slug].astro');
 
 const TRACKING_PARAMS = new Set([
   'utm_source',
@@ -290,10 +292,17 @@ export function semanticLastModified(page, templateRecords = getTemplateRecords(
 
   if (page.pathname === '/rehber') {
     const guides = walkFiles(GUIDE_DIR, (file) => ['.md', '.mdx'].includes(extname(file)));
+    const templates = walkFiles(TEMPLATE_DIR, (file) => ['.md', '.mdx'].includes(extname(file)));
     return latestDate([
       gitLastModified(GUIDE_INDEX_FILE),
+      gitLastModified(CATEGORY_DATA_FILE),
       gitLastModifiedMany(guides),
+      gitLastModifiedMany(templates),
     ]);
+  }
+
+  if (/^\/sektor\/[^/]+$/.test(page.pathname)) {
+    return gitLastModifiedMany([SEKTOR_DATA_FILE, SEKTOR_PAGE_FILE]);
   }
 
   return gitLastModified(sourceForPath(page.pathname, templateRecords));

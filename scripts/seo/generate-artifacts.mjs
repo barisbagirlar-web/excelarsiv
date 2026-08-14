@@ -129,6 +129,73 @@ function llmPageLine(page) {
   return `- [${markdownEscape(page.title)}](${page.canonical})${page.description ? ` — ${markdownEscape(page.description)}` : ''}`;
 }
 
+const START_PATHS = new Set(['/nasil-calisir', '/paketler', '/sss']);
+const TRUST_PATHS = new Set([
+  '/hakkinda',
+  '/neden-excel-arsiv',
+  '/basari-hikayeleri',
+  '/iletisim',
+  '/mesafeli-satis-sozlesmesi',
+  '/teslimat',
+  '/teslimat-ve-iade',
+  '/kvkk-aydinlatma',
+  '/shopier-veri-aktarimi',
+  '/lisans',
+  '/kurumsal-lisans',
+  '/cerez-politikasi',
+  '/pazarlama-acik-riza',
+  '/ortaklik-mali-musavir',
+  '/demo-kullanim-kosullari',
+]);
+const KIND_RANK = {
+  home: 0,
+  baslangic: 1,
+  sektor: 2,
+  kategori: 3,
+  rehber: 4,
+  hesaplayici: 5,
+  guven: 6,
+  diger: 7,
+  demo: 8,
+  urun: 9,
+};
+
+function pageKind(pathname) {
+  if (pathname === '/') return 'home';
+  if (pathname.startsWith('/sablon/')) return 'urun';
+  if (pathname === '/demo' || pathname.startsWith('/demo/')) return 'demo';
+  if (pathname.startsWith('/sektor/')) return 'sektor';
+  if (pathname === '/sablonlar' || pathname.startsWith('/sablonlar/')) return 'kategori';
+  if (pathname === '/rehber' || pathname.startsWith('/rehber/')) return 'rehber';
+  if (pathname.startsWith('/hesaplayici/')) return 'hesaplayici';
+  if (START_PATHS.has(pathname)) return 'baslangic';
+  if (TRUST_PATHS.has(pathname)) return 'guven';
+  return 'diger';
+}
+
+function pagesOf(indexablePages, kind) {
+  return indexablePages
+    .filter((page) => pageKind(page.pathname) === kind)
+    .sort((a, b) => a.pathname.localeCompare(b.pathname, 'tr'));
+}
+
+function pathnameFromLoc(loc) {
+  try {
+    const path = new URL(loc).pathname;
+    return path === '/' ? '/' : path.replace(/\/+$/, '');
+  } catch {
+    return loc;
+  }
+}
+
+function byPremiumCrawlOrder(a, b) {
+  const aPath = pathnameFromLoc(a.loc);
+  const bPath = pathnameFromLoc(b.loc);
+  const rank = (KIND_RANK[pageKind(aPath)] ?? 99) - (KIND_RANK[pageKind(bPath)] ?? 99);
+  if (rank !== 0) return rank;
+  return aPath.localeCompare(bPath, 'tr');
+}
+
 function latestContentDate(indexablePages, templateRecords) {
   let latest = null;
   for (const page of indexablePages) {
@@ -138,11 +205,32 @@ function latestContentDate(indexablePages, templateRecords) {
   return latest;
 }
 
+function appendPageSection(lines, title, pages) {
+  if (pages.length === 0) return;
+  lines.push(`## ${title}`, '', ...pages.map(llmPageLine), '');
+}
+
+function appendFullSection(lines, title, pages) {
+  if (pages.length === 0) return;
+  lines.push(`## ${title}`, '');
+  for (const page of pages) {
+    lines.push(`### ${page.title}`);
+    lines.push(`- URL: ${page.canonical}`);
+    if (page.description) lines.push(`- Açıklama: ${page.description}`);
+    lines.push('');
+  }
+}
+
 function buildLlmsShort(indexablePages, templateRecords) {
-  const products = indexablePages.filter((page) => page.pathname.startsWith('/sablon/'));
-  const guides = indexablePages.filter((page) => page.pathname === '/rehber' || page.pathname.startsWith('/rehber/'));
-  const categories = indexablePages.filter((page) => page.pathname === '/sablonlar' || page.pathname.startsWith('/sablonlar/'));
-  const core = indexablePages.filter((page) => !page.pathname.startsWith('/sablon') && !page.pathname.startsWith('/rehber') && ['/', '/nasil-calisir', '/paketler', '/sss', '/teslimat', '/teslimat-ve-iade', '/hakkinda', '/neden-excel-arsiv', '/iletisim', '/mesafeli-satis-sozlesmesi'].includes(page.pathname));
+  const home = pagesOf(indexablePages, 'home');
+  const start = pagesOf(indexablePages, 'baslangic');
+  const sectors = pagesOf(indexablePages, 'sektor');
+  const categories = pagesOf(indexablePages, 'kategori');
+  const guides = pagesOf(indexablePages, 'rehber');
+  const calculators = pagesOf(indexablePages, 'hesaplayici');
+  const trust = pagesOf(indexablePages, 'guven');
+  const other = pagesOf(indexablePages, 'diger');
+  const products = pagesOf(indexablePages, 'urun');
   const lastUpdated = latestContentDate(indexablePages, templateRecords);
 
   const lines = [
@@ -157,28 +245,25 @@ function buildLlmsShort(indexablePages, templateRecords) {
     `- AI kimlik dosyası: ${SITE_ORIGIN}/ai.txt`,
     `- Katalog: ${SITE_ORIGIN}/sablonlar`,
     `- Rehberler: ${SITE_ORIGIN}/rehber`,
+    `- Sektör dikeyleri: ${SITE_ORIGIN}/sektor/kafe-restoran-nakit`,
+    `- Proof Demo: ${SITE_ORIGIN}/demo`,
     `- Uzman profili (E-E-A-T): ${SITE_ORIGIN}/hakkinda`,
     '- Dil: Türkçe (tr-TR)',
     '- Para birimi: Türk Lirası (TL)',
     '',
     buildEeatMarkdownSection({ headingLevel: 2 }).trimEnd(),
     '',
-    '## Başlangıç ve satın alma kaynakları',
-    '',
-    ...core.map(llmPageLine),
-    '',
-    '## Kategoriler',
-    '',
-    ...categories.map(llmPageLine),
-    '',
-    '## Uygulama rehberleri',
-    '',
-    ...guides.map(llmPageLine),
-    '',
-    '## Ürünler',
-    '',
   ];
 
+  appendPageSection(lines, 'Başlangıç ve satın alma', [...home, ...start]);
+  appendPageSection(lines, 'Sektör dikeyleri', sectors);
+  appendPageSection(lines, 'Katalog ve kategoriler', categories);
+  appendPageSection(lines, 'Uygulama rehberleri', guides);
+  appendPageSection(lines, 'Ücretsiz hesaplayıcılar', calculators);
+  appendPageSection(lines, 'Güven, yasal ve E-E-A-T', trust);
+  appendPageSection(lines, 'Diğer public sayfalar', other);
+
+  lines.push('## Ürünler', '');
   for (const page of products) {
     const slug = page.pathname.split('/').at(-1);
     const product = templateRecords.get(slug);
@@ -188,19 +273,25 @@ function buildLlmsShort(indexablePages, templateRecords) {
 
   lines.push(
     '',
+    '## Proof Demo kapıları',
+    '',
+    `- Hub: [${markdownEscape('Proof Demo')}](${SITE_ORIGIN}/demo)`,
+    '- Kural: her ücretli ürünün demo kapısı `{SITE}/demo/{slug}` adresindedir; ayrı demo URL’leri burada tekrar edilmez.',
+    '',
     '## Keşif ve kullanım notu',
     '',
     '- llms.txt ve llms-full.txt yardımcı keşif dosyalarıdır; robots.txt, canonical veya sitemap direktiflerinin yerine geçmez.',
     '- Yalnız public, canonical ve indexlenebilir sayfalar listelenir; noindex veya duplicate canonical sayfalar dahil edilmez.',
-    '- Ürün, kategori, rehber veya SEO metadata değişiklikleri build sırasında yeniden değerlendirilir.',
-    ''
+    '- Sitemap child dosyaları: sitemap-pages.xml (hub/sektör/rehber/yasal/demo), sitemap-products.xml, sitemap-images.xml.',
+    '- sitemap-images.xml içindeki ürün `<loc>` değerleri canonical URL envanterine ikinci kez sayılmaz.',
+    '- Ürün, kategori, sektör, rehber veya SEO metadata değişiklikleri build sırasında yeniden değerlendirilir.',
+    '',
   );
   return lines.join('\n');
 }
 
 function buildLlmsFull(indexablePages, templateRecords) {
-  const products = indexablePages.filter((page) => page.pathname.startsWith('/sablon/'));
-  const pages = indexablePages.filter((page) => !page.pathname.startsWith('/sablon/'));
+  const products = pagesOf(indexablePages, 'urun');
   const lastUpdated = latestContentDate(indexablePages, templateRecords);
   const lines = [
     '# Excel Arşiv — Tam AI ve LLM Keşif Rehberi',
@@ -222,24 +313,34 @@ function buildLlmsFull(indexablePages, templateRecords) {
     '- Katalog: https://excelarsiv.com/sablonlar',
     '- Makine kataloğu (JSON): https://excelarsiv.com/katalog.json',
     '- Rehber: https://excelarsiv.com/rehber',
+    '- Sektör dikeyleri: https://excelarsiv.com/sektor/kafe-restoran-nakit · https://excelarsiv.com/sektor/insaat-hakedis · https://excelarsiv.com/sektor/e-ticaret-karlilik',
+    '- Proof Demo hub: https://excelarsiv.com/demo',
     '- Satın alma (ürün sayfası #satin-al): her ürün URL’sinde Shopier ödeme başlatma',
     '- Neden Excel Arşiv (moat): https://excelarsiv.com/neden-excel-arsiv',
     '- Uzman profili (E-E-A-T): https://excelarsiv.com/hakkinda',
     '',
     buildEeatMarkdownSection({ headingLevel: 2 }).trimEnd(),
     '',
-    '## Public sayfalar',
-    '',
   ];
 
-  for (const page of pages) {
-    lines.push(`### ${page.title}`);
-    lines.push(`- URL: ${page.canonical}`);
-    if (page.description) lines.push(`- Açıklama: ${page.description}`);
-    lines.push('');
-  }
+  appendFullSection(lines, 'Başlangıç ve satın alma', [...pagesOf(indexablePages, 'home'), ...pagesOf(indexablePages, 'baslangic')]);
+  appendFullSection(lines, 'Sektör dikeyleri', pagesOf(indexablePages, 'sektor'));
+  appendFullSection(lines, 'Katalog ve kategoriler', pagesOf(indexablePages, 'kategori'));
+  appendFullSection(lines, 'Uygulama rehberleri', pagesOf(indexablePages, 'rehber'));
+  appendFullSection(lines, 'Ücretsiz hesaplayıcılar', pagesOf(indexablePages, 'hesaplayici'));
+  appendFullSection(lines, 'Güven, yasal ve E-E-A-T', pagesOf(indexablePages, 'guven'));
+  appendFullSection(lines, 'Diğer public sayfalar', pagesOf(indexablePages, 'diger'));
 
-  lines.push('## Ürün kataloğu', '');
+  lines.push(
+    '## Proof Demo kapıları',
+    '',
+    `- Hub: ${SITE_ORIGIN}/demo`,
+    '- Kural: her ücretli ürünün indexlenebilir demo kapısı `{SITE}/demo/{slug}` adresindedir.',
+    '- Tam ürün sayfası canonical kaynaktır; demo kapısı satın alma yerine geçmez.',
+    '',
+    '## Ürün kataloğu',
+    '',
+  );
   for (const page of products) {
     const slug = page.pathname.split('/').at(-1);
     const product = templateRecords.get(slug);
@@ -262,13 +363,15 @@ function buildLlmsFull(indexablePages, templateRecords) {
   lines.push(
     '## Teknik keşif politikası',
     '',
-    '- /sitemap.xml bir sitemap index dosyasıdır; child sitemapler sayfa ve ürün gruplarına ayrılır.',
+    '- /sitemap.xml bir sitemap index dosyasıdır; child sitemapler sitemap-pages.xml, sitemap-products.xml ve sitemap-images.xml olarak ayrılır.',
+    '- sitemap-pages.xml hub, sektör, kategori, rehber, yasal ve demo kapılarını içerir; ürün canonical’leri sitemap-products.xml’dedir.',
     '- Sitemap yalnız self-canonical, indexlenebilir build sayfalarını içerir; query parametreli, dış-host canonical, noindex ve duplicate canonical sayfalar reddedilir.',
+    '- sitemap-images.xml Google image protokolü gereği ürün sayfa `<loc>` değerini tekrarlar; bu loc’lar canonical URL envanterine ikinci kez sayılmaz.',
     '- priority ve changefreq üretilmez.',
     '- URL lastmod build/deploy zamanı değildir; sayfanın gerçek semantik kaynak bağımlılıklarının son değişiklik zamanından türetilir.',
     '- Child sitemap index lastmod değeri SHA-256 içerik değişimine göre PRESERVE veya SET_NOW durum makinesiyle yönetilir.',
     '- llms.txt ve llms-full.txt deneysel keşif yardımcılarıdır; tarama veya sıralama garantisi vermez.',
-    ''
+    '',
   );
   return lines.join('\n');
 }
@@ -292,8 +395,8 @@ const entries = indexablePages.map((page) => {
   };
 });
 
-const products = entries.filter((entry) => entry.product);
-const generalPages = entries.filter((entry) => !entry.product);
+const products = entries.filter((entry) => entry.product).sort(byPremiumCrawlOrder);
+const generalPages = entries.filter((entry) => !entry.product).sort(byPremiumCrawlOrder);
 const children = [
   ...writeSitemapGroup('pages', generalPages),
   ...writeSitemapGroup('products', products),
