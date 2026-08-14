@@ -7,7 +7,7 @@ const packageEntry = templates.find((entry) => entry.id === 'kobi-finans-yonetim
 const packagePriceTL = packageEntry?.data.priceTL ?? 7900;
 const packagePrice = packagePriceTL.toLocaleString('tr-TR');
 const packageHref = packageEntry ? `/sablon/${packageEntry.id}` : '/sablonlar';
-const demoHref = packageEntry?.data.demoFile ?? '/sablonlar';
+const demoHref = (packageEntry?.data as any)?.demoFile ?? '/sablonlar';
 const packageScreens = packageEntry?.data.screenshots ?? [];
 const heroShot = packageScreens[2] ?? packageScreens[0];
 const sheetCount = packageEntry?.data.sheetCount ?? 14;
@@ -20,7 +20,7 @@ const flowItems = flowNames
       ? { code: String(flowNames.indexOf(name) + 1).padStart(2, '0'), name: sheet.name, purpose: sheet.purpose }
       : null;
   })
-  .filter(Boolean);
+  .filter((item): item is NonNullable<typeof item> => item !== null);
 
 const faq = packageEntry?.data.faq ?? [
   { question: 'Pakette hangi sistemler var?', answer: 'Paket kapsamı ürün sayfasında ayrıntılı olarak gösterilir.' },

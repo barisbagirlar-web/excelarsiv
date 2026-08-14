@@ -54,10 +54,10 @@ function mergeDeep(base: JsonValue, override: JsonValue): JsonValue {
 function parseArgs(argv: string[]): ParsedArgs {
   const siteIndex = argv.indexOf('--site');
   const contractIndex = argv.indexOf('--contract-test');
-  const site = (siteIndex >= 0 ? argv[siteIndex + 1] : process.env.SITE_ID) ?? 'excelarsiv';
+  const site = siteIndex >= 0 ? argv[siteIndex + 1] : process.env.SITE_ID;
   const contractOverride = contractIndex >= 0 ? argv[contractIndex + 1] : undefined;
   if (contractOverride && process.env.SEO_CONFORMANCE_TEST !== '1') throw new Error('CONTRACT_OVERRIDE_TEST_ONLY');
-  return { site, ...(contractOverride ? { contractOverride } : {}) };
+  return { ...(site ? { site } : {}), ...(contractOverride ? { contractOverride } : {}) };
 }
 function progress(): Progress {
   const text = readFileSync(resolve(ROOT, 'docs/seo/PROGRESS.md'), 'utf8');
