@@ -38,7 +38,7 @@ test('S23 semantic baseline: stale HTTP 200 is retried until two consecutive val
     return response(404,'');
   };
   try{
-    const baseline=await fetchLiveBaseline({baseUrl:SITE,logger:{log:()=>{}},attempts:4,delayMs:0,timeoutMs:1000});
+    const baseline=await fetchLiveBaseline({baseUrl:SITE,logger:{...console,log:()=>{}},attempts:4,delayMs:0,timeoutMs:1000});
     assert.equal(rootCalls,3);
     assert.equal(baseline.index.children.length,1);
     assert.equal(baseline.index.children[0]?.lastmod,LM);
@@ -59,6 +59,6 @@ test('S23 semantic baseline: alternating edge snapshots never become trusted bas
     return response(404,'');
   };
   try{
-    await assert.rejects(fetchLiveBaseline({baseUrl:SITE,logger:{log:()=>{}},attempts:4,delayMs:0,timeoutMs:1000}),/BASELINE_UNKNOWN/);
+    await assert.rejects(fetchLiveBaseline({baseUrl:SITE,logger:{...console,log:()=>{}},attempts:4,delayMs:0,timeoutMs:1000}),/BASELINE_UNKNOWN/);
   }finally{globalThis.fetch=original;}
 });

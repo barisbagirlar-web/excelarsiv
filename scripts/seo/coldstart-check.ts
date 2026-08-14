@@ -11,7 +11,7 @@ type ColdStartConfig = { measurement: { coldStart: boolean; dataWindowStart: str
 type Coverage = { availableDays: number; dataWindowStart?: string };
 const ROOT = resolve(fileURLToPath(new URL('../../', import.meta.url)));
 function readJson<T>(path: string): T { return JSON.parse(readFileSync(path, 'utf8')) as T; }
-function siteArg(): string | undefined { const index=process.argv.indexOf('--site'); return index>=0?process.argv[index+1]:process.env.SITE_ID; }
+function siteArg(): string { const index=process.argv.indexOf('--site'); return (index>=0?process.argv[index+1]:process.env.SITE_ID) ?? 'excelarsiv'; }
 const site=siteArg(); const dryRun=process.argv.includes('--dry-run');
 if(!site){console.error('SITE_ID_MISSING');process.exit(EXIT.CONFIG);}
 const localPath=resolve(ROOT,`sites/${site}/seo.config.json`);
