@@ -113,7 +113,7 @@ const satista = product?.satista !== false;
     }
   }
 
-  function writeStoredCheckout(value) {
+  function writeStoredCheckout(value: any) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
     } catch {
@@ -121,7 +121,7 @@ const satista = product?.satista !== false;
     }
   }
 
-  async function postJson(url, body) {
+  async function postJson(url: string, body: any) {
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -129,15 +129,15 @@ const satista = product?.satista !== false;
     });
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) {
-      const error = new Error(payload?.error || 'REQUEST_FAILED');
+      const error = new Error(payload?.error || 'REQUEST_FAILED') as Error & { code?: string };
       error.code = payload?.error || 'REQUEST_FAILED';
       throw error;
     }
     return payload;
   }
 
-  function humanError(code) {
-    const messages = {
+  function humanError(code: string | undefined) {
+    const messages: Record<string, string> = {
       INVALID_EMAIL: 'Geçerli bir e-posta adresi girin.',
       RATE_LIMITED: 'Çok fazla ödeme denemesi yapıldı. Bir süre sonra tekrar deneyin.',
       PRODUCT_NOT_READY: 'Bu ürün geçici olarak satışa hazırlanıyor. Lütfen kısa süre sonra tekrar deneyin.',
@@ -150,7 +150,7 @@ const satista = product?.satista !== false;
       FILE_NOT_READY: 'Ödemeniz doğrulandı; ürün dosyasının teslim sürümü henüz hazır değil.',
       PAYMENT_NOT_CONFIRMED: 'Ödeme henüz doğrulanmadı.',
     };
-    return messages[code] || 'İşlem tamamlanamadı. Lütfen yeniden deneyin.';
+    return (code && messages[code]) || 'İşlem tamamlanamadı. Lütfen yeniden deneyin.';
   }
 
   document.querySelectorAll('[data-checkout-root]').forEach((root) => {
@@ -158,27 +158,27 @@ const satista = product?.satista !== false;
     const form = root.querySelector('[data-checkout-form]');
     if (!productSlug || !form) return;
 
-    const emailInput = root.querySelector('[data-checkout-email]');
+    const emailInput = root.querySelector<HTMLInputElement>('[data-checkout-email]');
     const submitButton = root.querySelector('[data-checkout-submit]');
     const progress = root.querySelector('[data-checkout-progress]');
     const status = root.querySelector('[data-checkout-status]');
     const detail = root.querySelector('[data-checkout-detail]');
-    const shopierLink = root.querySelector('[data-shopier-link]');
+    const shopierLink = root.querySelector<HTMLAnchorElement>('[data-shopier-link]');
     const downloadButton = root.querySelector('[data-download-button]');
     const manualVerify = root.querySelector('[data-manual-verify]');
     const orderForm = root.querySelector('[data-order-form]');
-    const orderIdInput = root.querySelector('[data-order-id]');
-    let activeCheckout = null;
-    let pollTimer = null;
+    const orderIdInput = root.querySelector<HTMLInputElement>('[data-order-id]');
+    let activeCheckout: any = null;
+    let pollTimer: any = null;
     let pendingSince = 0;
 
-    const setProgress = (headline, description = '') => {
+    const setProgress = (headline: string, description = '') => {
       progress?.classList.remove('hidden');
       if (status) status.textContent = headline;
       if (detail) detail.textContent = description;
     };
 
-    const showPending = (checkout) => {
+    const showPending = (checkout: any) => {
       activeCheckout = checkout;
       pendingSince = pendingSince || Date.now();
       setProgress('Ödeme bekleniyor', 'Shopier ödeme ekranını tamamlayın. Sonrasında ExcelArşiv teslimat sayfasına dönerek dosyanızı indirin.');
@@ -227,9 +227,9 @@ const satista = product?.satista !== false;
             : 'Shopier ödeme onayı bekleniyor. Ödeme tamamlandıysa teslimat sayfasına dönebilirsiniz.',
         );
         schedulePoll();
-      } catch (error) {
+      } catch (error: any) {
         if (Date.now() - pendingSince > 45000) manualVerify?.classList.remove('hidden');
-        setProgress('Doğrulama devam ediyor', humanError(error.code));
+        setProgress('Doğrulama devam ediyor', humanError(error?.code));
         schedulePoll();
       }
     };
@@ -252,8 +252,8 @@ const satista = product?.satista !== false;
         writeStoredCheckout(stored);
         activeCheckout = stored;
         window.location.assign(checkout.shopierUrl);
-      } catch (error) {
-        setProgress('Ödeme başlatılamadı', humanError(error.code));
+      } catch (error: any) {
+        setProgress('Ödeme başlatılamadı', humanError(error?.code));
       } finally {
         submitButton?.removeAttribute('disabled');
       }
@@ -286,8 +286,8 @@ const satista = product?.satista !== false;
         setProgress('İndirme başladı', 'Dosya bilgisayarınıza indiriliyor.');
         downloadButton.removeAttribute('disabled');
         downloadButton.classList.remove('hidden');
-      } catch (error) {
-        setProgress('Dosya indirilemedi', humanError(error.code));
+      } catch (error: any) {
+        setProgress('Dosya indirilemedi', humanError(error?.code));
         downloadButton.removeAttribute('disabled');
         downloadButton.classList.remove('hidden');
       }
@@ -306,8 +306,8 @@ const satista = product?.satista !== false;
           shopierOrderId,
         });
         if (result.status === 'paid') showPaid();
-      } catch (error) {
-        setProgress('Sipariş eşleşmedi', humanError(error.code));
+      } catch (error: any) {
+        setProgress('Sipariş eşleşmedi', humanError(error?.code));
       }
     });
 
