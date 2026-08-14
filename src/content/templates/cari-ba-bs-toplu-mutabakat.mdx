@@ -1,0 +1,95 @@
+---
+name: 'Cari ve Ba-Bs Toplu Mutabakat Motoru'
+summary: 'Cari ile Form Ba/Bs tutarlarını eşleştirir; fark kovalarını listeler.'
+category: 'muhasebe-ve-vergi'
+priceTL: 990
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.35
+sheetCount: 15
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-14'
+sheetMap:
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası'
+    kind: 'output'
+  - name: 'VERI_A'
+    purpose: 'Kaynak veri girişi'
+    kind: 'input'
+  - name: 'VERI_B'
+    purpose: 'Hedef veri girişi'
+    kind: 'input'
+  - name: 'ANAHTAR'
+    purpose: 'Normalize eşleştirme anahtarı'
+    kind: 'calculation'
+  - name: 'MOTOR'
+    purpose: 'Hesaplama motoru'
+    kind: 'calculation'
+  - name: 'ESLESTIRME'
+    purpose: 'Eşleştirme kovaları'
+    kind: 'calculation'
+  - name: 'KOK_NEDEN'
+    purpose: 'Kök neden analizi'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Yönetici panosu'
+    kind: 'output'
+  - name: 'AKSIYON'
+    purpose: 'Aksiyon önerileri'
+    kind: 'output'
+  - name: 'KANIT_RAPORU'
+    purpose: 'Kanıt raporu'
+    kind: 'output'
+  - name: 'KONTROLLER'
+    purpose: 'Kontrol paneli'
+    kind: 'calculation'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri'
+    kind: 'input'
+  - name: 'LISTELER'
+    purpose: 'Doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşikler'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs:
+  - 'Dönemsel işlem ve belge satırları'
+  - 'Parametre ve eşik ayarları'
+outputs:
+  - 'Karar kapısı ve gerekçe'
+  - 'Yönetici panosu ve kanıt raporu'
+suitableFor:
+  - 'Türkiye iş sürecini yöneten profesyoneller'
+  - 'SMMM ve mali işler ekipleri'
+notSuitableFor:
+  - 'Makro veya API entegrasyonu bekleyenler'
+requirements:
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq:
+  - question: 'Bu araç ne karar verir?'
+    answer: 'Girdi kalitesine göre VERİ YOK veya süreç kararını üretir.'
+  - question: 'Makro veya internet gerekir mi?'
+    answer: 'Hayır. Dosya makrosuz ve çevrimdışıdır; veri cihazınızda kalır.'
+  - question: 'Kanıt raporu var mı?'
+    answer: 'Evet. Kanıt veya rapor sayfası yazdırılabilir / PDF için uygundur.'
+screenshots:
+  - src: '/screenshots/cari-ba-bs-toplu-mutabakat-1.png'
+    alt: 'Cari ve Ba-Bs Toplu Mutabakat Motoru panosu'
+  - src: '/screenshots/cari-ba-bs-toplu-mutabakat-2.png'
+    alt: 'Cari ve Ba-Bs Toplu Mutabakat Motoru giriş ekranı'
+  - src: '/screenshots/cari-ba-bs-toplu-mutabakat-3.png'
+    alt: 'Cari ve Ba-Bs Toplu Mutabakat Motoru karar ekranı'
+related:
+  - 'aylik-patron-finans-paneli'
+  - 'gunluk-gelir-gider-ve-gercek-karlilik-sistemi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

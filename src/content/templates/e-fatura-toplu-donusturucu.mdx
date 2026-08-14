@@ -1,0 +1,92 @@
+---
+name: 'e-Fatura Toplu Dönüştürücü'
+summary: 'Toplu e-Fatura export satırlarını yapıştırıp Excel defter ve PDF kanıt üretir. Makro/XML API yok.'
+category: 'muhasebe-ve-vergi'
+priceTL: 1490
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.66
+sheetCount: 15
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-14'
+sheetMap:
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak'
+    kind: 'output'
+  - name: 'VERI_A'
+    purpose: 'Kaynak veri'
+    kind: 'input'
+  - name: 'VERI_B'
+    purpose: 'Hedef veri'
+    kind: 'input'
+  - name: 'ANAHTAR'
+    purpose: 'Anahtar'
+    kind: 'calculation'
+  - name: 'MOTOR'
+    purpose: 'Hesaplama motoru'
+    kind: 'calculation'
+  - name: 'ESLESTIRME'
+    purpose: 'Eşleştirme'
+    kind: 'calculation'
+  - name: 'KOK_NEDEN'
+    purpose: 'Kök neden'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Yönetici panosu'
+    kind: 'output'
+  - name: 'AKSIYON'
+    purpose: 'Aksiyon'
+    kind: 'output'
+  - name: 'KANIT_RAPORU'
+    purpose: 'Kanıt raporu'
+    kind: 'output'
+  - name: 'KONTROLLER'
+    purpose: 'Kontroller'
+    kind: 'calculation'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri'
+    kind: 'input'
+  - name: 'LISTELER'
+    purpose: 'Listeler'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Ayarlar'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kılavuz'
+    kind: 'output'
+inputs:
+  - 'Dönemsel belge ve işlem satırları'
+  - 'Parametre ve eşikler'
+outputs:
+  - 'Karar kapısı'
+  - 'Kanıt / yönetici raporu'
+suitableFor:
+  - 'SMMM, YMM ve mali işler ekipleri'
+notSuitableFor:
+  - 'Makro veya harici API bekleyenler'
+requirements:
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat değişirse 12 ay ücretsiz güncelleme.'
+faq:
+  - question: 'Makro gerekir mi?'
+    answer: 'Hayır. Dosya makrosuz ve çevrimdışıdır.'
+  - question: 'Kanıt raporu var mı?'
+    answer: 'Evet. Yazdırılabilir / PDF uygun rapor sayfası vardır.'
+screenshots:
+  - src: '/screenshots/e-fatura-toplu-donusturucu-1.png'
+    alt: 'e-Fatura Toplu Dönüştürücü panosu'
+  - src: '/screenshots/e-fatura-toplu-donusturucu-2.png'
+    alt: 'e-Fatura Toplu Dönüştürücü giriş'
+  - src: '/screenshots/e-fatura-toplu-donusturucu-3.png'
+    alt: 'e-Fatura Toplu Dönüştürücü karar'
+related:
+  - 'aylik-patron-finans-paneli'
+  - 'kdv-tevkifat-mahsup-iade-listesi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier ile güvenli işlenir.

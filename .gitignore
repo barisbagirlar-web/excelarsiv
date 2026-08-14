@@ -46,3 +46,5 @@ Generate new*.json
 # firebase hosting deploy cache
 .firebase/hosting.ZGlzdA.cache
 sbom/
+archive/
+

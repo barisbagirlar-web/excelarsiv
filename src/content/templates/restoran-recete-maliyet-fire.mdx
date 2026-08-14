@@ -1,0 +1,98 @@
+---
+name: 'Restoran Reçete Maliyet + Fire Hesaplama'
+summary: 'Fire dahil porsiyon maliyetini ve bileşim yüzde 100 kontrolünü gösterir.'
+category: 'stok-ve-uretim'
+priceTL: 990
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.47
+sheetCount: 16
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-14'
+sheetMap:
+  - name: 'KAPAK'
+    purpose: 'Ürün kapak sayfası'
+    kind: 'output'
+  - name: 'GIRDI'
+    purpose: 'Veri girişi'
+    kind: 'input'
+  - name: 'HAMMADDE'
+    purpose: 'Hammadde kartı'
+    kind: 'input'
+  - name: 'RECETE'
+    purpose: 'Reçete bileşim'
+    kind: 'input'
+  - name: 'MALIYET'
+    purpose: 'Maliyet motoru'
+    kind: 'calculation'
+  - name: 'FIYATLAMA'
+    purpose: 'Fiyat önerisi'
+    kind: 'calculation'
+  - name: 'VARYANS'
+    purpose: 'Varyans köprüsü'
+    kind: 'calculation'
+  - name: 'SENARYO'
+    purpose: 'Senaryo analizi'
+    kind: 'calculation'
+  - name: 'PANO'
+    purpose: 'Yönetici panosu'
+    kind: 'output'
+  - name: 'KARAR'
+    purpose: 'Karar kapısı'
+    kind: 'calculation'
+  - name: 'RAPOR'
+    purpose: 'Yönetici raporu'
+    kind: 'output'
+  - name: 'KONTROLLER'
+    purpose: 'Kontrol paneli'
+    kind: 'calculation'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri'
+    kind: 'input'
+  - name: 'LISTELER'
+    purpose: 'Doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşikler'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs:
+  - 'Dönemsel işlem ve belge satırları'
+  - 'Parametre ve eşik ayarları'
+outputs:
+  - 'Karar kapısı ve gerekçe'
+  - 'Yönetici panosu ve kanıt raporu'
+suitableFor:
+  - 'Türkiye iş sürecini yöneten profesyoneller'
+  - 'SMMM ve mali işler ekipleri'
+notSuitableFor:
+  - 'Makro veya API entegrasyonu bekleyenler'
+requirements:
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq:
+  - question: 'Bu araç ne karar verir?'
+    answer: 'Girdi kalitesine göre VERİ YOK veya süreç kararını üretir.'
+  - question: 'Makro veya internet gerekir mi?'
+    answer: 'Hayır. Dosya makrosuz ve çevrimdışıdır; veri cihazınızda kalır.'
+  - question: 'Kanıt raporu var mı?'
+    answer: 'Evet. Kanıt veya rapor sayfası yazdırılabilir / PDF için uygundur.'
+screenshots:
+  - src: '/screenshots/restoran-recete-maliyet-fire-1.png'
+    alt: 'Restoran Reçete Maliyet + Fire Hesaplama panosu'
+  - src: '/screenshots/restoran-recete-maliyet-fire-2.png'
+    alt: 'Restoran Reçete Maliyet + Fire Hesaplama giriş ekranı'
+  - src: '/screenshots/restoran-recete-maliyet-fire-3.png'
+    alt: 'Restoran Reçete Maliyet + Fire Hesaplama karar ekranı'
+related:
+  - 'aylik-patron-finans-paneli'
+  - 'gunluk-gelir-gider-ve-gercek-karlilik-sistemi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.

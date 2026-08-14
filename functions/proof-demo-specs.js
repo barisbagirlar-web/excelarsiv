@@ -1679,6 +1679,278 @@ const SPECS = Object.freeze({
     ],
     aksiyonlar: ['Yüksek risk kalemlerini önce inceleyin.', 'Eşik aşımında senaryoyu yeniden çalıştırın.', 'Tam sürümde motor, kanıt raporu ve analitik katman birlikte açılır.'],
   },
+  'trendyol-komisyon-sonrasi-net-kar': {
+    karar: "Trendyol komisyon, TY Plus, flash, reklam ve kargo sonrası net kârı ve SAT/ZAM/ÇEKİL kararını gösterir.",
+    girisBasliklari: ["SKU", "Satış (₺)", "Maliyet (₺)", "Komisyon+kesinti (₺)", "Hakediş (₺)"],
+    ornek: [
+      ["SKU-A", 45000, 18000, 9000, 36000],
+      ["SKU-B", 28000, 12000, 5600, 22400],
+      ["SKU-C", 61000, 25000, 14000, 45000],
+      ["SKU-D", 18000, 8000, 4000, 14000]
+    ],
+    metrikler: [
+      ["Toplam satış", "=SUM(DEMO_GIRIS!B6:B25)", "para"],
+      ["Toplam maliyet", "=SUM(DEMO_GIRIS!C6:C25)", "para"],
+      ["Toplam kesinti", "=SUM(DEMO_GIRIS!D6:D25)", "para"],
+      ["Net kâr", "=B6-B7-B8", "para"],
+      ["Demo karar", "=IF(B9<0,\"ÇEKİL\",IF(B9<5000,\"ZAM\",\"SAT\"))", "metin"]
+    ],
+    aksiyonlar: ["Negatif net kârda SKUyu çekin veya fiyatı artırın.", "Kesinti kırılımını kategori komisyon tablosuyla doğrulayın.", "Tam sürümde TY Plus, flash ve desi kargo ayrı kolonlarda açılır."],
+  },
+  'e-fatura-satir-defteri-pdf-kaniti': {
+    karar: "e-Fatura satırları ile muhasebe kayıtlarını eşleştirir; tutar farkı ve eksik belgeyi işaretler.",
+    girisBasliklari: ["UUID/No", "Tarih", "e-Fatura (₺)", "Muhasebe (₺)", "Fark (₺)"],
+    ornek: [
+      ["UUID-001", "01.07.2026", 11800, 11800, 0],
+      ["UUID-002", "05.07.2026", 23600, 23000, 600],
+      ["UUID-003", "12.07.2026", 5900, 5900, 0],
+      ["UUID-004", "20.07.2026", 17700, 0, 17700]
+    ],
+    metrikler: [
+      ["e-Fatura toplam", "=SUM(DEMO_GIRIS!C6:C25)", "para"],
+      ["Muhasebe toplam", "=SUM(DEMO_GIRIS!D6:D25)", "para"],
+      ["Fark toplam", "=SUM(DEMO_GIRIS!E6:E25)", "para"],
+      ["Kayıt sayısı", "=COUNTA(DEMO_GIRIS!A6:A25)", "adet"],
+      ["Demo karar", "=IF(B8>10000,\"DURDUR\",IF(B8>0,\"İNCELE\",\"UYGUN\"))", "metin"]
+    ],
+    aksiyonlar: ["Eşleşmeyen UUID satırlarını muhasebeye işleyin.", "Tutar farkını belgeyle kapatın.", "Tam sürümde PDF kanıt raporu baskıya hazırdır."],
+  },
+  'tesvikli-bordro-avantajli-tesvik': {
+    karar: "Çalışan bazında en avantajlı SGK teşvik kodunu seçer ve kaçırılan tasarrufu gösterir.",
+    girisBasliklari: ["Çalışan", "Brüt (₺)", "Mevcut teşvik (₺)", "Potansiyel (₺)", "Kaçırılan (₺)"],
+    ornek: [
+      ["A. Yılmaz", 45000, 2250, 6500, 4250],
+      ["B. Demir", 38000, 1900, 5200, 3300],
+      ["C. Kaya", 52000, 0, 7800, 7800],
+      ["D. Çelik", 41000, 2050, 2050, 0]
+    ],
+    metrikler: [
+      ["Toplam brüt", "=SUM(DEMO_GIRIS!B6:B25)", "para"],
+      ["Mevcut teşvik", "=SUM(DEMO_GIRIS!C6:C25)", "para"],
+      ["Potansiyel", "=SUM(DEMO_GIRIS!D6:D25)", "para"],
+      ["Kaçırılan", "=SUM(DEMO_GIRIS!E6:E25)", "para"],
+      ["Demo karar", "=IF(B9>10000,\"UYGULA\",IF(B9>0,\"İNCELE\",\"UYGUN\"))", "metin"]
+    ],
+    aksiyonlar: ["Kaçırılan tutarı yüksek çalışanlarda teşvik kodunu değiştirin.", "Bordro satırını dönem kapanışından önce kilitleyin.", "Tam sürümde kural yılı ve vaka doğrulaması açılır."],
+  },
+  'kdv-tevkifat-mahsup-iade-listesi': {
+    karar: "Tevkifat mahsup listesi ile iade satırlarını ayırır; MAHSUP/İADE/BEKLE kararını üretir.",
+    girisBasliklari: ["Belge", "Matrah (₺)", "Tevkifat (₺)", "Mahsup (₺)", "İade (₺)"],
+    ornek: [
+      ["F-1001", 100000, 10000, 8000, 2000],
+      ["F-1002", 50000, 5000, 5000, 0],
+      ["F-1003", 200000, 20000, 0, 20000],
+      ["F-1004", 75000, 7500, 7500, 0]
+    ],
+    metrikler: [
+      ["Matrah toplam", "=SUM(DEMO_GIRIS!B6:B25)", "para"],
+      ["Tevkifat toplam", "=SUM(DEMO_GIRIS!C6:C25)", "para"],
+      ["Mahsup toplam", "=SUM(DEMO_GIRIS!D6:D25)", "para"],
+      ["İade toplam", "=SUM(DEMO_GIRIS!E6:E25)", "para"],
+      ["Demo karar", "=IF(B9>15000,\"İADE\",IF(B8>0,\"MAHSUP\",\"BEKLE\"))", "metin"]
+    ],
+    aksiyonlar: ["İade satırlarını belge paketleriyle eşleştirin.", "Mahsup listesini KDV2 ile hizalayın.", "Tam sürümde kural yılı ve tebliğ vakası açılır."],
+  },
+  'insaat-hakedis-santiye-maliyet': {
+    karar: "Hakediş kuyruğu ve şantiye maliyet sapmasını tek ekranda gösterir.",
+    girisBasliklari: ["Hakediş", "Tutar (₺)", "Maliyet (₺)", "Gecikme (gün)", "Durum"],
+    ornek: [
+      ["H-01", 850000, 720000, 0, "Onay"],
+      ["H-02", 420000, 480000, 12, "Bekliyor"],
+      ["H-03", 610000, 590000, 3, "Bekliyor"],
+      ["H-04", 300000, 250000, 25, "Geciken"]
+    ],
+    metrikler: [
+      ["Hakediş toplam", "=SUM(DEMO_GIRIS!B6:B25)", "para"],
+      ["Maliyet toplam", "=SUM(DEMO_GIRIS!C6:C25)", "para"],
+      ["Sapma", "=B6-B7", "para"],
+      ["Ort. gecikme", "=AVERAGE(DEMO_GIRIS!D6:D25)", "adet"],
+      ["Demo karar", "=IF(B9>15,\"KRİTİK\",IF(OR(B8<0,B9>5),\"DİKKAT\",\"UYGUN\"))", "metin"]
+    ],
+    aksiyonlar: ["Maliyet aşan şantiye kalemini inceleyin.", "Geciken hakedişleri önceliklendirin.", "Tam sürümde durum makinesi ve yaşlandırma açılır."],
+  },
+  'restoran-recete-maliyet-fire': {
+    karar: "Fire dahil porsiyon maliyetini ve bileşim yüzde 100 kontrolünü gösterir.",
+    girisBasliklari: ["Reçete", "Hammadde (₺)", "Fire (₺)", "Porsiyon (₺)", "Hedef fiyat (₺)"],
+    ornek: [
+      ["Menemen", 42, 6, 48, 95],
+      ["Köfte", 78, 10, 88, 175],
+      ["Salata", 28, 4, 32, 75],
+      ["Pizza", 55, 8, 63, 140]
+    ],
+    metrikler: [
+      ["Ort. porsiyon", "=AVERAGE(DEMO_GIRIS!D6:D25)", "para"],
+      ["Ort. fire", "=AVERAGE(DEMO_GIRIS!C6:C25)", "para"],
+      ["Food cost oranı", "=B6/AVERAGE(DEMO_GIRIS!E6:E25)", "yuzde"],
+      ["Kalem sayısı", "=COUNTA(DEMO_GIRIS!A6:A25)", "adet"],
+      ["Demo karar", "=IF(B8>0.45,\"KRİTİK\",IF(B8>0.35,\"DİKKAT\",\"UYGUN\"))", "metin"]
+    ],
+    aksiyonlar: ["Fire oranı yüksek reçeteyi gözden geçirin.", "Bileşim yüzde 100 dışına çıkan satırları düzeltin.", "Tam sürümde birim dönüşüm ve varyans köprüsü açılır."],
+  },
+  'cari-ba-bs-toplu-mutabakat': {
+    karar: "Cari ile Form Ba/Bs tutarlarını eşleştirir; fark kovalarını listeler.",
+    girisBasliklari: ["VKN", "Cari (₺)", "Ba/Bs (₺)", "Fark (₺)", "Kova"],
+    ornek: [
+      ["1234567890", 125000, 125000, 0, "Eşleşti"],
+      ["2345678901", 88000, 86000, 2000, "Tutar farkı"],
+      ["3456789012", 45000, 0, 45000, "Eşleşmedi"],
+      ["4567890123", 67000, 67050, -50, "Tolerans"]
+    ],
+    metrikler: [
+      ["Cari toplam", "=SUM(DEMO_GIRIS!B6:B25)", "para"],
+      ["Ba/Bs toplam", "=SUM(DEMO_GIRIS!C6:C25)", "para"],
+      ["Fark mutlak", "=SUMPRODUCT(ABS(DEMO_GIRIS!D6:D25))", "para"],
+      ["Kayıt", "=COUNTA(DEMO_GIRIS!A6:A25)", "adet"],
+      ["Demo karar", "=IF(B8>20000,\"DURDUR\",IF(B8>0,\"İNCELE\",\"UYGUN\"))", "metin"]
+    ],
+    aksiyonlar: ["Eşleşmeyen VKN satırlarını cariye işleyin.", "Tutar farkını fatura ile kapatın.", "Tam sürümde dört kova ve kök neden açılır."],
+  },
+  'amortisman-2026-yeniden-degerleme': {
+    karar: "Amortisman tutarı ile 298/Ç ve Geç.32 yeniden değerleme kararını birlikte gösterir.",
+    girisBasliklari: ["Kıymet", "Maliyet (₺)", "Amortisman (₺)", "YD artış (₺)", "Net etki (₺)"],
+    ornek: [
+      ["Makine A", 500000, 100000, 80000, 180000],
+      ["Bina B", 2000000, 40000, 250000, 290000],
+      ["Taşıt C", 800000, 160000, 0, 160000],
+      ["Demirbaş", 120000, 24000, 15000, 39000]
+    ],
+    metrikler: [
+      ["Maliyet toplam", "=SUM(DEMO_GIRIS!B6:B25)", "para"],
+      ["Amortisman", "=SUM(DEMO_GIRIS!C6:C25)", "para"],
+      ["YD artış", "=SUM(DEMO_GIRIS!D6:D25)", "para"],
+      ["Net etki", "=SUM(DEMO_GIRIS!E6:E25)", "para"],
+      ["Demo karar", "=IF(B8>200000,\"YAP\",IF(B8>0,\"BEKLE\",\"YAPMA\"))", "metin"]
+    ],
+    aksiyonlar: ["YD artışı yüksek kıymetlerde 298/Ç vs Geç.32 karşılaştırın.", "Amortisman cetvelini yıl sonu kapanışına kilitleyin.", "Tam sürümde kural yılı ve vaka doğrulaması açılır."],
+  },
+  'defter-beyan-e-arsiv-aktarim': {
+    karar: "e-Arşiv satırlarını Defter Beyan kolon haritasına dönüştürür ve hata listesini üretir.",
+    girisBasliklari: ["Fatura No", "Tutar (₺)", "Map durumu", "Hata", "Aktarım"],
+    ornek: [
+      ["EA-1001", 11800, "Tam", "", "Hazır"],
+      ["EA-1002", 23600, "Eksik alan", "VKN boş", "Durdur"],
+      ["EA-1003", 5900, "Tam", "", "Hazır"],
+      ["EA-1004", 17700, "Format", "Tarih hatalı", "İncele"]
+    ],
+    metrikler: [
+      ["Satır sayısı", "=COUNTA(DEMO_GIRIS!A6:A25)", "adet"],
+      ["Tutar toplam", "=SUM(DEMO_GIRIS!B6:B25)", "para"],
+      ["Hatalı satır", "=COUNTIF(DEMO_GIRIS!E6:E25,\"Durdur\")+COUNTIF(DEMO_GIRIS!E6:E25,\"İncele\")", "adet"],
+      ["Hazır satır", "=COUNTIF(DEMO_GIRIS!E6:E25,\"Hazır\")", "adet"],
+      ["Demo karar", "=IF(B8>2,\"DURDUR\",IF(B8>0,\"İNCELE\",\"UYGUN\"))", "metin"]
+    ],
+    aksiyonlar: ["Hatalı satırları kolon haritasına göre düzeltin.", "Hazır satırları DBS aktarımına alın.", "Tam sürümde API yok; yapıştır-çalıştır modelidir."],
+  },
+  'kira-avans-takip-dekont': {
+    karar: "Kira ve avans mahsup bakiyesini gösterir; yazdırılabilir dekont için karar üretir.",
+    girisBasliklari: ["Kiracı", "Kira (₺)", "Avans (₺)", "Mahsup (₺)", "Bakiye (₺)"],
+    ornek: [
+      ["Kiracı A", 25000, 50000, 25000, 25000],
+      ["Kiracı B", 18000, 0, 0, 18000],
+      ["Kiracı C", 32000, 32000, 32000, 0],
+      ["Kiracı D", 22000, 10000, 10000, 12000]
+    ],
+    metrikler: [
+      ["Kira toplam", "=SUM(DEMO_GIRIS!B6:B25)", "para"],
+      ["Avans toplam", "=SUM(DEMO_GIRIS!C6:C25)", "para"],
+      ["Mahsup toplam", "=SUM(DEMO_GIRIS!D6:D25)", "para"],
+      ["Açık bakiye", "=SUM(DEMO_GIRIS!E6:E25)", "para"],
+      ["Demo karar", "=IF(B9>40000,\"KRİTİK\",IF(B9>10000,\"DİKKAT\",\"UYGUN\"))", "metin"]
+    ],
+    aksiyonlar: ["Açık bakiyesi olan kiracıya dekont kesin.", "Avans mahsup sırasını sözleşme ile doğrulayın.", "Tam sürümde durum makinesi ve yaşlandırma açılır."],
+  },
+
+  'kdv-iade-listesi-robotu-gib7': {
+    karar: "GİB 7 liste tutarlarını toplar; İADE/EKSİK BELGE/BEKLE kararını üretir.",
+    girisBasliklari: ["Liste", "Satır", "Tutar (₺)", "Eksik belge", "Durum"],
+    ornek: [
+      ["İndirilecek KDV", 12, 180000, 0, "Hazır"],
+      ["Yüklenilen KDV", 8, 95000, 1, "Eksik"],
+      ["GÇB", 5, 220000, 0, "Hazır"],
+      ["Diğer", 3, 40000, 0, "Hazır"]
+    ],
+    metrikler: [
+      ["Toplam tutar", "=SUM(DEMO_GIRIS!C6:C25)", "para"],
+      ["Satır", "=SUM(DEMO_GIRIS!B6:B25)", "adet"],
+      ["Eksik", "=SUM(DEMO_GIRIS!D6:D25)", "adet"],
+      ["Liste sayısı", "=COUNTA(DEMO_GIRIS!A6:A25)", "adet"],
+      ["Demo karar", "=IF(B8>0,\"EKSİK BELGE\",IF(B6>0,\"İADE\",\"BEKLE\"))", "metin"]
+    ],
+    aksiyonlar: ["Eksik belgeleri tamamlayın.", "7 listeyi GİB sırasıyla kontrol edin.", "Tam sürümde kural yılı ve kanıt raporu açılır."],
+  },
+  'e-fatura-toplu-donusturucu': {
+    karar: "Toplu e-Fatura satırlarını muhasebe ile eşleştirir; PDF kanıt için karar üretir.",
+    girisBasliklari: ["UUID", "e-Fatura (₺)", "Muhasebe (₺)", "Fark (₺)", "Kova"],
+    ornek: [
+      ["U1", 11800, 11800, 0, "Eşleşti"],
+      ["U2", 23600, 23000, 600, "Fark"],
+      ["U3", 5900, 5900, 0, "Eşleşti"],
+      ["U4", 17700, 0, 17700, "Eşleşmedi"]
+    ],
+    metrikler: [
+      ["e-Fatura", "=SUM(DEMO_GIRIS!B6:B25)", "para"],
+      ["Muhasebe", "=SUM(DEMO_GIRIS!C6:C25)", "para"],
+      ["Fark", "=SUM(DEMO_GIRIS!D6:D25)", "para"],
+      ["Kayıt", "=COUNTA(DEMO_GIRIS!A6:A25)", "adet"],
+      ["Demo karar", "=IF(B8>10000,\"DURDUR\",IF(B8>0,\"İNCELE\",\"UYGUN\"))", "metin"]
+    ],
+    aksiyonlar: ["XML dosyası okunmaz; export satırı yapıştırılır.", "Eşleşmeyen UUID’leri işleyin.", "Tam sürümde 10.000 satır ölçeği açılır."],
+  },
+  'ymm-tasdik-kontrol-robotu': {
+    karar: "YMM tasdik kontrol listesi ve eksik belge kuyruğundan TASDIK/EKSİK/DURDUR üretir.",
+    girisBasliklari: ["Kalem", "Zorunlu", "Durum", "Gecikme (gün)", "Risk"],
+    ornek: [
+      ["Bilanço", "Evet", "Tamam", 0, "Düşük"],
+      ["Defter", "Evet", "Eksik", 12, "Yüksek"],
+      ["Fatura örnek", "Evet", "İnceleme", 3, "Orta"],
+      ["Sözleşme", "Hayır", "Tamam", 0, "Düşük"]
+    ],
+    metrikler: [
+      ["Kalem", "=COUNTA(DEMO_GIRIS!A6:A25)", "adet"],
+      ["Eksik", "=COUNTIF(DEMO_GIRIS!C6:C25,\"Eksik\")", "adet"],
+      ["Ort. gecikme", "=AVERAGE(DEMO_GIRIS!D6:D25)", "adet"],
+      ["Yüksek risk", "=COUNTIF(DEMO_GIRIS!E6:E25,\"Yüksek\")", "adet"],
+      ["Demo karar", "=IF(B9>=1,\"DURDUR\",IF(B7>0,\"EKSİK\",\"TASDIK\"))", "metin"]
+    ],
+    aksiyonlar: ["Eksik zorunlu belgeleri tamamlayın.", "Geciken kalemleri önceliklendirin.", "Tam sürümde durum makinesi ve kanıt paketi açılır."],
+  },
+  'tesvikli-bordro-optimizasyon': {
+    karar: "Kişi×teşvik matrisi ile kaçırılan tasarrufu ve UYGULA/İNCELE kararını gösterir.",
+    girisBasliklari: ["Çalışan", "Brüt (₺)", "Mevcut (₺)", "Potansiyel (₺)", "Kaçırılan (₺)"],
+    ornek: [
+      ["A", 50000, 2500, 8000, 5500],
+      ["B", 42000, 2100, 6500, 4400],
+      ["C", 60000, 0, 9500, 9500],
+      ["D", 38000, 3800, 3800, 0]
+    ],
+    metrikler: [
+      ["Brüt", "=SUM(DEMO_GIRIS!B6:B25)", "para"],
+      ["Mevcut", "=SUM(DEMO_GIRIS!C6:C25)", "para"],
+      ["Potansiyel", "=SUM(DEMO_GIRIS!D6:D25)", "para"],
+      ["Kaçırılan", "=SUM(DEMO_GIRIS!E6:E25)", "para"],
+      ["Demo karar", "=IF(B9>15000,\"UYGULA\",IF(B9>0,\"İNCELE\",\"UYGUN\"))", "metin"]
+    ],
+    aksiyonlar: ["Kaçırılan tutarı yüksek çalışanlarda kod değiştirin.", "Matris setini dönem kapanışına kilitleyin.", "Tam sürümde M-SEN ve vaka doğrulaması açılır."],
+  },
+  'konkordato-nakit-akis-on-projesi': {
+    karar: "3 yıllık nakit açık/fazlasından BAŞVUR/BEKLE/UYGUN DEĞİL kararını üretir.",
+    girisBasliklari: ["Yıl", "Gelir (₺)", "Gider (₺)", "Nakit (₺)", "Açık (₺)"],
+    ornek: [
+      ["2026", 12000000, 13500000, -1500000, 1500000],
+      ["2027", 14000000, 13800000, 200000, 0],
+      ["2028", 16000000, 14500000, 1500000, 0],
+      ["Toplam", 42000000, 41800000, 200000, 1500000]
+    ],
+    metrikler: [
+      ["Gelir", "=SUM(DEMO_GIRIS!B6:B8)", "para"],
+      ["Gider", "=SUM(DEMO_GIRIS!C6:C8)", "para"],
+      ["Net nakit", "=B6-B7", "para"],
+      ["Açık", "=SUM(DEMO_GIRIS!E6:E8)", "para"],
+      ["Demo karar", "=IF(B9>2000000,\"UYGUN DEĞİL\",IF(B8<0,\"BEKLE\",\"BAŞVUR\"))", "metin"]
+    ],
+    aksiyonlar: ["Nakit açık yılları mahkeme raporunda vurgulayın.", "3 yıllık bilanço satırlarını kilitleyin.", "Tam sürümde durum makinesi ve kanıt raporu açılır."],
+  },
+
 });
 
 function getProofDemoSpec(slug) {

@@ -1,0 +1,89 @@
+---
+name: 'Teşvikli Bordro Optimizasyon'
+summary: 'Kişi×teşvik kodu matrisi ve çok senaryo ile en avantajlı bordro teşvik setini optimize eder.'
+category: 'personel-ve-bordro'
+priceTL: 7900
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.38
+sheetCount: 14
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-14'
+sheetMap:
+  - name: 'PANO'
+    purpose: 'Yönetici panosu'
+    kind: 'output'
+  - name: 'GIRDI'
+    purpose: 'Veri girişi'
+    kind: 'input'
+  - name: 'BORDRO'
+    purpose: 'Bordro'
+    kind: 'input'
+  - name: 'MATRIS'
+    purpose: 'Kişi×kod matrisi'
+    kind: 'input'
+  - name: 'KURALLAR'
+    purpose: 'Mevzuat kuralları'
+    kind: 'calculation'
+  - name: 'MOTOR'
+    purpose: 'Hesaplama motoru'
+    kind: 'calculation'
+  - name: 'SENARYO'
+    purpose: 'Senaryo'
+    kind: 'calculation'
+  - name: 'VAKALAR'
+    purpose: 'Vakalar'
+    kind: 'calculation'
+  - name: 'KANIT_RAPORU'
+    purpose: 'Kanıt raporu'
+    kind: 'output'
+  - name: 'KONTROLLER'
+    purpose: 'Kontroller'
+    kind: 'calculation'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri'
+    kind: 'input'
+  - name: 'LISTELER'
+    purpose: 'Listeler'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Ayarlar'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kılavuz'
+    kind: 'output'
+inputs:
+  - 'Dönemsel belge ve işlem satırları'
+  - 'Parametre ve eşikler'
+outputs:
+  - 'Karar kapısı'
+  - 'Kanıt / yönetici raporu'
+suitableFor:
+  - 'SMMM, YMM ve mali işler ekipleri'
+notSuitableFor:
+  - 'Makro veya harici API bekleyenler'
+requirements:
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat değişirse 12 ay ücretsiz güncelleme.'
+faq:
+  - question: 'Makro gerekir mi?'
+    answer: 'Hayır. Dosya makrosuz ve çevrimdışıdır.'
+  - question: 'Kanıt raporu var mı?'
+    answer: 'Evet. Yazdırılabilir / PDF uygun rapor sayfası vardır.'
+screenshots:
+  - src: '/screenshots/tesvikli-bordro-optimizasyon-1.png'
+    alt: 'Teşvikli Bordro Optimizasyon panosu'
+  - src: '/screenshots/tesvikli-bordro-optimizasyon-2.png'
+    alt: 'Teşvikli Bordro Optimizasyon giriş'
+  - src: '/screenshots/tesvikli-bordro-optimizasyon-3.png'
+    alt: 'Teşvikli Bordro Optimizasyon karar'
+related:
+  - 'aylik-patron-finans-paneli'
+  - 'kdv-tevkifat-mahsup-iade-listesi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier ile güvenli işlenir.

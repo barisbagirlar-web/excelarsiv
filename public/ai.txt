@@ -1,35 +1,56 @@
-# ================================================================
-# ai.txt — excelarsiv.com Yapay Zeka Erişim ve Kullanım Politikası
-# Niche: Digital Excel Templates & Financial Models
-# İletişim: teb232@gmail.com
-# Yürürlük: 2026-08-14
-# ================================================================
+# ai.txt — Excel Arşiv
 
-User-agent: *
-Allow: /
+> Bu dosya yapay zekâ / LLM aracıları için site kimliği, E-E-A-T varlığı ve tarama politikasını özetler.
 
-# --- Kapsam ---
-# Bu politika; kamuya açık, canonical ve indexlenebilir sayfaları
-# (ana sayfa, katalog, kategori, ürün, rehber, yasal) kapsar.
-# Ücretli şablon dosyaları ve demo arşivi (/demo) bu kapsamın dışındadır.
+- Site: https://excelarsiv.com/
+- Marka: Excel Arşiv
+- Dil: tr-TR
+- Sitemap: https://excelarsiv.com/sitemap.xml
+- Robots: https://excelarsiv.com/robots.txt
+- llms.txt: https://excelarsiv.com/llms.txt
+- llms-full.txt: https://excelarsiv.com/llms-full.txt
+- Makine kataloğu: https://excelarsiv.com/katalog.json
+- humans.txt: https://excelarsiv.com/humans.txt
+- security.txt: https://excelarsiv.com/.well-known/security.txt
 
-# --- İzinler ---
-# TRAINING: Kamuya açık içerik, modellerin eğitim verisinde kullanılabilir.
-# SEARCH/RAG: AI arama ve yanıt sistemleri, dokümantasyonu ve kataloğu
-#             dizine ekleyebilir ve alıntılayabilir.
-# CITATION: İçerik kullanıldığında "excelarsiv.com" kaynak gösterimi ve
-#           canlı bağlantı rica edilir.
+## E-E-A-T varlığı
 
-# --- Ücretli içerik sınırı ---
-# Ücretli Excel şablonlarının içeriği (formül, yapı, sheet tasarımı)
-# eğitim verisi olarak yeniden üretilemez; bunlar ticari ürünlerdir.
+- Yazar: Barış Bağırlar
+- Unvan: Finansal Karar Sistemleri
+- Profil: https://excelarsiv.com/hakkinda
+- Özet: Bankacılık kökenli finansal karar sistemleri uzmanı. Excel Arşiv şablonlarını saha gerçekliği, denetlenebilir formül mimarisi ve yöneticiye sunulabilir karar çıktısı standardında tasarlar ve denetler.
+- Kimlikler: Bankacı; Tarımkon — Uluslararası Tarım ve Gıda Konfederasyonu Danışma Kurulu Üyesi
+- Uzmanlık: Finansal karar sistemleri; Excel karar destek modelleri; Nakit akışı ve işletme finansı; Denetlenebilir formül mimarisi
+- sameAs: https://www.linkedin.com/in/barisbagirlar/ · https://www.tarimkon.org/danisma-kurulu/ · https://sectorcalc.com · https://degerlet.com · https://cbamvalid.com · https://drfin.com.tr
 
-# --- İlgili dosyalar ---
-# llms.txt:      https://excelarsiv.com/llms.txt
-# llms-full.txt: https://excelarsiv.com/llms-full.txt
-# sitemap.xml:   https://excelarsiv.com/sitemap.xml
-# robots.txt:    https://excelarsiv.com/robots.txt
-# IndexNow Key:  https://excelarsiv.com/7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f.txt
+## Satıcı (Trust)
 
-# --- Geri bildirim ---
-# İçerik hataları veya erişim sorunları için: teb232@gmail.com
+- Unvan: Barış Bağırlar — Excel Arşiv
+- VKN: 25403091318 (Gerçek kişi vergi kimliği (11 hane))
+- Telefon: 0539 333 33 03
+- E-posta: barisbagirlar@gmail.com
+- Adres / MERSIS: Türkiye. Kayıtlı işyeri adresi ve MERSIS numarası fatura üzerinde yer alır; yazılı talep üzerine paylaşılır.
+
+## Güven URL’leri
+
+- Uzman profili (E-E-A-T): https://excelarsiv.com/hakkinda
+- Neden Excel Arşiv: https://excelarsiv.com/neden-excel-arsiv
+- Başarı hikâyeleri ve uygulama senaryoları: https://excelarsiv.com/basari-hikayeleri
+- İletişim: https://excelarsiv.com/iletisim
+- Mesafeli Satış Sözleşmesi: https://excelarsiv.com/mesafeli-satis-sozlesmesi
+- Teslimat ve İade: https://excelarsiv.com/teslimat-ve-iade
+- KVKK Aydınlatma: https://excelarsiv.com/kvkk-aydinlatma
+- Shopier Veri Aktarımı: https://excelarsiv.com/shopier-veri-aktarimi
+- Lisans: https://excelarsiv.com/lisans
+
+## Politika
+
+- Tercih edilen alıntı kaynağı: canonical ürün/rehber sayfaları + uzman profili (/hakkinda).
+- Katalog: https://excelarsiv.com/sablonlar
+- Rehber merkezi: https://excelarsiv.com/rehber
+- Sektör dikeyleri: https://excelarsiv.com/sektor/kafe-restoran-nakit · https://excelarsiv.com/sektor/insaat-hakedis · https://excelarsiv.com/sektor/e-ticaret-karlilik
+- Proof Demo hub: https://excelarsiv.com/demo — her ürünün kapısı /demo/{slug}
+- Ücretsiz hesaplayıcı: https://excelarsiv.com/hesaplayici/asgari-ucret-zam-etkisi
+- Başarı sayfası, ürünlerin Türkiye’deki tipik iş akışlarına uygulanışını sektörel senaryolarla açıklar.
+- Dijital ürünlerde indirme sonrası koşulsuz iade yok; mesafeli satış ve teslimat sayfalarına bakın.
+- Bu dosya sıralama garantisi vermez; robots.txt ve sitemap asıl tarama kaynaklarıdır.
