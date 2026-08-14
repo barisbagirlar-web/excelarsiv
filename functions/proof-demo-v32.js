@@ -124,12 +124,75 @@ function assertWorksheetProtectionOrder(xml) {
   return true;
 }
 
+function normalizeDxfChildOrder(stylesXml) {
+  // ECMA-376 CT_Dxf sequence: font, numFmt, fill, alignment, border, protection.
+  // fill-before-font triggers Microsoft Excel "recover workbook" dialog.
+  return String(stylesXml).replace(/<dxf>([\s\S]*?)<\/dxf>/g, (all, body) => {
+    const font = body.match(/<font\b[\s\S]*?<\/font>/);
+    const fill = body.match(/<fill\b[\s\S]*?<\/fill>/);
+    if (!font || !fill) return all;
+    const fontIndex = body.indexOf(font[0]);
+    const fillIndex = body.indexOf(fill[0]);
+    if (fontIndex < fillIndex) return all;
+    const rest = body.replace(font[0], '').replace(fill[0], '');
+    return `<dxf>${font[0]}${fill[0]}${rest}</dxf>`;
+  });
+}
+
+function assertDxfChildOrder(stylesXml) {
+  const source = String(stylesXml);
+  for (const match of source.matchAll(/<dxf>([\s\S]*?)<\/dxf>/g)) {
+    const body = match[1];
+    const fontIndex = body.search(/<font\b/);
+    const fillIndex = body.search(/<fill\b/);
+    if (fontIndex >= 0 && fillIndex >= 0 && fillIndex < fontIndex) {
+      throw new Error('DXF_CHILD_ORDER_INVALID');
+    }
+  }
+  return true;
+}
+
+function normalizeWorkbookElementOrder(xml) {
+  let out = String(xml);
+  // ECMA-376: workbookPr → workbookProtection → bookViews → sheets
+  out = out.replace(
+    /(<bookViews>[\s\S]*?<\/bookViews>)(<workbookProtection\b[^>]*\/>)/,
+    '$2$1',
+  );
+  return out;
+}
+
+function assertWorkbookElementOrder(xml) {
+  const source = String(xml);
+  const pr = source.search(/<workbookPr\b/);
+  const protection = source.search(/<workbookProtection\b/);
+  const views = source.search(/<bookViews\b/);
+  const sheets = source.search(/<sheets\b/);
+  if (pr < 0 || sheets < 0) throw new Error('WORKBOOK_MISSING_REQUIRED_NODES');
+  if (protection >= 0 && views >= 0 && views < protection) {
+    throw new Error('WORKBOOK_PROTECTION_SCHEMA_ORDER_INVALID');
+  }
+  if (protection >= 0 && protection < pr) throw new Error('WORKBOOK_PROTECTION_BEFORE_WORKBOOK_PR');
+  if (views >= 0 && views > sheets) throw new Error('BOOK_VIEWS_AFTER_SHEETS');
+  return true;
+}
+
 function normalizeProofDemoBuffer(buffer) {
   const entries = v31.unzipLocalEntries(buffer);
   const worksheetPaths = entries.filter((entry) => /^xl\/worksheets\/sheet\d+\.xml$/.test(entry.path));
   if (worksheetPaths.length !== 8) throw new Error(`UNEXPECTED_WORKSHEET_COUNT_${worksheetPaths.length}`);
 
   const normalized = entries.map((entry) => {
+    if (entry.path === 'xl/styles.xml') {
+      const xml = normalizeDxfChildOrder(entry.data.toString('utf8'));
+      assertDxfChildOrder(xml);
+      return { ...entry, data: Buffer.from(xml, 'utf8') };
+    }
+    if (entry.path === 'xl/workbook.xml') {
+      const xml = normalizeWorkbookElementOrder(entry.data.toString('utf8'));
+      assertWorkbookElementOrder(xml);
+      return { ...entry, data: Buffer.from(xml, 'utf8') };
+    }
     if (!/^xl\/worksheets\/sheet\d+\.xml$/.test(entry.path)) return entry;
     const xml = normalizeWorksheetProtectionOrder(entry.data.toString('utf8'));
     return { ...entry, data: Buffer.from(xml, 'utf8') };
@@ -139,6 +202,8 @@ function normalizeProofDemoBuffer(buffer) {
     if (/^xl\/worksheets\/sheet\d+\.xml$/.test(entry.path)) {
       assertWorksheetProtectionOrder(entry.data.toString('utf8'));
     }
+    if (entry.path === 'xl/styles.xml') assertDxfChildOrder(entry.data.toString('utf8'));
+    if (entry.path === 'xl/workbook.xml') assertWorkbookElementOrder(entry.data.toString('utf8'));
   }
   return zip(normalized);
 }
@@ -218,6 +283,10 @@ module.exports = {
   _test: {
     normalizeWorksheetProtectionOrder,
     assertWorksheetProtectionOrder,
+    normalizeDxfChildOrder,
+    assertDxfChildOrder,
+    normalizeWorkbookElementOrder,
+    assertWorkbookElementOrder,
     normalizeProofDemoBuffer,
     buildProofDemo,
   },

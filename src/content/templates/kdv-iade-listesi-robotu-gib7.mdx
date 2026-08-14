@@ -1,0 +1,104 @@
+---
+name: 'KDV İade Listesi Robotu (GİB 7 Liste)'
+summary: "GİB'in istediği İndirilecek KDV, Yüklenilen KDV, GÇB ve tamamlayıcı listeleri Excel'den üretir."
+category: 'muhasebe-ve-vergi'
+priceTL: 1490
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.1
+sheetCount: 19
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-14'
+sheetMap:
+  - name: 'PANO'
+    purpose: 'Yönetici panosu'
+    kind: 'output'
+  - name: 'GIRDI'
+    purpose: 'Veri girişi'
+    kind: 'input'
+  - name: 'KURALLAR'
+    purpose: 'Mevzuat kuralları'
+    kind: 'calculation'
+  - name: 'MOTOR'
+    purpose: 'Hesaplama motoru'
+    kind: 'calculation'
+  - name: 'LISTE_1'
+    purpose: 'GİB liste 1'
+    kind: 'input'
+  - name: 'LISTE_2'
+    purpose: 'GİB liste 2'
+    kind: 'input'
+  - name: 'LISTE_3'
+    purpose: 'GİB liste 3'
+    kind: 'input'
+  - name: 'LISTE_4'
+    purpose: 'GİB liste 4'
+    kind: 'input'
+  - name: 'LISTE_5'
+    purpose: 'GİB liste 5'
+    kind: 'input'
+  - name: 'LISTE_6'
+    purpose: 'GİB liste 6'
+    kind: 'input'
+  - name: 'LISTE_7'
+    purpose: 'GİB liste 7'
+    kind: 'input'
+  - name: 'SENARYO'
+    purpose: 'Senaryo'
+    kind: 'calculation'
+  - name: 'VAKALAR'
+    purpose: 'Vakalar'
+    kind: 'calculation'
+  - name: 'KANIT_RAPORU'
+    purpose: 'Kanıt raporu'
+    kind: 'output'
+  - name: 'KONTROLLER'
+    purpose: 'Kontroller'
+    kind: 'calculation'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri'
+    kind: 'input'
+  - name: 'LISTELER'
+    purpose: 'Listeler'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Ayarlar'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kılavuz'
+    kind: 'output'
+inputs:
+  - 'Dönemsel belge ve işlem satırları'
+  - 'Parametre ve eşikler'
+outputs:
+  - 'Karar kapısı'
+  - 'Kanıt / yönetici raporu'
+suitableFor:
+  - 'SMMM, YMM ve mali işler ekipleri'
+notSuitableFor:
+  - 'Makro veya harici API bekleyenler'
+requirements:
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat değişirse 12 ay ücretsiz güncelleme.'
+faq:
+  - question: 'Makro gerekir mi?'
+    answer: 'Hayır. Dosya makrosuz ve çevrimdışıdır.'
+  - question: 'Kanıt raporu var mı?'
+    answer: 'Evet. Yazdırılabilir / PDF uygun rapor sayfası vardır.'
+screenshots:
+  - src: '/screenshots/kdv-iade-listesi-robotu-gib7-1.png'
+    alt: 'KDV İade Listesi Robotu (GİB 7 Liste) panosu'
+  - src: '/screenshots/kdv-iade-listesi-robotu-gib7-2.png'
+    alt: 'KDV İade Listesi Robotu (GİB 7 Liste) giriş'
+  - src: '/screenshots/kdv-iade-listesi-robotu-gib7-3.png'
+    alt: 'KDV İade Listesi Robotu (GİB 7 Liste) karar'
+related:
+  - 'aylik-patron-finans-paneli'
+  - 'kdv-tevkifat-mahsup-iade-listesi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier ile güvenli işlenir.

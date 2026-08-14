@@ -36,6 +36,35 @@
       "storageKey": "paid-products/akilli-kasa-defteri-ve-nakit-kontrol-sistemi/current.xlsx",
       "satista": true
     },
+    "amortisman-2026-yeniden-degerleme": {
+      "name": "Amortisman + 2026 Yeniden Değerleme",
+      "tier": "PRO",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/amortisman-2026-yeniden-degerleme/current.xlsx",
+      "satista": true
+    },
+    "amortisman-ve-sabit-kiymet-satis-zamanlama-stratejisti": {
+      "name": "Amortisman & Sabit Kıymet Satış Zamanlama Stratejisti",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/amortisman-ve-sabit-kiymet-satis-zamanlama-stratejisti/current.xlsx",
+      "satista": true
+    },
+    "asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli": {
+      "name": "Asgari Ücret Zam Etkisi & Fiyat Ayarlama Cetveli",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli/current.xlsx",
+      "satista": true,
+      "sizeMB": 0.13
+    },
+    "asiri-dusuk-teklif-savunma-robotu": {
+      "name": "İhale Elinden Gidiyor Mu? (Aşırı Düşük Teklif Savunma Robotu)",
+      "tier": "EXCLUSIVE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/asiri-dusuk-teklif-savunma-robotu/current.xlsx",
+      "satista": true
+    },
     "aylik-patron-finans-paneli": {
       "name": "Aylık Patron Finans Paneli",
       "tier": "ENTERPRISE",
@@ -48,6 +77,13 @@
       "tier": "PREMIUM",
       "fileFormat": "xlsx",
       "storageKey": "paid-products/banka-kredi-ve-taksit-takip-sistemi/current.xlsx",
+      "satista": true
+    },
+    "cari-ba-bs-toplu-mutabakat": {
+      "name": "Cari ve Ba-Bs Toplu Mutabakat Motoru",
+      "tier": "PRO",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/cari-ba-bs-toplu-mutabakat/current.xlsx",
       "satista": true
     },
     "cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi": {
@@ -64,60 +100,39 @@
       "storageKey": "paid-products/cek-senet-ve-vade-risk-sistemi/current.xlsx",
       "satista": true
     },
+    "defter-beyan-e-arsiv-aktarim": {
+      "name": "Defter Beyan e-Arşiv Aktarım Düzenleyici",
+      "tier": "PRO",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/defter-beyan-e-arsiv-aktarim/current.xlsx",
+      "satista": true
+    },
+    "doviz-acik-pozisyonu-ve-kur-riski-stres-testi": {
+      "name": "Döviz Açık Pozisyonu ve Kur Riski Stres Testi",
+      "tier": "ENTERPRISE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/doviz-acik-pozisyonu-ve-kur-riski-stres-testi/current.xlsx",
+      "satista": true
+    },
+    "e-fatura-satir-defteri-pdf-kaniti": {
+      "name": "Toplu e-Fatura Satır Defteri ve PDF Kanıtı",
+      "tier": "PRO",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/e-fatura-satir-defteri-pdf-kaniti/current.xlsx",
+      "satista": true
+    },
+    "fazla-mesai-ve-isci-dava-riski-tespit-dosyasi": {
+      "name": "Fazla Mesai ve İşçi Dava Riski Tespit Dosyası",
+      "tier": "ENTERPRISE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/fazla-mesai-ve-isci-dava-riski-tespit-dosyasi/current.xlsx",
+      "satista": true
+    },
     "gunluk-gelir-gider-ve-gercek-karlilik-sistemi": {
       "name": "Günlük Gelir–Gider ve Gerçek Kârlılık Sistemi",
       "tier": "PREMIUM",
       "fileFormat": "xlsx",
       "storageKey": "paid-products/gunluk-gelir-gider-ve-gercek-karlilik-sistemi/current.xlsx",
-      "satista": true
-    },
-    "kobi-finans-yonetim-paketi": {
-      "name": "KOBİ Finans Yönetim Paketi",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/kobi-finans-yonetim-paketi/current.xlsx",
-      "satista": true
-    },
-    "pos-komisyon-ve-net-tahsilat-kontrol-sistemi": {
-      "name": "POS, Komisyon ve Net Tahsilat Kontrol Sistemi",
-      "tier": "PRO",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/pos-komisyon-ve-net-tahsilat-kontrol-sistemi/current.xlsx",
-      "satista": true
-    },
-    "proje-ve-is-bazinda-gercek-karlilik-sistemi": {
-      "name": "Proje ve İş Bazında Gerçek Kârlılık Sistemi",
-      "tier": "ENTERPRISE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/proje-ve-is-bazinda-gercek-karlilik-sistemi/current.xlsx",
-      "satista": true
-    },
-    "stok-satis-ve-nakit-baglanma-sistemi": {
-      "name": "Stok, Satış ve Nakit Bağlanma Sistemi",
-      "tier": "PREMIUM",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/stok-satis-ve-nakit-baglanma-sistemi/current.xlsx",
-      "satista": true
-    },
-    "vergi-sgk-ve-maas-karsilik-ayirma-sistemi": {
-      "name": "Vergi, SGK ve Maaş Karşılık Ayırma Sistemi",
-      "tier": "PRO",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/vergi-sgk-ve-maas-karsilik-ayirma-sistemi/current.xlsx",
-      "satista": true
-    },
-    "asiri-dusuk-teklif-savunma-robotu": {
-      "name": "İhale Elinden Gidiyor Mu? (Aşırı Düşük Teklif Savunma Robotu)",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/asiri-dusuk-teklif-savunma-robotu/current.xlsx",
-      "satista": true
-    },
-    "ihaleye-kac-tl-teklif-vermeliyim": {
-      "name": "İhaleye Kaç TL Teklif Vermeliyim? (Sınır Değer Hesaplayıcı)",
-      "tier": "ENTERPRISE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/ihaleye-kac-tl-teklif-vermeliyim/current.xlsx",
       "satista": true
     },
     "hakedis-fiyat-farki-hak-kaybi-cetveli": {
@@ -127,18 +142,25 @@
       "storageKey": "paid-products/hakedis-fiyat-farki-hak-kaybi-cetveli/current.xlsx",
       "satista": true
     },
-    "yillara-sari-insaat-stopaj-nakit-akis-planlayici": {
-      "name": "Yıllara Sari İnşaat Stopaj & Nakit Akış Planlayıcı",
+    "ihaleye-kac-tl-teklif-vermeliyim": {
+      "name": "İhaleye Kaç TL Teklif Vermeliyim? (Sınır Değer Hesaplayıcı)",
       "tier": "ENTERPRISE",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/yillara-sari-insaat-stopaj-nakit-akis-planlayici/current.xlsx",
+      "storageKey": "paid-products/ihaleye-kac-tl-teklif-vermeliyim/current.xlsx",
       "satista": true
     },
-    "taseron-hakedis-kesinti-mutabakati": {
-      "name": "Taşeron/Alt Yüklenici Hakediş & Kesinti Mutabakatı",
+    "insaat-hakedis-santiye-maliyet": {
+      "name": "İnşaat Hakediş ve Şantiye Maliyet Takip",
       "tier": "PREMIUM",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/taseron-hakedis-kesinti-mutabakati/current.xlsx",
+      "storageKey": "paid-products/insaat-hakedis-santiye-maliyet/current.xlsx",
+      "satista": true
+    },
+    "ithalat-depo-teslim-rafa-gelen-net-birim-maliyet": {
+      "name": "İthalat Depo Teslim (Rafa Gelen) Net Birim Maliyet",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/ithalat-depo-teslim-rafa-gelen-net-birim-maliyet/current.xlsx",
       "satista": true
     },
     "kacirilan-sgk-tesvikleri-ve-gercek-iscilik-maliyeti-analizi": {
@@ -149,49 +171,6 @@
       "satista": true,
       "sizeMB": 0.27
     },
-    "kidem-ihbar-yuku-ve-personel-cikarma-maliyeti-hesaplayici": {
-      "name": "Kıdem–İhbar Yükü ve Personel Çıkarma Maliyeti Hesaplayıcı",
-      "tier": "PREMIUM",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/kidem-ihbar-yuku-ve-personel-cikarma-maliyeti-hesaplayici/current.xlsx",
-      "satista": true
-    },
-    "fazla-mesai-ve-isci-dava-riski-tespit-dosyasi": {
-      "name": "Fazla Mesai ve İşçi Dava Riski Tespit Dosyası",
-      "tier": "ENTERPRISE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/fazla-mesai-ve-isci-dava-riski-tespit-dosyasi/current.xlsx",
-      "satista": true
-    },
-    "asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli": {
-      "name": "Asgari Ücret Zam Etkisi & Fiyat Ayarlama Cetveli",
-      "tier": "PREMIUM",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli/current.xlsx",
-      "satista": true,
-      "sizeMB": 0.13
-    },
-    "ithalat-depo-teslim-rafa-gelen-net-birim-maliyet": {
-      "name": "İthalat Depo Teslim (Rafa Gelen) Net Birim Maliyet",
-      "tier": "PREMIUM",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/ithalat-depo-teslim-rafa-gelen-net-birim-maliyet/current.xlsx",
-      "satista": true
-    },
-    "amortisman-ve-sabit-kiymet-satis-zamanlama-stratejisti": {
-      "name": "Amortisman & Sabit Kıymet Satış Zamanlama Stratejisti",
-      "tier": "PREMIUM",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/amortisman-ve-sabit-kiymet-satis-zamanlama-stratejisti/current.xlsx",
-      "satista": true
-    },
-    "doviz-acik-pozisyonu-ve-kur-riski-stres-testi": {
-      "name": "Döviz Açık Pozisyonu ve Kur Riski Stres Testi",
-      "tier": "ENTERPRISE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/doviz-acik-pozisyonu-ve-kur-riski-stres-testi/current.xlsx",
-      "satista": true
-    },
     "kdv-iadesi-azami-alacak-hesabi-dosya-hazirlayici": {
       "name": "KDV İadesi Azami Alacak Hesabı & Dosya Hazırlayıcı",
       "tier": "EXCLUSIVE",
@@ -199,11 +178,39 @@
       "storageKey": "paid-products/kdv-iadesi-azami-alacak-hesabi-dosya-hazirlayici/current.xlsx",
       "satista": true
     },
+    "kdv-tevkifat-mahsup-iade-listesi": {
+      "name": "KDV Tevkifat Mahsup ve KDV İade Listesi",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/kdv-tevkifat-mahsup-iade-listesi/current.xlsx",
+      "satista": true
+    },
+    "kidem-ihbar-yuku-ve-personel-cikarma-maliyeti-hesaplayici": {
+      "name": "Kıdem–İhbar Yükü ve Personel Çıkarma Maliyeti Hesaplayıcı",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/kidem-ihbar-yuku-ve-personel-cikarma-maliyeti-hesaplayici/current.xlsx",
+      "satista": true
+    },
+    "kira-avans-takip-dekont": {
+      "name": "Kira ve Avans Takip + Dekont",
+      "tier": "PRO",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/kira-avans-takip-dekont/current.xlsx",
+      "satista": true
+    },
     "kkeg-ve-finansman-gider-kisitlamasi-vergi-savunma-seti": {
       "name": "KKEG ve Finansman Gider Kısıtlaması Vergi Savunma Seti",
       "tier": "EXCLUSIVE",
       "fileFormat": "xlsx",
       "storageKey": "paid-products/kkeg-ve-finansman-gider-kisitlamasi-vergi-savunma-seti/current.xlsx",
+      "satista": true
+    },
+    "kobi-finans-yonetim-paketi": {
+      "name": "KOBİ Finans Yönetim Paketi",
+      "tier": "EXCLUSIVE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/kobi-finans-yonetim-paketi/current.xlsx",
       "satista": true
     },
     "mutfak-kayip-kacak-hesaplayici": {
@@ -234,6 +241,27 @@
       "storageKey": "paid-products/pazaryeri-net-kar-ve-eksik-hakedis-yakalayici/current.xlsx",
       "satista": true
     },
+    "pos-komisyon-ve-net-tahsilat-kontrol-sistemi": {
+      "name": "POS, Komisyon ve Net Tahsilat Kontrol Sistemi",
+      "tier": "PRO",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/pos-komisyon-ve-net-tahsilat-kontrol-sistemi/current.xlsx",
+      "satista": true
+    },
+    "proje-ve-is-bazinda-gercek-karlilik-sistemi": {
+      "name": "Proje ve İş Bazında Gerçek Kârlılık Sistemi",
+      "tier": "ENTERPRISE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/proje-ve-is-bazinda-gercek-karlilik-sistemi/current.xlsx",
+      "satista": true
+    },
+    "restoran-recete-maliyet-fire": {
+      "name": "Restoran Reçete Maliyet + Fire Hesaplama",
+      "tier": "PRO",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/restoran-recete-maliyet-fire/current.xlsx",
+      "satista": true
+    },
     "sirket-oz-kaynagi-eridi-mi-ttk-376-sermaye-tamamlama-cetveli": {
       "name": "Şirket Öz Kaynağı Eridi Mi? (TTK 376 Sermaye Tamamlama Cetveli)",
       "tier": "EXCLUSIVE",
@@ -241,11 +269,39 @@
       "storageKey": "paid-products/sirket-oz-kaynagi-eridi-mi-ttk-376-sermaye-tamamlama-cetveli/current.xlsx",
       "satista": true
     },
+    "stok-satis-ve-nakit-baglanma-sistemi": {
+      "name": "Stok, Satış ve Nakit Bağlanma Sistemi",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/stok-satis-ve-nakit-baglanma-sistemi/current.xlsx",
+      "satista": true
+    },
     "sube-karlilik-ve-nakit-hesaplayici": {
       "name": "Bu Şubeyi Kapatmalı Mıyım? (Şube Kârlılık & Nakit Yakış Analizi)",
       "tier": "ENTERPRISE",
       "fileFormat": "xlsx",
       "storageKey": "paid-products/sube-karlilik-ve-nakit-hesaplayici/current.xlsx",
+      "satista": true
+    },
+    "taseron-hakedis-kesinti-mutabakati": {
+      "name": "Taşeron/Alt Yüklenici Hakediş & Kesinti Mutabakatı",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/taseron-hakedis-kesinti-mutabakati/current.xlsx",
+      "satista": true
+    },
+    "tesvikli-bordro-avantajli-tesvik": {
+      "name": "Teşvikli Bordro ve En Avantajlı Teşvik Seçen",
+      "tier": "PREMIUM",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/tesvikli-bordro-avantajli-tesvik/current.xlsx",
+      "satista": true
+    },
+    "trendyol-komisyon-sonrasi-net-kar": {
+      "name": "Trendyol Komisyon Sonrası Net Kâr Hesaplama",
+      "tier": "PRO",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/trendyol-komisyon-sonrasi-net-kar/current.xlsx",
       "satista": true
     },
     "uretim-recetesi-ve-zam-yansitma-hesaplayici": {
@@ -262,6 +318,13 @@
       "storageKey": "paid-products/vergi-sgk-borcunu-tecil-etmeli-miyim-kredi-mi-tecil-mi/current.xlsx",
       "satista": true
     },
+    "vergi-sgk-ve-maas-karsilik-ayirma-sistemi": {
+      "name": "Vergi, SGK ve Maaş Karşılık Ayırma Sistemi",
+      "tier": "PRO",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/vergi-sgk-ve-maas-karsilik-ayirma-sistemi/current.xlsx",
+      "satista": true
+    },
     "yeniden-degerleme-yapmali-miyim-vergi-tasarruf-analizi": {
       "name": "Yeniden Değerleme Yapmalı Mıyım? (Vergi Tasarruf Analizi)",
       "tier": "ENTERPRISE",
@@ -269,382 +332,46 @@
       "storageKey": "paid-products/yeniden-degerleme-yapmali-miyim-vergi-tasarruf-analizi/current.xlsx",
       "satista": true
     },
-    "asgari-kurumlar-vergisi-simulasyon-motoru": {
-      "name": "Asgari Kurumlar Vergisi Simülasyon Motoru",
-      "tier": "EXCLUSIVE",
+    "yillara-sari-insaat-stopaj-nakit-akis-planlayici": {
+      "name": "Yıllara Sari İnşaat Stopaj & Nakit Akış Planlayıcı",
+      "tier": "ENTERPRISE",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/asgari-kurumlar-vergisi-simulasyon-motoru/current.xlsx",
+      "storageKey": "paid-products/yillara-sari-insaat-stopaj-nakit-akis-planlayici/current.xlsx",
       "satista": true
     },
-    "yeniden-degerleme-komuta-merkezi": {
-      "name": "Yeniden Değerleme Komuta Merkezi (298/Ç + Geç.32)",
-      "tier": "EXCLUSIVE",
+    "kdv-iade-listesi-robotu-gib7": {
+      "name": "KDV İade Listesi Robotu (GİB 7 Liste)",
+      "tier": "PREMIUM",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/yeniden-degerleme-komuta-merkezi/current.xlsx",
+      "storageKey": "paid-products/kdv-iade-listesi-robotu-gib7/current.xlsx",
       "satista": true
     },
-    "uretim-kari-125-kv-optimizasyonu": {
-      "name": "Üretim Kârı %12,5 KV Optimizasyonu",
-      "tier": "EXCLUSIVE",
+    "e-fatura-toplu-donusturucu": {
+      "name": "e-Fatura Toplu Dönüştürücü",
+      "tier": "PREMIUM",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/uretim-kari-125-kv-optimizasyonu/current.xlsx",
+      "storageKey": "paid-products/e-fatura-toplu-donusturucu/current.xlsx",
       "satista": true
     },
-    "hizmet-ihracati-100-indirim-transfer-takip": {
-      "name": "Hizmet İhracatı %100 İndirim + Transfer Takip",
-      "tier": "EXCLUSIVE",
+    "ymm-tasdik-kontrol-robotu": {
+      "name": "YMM Tasdik Kontrol Robotu",
+      "tier": "ENTERPRISE",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/hizmet-ihracati-100-indirim-transfer-takip/current.xlsx",
+      "storageKey": "paid-products/ymm-tasdik-kontrol-robotu/current.xlsx",
       "satista": true
     },
-    "e-belge-zorunluluk-radari": {
-      "name": "e-Belge Zorunluluk Radarı",
+    "tesvikli-bordro-optimizasyon": {
+      "name": "Teşvikli Bordro Optimizasyon",
       "tier": "EXCLUSIVE",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/e-belge-zorunluluk-radari/current.xlsx",
+      "storageKey": "paid-products/tesvikli-bordro-optimizasyon/current.xlsx",
       "satista": true
     },
-    "yurt-disi-yapilanma-vergi-simulatoru": {
-      "name": "Yurt Dışı Yapılanma Vergi Simülatörü",
-      "tier": "EXCLUSIVE",
+    "konkordato-nakit-akis-on-projesi": {
+      "name": "Konkordato Nakit Akış Ön Projesi",
+      "tier": "PREMIUM",
       "fileFormat": "xlsx",
-      "storageKey": "paid-products/yurt-disi-yapilanma-vergi-simulatoru/current.xlsx",
-      "satista": true
-    },
-    "ortulu-sermaye-emsal-faiz-tf-paketi": {
-      "name": "Örtülü Sermaye + Emsal Faiz + TF Paketi",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/ortulu-sermaye-emsal-faiz-tf-paketi/current.xlsx",
-      "satista": true
-    },
-    "kdv-iadesi-tutar-surec-simulasyonu": {
-      "name": "KDV İadesi Tutar ve Süreç Simülasyonu",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/kdv-iadesi-tutar-surec-simulasyonu/current.xlsx",
-      "satista": true
-    },
-    "kik-asiri-dusuk-savunma-sinir-deger": {
-      "name": "KİK Aşırı Düşük Savunma + Sınır Değer Paketi",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/kik-asiri-dusuk-savunma-sinir-deger/current.xlsx",
-      "satista": true
-    },
-    "ihale-fiyat-farki-eskalasyon-pro": {
-      "name": "İhale Fiyat Farkı (Eskalasyon) Pro",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/ihale-fiyat-farki-eskalasyon-pro/current.xlsx",
-      "satista": true
-    },
-    "insaat-hakedis-yonetim-sistemi": {
-      "name": "İnşaat Hakediş Yönetim Sistemi",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/insaat-hakedis-yonetim-sistemi/current.xlsx",
-      "satista": true
-    },
-    "kat-karsiligi-hasilat-paylasimi-simulator": {
-      "name": "Kat Karşılığı / Hasılat Paylaşımı Simülatör",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/kat-karsiligi-hasilat-paylasimi-simulator/current.xlsx",
-      "satista": true
-    },
-    "pazaryeri-hakedis-mutabakat-motoru": {
-      "name": "Pazaryeri Hakediş Mutabakat Motoru",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/pazaryeri-hakedis-mutabakat-motoru/current.xlsx",
-      "satista": true
-    },
-    "e-ticaret-gercek-karlilik-fiyatlama": {
-      "name": "E-Ticaret Gerçek Kârlılık & Fiyatlama",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/e-ticaret-gercek-karlilik-fiyatlama/current.xlsx",
-      "satista": true
-    },
-    "kargo-desi-maliyet-optimizasyonu": {
-      "name": "Kargo/Desi Maliyet Optimizasyonu",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/kargo-desi-maliyet-optimizasyonu/current.xlsx",
-      "satista": true
-    },
-    "on-uc-haftalik-nakit-odeme-onceligi": {
-      "name": "13 Haftalık Nakit + Ödeme Önceliği",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/on-uc-haftalik-nakit-odeme-onceligi/current.xlsx",
-      "satista": true
-    },
-    "tahsilat-riski-vade-komuta-paneli": {
-      "name": "Tahsilat Riski & Vade Komuta Paneli",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/tahsilat-riski-vade-komuta-paneli/current.xlsx",
-      "satista": true
-    },
-    "mizan-anomali-denetim-oncesi-kontrol": {
-      "name": "Mizan Anomali & Denetim Öncesi Kontrol",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/mizan-anomali-denetim-oncesi-kontrol/current.xlsx",
-      "satista": true
-    },
-    "proje-finansmani-dscr-llcr-paketi": {
-      "name": "Proje Finansmanı Paketi (DSCR/LLCR)",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/proje-finansmani-dscr-llcr-paketi/current.xlsx",
-      "satista": true
-    },
-    "banka-kredi-covenant-erken-uyari": {
-      "name": "Banka Kredi + Covenant Erken Uyarı",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/banka-kredi-covenant-erken-uyari/current.xlsx",
-      "satista": true
-    },
-    "sgk-prim-tesvikleri-optimizasyon-motoru": {
-      "name": "SGK Prim Teşvikleri Optimizasyon Motoru",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/sgk-prim-tesvikleri-optimizasyon-motoru/current.xlsx",
-      "satista": true
-    },
-    "puantaj-vardiya-fazla-mesai-kanit-sistemi": {
-      "name": "Puantaj-Vardiya-Fazla Mesai Kanıt Sistemi",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/puantaj-vardiya-fazla-mesai-kanit-sistemi/current.xlsx",
-      "satista": true
-    },
-    "fesih-maliyeti-simulatoru": {
-      "name": "Fesih Maliyeti Simülatörü (kıdem+ihbar+işe iade)",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/fesih-maliyeti-simulatoru/current.xlsx",
-      "satista": true
-    },
-    "mini-mrp-bom-malzeme-kapasite": {
-      "name": "Mini-MRP (BOM + Malzeme İhtiyacı + Kapasite)",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/mini-mrp-bom-malzeme-kapasite/current.xlsx",
-      "satista": true
-    },
-    "fason-uretim-takip-sistemi": {
-      "name": "Fason Üretim Takip Sistemi",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/fason-uretim-takip-sistemi/current.xlsx",
-      "satista": true
-    },
-    "makine-bakim-kalibrasyon-durus-maliyeti": {
-      "name": "Makine Bakım & Kalibrasyon + Duruş Maliyeti",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/makine-bakim-kalibrasyon-durus-maliyeti/current.xlsx",
-      "satista": true
-    },
-    "stok-optimizasyon-abc-olu-stok-nakit": {
-      "name": "Stok Optimizasyon + ABC + Ölü Stok Nakit",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/stok-optimizasyon-abc-olu-stok-nakit/current.xlsx",
-      "satista": true
-    },
-    "kvkk-veri-envanteri-verbis-uyum": {
-      "name": "KVKK Veri Envanteri + VERBİS Uyum Sistemi",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/kvkk-veri-envanteri-verbis-uyum/current.xlsx",
-      "satista": true
-    },
-    "isg-risk-degerlendirme-pro-6331": {
-      "name": "İSG Risk Değerlendirme Pro (6331)",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/isg-risk-degerlendirme-pro-6331/current.xlsx",
-      "satista": true
-    },
-    "konkordato-ttk376-kriz-paketi": {
-      "name": "Konkordato + TTK 376 Kriz Paketi",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/konkordato-ttk376-kriz-paketi/current.xlsx",
-      "satista": true
-    },
-    "ges-yatirim-fizibilite": {
-      "name": "GES Yatırım Fizibilite Simülatörü",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/ges-yatirim-fizibilite/current.xlsx",
-      "satista": true
-    },
-    "elektrik-faturasi-dogrulama": {
-      "name": "Elektrik Faturası Doğrulama Motoru",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/elektrik-faturasi-dogrulama/current.xlsx",
-      "satista": true
-    },
-    "sarj-istasyonu-yatirim": {
-      "name": "Şarj İstasyonu Yatırım Simülatörü",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/sarj-istasyonu-yatirim/current.xlsx",
-      "satista": true
-    },
-    "ges-uretim-performans": {
-      "name": "GES Üretim & Performans Takibi",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/ges-uretim-performans/current.xlsx",
-      "satista": true
-    },
-    "sut-surusu-yonetim": {
-      "name": "Süt Sürüsü Yönetim Komutası",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/sut-surusu-yonetim/current.xlsx",
-      "satista": true
-    },
-    "yem-rasyonu-maliyet": {
-      "name": "Yem Rasyonu & Maliyet Motoru",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/yem-rasyonu-maliyet/current.xlsx",
-      "satista": true
-    },
-    "sera-kurulum-fizibilite": {
-      "name": "Sera Kurulum & Rekolte Fizibilitesi",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/sera-kurulum-fizibilite/current.xlsx",
-      "satista": true
-    },
-    "tarimsal-destek-uygunluk": {
-      "name": "Tarımsal Destek/Teşvik Uygunluk Testi",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/tarimsal-destek-uygunluk/current.xlsx",
-      "satista": true
-    },
-    "filo-arac-maliyet-komutasi": {
-      "name": "Filo Araç Maliyet Komutası",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/filo-arac-maliyet-komutasi/current.xlsx",
-      "satista": true
-    },
-    "sevkiyat-fiyatlama-navlun": {
-      "name": "Sevkiyat Fiyatlama & Navlun Maliyet Motoru",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/sevkiyat-fiyatlama-navlun/current.xlsx",
-      "satista": true
-    },
-    "depo-doluluk-lokasyon": {
-      "name": "Depo Doluluk & Lokasyon Optimizasyonu",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/depo-doluluk-lokasyon/current.xlsx",
-      "satista": true
-    },
-    "recete-maliyeti-menu-muhendisligi": {
-      "name": "Reçete Maliyeti & Menü Mühendisliği",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/recete-maliyeti-menu-muhendisligi/current.xlsx",
-      "satista": true
-    },
-    "gida-lot-maliyet-izlenebilirlik": {
-      "name": "Gıda Üretim Parti (Lot) Maliyet & İzlenebilirlik",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/gida-lot-maliyet-izlenebilirlik/current.xlsx",
-      "satista": true
-    },
-    "site-apartman-yonetim-sistemi": {
-      "name": "Site/Apartman Yönetim Sistemi",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/site-apartman-yonetim-sistemi/current.xlsx",
-      "satista": true
-    },
-    "kira-portfoyu-getiri-komutasi": {
-      "name": "Kira Portföyü Getiri Komutası",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/kira-portfoyu-getiri-komutasi/current.xlsx",
-      "satista": true
-    },
-    "emlak-pipeline-komisyon": {
-      "name": "Emlak Ofisi Satış Pipeline & Komisyon Takibi",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/emlak-pipeline-komisyon/current.xlsx",
-      "satista": true
-    },
-    "dernek-kooperatif-mali-yonetim": {
-      "name": "Dernek/Kooperatif Mali Yönetim Sistemi",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/dernek-kooperatif-mali-yonetim/current.xlsx",
-      "satista": true
-    },
-    "dava-masraf-harc-hesaplama": {
-      "name": "Dava Masraf & Harç Hesaplama Motoru",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/dava-masraf-harc-hesaplama/current.xlsx",
-      "satista": true
-    },
-    "hukuk-burosu-dosya-vekalet": {
-      "name": "Hukuk Bürosu Dosya & Vekalet Komutası",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/hukuk-burosu-dosya-vekalet/current.xlsx",
-      "satista": true
-    },
-    "spc-proses-yetenek-analizi": {
-      "name": "SPC Proses Yetenek Analizi",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/spc-proses-yetenek-analizi/current.xlsx",
-      "satista": true
-    },
-    "oee-durus-kok-neden-komutasi": {
-      "name": "OEE & Duruş Kök-Neden Komutası",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/oee-durus-kok-neden-komutasi/current.xlsx",
-      "satista": true
-    },
-    "sekiz-d-duzeltici-faaliyet-dosya": {
-      "name": "8D / Düzeltici Faaliyet Dosya Sistemi",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/sekiz-d-duzeltici-faaliyet-dosya/current.xlsx",
-      "satista": true
-    },
-    "ithalat-landed-cost-motoru": {
-      "name": "İthalat Landed Cost Motoru",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/ithalat-landed-cost-motoru/current.xlsx",
-      "satista": true
-    },
-    "ihracat-siparis-karlilik-kur": {
-      "name": "İhracat Sipariş Kârlılık & Kur Riski Komutası",
-      "tier": "EXCLUSIVE",
-      "fileFormat": "xlsx",
-      "storageKey": "paid-products/ihracat-siparis-karlilik-kur/current.xlsx",
+      "storageKey": "paid-products/konkordato-nakit-akis-on-projesi/current.xlsx",
       "satista": true
     }
   }

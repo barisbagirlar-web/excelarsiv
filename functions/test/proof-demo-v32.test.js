@@ -27,6 +27,33 @@ function entryMap(buffer) {
   return new Map(v31.unzipLocalEntries(buffer).map((entry) => [entry.path, entry.data.toString('utf8')]));
 }
 
+test('v3.2 rejects workbookProtection after bookViews (Excel repair trigger)', () => {
+  const invalid = '<workbook><workbookPr/><bookViews><workbookView/></bookViews><workbookProtection workbookPassword="CC3D"/><sheets/></workbook>';
+  assert.throws(() => _test.assertWorkbookElementOrder(invalid), /WORKBOOK_PROTECTION_SCHEMA_ORDER_INVALID/);
+  const fixed = _test.normalizeWorkbookElementOrder(invalid);
+  assert.ok(fixed.indexOf('<workbookProtection') < fixed.indexOf('<bookViews'));
+  assert.equal(_test.assertWorkbookElementOrder(fixed), true);
+  const valid = '<workbook><workbookPr/><workbookProtection workbookPassword="CC3D"/><bookViews><workbookView/></bookViews><sheets/></workbook>';
+  assert.equal(_test.assertWorkbookElementOrder(valid), true);
+});
+
+test('v3.2 rejects dxf fill-before-font order that triggers Excel repair', () => {
+  const invalid = '<dxfs><dxf><fill><patternFill patternType="solid"><fgColor rgb="FFE5F5EC"/></patternFill></fill><font><b/><color rgb="FF1F7A4D"/></font></dxf></dxfs>';
+  assert.throws(() => _test.assertDxfChildOrder(invalid), /DXF_CHILD_ORDER_INVALID/);
+  const fixed = _test.normalizeDxfChildOrder(invalid);
+  assert.ok(fixed.indexOf('<font') < fixed.indexOf('<fill'));
+  assert.equal(_test.assertDxfChildOrder(fixed), true);
+});
+
+test('all proof-demo products emit styles.xml with valid dxf child order', () => {
+  for (const slug of Object.keys(PRODUCTS)) {
+    const entries = entryMap(build(slug));
+    const styles = entries.get('xl/styles.xml');
+    assert.ok(styles, `${slug}: styles`);
+    assert.equal(_test.assertDxfChildOrder(styles), true, `${slug}: dxf order`);
+  }
+});
+
 test('v3.2 moves sheetProtection immediately after sheetData and before later worksheet elements', () => {
   const invalid = '<worksheet><sheetData><row r="1"/></sheetData><mergeCells count="1"/><conditionalFormatting sqref="A1"/><sheetProtection password="CC3D" sheet="1"/></worksheet>';
   const fixed = _test.normalizeWorksheetProtectionOrder(invalid);
@@ -70,6 +97,8 @@ test('v3.2 preserves v3.1 workbook content fixes while changing only worksheet o
   const input = entries.get('xl/worksheets/sheet3.xml');
   assert.match(styles, /patternType="gray125"/);
   assert.match(workbook, /<bookViews><workbookView activeTab="0"\/><\/bookViews>/);
+  assert.ok(workbook.indexOf('<workbookProtection') < workbook.indexOf('<bookViews'));
+  assert.equal(_test.assertWorkbookElementOrder(workbook), true);
   const row12 = input.match(/<row r="12"[^>]*>([\s\S]*?)<\/row>/);
   assert.ok(row12);
   assert.ok(!row12[1].includes('<f>'), 'empty demo row must stay formula-free');

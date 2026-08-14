@@ -142,8 +142,26 @@ function patchStylesXml(xml) {
 
 function patchWorkbookXml(xml) {
   let out = String(xml);
+
+  // ECMA-376 CT_Workbook: workbookPr → workbookProtection → bookViews → sheets.
+  // Inserting bookViews before workbookProtection triggers Excel repair.
+  out = out.replace(
+    /(<bookViews>[\s\S]*?<\/bookViews>)(<workbookProtection\b[^>]*\/>)/,
+    '$2$1',
+  );
+
   if (!out.includes('<bookViews>')) {
-    out = out.replace('<workbookPr date1904="0"/>', '<workbookPr date1904="0"/><bookViews><workbookView activeTab="0"/></bookViews>');
+    if (/<workbookProtection\b/.test(out)) {
+      out = out.replace(
+        /(<workbookProtection\b[^>]*\/>)/,
+        '$1<bookViews><workbookView activeTab="0"/></bookViews>',
+      );
+    } else {
+      out = out.replace(
+        '<workbookPr date1904="0"/>',
+        '<workbookPr date1904="0"/><bookViews><workbookView activeTab="0"/></bookViews>',
+      );
+    }
   }
   return out;
 }

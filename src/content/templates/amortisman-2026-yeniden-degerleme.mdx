@@ -1,0 +1,99 @@
+---
+name: 'Amortisman + 2026 Yeniden Değerleme'
+summary: 'Amortisman tutarı ile 298/Ç ve Geç.32 yeniden değerleme kararını birlikte gösterir.'
+category: 'muhasebe-ve-vergi'
+priceTL: 990
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.24
+sheetCount: 13
+hasMacros: false
+minExcelVersion: 'Excel 2016 ve üzeri'
+macCompatible: true
+sheetsCompatibility: full
+version: '1.0.0'
+updatedAt: '2026-08-14'
+sheetMap:
+  - name: 'PANO'
+    purpose: 'Yönetici panosu'
+    kind: 'output'
+  - name: 'GIRDI'
+    purpose: 'Veri girişi'
+    kind: 'input'
+  - name: 'AMORTISMAN'
+    purpose: 'Amortisman cetveli'
+    kind: 'input'
+  - name: 'KURALLAR'
+    purpose: 'Mevzuat kuralları'
+    kind: 'calculation'
+  - name: 'MOTOR'
+    purpose: 'Hesaplama motoru'
+    kind: 'calculation'
+  - name: 'SENARYO'
+    purpose: 'Senaryo analizi'
+    kind: 'calculation'
+  - name: 'VAKALAR'
+    purpose: 'Tebliğ vakaları'
+    kind: 'calculation'
+  - name: 'KANIT_RAPORU'
+    purpose: 'Kanıt raporu'
+    kind: 'output'
+  - name: 'KONTROLLER'
+    purpose: 'Kontrol paneli'
+    kind: 'calculation'
+  - name: 'ORNEK_VERI'
+    purpose: 'Örnek veri'
+    kind: 'input'
+  - name: 'LISTELER'
+    purpose: 'Doğrulama listeleri'
+    kind: 'input'
+  - name: 'AYARLAR'
+    purpose: 'Parametre ve eşikler'
+    kind: 'input'
+  - name: 'KILAVUZ'
+    purpose: 'Kullanım kılavuzu'
+    kind: 'output'
+inputs:
+  - 'Dönemsel işlem ve belge satırları'
+  - 'Parametre ve eşik ayarları'
+  - 'Sabit kıymet maliyet ve amortisman geçmişi'
+outputs:
+  - 'Karar kapısı ve gerekçe'
+  - 'Yönetici panosu ve kanıt raporu'
+  - 'Vergi etkisi ve yeniden değerleme fark cetveli'
+suitableFor:
+  - 'Türkiye iş sürecini yöneten profesyoneller'
+  - 'SMMM ve mali işler ekipleri'
+  - 'Finans yöneticileri ve şirket sahipleri'
+notSuitableFor:
+  - 'Makro veya API entegrasyonu bekleyenler'
+  - 'Mevzuata aykırı manuel müdahale arayanlar'
+requirements:
+  - 'Excel 2016 veya üzeri'
+updatePolicy: 'Yapı değişmediği sürece güncel sürüm aynıdır; mevzuat veya Excel davranışı değişirse güncel sürüm satın alma döneminden itibaren 12 ay ücretsiz sunulur.'
+faq:
+  - question: 'Bu araç ne karar verir?'
+    answer: 'Girdi kalitesine göre VERİ YOK veya süreç kararını üretir.'
+  - question: 'Makro veya internet gerekir mi?'
+    answer: 'Hayır. Dosya makrosuz ve çevrimdışıdır; veri cihazınızda kalır.'
+  - question: 'Kanıt raporu var mı?'
+    answer: 'Evet. Kanıt veya rapor sayfası yazdırılabilir / PDF için uygundur.'
+  - question: '298/Ç ve Geçici 32. madde hesabı aynı anda yapılır mı?'
+    answer: 'Evet. Sabit kıymet grubuna göre 298/Ç enflasyon düzeltmesi ve Geçici 32. madde opsiyonları karşılaştırılır.'
+  - question: 'Tebliğ ve amortisman oranları güncellenebilir mi?'
+    answer: 'Evet. AYARLAR sayfasından faydalı ömür ve amortisman oranları güncellenebilir.'
+  - question: 'Rapor çıktısı denetim ve idare incelemesine sunulabilir mi?'
+    answer: 'Evet. KANIT_RAPORU sayfası tüm hesap adımlarını formül şeffaflığıyla belgeleyen çıktı sunar.'
+screenshots:
+  - src: '/screenshots/amortisman-2026-yeniden-degerleme-1.png'
+    alt: 'Amortisman + 2026 Yeniden Değerleme panosu'
+  - src: '/screenshots/amortisman-2026-yeniden-degerleme-2.png'
+    alt: 'Amortisman + 2026 Yeniden Değerleme giriş ekranı'
+  - src: '/screenshots/amortisman-2026-yeniden-degerleme-3.png'
+    alt: 'Amortisman + 2026 Yeniden Değerleme karar ekranı'
+related:
+  - 'aylik-patron-finans-paneli'
+  - 'gunluk-gelir-gider-ve-gercek-karlilik-sistemi'
+---
+
+Satın almadan önce demo dosyasıyla inceleyin. Ödeme Shopier altyapısıyla güvenli şekilde işlenir, teslimat e-posta ile yapılır.
