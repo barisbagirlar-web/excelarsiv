@@ -131,6 +131,17 @@ if (existsSync(manifestPath)) {
 const actual = new Set(sitemapLocs);
 for (const error of validateParity(expected, sitemapLocs)) fail(error);
 
+const childNames = childUrls.map((value) => {
+  try {
+    return new URL(value).pathname.replace(/^\//, '');
+  } catch {
+    return '';
+  }
+});
+for (const requiredChild of ['sitemap-pages.xml', 'sitemap-products.xml', 'sitemap-images.xml']) {
+  if (!childNames.includes(requiredChild)) fail(`sitemap.xml: zorunlu child eksik -> ${requiredChild}`);
+}
+
 const robots = readRequired('robots.txt');
 if (!/^User-agent:\s*\*/mi.test(robots)) fail('robots.txt: genel User-agent kuralı yok');
 if (/Disallow:\s*\/$/mi.test(robots)) fail('robots.txt: sitewide crawl block tespit edildi');
@@ -155,6 +166,10 @@ for (const llmName of ['llms.txt', 'llms-full.txt', 'ai.txt']) {
   if (!content.includes('E-E-A-T') && !content.includes('E-E-A-T varlığı')) fail(`${llmName}: E-E-A-T bölümü eksik`);
   if (!content.includes('25403091318')) fail(`${llmName}: satıcı VKN eksik`);
   if (!content.includes(`${SITE_ORIGIN}/hakkinda`)) fail(`${llmName}: uzman profili /hakkinda eksik`);
+  if (!content.includes(`${SITE_ORIGIN}/sektor/`)) fail(`${llmName}: sektör dikeyi eksik`);
+  if (!content.includes(`${SITE_ORIGIN}/basari-hikayeleri`)) fail(`${llmName}: başarı hikâyeleri eksik`);
+  if (!content.includes(`${SITE_ORIGIN}/rehber`)) fail(`${llmName}: rehber merkezi eksik`);
+  if (llmName !== 'ai.txt' && !content.includes('## Sektör dikeyleri')) fail(`${llmName}: Sektör dikeyleri bölümü eksik`);
   const urls = [...content.matchAll(/https:\/\/excelarsiv\.com[^\s)\]>]*/g)].map((m) => m[0].replace(/[.,;:]$/, ''));
   for (const url of urls) {
     if ([
