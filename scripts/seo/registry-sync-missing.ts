@@ -12,7 +12,7 @@ const path = resolve(ROOT, 'data/seo/registry/excelarsiv_seo_registry.json');
 const registry = JSON.parse(readFileSync(path, 'utf8'));
 const { missing } = registryParity(registry, sourceIndexableRoutes());
 
-function typeFor(route) {
+function typeFor(route: string): string {
   if (route === '/') return 'home';
   if (route.startsWith('/sablon/')) return 'product';
   if (route.startsWith('/rehber/')) return 'guide';
@@ -42,10 +42,10 @@ for (const route of missing) {
   });
 }
 
-registry.records.sort((a, b) => String(a.route).localeCompare(String(b.route), 'tr'));
+registry.records.sort((a: { route: string }, b: { route: string }) => String(a.route).localeCompare(String(b.route), 'tr'));
 registry.source = {
   ...registry.source,
   builtIndexableUrlCount: sourceIndexableRoutes().length,
 };
 writeFileSync(path, `${JSON.stringify(registry, null, 2)}\n`);
-console.log(`REGISTRY SYNC — eklendi=${missing.length}; toplam live=${registry.records.filter((r) => r.status === 'live').length}`);
+console.log(`REGISTRY SYNC — eklendi=${missing.length}; toplam live=${registry.records.filter((r: { status: string }) => r.status === 'live').length}`);

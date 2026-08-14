@@ -54,10 +54,10 @@ function mergeDeep(base: JsonValue, override: JsonValue): JsonValue {
 function parseArgs(argv: string[]): ParsedArgs {
   const siteIndex = argv.indexOf('--site');
   const contractIndex = argv.indexOf('--contract-test');
-  const site = siteIndex >= 0 ? argv[siteIndex + 1] : process.env.SITE_ID;
+  const site = (siteIndex >= 0 ? argv[siteIndex + 1] : process.env.SITE_ID) ?? 'excelarsiv';
   const contractOverride = contractIndex >= 0 ? argv[contractIndex + 1] : undefined;
   if (contractOverride && process.env.SEO_CONFORMANCE_TEST !== '1') throw new Error('CONTRACT_OVERRIDE_TEST_ONLY');
-  return { ...(site ? { site } : {}), ...(contractOverride ? { contractOverride } : {}) };
+  return { site, ...(contractOverride ? { contractOverride } : {}) };
 }
 function progress(): Progress {
   const text = readFileSync(resolve(ROOT, 'docs/seo/PROGRESS.md'), 'utf8');
@@ -92,7 +92,7 @@ function validateSchema(value: unknown, schema: Record<string, unknown>, path = 
   if (Array.isArray(value)) {
     if (typeof schema.minItems === 'number' && value.length < schema.minItems) errors.push(`${path}: minItems`);
     if (schema.uniqueItems === true && new Set(value.map((item) => JSON.stringify(item))).size !== value.length) errors.push(`${path}: uniqueItems`);
-    if (isRecord(schema.items)) value.forEach((item, index) => errors.push(...validateSchema(item, schema.items, `${path}[${index}]`)));
+    if (isRecord(schema.items)) value.forEach((item, index) => errors.push(...validateSchema(item, schema.items as Record<string, unknown>, `${path}[${index}]`)));
   }
   if (isRecord(value)) {
     if (Array.isArray(schema.required)) for (const key of schema.required) if (typeof key === 'string' && !(key in value)) errors.push(`${path}.${key}: required`);
@@ -218,7 +218,7 @@ function guaranteeHits(files: string[]): string[] {
 }
 function runPreflight({ site, files = changedFiles(), contractOverride, branch = currentBranch() }: { site?: string; files?: string[]; contractOverride?: string; branch?: string }): Check[] {
   const checks: Check[] = [];
-  const fail = (id: string, msg: string, code = EXIT.BLOCK): void => { checks.push({ id, status: 'FAIL', msg, code }); };
+  const fail = (id: string, msg: string, code: number = EXIT.BLOCK): void => { checks.push({ id, status: 'FAIL', msg, code }); };
   const pass = (id: string, msg: string): void => { checks.push({ id, status: 'PASS', msg, code: EXIT.PASS }); };
   if (!site) { fail('P-09', '--site/SITE_ID eksik', EXIT.CONFIG); return checks; }
   const defaults = readJson<JsonObject>('seo.config.defaults.json');

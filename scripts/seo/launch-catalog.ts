@@ -99,8 +99,8 @@ function buildLaunchCatalog(registry: Registry, kac: Kac, limit?: number): { cat
   const productPages: LaunchPage[] = selected.map(({ record, cluster, volume }, index) => ({
     pageId: record.pageId,
     route: record.route,
-    type: 'product',
-    status: 'live',
+    type: 'product' as const,
+    status: 'live' as const,
     clusterId: record.primaryQueryClusterId ?? cluster?.clusterId ?? null,
     primaryQuery: cluster?.primaryQuery ?? null,
     observedKeywordVolume: volume,
@@ -109,8 +109,8 @@ function buildLaunchCatalog(registry: Registry, kac: Kac, limit?: number): { cat
   const categoryPages: LaunchPage[] = categories.map((record) => ({
     pageId: record.pageId,
     route: record.route,
-    type: 'category',
-    status: 'live',
+    type: 'category' as const,
+    status: 'live' as const,
     clusterId: record.primaryQueryClusterId ?? null,
     primaryQuery: null,
     observedKeywordVolume: null,
@@ -122,8 +122,8 @@ function buildLaunchCatalog(registry: Registry, kac: Kac, limit?: number): { cat
   const contentGaps: LaunchPage[] = gapClusters.map((cluster) => ({
     pageId: null,
     route: cluster.suggestedRoute ?? '',
-    type: 'draft-gap',
-    status: 'draft',
+    type: 'draft-gap' as const,
+    status: 'draft' as const,
     clusterId: cluster.clusterId,
     primaryQuery: cluster.primaryQuery,
     observedKeywordVolume: typeof cluster.observedKeywordVolumeSum === 'number' ? cluster.observedKeywordVolumeSum : null,
