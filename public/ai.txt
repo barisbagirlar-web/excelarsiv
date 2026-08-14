@@ -1,0 +1,35 @@
+# ================================================================
+# ai.txt — excelarsiv.com Yapay Zeka Erişim ve Kullanım Politikası
+# Niche: Digital Excel Templates & Financial Models
+# İletişim: teb232@gmail.com
+# Yürürlük: 2026-08-14
+# ================================================================
+
+User-agent: *
+Allow: /
+
+# --- Kapsam ---
+# Bu politika; kamuya açık, canonical ve indexlenebilir sayfaları
+# (ana sayfa, katalog, kategori, ürün, rehber, yasal) kapsar.
+# Ücretli şablon dosyaları ve demo arşivi (/demo) bu kapsamın dışındadır.
+
+# --- İzinler ---
+# TRAINING: Kamuya açık içerik, modellerin eğitim verisinde kullanılabilir.
+# SEARCH/RAG: AI arama ve yanıt sistemleri, dokümantasyonu ve kataloğu
+#             dizine ekleyebilir ve alıntılayabilir.
+# CITATION: İçerik kullanıldığında "excelarsiv.com" kaynak gösterimi ve
+#           canlı bağlantı rica edilir.
+
+# --- Ücretli içerik sınırı ---
+# Ücretli Excel şablonlarının içeriği (formül, yapı, sheet tasarımı)
+# eğitim verisi olarak yeniden üretilemez; bunlar ticari ürünlerdir.
+
+# --- İlgili dosyalar ---
+# llms.txt:      https://excelarsiv.com/llms.txt
+# llms-full.txt: https://excelarsiv.com/llms-full.txt
+# sitemap.xml:   https://excelarsiv.com/sitemap.xml
+# robots.txt:    https://excelarsiv.com/robots.txt
+# IndexNow Key:  https://excelarsiv.com/7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f.txt
+
+# --- Geri bildirim ---
+# İçerik hataları veya erişim sorunları için: teb232@gmail.com
