@@ -125,6 +125,20 @@ function formatPrice(value) {
   return new Intl.NumberFormat('tr-TR', { maximumFractionDigits: 0 }).format(value) + ' TL';
 }
 
+const CATEGORY_NAMES = {
+  'nakit-akisi': 'Nakit Akışı',
+  'muhasebe-ve-vergi': 'Muhasebe ve Vergi',
+  'butce-ve-planlama': 'Bütçe ve Planlama',
+  'stok-ve-uretim': 'Stok ve Üretim',
+  'satis-ve-fiyatlama': 'Satış ve Fiyatlama',
+  'personel-ve-bordro': 'Personel ve Bordro',
+  'finansal-analiz': 'Finansal Analiz',
+};
+
+function categoryLabel(code) {
+  return CATEGORY_NAMES[code] ?? code;
+}
+
 function llmPageLine(page) {
   return `- [${markdownEscape(page.title)}](${page.canonical})${page.description ? ` — ${markdownEscape(page.description)}` : ''}`;
 }
@@ -143,12 +157,15 @@ function buildLlmsShort(indexablePages, templateRecords) {
   const guides = indexablePages.filter((page) => page.pathname === '/rehber' || page.pathname.startsWith('/rehber/'));
   const categories = indexablePages.filter((page) => page.pathname === '/sablonlar' || page.pathname.startsWith('/sablonlar/'));
   const core = indexablePages.filter((page) => !page.pathname.startsWith('/sablon') && !page.pathname.startsWith('/rehber') && ['/', '/nasil-calisir', '/paketler', '/sss', '/teslimat', '/teslimat-ve-iade', '/hakkinda', '/neden-excel-arsiv', '/iletisim', '/mesafeli-satis-sozlesmesi'].includes(page.pathname));
+  const legal = indexablePages.filter((page) =>
+    ['/lisans', '/kvkk-aydinlatma', '/cerez-politikasi', '/demo-kullanim-kosullari'].includes(page.pathname)
+  );
   const lastUpdated = latestContentDate(indexablePages, templateRecords);
 
   const lines = [
     '# Excel Arşiv',
     '',
-    '> Excel Arşiv, Türkiye’deki işletmeler için finans, muhasebe ve operasyon odaklı Excel çalışma sistemleri sunar. Bu dosya public, indexlenebilir ve canonical build sayfalarından otomatik üretilir.',
+    '> Excel Arşiv; Türkiye\'deki KOBİ ve işletmelere finans, muhasebe, nakit ve operasyon yönetimi için test edilmiş, denetlenmiş kurumsal Excel çalışma sistemleri sunar. Bu dosya her build\'de canonical ve public sayfalardan otomatik üretilir; manuel URL envanteri tutulmaz.',
     '',
     ...(lastUpdated ? [`- Son güncelleme: ${lastUpdated.toISOString().slice(0, 10)}`] : []),
     `- Site: ${SITE_ORIGIN}/`,
@@ -175,7 +192,7 @@ function buildLlmsShort(indexablePages, templateRecords) {
     '',
     ...guides.map(llmPageLine),
     '',
-    '## Ürünler',
+    '## Ürün kataloğu (fiyat · kategori)',
     '',
   ];
 
@@ -183,10 +200,16 @@ function buildLlmsShort(indexablePages, templateRecords) {
     const slug = page.pathname.split('/').at(-1);
     const product = templateRecords.get(slug);
     const price = product?.priceTL ? ` · ${formatPrice(product.priceTL)}` : '';
-    lines.push(`- [${markdownEscape(page.title)}](${page.canonical})${price}${page.description ? ` — ${markdownEscape(page.description)}` : product?.summary ? ` — ${markdownEscape(product.summary)}` : ''}`);
+    const category = product?.category ? ` · ${categoryLabel(product.category)}` : '';
+    const summary = product?.summary ?? page.description ?? '';
+    lines.push(`- [${markdownEscape(page.title)}](${page.canonical})${price}${category}${summary ? ` — ${markdownEscape(summary)}` : ''}`);
   }
 
   lines.push(
+    '',
+    '## Yasal ve kurumsal sayfalar',
+    '',
+    ...legal.map(llmPageLine),
     '',
     '## Keşif ve kullanım notu',
     '',
@@ -214,8 +237,10 @@ function buildLlmsFull(indexablePages, templateRecords) {
     '- Canonical origin: https://excelarsiv.com',
     '- Dil: Türkçe (tr-TR)',
     '- Hedef kullanıcı: KOBİ ve işletmelerde finans, muhasebe ve operasyon kararlarını Excel ile yöneten kullanıcılar',
-    '- İş modeli: ücretli Excel çalışma sistemleri ve ücretsiz uygulama rehberleri',
-    '- Dosya türleri: .xlsx / .xlsm (ürüne göre)',
+    '- İş modeli: ücretli Excel çalışma sistemleri + ücretsiz uygulama rehberleri ve demo dosyaları',
+    '- Dosya türleri: .xlsx / .xlsm (ürüne göre); demo dosyaları daima makrosuz .xlsx',
+    '- Ödeme: Shopier (güvenli ödeme sayfası, kredi kartı bilgisi sitede işlenmez)',
+    '- Teslimat: ödeme onayı sonrası satın alınan dosya e-posta ile iletilir; ödeme sonrası indirme sayfası üzerinden güvenli indirme yapılır',
     '- Sitemap index: https://excelarsiv.com/sitemap.xml',
     '- Robots: https://excelarsiv.com/robots.txt',
     '- AI kimlik: https://excelarsiv.com/ai.txt',
@@ -228,10 +253,18 @@ function buildLlmsFull(indexablePages, templateRecords) {
     '',
     buildEeatMarkdownSection({ headingLevel: 2 }).trimEnd(),
     '',
-    '## Public sayfalar',
+    '## Kategoriler',
     '',
   ];
 
+  for (const [code, name] of Object.entries(CATEGORY_NAMES)) {
+    lines.push(`### ${name}`);
+    lines.push(`- Kategori kodu: ${code}`);
+    lines.push(`- URL: ${SITE_ORIGIN}/sablonlar/${code}`);
+    lines.push('');
+  }
+
+  lines.push('## Public sayfalar', '');
   for (const page of pages) {
     lines.push(`### ${page.title}`);
     lines.push(`- URL: ${page.canonical}`);
@@ -248,7 +281,7 @@ function buildLlmsFull(indexablePages, templateRecords) {
     if (product?.name && product.name !== page.title) lines.push(`- Ürün adı: ${product.name}`);
     if (page.description) lines.push(`- Arama açıklaması: ${page.description}`);
     if (product?.summary) lines.push(`- Ürün özeti: ${product.summary}`);
-    if (product?.category) lines.push(`- Kategori kodu: ${product.category}`);
+    if (product?.category) lines.push(`- Kategori: ${categoryLabel(product.category)} (${product.category})`);
     if (product?.priceTL) lines.push(`- Fiyat: ${formatPrice(product.priceTL)}${product.vatIncluded ? ' (KDV dahil)' : ''}`);
     if (product?.fileFormat) lines.push(`- Dosya biçimi: ${product.fileFormat}`);
     if (product?.sheetCount) lines.push(`- Çalışma sayfası sayısı: ${product.sheetCount}`);
@@ -260,6 +293,13 @@ function buildLlmsFull(indexablePages, templateRecords) {
   }
 
   lines.push(
+    '## Satın alma ve teslimat modeli',
+    '',
+    '- Satın alma Shopier üzerinden gerçekleşir; site ödeme bilgisi toplamaz veya saklamaz.',
+    '- Ödeme onayı doğrulandığında satın alınan dosya e-posta ile teslim edilir.',
+    '- Her ürün sayfasında ücretsiz demo dosyası sunulur: makrosuz, şifresiz, sınırlı veri; indirme attachment başlığıyla yapılır.',
+    '- Demo dosyaları ücretli sürümlerin tamamı değildir; filigranlı ve sınırlı girdi içerir.',
+    '',
     '## Teknik keşif politikası',
     '',
     '- /sitemap.xml bir sitemap index dosyasıdır; child sitemapler sayfa ve ürün gruplarına ayrılır.',

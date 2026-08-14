@@ -1,0 +1,589 @@
+# Excel Arşiv — Tam AI ve LLM Keşif Rehberi
+
+Bu belge canlı build içindeki indexlenebilir ve canonical public sayfalardan türetilir. Manuel URL envanteri tutulmaz; kaynak içerik veya SEO metadata değiştiğinde build pipeline dosyayı yeniden üretir.
+
+## Site kimliği
+
+- Son güncelleme: 2026-08-11
+- Marka: Excel Arşiv
+- Canonical origin: https://excelarsiv.com
+- Dil: Türkçe (tr-TR)
+- Hedef kullanıcı: KOBİ ve işletmelerde finans, muhasebe ve operasyon kararlarını Excel ile yöneten kullanıcılar
+- İş modeli: ücretli Excel çalışma sistemleri + ücretsiz uygulama rehberleri ve demo dosyaları
+- Dosya türleri: .xlsx / .xlsm (ürüne göre); demo dosyaları daima makrosuz .xlsx
+- Ödeme: Shopier (güvenli ödeme sayfası, kredi kartı bilgisi sitede işlenmez)
+- Teslimat: ödeme onayı sonrası satın alınan dosya e-posta ile iletilir; ödeme sonrası indirme sayfası üzerinden güvenli indirme yapılır
+- Sitemap index: https://excelarsiv.com/sitemap.xml
+- Robots: https://excelarsiv.com/robots.txt
+- Katalog: https://excelarsiv.com/sablonlar
+- Rehber: https://excelarsiv.com/rehber
+
+## Kategoriler
+
+### Nakit Akışı
+- Kategori kodu: nakit-akisi
+- URL: https://excelarsiv.com/sablonlar/nakit-akisi
+
+### Muhasebe ve Vergi
+- Kategori kodu: muhasebe-ve-vergi
+- URL: https://excelarsiv.com/sablonlar/muhasebe-ve-vergi
+
+### Bütçe ve Planlama
+- Kategori kodu: butce-ve-planlama
+- URL: https://excelarsiv.com/sablonlar/butce-ve-planlama
+
+### Stok ve Üretim
+- Kategori kodu: stok-ve-uretim
+- URL: https://excelarsiv.com/sablonlar/stok-ve-uretim
+
+### Satış ve Fiyatlama
+- Kategori kodu: satis-ve-fiyatlama
+- URL: https://excelarsiv.com/sablonlar/satis-ve-fiyatlama
+
+### Personel ve Bordro
+- Kategori kodu: personel-ve-bordro
+- URL: https://excelarsiv.com/sablonlar/personel-ve-bordro
+
+### Finansal Analiz
+- Kategori kodu: finansal-analiz
+- URL: https://excelarsiv.com/sablonlar/finansal-analiz
+
+## Public sayfalar
+
+### Excel Şablonları ve Finans Yönetim Sistemleri | Excel Arşiv
+- URL: https://excelarsiv.com/
+- Açıklama: KOBİ'ler için kasa defteri, nakit akış tablosu, cari hesap, stok takip, kârlılık ve maliyet hesaplama Excel şablonları. Gerçek ekranları ve demoları inceleyin.
+
+### Çerez Politikası — Excel Arşiv
+- URL: https://excelarsiv.com/cerez-politikasi
+- Açıklama: excelarsiv.com sitesinde kullanılan çerezlerin türleri, amaçları ve yönetim biçimi.
+
+### Proof Demo Kullanım Koşulları — Excel Arşiv
+- URL: https://excelarsiv.com/demo-kullanim-kosullari
+- Açıklama: Excel Arşiv Proof Demo dosyalarının değerlendirme, kullanım, dağıtım ve fikri mülkiyet koşulları.
+
+### İletişim — Excel Arşiv | Satış, Lisans ve Fatura Desteği
+- URL: https://excelarsiv.com/iletisim
+- Açıklama: Excel Arşiv ile iletişime geçin. Satış, lisans, fatura ve uyarlama sorularınız için e-posta gönderin veya SSS'ye bakın.
+
+### KVKK Aydınlatma Metni — Excel Arşiv
+- URL: https://excelarsiv.com/kvkk-aydinlatma
+- Açıklama: 6698 sayılı KVKK kapsamında Excel Arşiv satın alma, Proof Demo ve güvenli dijital teslimat süreçlerinde kişisel verilerin işlenmesine ilişkin aydınlatma metni.
+
+### Lisans — Excel Arşiv | Kullanım Hükümleri ve Kapsam
+- URL: https://excelarsiv.com/lisans
+- Açıklama: Excel Arşiv şablon lisansı: kapsam, kullanım sınırları ve güncelleme hükümleri.
+
+### Mesafeli Satış Sözleşmesi — Excel Arşiv
+- URL: https://excelarsiv.com/mesafeli-satis-sozlesmesi
+- Açıklama: Excel Arşiv dijital ürün satışlarına ilişkin Mesafeli Satış Sözleşmesi: taraflar, ürün, ödeme, teslimat ve cayma hakkı.
+
+### Nasıl Çalışır — Excel Arşiv
+- URL: https://excelarsiv.com/nasil-calisir
+- Açıklama: Excel şablonunu seçme, Shopier ile ödeme, ödeme doğrulama ve ExcelArşiv üzerinden güvenli indirme adımları.
+
+### KOBİ Finans Yönetim Paketi | Excel Arşiv
+- URL: https://excelarsiv.com/paketler
+- Açıklama: Kasa, banka, cari ve POS bakiyeleri ile stok alışı, operasyon, maaş ve kredi kalemlerini tek dosyada konsolide eden aylık yönetim modeli.
+
+### İşletmeler İçin Excel Rehberleri | Excel Arşiv
+- URL: https://excelarsiv.com/rehber
+- Açıklama: Nakit akışı, stok, cari hesap ve kasa takibini Excel'de doğru kurmak için uygulamalı işletme rehberleri ve seçim çerçeveleri.
+
+### 13 Haftalık Nakit Akışı Excel: Ödeme Planı Nasıl Kurulur?
+- URL: https://excelarsiv.com/rehber/13-haftalik-nakit-akisi-excel
+- Açıklama: 13 haftalık nakit akışı Excel modelini tahsilat, ödeme, açılış bakiyesi ve haftalık nakit açığı mantığıyla nasıl kuracağınızı adım adım görün.
+
+### Cari Hesap Takip Excel: Tahsilat ve Risk Nasıl İzlenir?
+- URL: https://excelarsiv.com/rehber/cari-hesap-takip-excel
+- Açıklama: Cari hesap takip Excel sistemini müşteri bakiyesi, vade, tahsilat durumu ve gecikme riskiyle kurarak alacaklarınızı nasıl yöneteceğinizi görün.
+
+### Kasa Defteri Excel: Günlük Nakit Kontrolü Nasıl Kurulur?
+- URL: https://excelarsiv.com/rehber/kasa-defteri-excel
+- Açıklama: Kasa defteri Excel dosyasında açılış bakiyesi, gelir, gider ve kapanış kontrolünü nasıl kuracağınızı; banka ve POS hareketlerini nasıl ayıracağınızı görün.
+
+### Stok Takip Excel: KOBİ İçin Doğru Sistem Nasıl Kurulur?
+- URL: https://excelarsiv.com/rehber/stok-takip-excel
+- Açıklama: Stok takip Excel dosyasında hangi alanların bulunması gerektiğini, stokta bağlı nakdi nasıl izleyeceğinizi ve hangi hatalardan kaçınacağınızı öğrenin.
+
+### Excel Şablonları ve İşletme Karar Sistemleri — Excel Arşiv
+- URL: https://excelarsiv.com/sablonlar
+- Açıklama: Nakit akışı, kârlılık, tahsilat, stok ve finans yönetimi için hazır Excel sistemleri. Ürünleri karşılaştırın, filtreleyin ve demo ile inceleyin.
+
+### Bütçe Excel Şablonları | Planlama ve Maliyet Takibi
+- URL: https://excelarsiv.com/sablonlar/butce-ve-planlama
+- Açıklama: Bütçe, ödeme planı, maliyet takibi ve finansal planlama için hazır Excel şablonlarını karşılaştırın; işletmenize uygun sistemi demo ile değerlendirin.
+
+### Finansal Analiz Excel Şablonları | Kârlılık ve Maliyet
+- URL: https://excelarsiv.com/sablonlar/finansal-analiz
+- Açıklama: Finansal analiz, kârlılık, proje maliyeti ve yönetim raporlaması için hazır Excel şablonlarını karşılaştırın; gerçek ürün ekranlarını ve demoları inceleyin.
+
+### Muhasebe Excel Şablonları | Vergi, SGK ve Finans Takibi
+- URL: https://excelarsiv.com/sablonlar/muhasebe-ve-vergi
+- Açıklama: Muhasebe, vergi, SGK teşvik, cari hesap ve finansal yükümlülük takibi için hazır Excel sistemlerini karşılaştırın; demo ve gerçek ekranları inceleyin.
+
+### Nakit Akış Tablosu Excel Şablonları | Nakit Planlama
+- URL: https://excelarsiv.com/sablonlar/nakit-akisi
+- Açıklama: Nakit akış tablosu, 13 haftalık nakit akışı, kasa defteri ve ödeme planlama için hazır Excel şablonlarını karşılaştırın ve demo ile inceleyin.
+
+### Personel Maliyet Excel Şablonları | Bordro ve İşçilik
+- URL: https://excelarsiv.com/sablonlar/personel-ve-bordro
+- Açıklama: Personel maliyeti, kıdem ihbar, fazla mesai, SGK ve asgari ücret etkisi için hazır Excel hesaplama sistemlerini karşılaştırın.
+
+### Fiyat Hesaplama Excel Şablonları | Satış ve Maliyet
+- URL: https://excelarsiv.com/sablonlar/satis-ve-fiyatlama
+- Açıklama: Fiyat hesaplama, POS komisyonu, teklif ve satış maliyeti için hazır Excel sistemlerini karşılaştırın; net tahsilat ve gerçek marjı görün.
+
+### Stok Takip Excel Şablonları | Stok ve Üretim Takibi
+- URL: https://excelarsiv.com/sablonlar/stok-ve-uretim
+- Açıklama: Stok takip Excel şablonlarıyla giriş çıkış, satış, stok devir ve stokta bağlı nakdi izleyin; hazır sistemleri karşılaştırıp demo ile inceleyin.
+
+### Sık Sorulan Sorular — Excel Arşiv
+- URL: https://excelarsiv.com/sss
+- Açıklama: Dosya kilidi, uyarlama, teslimat süresi, fatura, iade, uyumluluk ve güncelleme — gerçek itirazların net cevapları.
+
+### Ödeme Sonrası Excel İndirme — Excel Arşiv
+- URL: https://excelarsiv.com/teslimat
+- Açıklama: Shopier ödemenizi doğrulayın ve satın aldığınız Excel dosyasını güvenli şekilde ExcelArşiv üzerinden bilgisayarınıza indirin.
+
+### Teslimat ve İade — Excel Arşiv
+- URL: https://excelarsiv.com/teslimat-ve-iade
+- Açıklama: Dijital ürün teslimat süreci, süresi ve hatalı dosyaya ilişkin telafi koşulları.
+
+## Ürün kataloğu
+
+### 13 Haftalık Nakit Akışı Excel | Ödeme Planlama
+- URL: https://excelarsiv.com/sablon/13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi
+- Ürün adı: 13 Haftalık Nakit Akışı ve Ödeme Planlama Sistemi
+- Arama açıklaması: 13 haftalık nakit akış tablosunda tahsilat ve ödemeleri haftalık planlayın; nakit açığını, ödeme baskısını ve kasa dengesini önceden görün.
+- Ürün özeti: 13 haftalık nakit modeliyle giriş-çıkış tahminlerini planlayın; kritik haftaları önceden görüp ödeme önceliği verin.
+- Kategori: Nakit Akışı (nakit-akisi)
+- Fiyat: 2.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 16
+- Sürüm: 2.0.0
+- Ürün içerik tarihi: 2026-08-09
+
+### Kasa Defteri Excel | Gelir Gider ve Nakit Takibi
+- URL: https://excelarsiv.com/sablon/akilli-kasa-defteri-ve-nakit-kontrol-sistemi
+- Ürün adı: Akıllı Kasa Defteri ve Nakit Kontrol Sistemi
+- Arama açıklaması: Kasa defteri Excel sistemiyle günlük nakit giriş çıkışını, açılış-kapanış bakiyesini ve gelir gider hareketlerini düzenli takip edin.
+- Ürün özeti: Kasa hareketlerini günlük işleyin, bakiye ile fiili sayım farkını anında görün. Dönem sonu kontrolü için hazır yapı.
+- Kategori: Nakit Akışı (nakit-akisi)
+- Fiyat: 990 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 20
+- Sürüm: 2.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Amortisman Hesaplama Excel | Satış Zamanlama
+- URL: https://excelarsiv.com/sablon/amortisman-ve-sabit-kiymet-satis-zamanlama-stratejisti
+- Ürün adı: Amortisman & Sabit Kıymet Satış Zamanlama Stratejisti
+- Arama açıklaması: Normal ve azalan bakiyeli amortismanı, kıst hesabını ve çeyrek satış senaryolarını Excel üzerinde karşılaştırarak satış dönemini değerlendirin.
+- Ürün özeti: Normal ve azalan bakiyeli amortismanı, kıst amortismanı ve dört çeyrek satış senaryosunda vergi etkisini hesaplayın; en uygun satış dönemini bulun.
+- Kategori: Muhasebe ve Vergi (muhasebe-ve-vergi)
+- Fiyat: 1.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 15
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Asgari Ücret Zam Etkisi Excel | Fiyat Ayarlama
+- URL: https://excelarsiv.com/sablon/asgari-ucret-zam-etkisi-fiyat-ayarlama-cetveli
+- Ürün adı: Asgari Ücret Zam Etkisi & Fiyat Ayarlama Cetveli
+- Arama açıklaması: Asgari ücret artışının işçilik maliyeti ve satış fiyatı üzerindeki etkisini Excel üzerinde hesaplayarak fiyat ayarlama ihtiyacını görün.
+- Ürün özeti: Asgari ücret zammının maliyet tablonuza etkisini hesaplayın; satış fiyatlarınızı koruyacak ayarlamayı önerin.
+- Kategori: Personel ve Bordro (personel-ve-bordro)
+- Fiyat: 1.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 15
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-09
+
+### Aşırı Düşük Teklif Açıklaması Excel | İhale Analizi
+- URL: https://excelarsiv.com/sablon/asiri-dusuk-teklif-savunma-robotu
+- Ürün adı: İhale Elinden Gidiyor Mu? (Aşırı Düşük Teklif Savunma Robotu)
+- Arama açıklaması: Aşırı düşük teklif açıklaması için maliyet kalemlerini, teklif dayanaklarını ve savunma hesaplarını düzenli bir Excel çalışma yapısında hazırlayın.
+- Ürün özeti: Aşırı düşük teklif sorgulamasına karşı açıklamayı formülle üretin; ihale kararı UYGUN/İNCELE/DURDUR ile netleşsin.
+- Kategori: Satış ve Fiyatlama (satis-ve-fiyatlama)
+- Fiyat: 7.900 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 17
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-09
+
+### Finans Dashboard Excel | Aylık Patron Paneli
+- URL: https://excelarsiv.com/sablon/aylik-patron-finans-paneli
+- Ürün adı: Aylık Patron Finans Paneli
+- Arama açıklaması: Nakit, borç, tahsilat ve kârlılık göstergelerini tek yönetici ekranında birleştiren aylık finans dashboard Excel sistemini inceleyin.
+- Ürün özeti: Ciro, net kâr, nakit, alacak günü ve FAVÖK göstergelerini aylık tek panelde toplayın; trendi yön tablosuyla okuyun.
+- Kategori: Finansal Analiz (finansal-analiz)
+- Fiyat: 2.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 15
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Kredi Takip Excel | Banka Kredisi ve Taksit Takibi
+- URL: https://excelarsiv.com/sablon/banka-kredi-ve-taksit-takip-sistemi
+- Ürün adı: Banka, Kredi ve Taksit Takip Sistemi
+- Arama açıklaması: Banka kredilerini, taksit tarihlerini, kalan borcu ve ödeme yükünü tek Excel sisteminde izleyerek kredi ödeme takviminizi yönetin.
+- Ürün özeti: Tüm banka hesaplarını, kredi taksitlerini ve ödeme tarihlerini tek sayfada izleyin; yaklaşan taksitleri önceden görün.
+- Kategori: Nakit Akışı (nakit-akisi)
+- Fiyat: 1.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 23
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Cari Hesap Takip Excel | Tahsilat ve Risk
+- URL: https://excelarsiv.com/sablon/cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi
+- Ürün adı: Cari Hesap, Tahsilat ve Müşteri Risk Takip Sistemi
+- Arama açıklaması: Cari hesap takip Excel sistemiyle tahsilatları, geciken alacakları ve müşteri riskini izleyin; kimin ne kadar borçlu olduğunu net görün.
+- Ürün özeti: Fatura, tahsilat ve vade takibini tek yapıda toplayın; vadesi geçen bakiyeleri müşteri risk skoruyla önceliklendirin.
+- Kategori: Muhasebe ve Vergi (muhasebe-ve-vergi)
+- Fiyat: 1.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 22
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Çek Senet Takip Excel | Vade ve Risk Kontrolü
+- URL: https://excelarsiv.com/sablon/cek-senet-ve-vade-risk-sistemi
+- Ürün adı: Çek–Senet ve Vade Risk Sistemi
+- Arama açıklaması: Çek ve senetleri vade, tutar, taraf ve tahsilat durumuyla tek Excel sisteminde izleyin; yaklaşan ödeme ve tahsilat yoğunluğunu görün.
+- Ürün özeti: Çek ve senet portföyünü vade aralıklarıyla izleyin; tahsilat beklentisini ve riskli kalemleri tek bakışta görün.
+- Kategori: Nakit Akışı (nakit-akisi)
+- Fiyat: 1.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 17
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Döviz Açık Pozisyon Excel | Kur Riski Stres Testi
+- URL: https://excelarsiv.com/sablon/doviz-acik-pozisyonu-ve-kur-riski-stres-testi
+- Ürün adı: Döviz Açık Pozisyonu ve Kur Riski Stres Testi
+- Arama açıklaması: Dövizli varlık ve borçların net açık pozisyonunu hesaplayın; kur şoku senaryolarında kâr/zarar etkisini Excel üzerinde görün.
+- Ürün özeti: Döviz cinsinden varlık ve borçlarınızın net açık pozisyonunu hesaplayın; kur şoku senaryolarında kâr/zarar etkisini ve pozisyon kararını görün.
+- Kategori: Finansal Analiz (finansal-analiz)
+- Fiyat: 2.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 15
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Fazla Mesai Hesaplama Excel | İşçi Dava Riski
+- URL: https://excelarsiv.com/sablon/fazla-mesai-ve-isci-dava-riski-tespit-dosyasi
+- Ürün adı: Fazla Mesai ve İşçi Dava Riski Tespit Dosyası
+- Arama açıklaması: Fazla mesai kayıtlarını ve olası işçi alacak riskini Excel üzerinde analiz ederek dönemsel dava riskini ve mali yükü görün.
+- Ürün özeti: Fazla mesai kayıtlarınızı yasal yükümlülüklerle karşılaştırın; işçi alacağı ve dava riskini önceden tespit edin.
+- Kategori: Personel ve Bordro (personel-ve-bordro)
+- Fiyat: 2.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 15
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-09
+
+### Gelir Gider Tablosu Excel | Gerçek Kârlılık
+- URL: https://excelarsiv.com/sablon/gunluk-gelir-gider-ve-gercek-karlilik-sistemi
+- Ürün adı: Günlük Gelir–Gider ve Gerçek Kârlılık Sistemi
+- Arama açıklaması: Günlük gelir gider tablosunu Excel üzerinde yönetin; hareketlerin gerçek kârlılığa etkisini dönem ve kategori bazında takip edin.
+- Ürün özeti: Günlük gelir ve giderleri kategorilerle işleyin; aylık net kârı ve kategori marjını gerçek veriyle görün.
+- Kategori: Satış ve Fiyatlama (satis-ve-fiyatlama)
+- Fiyat: 1.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 17
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Hakediş Fiyat Farkı Hesaplama Excel | Hak Kaybı
+- URL: https://excelarsiv.com/sablon/hakedis-fiyat-farki-hak-kaybi-cetveli
+- Ürün adı: Hakediş Fiyat Farkı ve Hak Kaybı Cetveli
+- Arama açıklaması: Hakediş dönemlerini ve fiyat farkını Excel üzerinde hesaplayıp karşılaştırın; eksik hesaplanan tutarları ve olası hak kaybını görün.
+- Ürün özeti: Hakediş fiyat farkını sözleşme hükümlerine göre hesaplayın; endeks farkı ve hak kaybı tutarını net görün.
+- Kategori: Bütçe ve Planlama (butce-ve-planlama)
+- Fiyat: 990 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 17
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-09
+
+### İhale Teklif Hesaplama Excel | Sınır Değer
+- URL: https://excelarsiv.com/sablon/ihaleye-kac-tl-teklif-vermeliyim
+- Ürün adı: İhaleye Kaç TL Teklif Vermeliyim? (Sınır Değer Hesaplayıcı)
+- Arama açıklaması: İhale teklif tutarını maliyet, marj ve sınır değer yaklaşımıyla değerlendirmek için karar destekli Excel hesaplama sistemini kullanın.
+- Ürün özeti: Rakip teklifler ve yaklaşık maliyet üzerinden sınır değeri hesaplayın; kârlı ve güvenli teklif aralığını görün.
+- Kategori: Satış ve Fiyatlama (satis-ve-fiyatlama)
+- Fiyat: 2.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 17
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-09
+
+### İthalat Maliyet Hesaplama Excel | Net Birim Maliyet
+- URL: https://excelarsiv.com/sablon/ithalat-depo-teslim-rafa-gelen-net-birim-maliyet
+- Ürün adı: İthalat Depo Teslim (Rafa Gelen) Net Birim Maliyet
+- Arama açıklaması: Ürün bedeli, kur, navlun, vergi ve diğer ithalat giderlerini Excel üzerinde birleştirerek depoya gelen net birim maliyeti hesaplayın.
+- Ürün özeti: İthal ürünün FOB maliyetinden rafa gelene kadarki tüm vergi ve masraflarını ekleyin; depo teslim net birim maliyeti görün.
+- Kategori: Stok ve Üretim (stok-ve-uretim)
+- Fiyat: 1.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 15
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-09
+
+### SGK Teşvik Hesaplama Excel | İşçilik Maliyeti
+- URL: https://excelarsiv.com/sablon/kacirilan-sgk-tesvikleri-ve-gercek-iscilik-maliyeti-analizi
+- Ürün adı: Kaçırılan SGK Teşvikleri & Gerçek İşçilik Maliyeti Analizi
+- Arama açıklaması: SGK teşvik hesaplama ve gerçek işçilik maliyetini Excel üzerinde karşılaştırın; kullanılmayan teşvikleri ve maliyet farklarını görün.
+- Ürün özeti: Hangi SGK teşvikinden yararlanabileceğinizi ve kaçırdığınız tutarı hesaplayın; gerçek işçilik maliyetinizi net görün.
+- Kategori: Muhasebe ve Vergi (muhasebe-ve-vergi)
+- Fiyat: 2.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 16
+- Sürüm: 1.1.1
+- Ürün içerik tarihi: 2026-08-09
+
+### KDV İadesi Hesaplama Excel | Azami Alacak
+- URL: https://excelarsiv.com/sablon/kdv-iadesi-azami-alacak-hesabi-dosya-hazirlayici
+- Ürün adı: KDV İadesi Azami Alacak Hesabı & Dosya Hazırlayıcı
+- Arama açıklaması: Devreden KDV ve iade sınırıyla azami KDV iade alacağını Excel üzerinde hesaplayın; belge takibini ve dosya hazırlığını düzenleyin.
+- Ürün özeti: Devreden KDV ve ihracat iadesi sınırlarına göre azami KDV iade alacağınızı hesaplayın; iade dosyasını destekleyen belge takibini kurun.
+- Kategori: Muhasebe ve Vergi (muhasebe-ve-vergi)
+- Fiyat: 7.900 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 15
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Kıdem İhbar Hesaplama Excel | Personel Maliyeti
+- URL: https://excelarsiv.com/sablon/kidem-ihbar-yuku-ve-personel-cikarma-maliyeti-hesaplayici
+- Ürün adı: Kıdem–İhbar Yükü ve Personel Çıkarma Maliyeti Hesaplayıcı
+- Arama açıklaması: Kıdem, ihbar ve personel çıkarma maliyetini çalışan bazında Excel üzerinde hesaplayın ve toplam yükümlülüğü görün.
+- Ürün özeti: Çalışan çıkarmada kıdem ve ihbar tazminatı yükünü hesaplayın; işverene tam maliyeti ve riskleri önceden görün.
+- Kategori: Personel ve Bordro (personel-ve-bordro)
+- Fiyat: 1.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 14
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-09
+
+### KKEG Hesaplama Excel | Finansman Gider Kısıtlaması
+- URL: https://excelarsiv.com/sablon/kkeg-ve-finansman-gider-kisitlamasi-vergi-savunma-seti
+- Ürün adı: KKEG ve Finansman Gider Kısıtlaması Vergi Savunma Seti
+- Arama açıklaması: Yabancı kaynak/öz kaynak farkına göre kısıtlamaya tabi finansman giderini ve KKEG tutarını Excel üzerinde hesaplayın.
+- Ürün özeti: Yabancı kaynak/öz kaynak farkını ve finansman giderlerinin kısıtlama kapsamını hesaplayın; KKEG tutarı, kurumlar vergisi etkisi ve savunma aksiyonunu üretin.
+- Kategori: Muhasebe ve Vergi (muhasebe-ve-vergi)
+- Fiyat: 7.900 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 16
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### KOBİ Finans Takip Excel | Nakit, Borç ve Kârlılık
+- URL: https://excelarsiv.com/sablon/kobi-finans-yonetim-paketi
+- Ürün adı: KOBİ Finans Yönetim Paketi
+- Arama açıklaması: KOBİ nakit akışı, cari hesap, borç, stok ve kârlılık takibini tek pakette birleştiren Excel finans yönetim sistemini inceleyin.
+- Ürün özeti: Kasa, banka, cari ve POS bakiyeleri ile stok alışı, operasyon, maaş ve kredi kalemlerini tek dosyada konsolide edin; kâr tahmini ve risk skorunu görün.
+- Kategori: Bütçe ve Planlama (butce-ve-planlama)
+- Fiyat: 7.900 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 15
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Mutfak Kayıp/Kaçak Excel | Menü Kârlılık Analizi
+- URL: https://excelarsiv.com/sablon/mutfak-kayip-kacak-hesaplayici
+- Ürün adı: Mutfak Kayıp/Kaçak Tespiti & Menü Kârlılık Analizi
+- Arama açıklaması: Reçete bazlı teorik tüketimi fiili stokla karşılaştırın; mutfak kayıp oranını ve tutarını Excel üzerinde tespit edin.
+- Ürün özeti: Reçete bazlı teorik hammadde tüketimini fiili stok tüketimiyle karşılaştırın; mutfaktaki kayıp ve kaçağı tutar ve oran olarak tespit edin.
+- Kategori: Stok ve Üretim (stok-ve-uretim)
+- Fiyat: 2.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 16
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Sefer Başına Nakliye Maliyeti Excel | Fiyatlandırma
+- URL: https://excelarsiv.com/sablon/nakliye-maliyeti-hesaplayici
+- Ürün adı: Sefer Başına Nakliye Maliyeti & Fiyatlandırma Cetveli
+- Arama açıklaması: Araç filosu ve sefer kayıtlarından yakıt, bakım, sürücü ve amortisman maliyetini Excel üzerinde km ve ton-km bazında hesaplayın.
+- Ürün özeti: Araç filosu ve sefer kayıtlarından yakıt, bakım, sürücü ve amortisman maliyetlerini sefer bazında hesaplayın; km ve ton-km başına birim maliyeti görün.
+- Kategori: Satış ve Fiyatlama (satis-ve-fiyatlama)
+- Fiyat: 990 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 15
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Ortaklar Cari Adat Faiz Excel | Fatura Hesabı
+- URL: https://excelarsiv.com/sablon/ortaklar-cari-ve-kasa-adat-faiz-faturasi-hesaplayici
+- Ürün adı: Ortaklar Cari & Kasa Adat Faiz Faturası Hesaplayıcı
+- Arama açıklaması: Ortak cari bakiyeleri ve kasa adatları üzerinden dönem faizini Excel üzerinde hesaplayın; fatura tutarını üretin.
+- Ürün özeti: Ortak cari bakiyeleri ve kasa adatları üzerinden dönem faizini hesaplayın; fatura tutarını mevzuata uygun şekilde üretin.
+- Kategori: Muhasebe ve Vergi (muhasebe-ve-vergi)
+- Fiyat: 2.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 16
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Pazaryeri Net Kâr Excel | Eksik Hakediş
+- URL: https://excelarsiv.com/sablon/pazaryeri-net-kar-ve-eksik-hakedis-yakalayici
+- Ürün adı: Pazaryeri Net Kâr & Eksik Hakediş Yakalayıcı
+- Arama açıklaması: Komisyon, kargo, reklam ve iade sonrası net kârı hesaplayın; beklenen ile gerçek hakediş farkını Excel üzerinde yakalayın.
+- Ürün özeti: Komisyon, kargo, reklam ve iade sonrası net kârı hesaplayın; beklenen ile gerçek hakedişi karşılaştırıp eksik tahsilatı yakalayın.
+- Kategori: Satış ve Fiyatlama (satis-ve-fiyatlama)
+- Fiyat: 2.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 15
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### POS Komisyon Hesaplama Excel | Net Tahsilat
+- URL: https://excelarsiv.com/sablon/pos-komisyon-ve-net-tahsilat-kontrol-sistemi
+- Ürün adı: POS, Komisyon ve Net Tahsilat Kontrol Sistemi
+- Arama açıklaması: POS satışlarını, banka komisyonlarını ve hesaba geçecek net tahsilatı Excel üzerinde karşılaştırın; kesinti ve vade farkını görün.
+- Ürün özeti: POS kanallarının brüt satışını, komisyon ve iade düşüldükten sonraki net tahsilatını karşılaştırın; kanal maliyetini görün.
+- Kategori: Satış ve Fiyatlama (satis-ve-fiyatlama)
+- Fiyat: 990 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 15
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Proje Maliyet Takip Excel | Gerçek Kârlılık
+- URL: https://excelarsiv.com/sablon/proje-ve-is-bazinda-gercek-karlilik-sistemi
+- Ürün adı: Proje ve İş Bazında Gerçek Kârlılık Sistemi
+- Arama açıklaması: Proje gelirini, doğrudan giderleri ve iş bazında gerçek kârlılığı Excel üzerinde takip ederek hangi işin ne kadar kazandırdığını görün.
+- Ürün özeti: Her işin gelirini direkt giderlerle eşleştirin; iş bazında gerçek kâr ve marjı çıkarın, kaynakları kârlı işlere yönlendirin.
+- Kategori: Satış ve Fiyatlama (satis-ve-fiyatlama)
+- Fiyat: 2.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 15
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### TTK 376 Sermaye Kaybı Excel | Öz Kaynak Cetveli
+- URL: https://excelarsiv.com/sablon/sirket-oz-kaynagi-eridi-mi-ttk-376-sermaye-tamamlama-cetveli
+- Ürün adı: Şirket Öz Kaynağı Eridi Mi? (TTK 376 Sermaye Tamamlama Cetveli)
+- Arama açıklaması: Bilanço bileşenlerinden öz kaynağı ve sermaye kaybını hesaplayın; TTK 376 eşiklerini Excel üzerinde izleyin.
+- Ürün özeti: Bilanço bileşenlerinden öz kaynağı ve sermaye kaybını hesaplayın; TTK 376''daki 1/3 ve 2/3 eşikleriyle borca batıklığı izleyin.
+- Kategori: Finansal Analiz (finansal-analiz)
+- Fiyat: 7.900 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 16
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Stok Takip Excel Şablonu | Satış ve Nakit
+- URL: https://excelarsiv.com/sablon/stok-satis-ve-nakit-baglanma-sistemi
+- Ürün adı: Stok, Satış ve Nakit Bağlanma Sistemi
+- Arama açıklaması: Stok takip Excel şablonuyla giriş çıkışı, satışları, ürün bazlı kârlılığı ve stokta bağlı nakdi tek sistem üzerinden izleyin.
+- Ürün özeti: Stok giriş-çıkışını ortalama maliyetle işleyin; stoğa bağlanan nakdi ve devir hızını dönem sonunda görün.
+- Kategori: Stok ve Üretim (stok-ve-uretim)
+- Fiyat: 1.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 15
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Bu Şubeyi Kapatmalı Mıyım Excel | Şube Kârlılık
+- URL: https://excelarsiv.com/sablon/sube-karlilik-ve-nakit-hesaplayici
+- Ürün adı: Bu Şubeyi Kapatmalı Mıyım? (Şube Kârlılık & Nakit Yakış Analizi)
+- Arama açıklaması: Şube bazında gelir, gider ve nakit akışını toplayın; kâr marjını ve nakit pozisyonunu Excel üzerinde karşılaştırın.
+- Ürün özeti: Şube bazında gelir, gider ve nakit akışını toplayın; şube kârlılığını, kâr marjını ve nakit pozisyonunu hesaplayıp şube kararını gerekçesiyle üretin.
+- Kategori: Finansal Analiz (finansal-analiz)
+- Fiyat: 2.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 16
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Taşeron Hakediş Takip Excel | Kesinti Mutabakatı
+- URL: https://excelarsiv.com/sablon/taseron-hakedis-kesinti-mutabakati
+- Ürün adı: Taşeron/Alt Yüklenici Hakediş & Kesinti Mutabakatı
+- Arama açıklaması: Taşeron ve alt yüklenici hakedişlerini, kesintileri ve mutabakat farklarını tek Excel çalışma yapısında takip edip kontrol edin.
+- Ürün özeti: Taşeron hakedişleri ile yapılan ödemeleri mutabakatlandırın; kesinti farklarını ve hak ediş ihtilaflarını önceden yakalayın.
+- Kategori: Finansal Analiz (finansal-analiz)
+- Fiyat: 1.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 16
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-09
+
+### Üretim Reçetesi Excel | Zam Yansıtma
+- URL: https://excelarsiv.com/sablon/uretim-recetesi-ve-zam-yansitma-hesaplayici
+- Ürün adı: Üretim Reçetesi & Zam Yansıtma Hesaplayıcı
+- Arama açıklaması: Reçetedeki hammadde zamlarının ürün maliyetine etkisini hesaplayın; hedef marjı koruyan satış fiyatını Excel üzerinde görün.
+- Ürün özeti: Reçetedeki hammadde miktar, birim fiyat, fire ve zam oranlarıyla eski/yeni reçete maliyetini üretin; hedef kâr marjını koruyan satış fiyatını hesaplayın.
+- Kategori: Stok ve Üretim (stok-ve-uretim)
+- Fiyat: 1.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 14
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Vergi SGK Tecil Excel | Kredi Karşılaştırması
+- URL: https://excelarsiv.com/sablon/vergi-sgk-borcunu-tecil-etmeli-miyim-kredi-mi-tecil-mi
+- Ürün adı: Vergi/SGK Borcunu Tecil Etmeli Miyim? (Kredi mi Tecil mi?)
+- Arama açıklaması: Tecil, banka kredisi ve peşin ödeme seçeneklerinin maliyetini bugünkü değerle Excel üzerinde karşılaştırın.
+- Ürün özeti: Borç aslı ve gecikme zammını toplayın; tecil, kredi ve peşin ödeme seçeneklerinin maliyetini bugünkü değerle karşılaştırıp en uygun yolu önerin.
+- Kategori: Bütçe ve Planlama (butce-ve-planlama)
+- Fiyat: 990 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 15
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Vergi SGK Takip Excel | Maaş ve Ödeme Planı
+- URL: https://excelarsiv.com/sablon/vergi-sgk-ve-maas-karsilik-ayirma-sistemi
+- Ürün adı: Vergi, SGK ve Maaş Karşılık Ayırma Sistemi
+- Arama açıklaması: Vergi, SGK ve maaş yükümlülükleri için dönemsel karşılık ayırın; yaklaşan ödeme ihtiyacını tek Excel planında görün ve takip edin.
+- Ürün özeti: Dönem gelirine göre KDV, kurumlar vergisi, SGK ve maaş karşılıklarını otomatik ayırın; dönem sonunu sürprizsiz karşılayın.
+- Kategori: Muhasebe ve Vergi (muhasebe-ve-vergi)
+- Fiyat: 990 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 17
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Yeniden Değerleme Excel | Vergi Tasarruf Analizi
+- URL: https://excelarsiv.com/sablon/yeniden-degerleme-yapmali-miyim-vergi-tasarruf-analizi
+- Ürün adı: Yeniden Değerleme Yapmalı Mıyım? (Vergi Tasarruf Analizi)
+- Arama açıklaması: Yeniden değerleme katsayısı, fon vergisi ve ek amortisman tasarrufunu Excel üzerinde karşılaştırarak net faydayı görün.
+- Ürün özeti: Kıymet bazında yeniden değerleme katsayısı, değer artışı ve %2 fon vergisi ile ek amortismanın vergi tasarrufunu karşılaştırın; net fayda kararı üretin.
+- Kategori: Muhasebe ve Vergi (muhasebe-ve-vergi)
+- Fiyat: 2.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 15
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-10
+
+### Yıllara Sari İnşaat Stopaj Excel | Nakit Akışı
+- URL: https://excelarsiv.com/sablon/yillara-sari-insaat-stopaj-nakit-akis-planlayici
+- Ürün adı: Yıllara Sari İnşaat Stopaj & Nakit Akış Planlayıcı
+- Arama açıklaması: Yıllara sari inşaat işlerinde stopaj etkisini ve dönemsel nakit akışını Excel üzerinde birlikte planlayın ve ödeme baskısını görün.
+- Ürün özeti: Yıllara sari inşaat işlerinde stopaj yükünü ve nakit akışını dönem dönem planlayın; vergi baskısını önceden görün.
+- Kategori: Muhasebe ve Vergi (muhasebe-ve-vergi)
+- Fiyat: 2.490 TL (KDV dahil)
+- Dosya biçimi: xlsx
+- Çalışma sayfası sayısı: 18
+- Sürüm: 1.0.0
+- Ürün içerik tarihi: 2026-08-09
+
+## Satın alma ve teslimat modeli
+
+- Satın alma Shopier üzerinden gerçekleşir; site ödeme bilgisi toplamaz veya saklamaz.
+- Ödeme onayı doğrulandığında satın alınan dosya e-posta ile teslim edilir.
+- Her ürün sayfasında ücretsiz demo dosyası sunulur: makrosuz, şifresiz, sınırlı veri; indirme attachment başlığıyla yapılır.
+- Demo dosyaları ücretli sürümlerin tamamı değildir; filigranlı ve sınırlı girdi içerir.
+
+## Teknik keşif politikası
+
+- /sitemap.xml bir sitemap index dosyasıdır; child sitemapler sayfa ve ürün gruplarına ayrılır.
+- Sitemap yalnız self-canonical, indexlenebilir build sayfalarını içerir; query parametreli, dış-host canonical, noindex ve duplicate canonical sayfalar reddedilir.
+- priority ve changefreq üretilmez.
+- URL lastmod build/deploy zamanı değildir; sayfanın gerçek semantik kaynak bağımlılıklarının son değişiklik zamanından türetilir.
+- Child sitemap index lastmod değeri SHA-256 içerik değişimine göre PRESERVE veya SET_NOW durum makinesiyle yönetilir.
+- llms.txt ve llms-full.txt deneysel keşif yardımcılarıdır; tarama veya sıralama garantisi vermez.
