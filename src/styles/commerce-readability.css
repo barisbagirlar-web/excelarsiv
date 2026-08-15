@@ -220,7 +220,123 @@ body {
   line-height: 1.45 !important;
 }
 
-/* Excel araçları hero */
+/* ===== Kontrast tabanı — soluk gri metin / soluk alanlar =====
+   Hedef: beyaz/#f7faf8 zeminde AA (~4.5:1+). Muted gövde #3a4a41. */
+.site-header__link {
+  color: #2f3f36 !important;
+}
+
+.site-header__tagline {
+  color: #44554c !important;
+}
+
+.premium-showcase__head p,
+.premium-card__copy > p,
+.catalog-intro__copy p,
+.catalog-intro__proof span,
+.catalog-help__item p,
+.proof-rail__item small,
+.tools-hero__lead,
+.tools-guide__card p,
+.tcard__summary,
+.product-page .tcard__summary,
+.consent-card p:not(.consent-kicker) {
+  color: #3a4a41 !important;
+}
+
+.premium-card__meta,
+.premium-card__meta i,
+.tcard__ver,
+.tcard__section-label,
+.product-page .tcard__section-label,
+.tcard__structure li > b,
+.product-page .tcard__structure li > b,
+.tcard__price small,
+.product-page .tcard__price small,
+.catalog-command__result,
+.catalog-command__eyebrow,
+.catalog-intro__copy > span {
+  color: #44554c !important;
+}
+
+.tcard__structure li,
+.product-page .tcard__structure li,
+.tcard__meta span,
+.product-page .tcard__meta span {
+  color: #2f3f36 !important;
+}
+
+.tcard__benefits li,
+.product-page .tcard__benefits li,
+.premium-card__chips span {
+  color: #24352c !important;
+}
+
+/* Soluk gri kutular: zemin + kenarlık güçlendir */
+.premium-card__chips span {
+  background: #eef4f0 !important;
+  border-color: #c5d4cb !important;
+}
+
+.tcard__benefits,
+.tcard__structure {
+  background: #eef4f0 !important;
+  border: 1px solid #d0ddd5 !important;
+}
+
+.tcard__meta span,
+.product-page .tcard__meta span {
+  background: #e8f0eb !important;
+  border: 1px solid #c5d4cb !important;
+  color: #2f3f36 !important;
+}
+
+.catalog-intro__proof {
+  border-color: #c5d4cb !important;
+  background: #fff !important;
+}
+
+.catalog-intro__proof span {
+  font-weight: 600 !important;
+}
+
+.proof-rail__item small {
+  color: #3a4a41 !important;
+  font-weight: 500 !important;
+}
+
+.product-page .product-hero__summary,
+.product-page .section-head > p,
+.product-page .checkout-card__lead,
+.product-page .checkout-card__hint,
+.product-page .demo-card__lead,
+.product-page .demo-card__terms,
+.product-page .yazar-kutusu__metin {
+  color: #3a4a41 !important;
+}
+
+.product-page .product-hero__price-row > span,
+.product-page .product-hero__facts small,
+.product-page .product-hero__trust small,
+.product-page .checkout-card__microcopy,
+.product-page .demo-card__microcopy {
+  color: #44554c !important;
+}
+
+.pkg-page .pkg-hero__lead,
+.pkg-page .pkg-section-head > p,
+.pkg-page .pkg-decision__intro p,
+.pkg-page .pkg-value__copy p,
+.pkg-page .pkg-faq__intro p,
+.pkg-page .pkg-faq details p,
+.pkg-page .pkg-value__matrix p,
+.pkg-page .pkg-buyflow__steps span,
+.pkg-page .pkg-proof__action > span,
+.pkg-page .pkg-shot figcaption span {
+  color: #3a4a41 !important;
+}
+
+/* Excel araçları */
 .tools-hero__lead {
   font-size: 16px !important;
   line-height: 1.65 !important;
@@ -235,9 +351,11 @@ body {
   font-size: 15px !important;
 }
 
+.tools-hero__proof-item span,
 .tools-guide__card p {
   font-size: 14px !important;
   line-height: 1.55 !important;
+  color: #3a4a41 !important;
 }
 
 /* Paket butonları */
