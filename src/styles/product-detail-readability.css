@@ -10,19 +10,34 @@
 
 /* Premium hero: preserve headline scale, repair micro/body copy */
 .product-page .product-hero__eyebrow{font-size:12px!important;line-height:1.35!important}
-.product-page .product-hero__summary{font-size:16px!important;line-height:1.68!important}
-.product-page .product-hero__outputs li{font-size:14.5px!important;line-height:1.5!important}
-.product-page .product-hero__outputs span{font-size:9px!important}
-.product-page .product-hero__price-row strong small{font-size:12px!important}
-.product-page .product-hero__price-row>span{font-size:11.5px!important;line-height:1.45!important}
-.product-page .product-hero__facts b{font-size:10.5px!important;line-height:1.25!important}
-.product-page .product-hero__facts small{font-size:10px!important;line-height:1.35!important}
-.product-page .product-hero__window-bar b{font-size:9px!important;line-height:1.2!important}
-.product-page .product-hero__visual>a{font-size:10.5px!important;line-height:1.4!important}
-.product-page .product-hero__decision-head p{font-size:10px!important;line-height:1.25!important}
-.product-page .product-hero__decision-head>span{font-size:12.5px!important;line-height:1.5!important}
-.product-page .product-hero__trust b{font-size:10px!important}
-.product-page .product-hero__trust small{font-size:11.5px!important;line-height:1.4!important}
+.product-page .product-hero__summary{font-size:16px!important;line-height:1.68!important;color:#3a4a41!important}
+.product-page .product-hero__outputs li{font-size:14.5px!important;line-height:1.5!important;color:#2f3f36!important}
+.product-page .product-hero__outputs span{font-size:11px!important}
+.product-page .product-hero__price-row strong small{font-size:13px!important}
+.product-page .product-hero__price-row>span{font-size:14px!important;line-height:1.45!important;color:#3a4a41!important}
+.product-page .product-hero__facts b{font-size:13px!important;line-height:1.25!important;color:#1a5435!important}
+.product-page .product-hero__facts small{font-size:12px!important;line-height:1.35!important;color:#44554c!important}
+.product-page .product-hero__window-bar b{font-size:11px!important;line-height:1.2!important;color:#2f3f36!important}
+.product-page .product-hero__visual>a{font-size:13px!important;line-height:1.4!important}
+.product-page .product-hero__decision-head p{font-size:12px!important;line-height:1.25!important;color:#0b7440!important}
+.product-page .product-hero__decision-head h2{font-size:clamp(24px,2.6vw,30px)!important}
+.product-page .product-hero__decision-head>span{font-size:14px!important;line-height:1.5!important;color:#3a4a41!important}
+.product-page .product-hero__trust{min-height:52px!important}
+.product-page .product-hero__trust span{min-height:52px!important;padding:0 14px!important;background:#fff!important}
+.product-page .product-hero__trust b{font-size:13px!important;font-weight:800!important}
+.product-page .product-hero__trust small{font-size:14px!important;line-height:1.4!important;color:#3a4a41!important;font-weight:500!important}
+
+/* Font tutarlılığı — mobil system-font override'ını kır */
+.product-page .product-hero h1,
+.product-page .product-hero__summary,
+.product-page .product-hero__decision-head h2,
+.product-page .product-hero__mobile-proof-link,
+.product-page .checkout-card h2,
+.product-page .demo-card h2,
+.product-page .checkout-card__form>button,
+.product-page .demo-card__form>button{
+  font-family:var(--font-body)!important;
+}
 
 /* Input/output flow */
 .product-page .io-card>span{font-size:10.5px!important;line-height:1.25!important}
@@ -46,33 +61,65 @@
 .product-page #sss details>p{font-size:14px!important;line-height:1.65!important}
 .product-page #sss summary .mono-xs{font-size:10px!important;line-height:1.35!important}
 
-/* Checkout: critical transactional copy must never be micro-text. */
-.product-page .checkout-card__kicker{font-size:10.5px!important;line-height:1.3!important}
-.product-page .checkout-card__price small{font-size:12px!important}
-.product-page .checkout-card__lead{font-size:13.5px!important;line-height:1.6!important}
-.product-page .checkout-card__form label span{font-size:12px!important;line-height:1.4!important}
-.product-page .checkout-card input{font-size:14px!important}
+/* Checkout + Demo: aynı tipografi/kontrast/buton yüksekliği sözleşmesi */
+.product-page .checkout-card,
+.product-page .demo-card{
+  background:#fff!important;
+  border-color:#c5d4cb!important;
+  box-shadow:0 12px 30px rgba(21,70,44,.06)!important;
+}
+.product-page .checkout-card__kicker,
+.product-page .demo-card__kicker{font-size:12px!important;line-height:1.3!important;color:#0b7440!important}
+.product-page .checkout-card__price small{font-size:14px!important}
+.product-page .demo-card__badge{font-size:12px!important;color:#0b7440!important;border-color:#c5d4cb!important}
+.product-page .checkout-card__lead,
+.product-page .demo-card__lead{font-size:15px!important;line-height:1.6!important;color:#3a4a41!important}
+.product-page .checkout-card__form label span,
+.product-page .demo-card__email>span{font-size:13px!important;line-height:1.4!important;color:#2f3f36!important}
+.product-page .checkout-card input,
+.product-page .demo-card input[type="email"]{
+  font-size:15px!important;
+  min-height:48px!important;
+  color:#16261d!important;
+}
+.product-page .checkout-card input::placeholder,
+.product-page .demo-card input::placeholder{color:#66766d!important;opacity:1!important}
 .product-page .checkout-card__form>button,
-.product-page .checkout-card__progress-actions button{font-size:15px!important;line-height:1.25!important}
-.product-page .checkout-card__microcopy{font-size:10.5px!important;line-height:1.4!important;flex-wrap:wrap}
-.product-page .checkout-card__hint{font-size:11.5px!important;line-height:1.55!important}
-.product-page .checkout-card__status{font-size:13px!important;line-height:1.45!important}
-.product-page .checkout-card__detail{font-size:11.5px!important;line-height:1.55!important}
-.product-page .checkout-card__progress-actions a{font-size:12px!important;line-height:1.4!important}
-.product-page .checkout-card summary{font-size:11.5px!important;line-height:1.45!important}
-.product-page .checkout-card details button{font-size:12px!important}
-.product-page .checkout-card__unavailable{font-size:13px!important;line-height:1.55!important}
-
-/* Demo: same transactional readability floor as checkout. */
-.product-page .demo-card__kicker{font-size:10.5px!important;line-height:1.3!important}
-.product-page .demo-card__badge{font-size:10px!important}
-.product-page .demo-card__lead{font-size:13.5px!important;line-height:1.6!important}
-.product-page .demo-card__email>span{font-size:12px!important;line-height:1.4!important}
-.product-page .demo-card input[type="email"]{font-size:14px!important}
-.product-page .demo-card__form>button{font-size:15px!important;line-height:1.25!important}
-.product-page .demo-card__terms{font-size:11.5px!important;line-height:1.55!important}
-.product-page .demo-card__microcopy{font-size:10.5px!important;line-height:1.4!important;flex-wrap:wrap}
-.product-page .demo-card__status{font-size:11.5px!important;line-height:1.55!important}
+.product-page .checkout-card__progress-actions button,
+.product-page .demo-card__form>button{
+  font-family:var(--font-body)!important;
+  font-size:15px!important;
+  font-weight:700!important;
+  line-height:1.25!important;
+  min-height:48px!important;
+  padding:0 18px!important;
+  border-radius:11px!important;
+}
+/* Primary: satın al — dolu yeşil */
+.product-page .checkout-card__form>button,
+.product-page .checkout-card__progress-actions button{
+  border:1px solid #0b743f!important;
+  background:#0b743f!important;
+  color:#fff!important;
+}
+/* Secondary: demo — aynı ölçü, outline (bilinçli hiyerarşi) */
+.product-page .demo-card__form>button{
+  border:2px solid #0b743f!important;
+  background:#fff!important;
+  color:#0b743f!important;
+}
+.product-page .demo-card__form>button:hover{background:#edf7f1!important}
+.product-page .checkout-card__microcopy,
+.product-page .demo-card__microcopy{font-size:13px!important;line-height:1.45!important;flex-wrap:wrap;color:#44554c!important;font-family:var(--font-body)!important;font-weight:600!important}
+.product-page .checkout-card__hint{font-size:13.5px!important;line-height:1.6!important;color:#3a4a41!important}
+.product-page .checkout-card__status{font-size:14px!important;line-height:1.45!important}
+.product-page .checkout-card__detail{font-size:13px!important;line-height:1.55!important;color:#3a4a41!important}
+.product-page .checkout-card__progress-actions a{font-size:14px!important;line-height:1.4!important}
+.product-page .checkout-card summary{font-size:13px!important;line-height:1.45!important;color:#3a4a41!important}
+.product-page .checkout-card details button{font-size:14px!important;min-height:44px!important}
+.product-page .checkout-card__unavailable{font-size:14px!important;line-height:1.55!important}
+.product-page .demo-card__terms{font-size:13.5px!important;line-height:1.55!important;color:#3a4a41!important}
+.product-page .demo-card__status{font-size:13.5px!important;line-height:1.55!important;color:#3a4a41!important}
 
 /* Author proof block, only on template detail pages through parent scope. */
 .product-page .yazar-kutusu__etiket{font-size:10px!important;line-height:1.3!important}
@@ -101,25 +148,27 @@
 
 @media(max-width:900px){
   .product-page .section-head>p{font-size:14.5px!important}
-  .product-page .product-hero__decision-head>span{font-size:12px!important}
+  .product-page .product-hero__decision-head>span{font-size:14px!important}
 }
 
 @media(max-width:620px){
   .product-page .section-head>p{font-size:14px!important;line-height:1.65!important}
-  .product-page .product-hero__summary{font-size:14.5px!important;line-height:1.65!important}
-  .product-page .product-hero__mobile-proof-link{font-size:11.5px!important;line-height:1.4!important}
-  .product-page .product-hero__outputs li{font-size:13.5px!important}
-  .product-page .product-hero__facts b{font-size:10px!important}
-  .product-page .product-hero__facts small{font-size:9.5px!important}
-  .product-page .product-hero__decision-head>span{font-size:12px!important}
-  .product-page .product-hero__trust small{font-size:11.5px!important}
+  .product-page .product-hero__summary{font-size:15px!important;line-height:1.65!important}
+  .product-page .product-hero__mobile-proof-link{font-size:14px!important;line-height:1.4!important}
+  .product-page .product-hero__outputs li{font-size:14px!important}
+  .product-page .product-hero__facts b{font-size:12px!important}
+  .product-page .product-hero__facts small{font-size:12px!important}
+  .product-page .product-hero__decision-head>span{font-size:14px!important}
+  .product-page .product-hero__trust small{font-size:13.5px!important}
   .product-page .io-card li{font-size:13.5px!important}
   .product-page .product-details summary{font-size:13px!important}
   .product-page .requirements-card li{font-size:13.5px!important}
   .product-page .checkout-card__lead,
-  .product-page .demo-card__lead{font-size:13.5px!important}
+  .product-page .demo-card__lead{font-size:14.5px!important}
+  .product-page .checkout-card__hint,
+  .product-page .demo-card__terms{font-size:13px!important}
   .product-page .checkout-card__form>button,
-  .product-page .demo-card__form>button{white-space:normal!important;padding-block:10px!important}
+  .product-page .demo-card__form>button{white-space:normal!important;padding-block:12px!important;font-size:15px!important}
   .product-page .tcard__summary{font-size:14.5px!important}
   .product-page .tcard__benefits li{font-size:14px!important}
 }
