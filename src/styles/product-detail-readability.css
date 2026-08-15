@@ -4,14 +4,14 @@
    copy while preserving the existing hierarchy and responsive layout. */
 
 /* Section hierarchy and explanatory copy */
-.product-page .section-kicker{font-size:11px!important;line-height:1.25!important}
-.product-page .section-head>p{font-size:15px!important;line-height:1.68!important}
-.product-page .section-head>a{font-size:12px!important;line-height:1.45!important}
+.product-page .section-kicker{font-size:12px!important;line-height:1.25!important}
+.product-page .section-head>p{font-size:16px!important;line-height:1.68!important}
+.product-page .section-head>a{font-size:13px!important;line-height:1.45!important}
 
 /* Premium hero: preserve headline scale, repair micro/body copy */
-.product-page .product-hero__eyebrow{font-size:10.5px!important;line-height:1.35!important}
-.product-page .product-hero__summary{font-size:15px!important;line-height:1.68!important}
-.product-page .product-hero__outputs li{font-size:13.5px!important;line-height:1.5!important}
+.product-page .product-hero__eyebrow{font-size:12px!important;line-height:1.35!important}
+.product-page .product-hero__summary{font-size:16px!important;line-height:1.68!important}
+.product-page .product-hero__outputs li{font-size:14.5px!important;line-height:1.5!important}
 .product-page .product-hero__outputs span{font-size:9px!important}
 .product-page .product-hero__price-row strong small{font-size:12px!important}
 .product-page .product-hero__price-row>span{font-size:11.5px!important;line-height:1.45!important}
@@ -53,7 +53,7 @@
 .product-page .checkout-card__form label span{font-size:12px!important;line-height:1.4!important}
 .product-page .checkout-card input{font-size:14px!important}
 .product-page .checkout-card__form>button,
-.product-page .checkout-card__progress-actions button{font-size:12px!important;line-height:1.25!important}
+.product-page .checkout-card__progress-actions button{font-size:15px!important;line-height:1.25!important}
 .product-page .checkout-card__microcopy{font-size:10.5px!important;line-height:1.4!important;flex-wrap:wrap}
 .product-page .checkout-card__hint{font-size:11.5px!important;line-height:1.55!important}
 .product-page .checkout-card__status{font-size:13px!important;line-height:1.45!important}
@@ -69,7 +69,7 @@
 .product-page .demo-card__lead{font-size:13.5px!important;line-height:1.6!important}
 .product-page .demo-card__email>span{font-size:12px!important;line-height:1.4!important}
 .product-page .demo-card input[type="email"]{font-size:14px!important}
-.product-page .demo-card__form>button{font-size:12px!important;line-height:1.25!important}
+.product-page .demo-card__form>button{font-size:15px!important;line-height:1.25!important}
 .product-page .demo-card__terms{font-size:11.5px!important;line-height:1.55!important}
 .product-page .demo-card__microcopy{font-size:10.5px!important;line-height:1.4!important;flex-wrap:wrap}
 .product-page .demo-card__status{font-size:11.5px!important;line-height:1.55!important}
@@ -82,17 +82,18 @@
 
 /* Related product cards shown at the end of product detail pages. */
 .product-page .tcard__preview-label,
-.product-page .tcard__preview-open{font-size:9px!important}
-.product-page .tcard__cat{font-size:10.5px!important}
-.product-page .tcard__ver{font-size:10px!important}
-.product-page .tcard__summary{font-size:13.5px!important;line-height:1.62!important}
-.product-page .tcard__section-label{font-size:9.5px!important;line-height:1.3!important}
-.product-page .tcard__benefits li{font-size:12.5px!important;line-height:1.5!important}
-.product-page .tcard__structure li{font-size:11.5px!important;line-height:1.45!important}
-.product-page .tcard__structure li>b{font-size:9.5px!important}
-.product-page .tcard__meta span{font-size:9.5px!important;line-height:22px!important}
-.product-page .tcard__price small{font-size:10px!important}
-.product-page .tcard__cta{font-size:11.5px!important;line-height:1.25!important}
+.product-page .tcard__preview-open{font-size:12px!important}
+.product-page .tcard__cat{font-size:13px!important}
+.product-page .tcard__ver{font-size:12px!important}
+.product-page .tcard__summary{font-size:15px!important;line-height:1.62!important}
+.product-page .tcard__section-label{font-size:12px!important;line-height:1.3!important}
+.product-page .tcard__benefits li{font-size:14.5px!important;line-height:1.5!important}
+.product-page .tcard__structure li{font-size:13px!important;line-height:1.45!important}
+.product-page .tcard__structure li>b{font-size:11px!important}
+.product-page .tcard__meta span{font-size:12px!important;line-height:28px!important}
+.product-page .tcard__price small{font-size:12px!important}
+.product-page .tcard__cta,
+.product-page .tcard__wp{font-size:15px!important;line-height:1.25!important}
 
 /* Layout safety: typography may grow vertically, never horizontally break grids. */
 .product-page :is(.product-hero__copy,.product-hero__facts span,.io-card,.technical-grid>*,.checkout-card,.demo-card,.tcard){min-width:0}
@@ -119,6 +120,6 @@
   .product-page .demo-card__lead{font-size:13.5px!important}
   .product-page .checkout-card__form>button,
   .product-page .demo-card__form>button{white-space:normal!important;padding-block:10px!important}
-  .product-page .tcard__summary{font-size:13px!important}
-  .product-page .tcard__benefits li{font-size:12.5px!important}
+  .product-page .tcard__summary{font-size:14.5px!important}
+  .product-page .tcard__benefits li{font-size:14px!important}
 }
