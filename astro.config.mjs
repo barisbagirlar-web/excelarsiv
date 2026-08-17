@@ -9,11 +9,9 @@ export default defineConfig({
   site: 'https://excelarsiv.com',
   trailingSlash: 'never',
 
-  // Kritik CSS'i HTML'e gömerek ürün/katalog ilk paint yolundaki ayrı CSS
-  // isteklerini kaldır. Katalog ilk kartı artık ağ bağımsız hafif görsel
-  // kullandığı için önceki ağır-PNG LCP regresyonu bu kombinasyonda yoktur.
+  // Inline CSS denetimde 186KB olarak ölçülüyor; stilleri harici dosyaya çıkar.
   build: {
-    inlineStylesheets: 'always',
+    inlineStylesheets: 'never',
   },
 
   vite: {

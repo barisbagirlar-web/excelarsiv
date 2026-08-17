@@ -121,6 +121,8 @@ const orgLd = JSON.stringify({
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="tr_TR" />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="1200" />
     <meta property="og:image:alt" content="Excel Arşiv — işletmeler için finansal Excel çalışma sistemleri" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={resolvedTitle} />
@@ -130,6 +132,11 @@ const orgLd = JSON.stringify({
     <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt" />
+    <link rel="preload" href="/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-700-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
     <script type="application/ld+json" set:html={orgLd} />
     <slot name="head" />
   </head>

@@ -5,7 +5,7 @@ import type { TemplateViewModel } from '../../lib/templates';
 interface Props { templates: TemplateViewModel[]; }
 const { templates } = Astro.props;
 const money = (value:number) => value.toLocaleString('tr-TR');
-const featured = templates.slice(0,7);
+const featured = templates;
 const accents = ['#0d8a4b','#2563eb','#7c3aed','#f97316','#0f766e','#e5484d','#0891b2'];
 ---
 
@@ -36,7 +36,7 @@ const accents = ['#0d8a4b','#2563eb','#7c3aed','#f97316','#0f766e','#e5484d','#0
             </div>
           </div>
           <a class="premium-card__visual" href={`/sablon/${template.slug}`} aria-label={`${template.name} ürününü incele`}>
-            <CatalogProductVisual slug={template.slug} name={template.name} />
+            <CatalogProductVisual slug={template.slug} name={template.name} compact />
             <span class="premium-card__live">ÜRÜNE ÖZEL EXCEL GÖRSELİ</span>
           </a>
         </article>
