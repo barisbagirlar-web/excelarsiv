@@ -25,6 +25,14 @@ test('katalog ekranı alt yoksa -3.png dosyasını seçer', () => {
   assert.equal(picked?.src, '/screenshots/ornek-3.png');
 });
 
+test('katalog ekranı girdi altını karar havuzundan çıkarır', () => {
+  const picked = pickCatalogScreenshot([
+    { src: '/screenshots/ornek-1.png', alt: 'NAKIT_GIRISLERI — Haftalık nakit girişi girişleri' },
+    { src: '/screenshots/ornek-2.png', alt: 'HAFTALIK_PLAN — Haftalık plan' },
+  ]);
+  assert.equal(picked?.src, '/screenshots/ornek-2.png');
+});
+
 test('katalog ekranı tek karede o kareyi döndürür', () => {
   const picked = pickCatalogScreenshot([{ src: '/screenshots/tek.png', alt: 'Tek sayfa' }]);
   assert.equal(picked?.src, '/screenshots/tek.png');
@@ -73,7 +81,10 @@ test('listeleme ve sızıntı yüzeyleri tek kart bileşenine bağlı', () => {
   assert.equal(/CatalogProductVisual/.test(home), false);
   assert.match(visual, /aspect-ratio:\s*4\s*\/\s*3/);
   assert.match(visual, /object-fit:\s*cover/);
+  assert.match(visual, /object-position:\s*left\s+top/);
+  assert.match(visual, /card__workbook/);
   assert.match(visual, /border-radius:\s*0/);
+  assert.equal(/●\s*Canlı|pv-kpi|product-visual/.test(visual), false);
   assert.match(filter, /data-template-grid-wrap/);
   assert.equal(/wa\.me/.test(tools), false);
   assert.equal(/wa\.me/.test(legacy), false);
