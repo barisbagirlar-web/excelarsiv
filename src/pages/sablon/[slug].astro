@@ -7,8 +7,9 @@ import PreviewGallery from '../../components/PreviewGallery.astro';
 import SheetMapTable from '../../components/SheetMapTable.astro';
 import EligibilityList from '../../components/EligibilityList.astro';
 import FaqAccordion from '../../components/FaqAccordion.astro';
-import TemplateCard from '../../components/catalog/TemplateCard.astro';
+import KatalogUrunKarti from '../../components/catalog/KatalogUrunKarti.astro';
 import CellGrid from '../../components/CellGrid.astro';
+import { toTemplateViewModel } from '../../lib/templates';
 import PurchaseBar from '../../components/PurchaseBar.astro';
 import Notice from '../../components/Notice.astro';
 import ProductHeroPremium from '../../components/product/ProductHeroPremium.astro';
@@ -273,13 +274,7 @@ const jsonLd = {
           </div>
           <CellGrid>
             {related.map((item) => (
-              <TemplateCard
-                slug={item.id}
-                name={item.data.name}
-                summary={item.data.summary}
-                sheetCount={item.data.sheetCount}
-                priceTL={item.data.priceTL}
-              />
+              <KatalogUrunKarti template={toTemplateViewModel(item)} />
             ))}
           </CellGrid>
         </section>

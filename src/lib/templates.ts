@@ -1,5 +1,6 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { getCategoryName } from './categories';
+import { pickCatalogScreenshot } from './catalog-screenshot';
+import { getCategoryName, type CategorySlug } from './categories';
 import type { SearchItem } from './search';
 
 export interface TemplateSheetMap {
@@ -12,11 +13,13 @@ export interface TemplatePreview {
   alt: string;
 }
 
+export type ScreenshotFocus = 'result' | 'top' | 'center';
+
 export interface TemplateViewModel {
   slug: string;
   name: string;
   summary: string;
-  categorySlug: string;
+  categorySlug: CategorySlug;
   categoryName: string;
   priceTL: number;
   sheetCount: number;
@@ -25,6 +28,7 @@ export interface TemplateViewModel {
   sheetMap?: TemplateSheetMap[];
   outputs?: string[];
   preview?: TemplatePreview;
+  screenshotFocus: ScreenshotFocus;
   url: string;
 }
 
@@ -44,7 +48,8 @@ export function toTemplateViewModel(entry: TemplateEntry): TemplateViewModel {
     fileFormat: data.fileFormat,
     sheetMap: data.sheetMap,
     outputs: data.outputs,
-    preview: data.screenshots[0],
+    preview: pickCatalogScreenshot(data.screenshots),
+    screenshotFocus: 'result',
     url: `/sablon/${entry.id}`,
   };
 }

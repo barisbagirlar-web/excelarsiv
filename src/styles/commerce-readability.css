@@ -6,9 +6,140 @@ body {
   padding: 0;
   background-color: #fff;
   background-image: none;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.625;
 }
 
-/* CTA tutarlılığı: Inter + en az 15px */
+.pkg-page {
+  --pkg-font: var(--font-sans);
+  font-family: var(--font-sans) !important;
+}
+
+/* SKDMHesapla punto ölçeği — https://skdmhesapla.com/ (2026-08-17)
+   h1: 30 / sm 46 / md 48 | h2: 24 / sm 30 | h3: 20 / sm 22
+   gövde: 16 / sm 17–18 | nav: 14 | footer: 13.5 | kicker: 11 */
+main h1,
+.hero-title,
+.product-page .product-hero h1,
+.guide-hero h1,
+.catalog-hero h1,
+.tools-hero h1,
+.pkg-hero h1,
+.pkg-page .pkg-hero h1 {
+  font-family: var(--font-sans) !important;
+  font-size: 30px !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.025em !important;
+  font-weight: 800 !important;
+}
+@media (min-width: 640px) {
+  main h1,
+  .hero-title,
+  .product-page .product-hero h1,
+  .guide-hero h1,
+  .catalog-hero h1,
+  .tools-hero h1,
+  .pkg-hero h1,
+  .pkg-page .pkg-hero h1 {
+    font-size: 46px !important;
+  }
+}
+@media (min-width: 768px) {
+  main h1,
+  .hero-title,
+  .product-page .product-hero h1,
+  .guide-hero h1,
+  .catalog-hero h1,
+  .tools-hero h1,
+  .pkg-hero h1,
+  .pkg-page .pkg-hero h1 {
+    font-size: 48px !important;
+  }
+}
+
+main h2,
+.section-head h2,
+.premium-showcase__head h2,
+.product-stage__head h2,
+.workbook-lab__head h2,
+.category-atlas__head h2,
+.before-after__head h2,
+.process-story__intro h2,
+.purchase-band__head h2,
+.command-center h2,
+.premium-close h2,
+.consent-card h2 {
+  font-family: var(--font-sans) !important;
+  font-size: 24px !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.02em !important;
+  font-weight: 700 !important;
+}
+@media (min-width: 640px) {
+  main h2,
+  .section-head h2,
+  .premium-showcase__head h2,
+  .product-stage__head h2,
+  .workbook-lab__head h2,
+  .category-atlas__head h2,
+  .before-after__head h2,
+  .process-story__intro h2,
+  .purchase-band__head h2,
+  .command-center h2,
+  .premium-close h2,
+  .consent-card h2 {
+    font-size: 30px !important;
+  }
+}
+
+main h3,
+.atlas-card h3,
+.focal-product h3,
+.process-story__content h3 {
+  font-family: var(--font-sans) !important;
+  font-size: 20px !important;
+  line-height: 1.25 !important;
+  font-weight: 700 !important;
+}
+@media (min-width: 640px) {
+  main h3,
+  .atlas-card h3,
+  .focal-product h3,
+  .process-story__content h3 {
+    font-size: 22px !important;
+  }
+}
+
+main > section p,
+.premium-showcase__head p,
+.workbook-lab__head > p,
+.category-atlas__head > p,
+.before-after__head > p,
+.purchase-band__head > p,
+.command-center__lead,
+.premium-close__copy > p,
+.catalog-intro__copy p,
+.tools-hero__lead {
+  font-size: 16px !important;
+  line-height: 1.625 !important;
+}
+@media (min-width: 640px) {
+  main > section p,
+  .premium-showcase__head p,
+  .workbook-lab__head > p,
+  .category-atlas__head > p,
+  .before-after__head > p,
+  .purchase-band__head > p,
+  .command-center__lead,
+  .premium-close__copy > p,
+  .catalog-intro__copy p,
+  .tools-hero__lead {
+    font-size: 18px !important;
+  }
+}
+
+/* CTA tutarlılığı: Manrope + SKDM header 14 / sayfa CTA 18 */
 .site-header__cta,
 .tcard__cta,
 .tcard__wp,
@@ -31,25 +162,58 @@ body {
 .btn-secondary,
 .btn {
   font-family: var(--font-body) !important;
-  font-size: 15px !important;
+  font-size: 14px !important;
   font-weight: 700 !important;
   letter-spacing: -0.01em !important;
 }
 
+.premium-close__primary,
+.pkg-btn {
+  font-size: 18px !important;
+  font-weight: 800 !important;
+}
+@media (min-width: 640px) {
+  .premium-close__primary,
+  .pkg-btn {
+    font-size: 20px !important;
+  }
+}
+
 .site-header__cta {
-  min-height: 46px !important;
+  min-height: 48px !important;
   height: auto !important;
-  padding-inline: 18px !important;
+  padding-inline: 20px !important;
 }
 
 .site-header__link {
-  font-size: 16px !important;
+  font-size: 14px !important;
   font-weight: 600 !important;
 }
 
 .site-header__tagline {
-  font-size: 12px !important;
+  font-size: 11px !important;
   color: var(--xl-ink-2) !important;
+}
+
+.site-footer__heading {
+  font-size: 11px !important;
+  letter-spacing: 0.18em !important;
+  font-weight: 700 !important;
+}
+
+.site-footer__col a,
+.site-footer__legal a {
+  font-size: 13.5px !important;
+}
+
+.site-footer__desc {
+  font-size: 14px !important;
+  line-height: 1.625 !important;
+}
+
+.site-footer__copy,
+.site-footer__signals {
+  font-size: 12px !important;
 }
 
 .announcement-bar {
@@ -71,7 +235,7 @@ body {
 
 .consent-card p:not(.consent-kicker) {
   font-size: 16px !important;
-  line-height: 1.65 !important;
+  line-height: 1.625 !important;
   color: #3f4f46 !important;
 }
 
@@ -83,11 +247,10 @@ body {
 /* Premium vitrin */
 .premium-showcase__kicker,
 .premium-showcase__head > a {
-  font-size: 13px !important;
+  font-size: 11px !important;
 }
 
 .premium-showcase__head p {
-  font-size: 17px !important;
   line-height: 1.65 !important;
 }
 
@@ -148,7 +311,6 @@ body {
 }
 
 .catalog-intro__copy p {
-  font-size: 16px !important;
   line-height: 1.6 !important;
 }
 
@@ -338,7 +500,6 @@ body {
 
 /* Excel araçları */
 .tools-hero__lead {
-  font-size: 16px !important;
   line-height: 1.65 !important;
 }
 
@@ -469,5 +630,17 @@ body {
   [class*="hero-"] [class*="mono"] {
     font-size: 12.5px !important;
     line-height: 1.35 !important;
+  }
+
+  .section-head__title {
+    font-size: 30px !important;
+    line-height: 1.2 !important;
+  }
+
+  .premium-showcase__kicker,
+  .section-kicker,
+  .site-footer__heading,
+  .site-header__tagline {
+    font-size: 11px !important;
   }
 }

@@ -1,0 +1,339 @@
+---
+import type { CategorySlug } from '../lib/categories';
+
+export interface Props {
+  title: string;
+  categorySlug: CategorySlug;
+  categoryLabel: string;
+  benefit: string;
+  pageCount: number;
+  format?: string;
+  formulaType?: string;
+  price: string;
+  screenshotUrl: string;
+  screenshotAlt: string;
+  screenshotFocus?: 'result' | 'top' | 'center';
+  detailUrl: string;
+  orderUrl: string;
+  name?: string;
+  summary?: string;
+  priority?: boolean;
+}
+
+const {
+  title,
+  categorySlug,
+  categoryLabel,
+  benefit,
+  pageCount,
+  format = 'XLSX',
+  formulaType = 'Açık Formül',
+  price,
+  screenshotUrl,
+  screenshotAlt,
+  screenshotFocus = 'result',
+  detailUrl,
+  orderUrl,
+  name = title,
+  summary = benefit,
+  priority = false,
+} = Astro.props;
+
+const isMultiPage = pageCount >= 15;
+const orderIsExternal = /^https?:\/\//.test(orderUrl);
+---
+
+<article
+  class="card"
+  data-template-card
+  data-category={categorySlug}
+  data-multipage={isMultiPage}
+  data-name={name}
+  data-category-label={categoryLabel}
+  data-summary={summary}
+  aria-label={title}
+>
+  <a
+    class="card__frame"
+    data-focus={screenshotFocus}
+    href={detailUrl}
+    aria-label={`${title} — demo önizlemesini gör`}
+  >
+    {isMultiPage && <span class="card__stack" aria-hidden="true"></span>}
+    {screenshotUrl ? (
+      <img
+        class="card__screenshot"
+        src={screenshotUrl}
+        alt={screenshotAlt}
+        loading={priority ? 'eager' : 'lazy'}
+        fetchpriority={priority ? 'high' : 'auto'}
+        decoding="async"
+        width="640"
+        height="480"
+      />
+    ) : null}
+    <span class="card__tab">{categoryLabel}</span>
+  </a>
+
+  <div class="card__body">
+    <h3 class="card__title">
+      <a href={detailUrl}>{title}</a>
+    </h3>
+    <p class="card__benefit">{benefit}</p>
+
+    <ul class="card__meta">
+      <li>{pageCount} Sayfa</li>
+      <li>{format}</li>
+      <li>{formulaType}</li>
+    </ul>
+
+    <div class="card__divider" aria-hidden="true"></div>
+
+    <div class="card__footer">
+      <div class="card__price">
+        <span class="card__price-value">{price}</span>
+        <span class="card__price-label">KDV Dahil · Tek Seferlik</span>
+      </div>
+      <div class="card__actions">
+        <a class="card__cta card__cta--ghost" href={detailUrl}>Detay</a>
+        <a
+          class="card__cta card__cta--primary"
+          href={orderUrl}
+          target={orderIsExternal ? '_blank' : undefined}
+          rel={orderIsExternal ? 'noopener noreferrer' : undefined}
+        >{orderIsExternal ? 'Satın Al ↗' : 'Satın Al'}</a>
+      </div>
+    </div>
+  </div>
+</article>
+
+<style>
+  .card {
+    --ea-ink: #1f2420;
+    --ea-paper: #f7f4ec;
+    --ea-paper-raised: #ffffff;
+    --ea-line: #dedac9;
+    --ea-clay: #b85c3a;
+    --ea-clay-dark: #953f26;
+    --ea-mono: var(--font-mono);
+    --ea-display: var(--font-display);
+    --ea-body: var(--font-sans);
+    --accent: #2f6b5e;
+    display: flex;
+    flex-direction: column;
+    background: var(--ea-paper-raised);
+    border: 1px solid var(--ea-line);
+    border-radius: 0;
+    overflow: hidden;
+    font-family: var(--ea-body);
+    color: var(--ea-ink);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .card[data-category='nakit-akisi'] { --accent: #2f6b5e; }
+  .card[data-category='muhasebe-ve-vergi'] { --accent: #7a2e2e; }
+  .card[data-category='personel-ve-bordro'] { --accent: #8a6a2f; }
+  .card[data-category='finansal-analiz'] { --accent: #35424a; }
+  .card[data-category='satis-ve-fiyatlama'] { --accent: #b0512e; }
+  .card[data-category='stok-ve-uretim'] { --accent: #4b5e3a; }
+  .card[data-category='butce-ve-planlama'] { --accent: #40415a; }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(31, 36, 32, 0.08);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card { transition: none; }
+    .card:hover { transform: none; }
+  }
+
+  .card__frame {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 3;
+    background: var(--ea-paper);
+    border-bottom: 1px solid var(--ea-line);
+    overflow: hidden;
+  }
+
+  .card__frame:focus-visible {
+    outline: 2px solid var(--ea-clay);
+    outline-offset: 2px;
+  }
+
+  .card__screenshot {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .card__frame[data-focus='result'] .card__screenshot { object-position: bottom center; }
+  .card__frame[data-focus='top'] .card__screenshot { object-position: top center; }
+  .card__frame[data-focus='center'] .card__screenshot { object-position: center; }
+
+  .card__stack {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 10px;
+    z-index: 1;
+    background:
+      linear-gradient(to right,
+        transparent 0%, transparent 40%,
+        var(--ea-line) 40%, var(--ea-line) 55%,
+        transparent 55%, transparent 70%,
+        var(--ea-line) 70%, var(--ea-line) 85%,
+        transparent 85%, transparent 100%);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .card__tab {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    background: var(--accent);
+    color: var(--ea-paper);
+    font-family: var(--ea-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.375rem 0.625rem 0.375rem 0.875rem;
+    clip-path: polygon(14px 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem 1.125rem 1.125rem;
+    flex: 1;
+  }
+
+  .card__title {
+    font-family: var(--ea-display);
+    font-size: 1.0625rem;
+    line-height: 1.3;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .card__title a {
+    color: var(--ea-ink);
+    text-decoration: none;
+  }
+
+  .card__title a:hover,
+  .card__title a:focus-visible {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+  }
+
+  .card__benefit {
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: #4b544c;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    list-style: none;
+    margin: 0.25rem 0 0;
+    padding: 0;
+  }
+
+  .card__meta li {
+    font-family: var(--ea-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.02em;
+    color: var(--ea-ink);
+    background: var(--ea-paper);
+    border: 1px solid var(--ea-line);
+    padding: 0.1875rem 0.5rem;
+  }
+
+  .card__divider {
+    height: 1px;
+    background: var(--ea-line);
+    margin: 0.5rem 0;
+  }
+
+  .card__footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: auto;
+  }
+
+  .card__price {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .card__price-value {
+    font-family: var(--ea-mono);
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--ea-ink);
+  }
+
+  .card__price-label {
+    font-size: 0.6875rem;
+    color: #7a8179;
+  }
+
+  .card__actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .card__cta {
+    font-family: var(--ea-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+
+  .card__cta--primary {
+    background: var(--ea-clay);
+    color: var(--ea-paper);
+  }
+
+  .card__cta--primary:hover,
+  .card__cta--primary:focus-visible {
+    background: var(--ea-clay-dark);
+  }
+
+  .card__cta--ghost {
+    border-color: var(--ea-line);
+    color: var(--ea-ink);
+  }
+
+  .card__cta--ghost:hover,
+  .card__cta--ghost:focus-visible {
+    border-color: var(--ea-ink);
+  }
+
+  .card__cta:focus-visible {
+    outline: 2px solid var(--ea-clay);
+    outline-offset: 2px;
+  }
+</style>

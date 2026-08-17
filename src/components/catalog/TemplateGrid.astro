@@ -1,5 +1,5 @@
 ---
-import TemplateCard from './TemplateCard.astro';
+import KatalogUrunKarti from './KatalogUrunKarti.astro';
 import type { TemplateViewModel } from '../../lib/templates';
 
 interface Props {
@@ -9,26 +9,12 @@ interface Props {
 const { templates } = Astro.props;
 ---
 
-<div class="template-grid-wrap">
+<div class="template-grid-wrap" data-template-grid-wrap>
   <ul class="template-grid" data-template-grid>
     {
       templates.map((template, index) => (
         <li data-template-item data-priority={index === 0 ? 'true' : undefined}>
-          <TemplateCard
-            slug={template.slug}
-            name={template.name}
-            summary={template.summary}
-            sheetCount={template.sheetCount}
-            priceTL={template.priceTL}
-            category={template.categoryName}
-            categorySlug={template.categorySlug}
-            version={template.version}
-            fileFormat={template.fileFormat}
-            sheetMap={template.sheetMap}
-            outputs={template.outputs}
-            preview={template.preview}
-            priority={index === 0}
-          />
+          <KatalogUrunKarti template={template} priority={index === 0} />
         </li>
       ))
     }
@@ -57,7 +43,7 @@ const { templates } = Astro.props;
      style/layout/paint until they approach the viewport. */
   .template-grid li:not([data-priority='true']) {
     content-visibility: auto;
-    contain-intrinsic-size: 440px;
+    contain-intrinsic-size: 560px;
   }
   .template-grid li[hidden] { display: none; }
   @media (max-width: 1080px) {
@@ -65,7 +51,7 @@ const { templates } = Astro.props;
   }
   @media (max-width: 680px) {
     .template-grid { grid-template-columns: 1fr; gap: 14px; }
-    .template-grid li:not([data-priority='true']) { contain-intrinsic-size: 520px; }
+    .template-grid li:not([data-priority='true']) { contain-intrinsic-size: 640px; }
   }
   :global(.empty-state) {
     display: flex;
