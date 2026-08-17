@@ -16,7 +16,7 @@ const categoryCounts = Object.fromEntries(
 );
 
 const pageTitle = "Excel Hesaplama ve Yönetim Araçları — Dr. Fin & Excel Arşiv";
-const pageDescription = "Finans, nakit akışı, cari hesap, stok ve borç yönetimi için kullanıma hazır premium Excel karar sistemleri. WhatsApp ile anında sipariş verin.";
+const pageDescription = "Finans, nakit akışı, cari hesap, stok ve borç yönetimi için kullanıma hazır premium Excel karar sistemleri. Shopier ile güvenli ödeme.";
 
 const catalogLd = JSON.stringify({
   '@context': 'https://schema.org',
@@ -51,9 +51,6 @@ const catalogBreadcrumbLd = JSON.stringify({
     { '@type': 'ListItem', position: 2, name: 'Excel Araçları', item: new URL('/excel-araclari', Astro.site).toString() },
   ],
 });
-
-const waGeneralMsg = encodeURIComponent("Merhaba, Dr. Fin / Excel Arşiv hesaplama araçları hakkında detaylı bilgi ve tavsiye almak istiyorum.");
-const waGeneralUrl = `https://wa.me/905393333303?text=${waGeneralMsg}`;
 ---
 
 <CommerceLayout title={pageTitle} description={pageDescription}>
@@ -68,7 +65,7 @@ const waGeneralUrl = `https://wa.me/905393333303?text=${waGeneralMsg}`;
       <div class="tools-hero__copy">
         <span class="tools-hero__eyebrow">DR. FİN & EXCEL ARŞİV · PREMIUM SİSTEMLER</span>
         <h1 id="tools-title">Finansal Excel Karar ve Hesaplama Araçları</h1>
-        <p>KOBİ'ler, mali müşavirler ve finans yöneticileri için tamamen formüllü, kullanıma hazır Excel karar mekanizmaları. WhatsApp hattımız üzerinden anında bilgi alabilir ve sipariş verebilirsiniz.</p>
+        <p>KOBİ'ler, mali müşavirler ve finans yöneticileri için tamamen formüllü, kullanıma hazır Excel karar mekanizmaları. Ödeme Shopier altyapısıyla güvenli şekilde tamamlanır.</p>
       </div>
 
       <div class="tools-hero__proof" aria-label="Katalog özet bilgileri">
@@ -86,14 +83,6 @@ const waGeneralUrl = `https://wa.me/905393333303?text=${waGeneralMsg}`;
             <span>Başlayan Fiyat</span>
           </div>
         )}
-        <div class="tools-hero__proof-item tools-hero__proof-wp">
-          <a href={waGeneralUrl} target="_blank" rel="noopener noreferrer" class="tools-hero__wp-pill">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
-              <path d="M12.012 2c-5.508 0-9.987 4.479-9.987 9.987 0 1.763.459 3.484 1.332 5.003L2 22l5.127-1.341a9.96 9.96 0 0 0 4.885 1.328h.004c5.508 0 9.987-4.479 9.987-9.987 0-2.668-1.039-5.176-2.926-7.063A9.923 9.923 0 0 0 12.012 2zm5.727 14.129c-.237.667-1.378 1.282-1.905 1.345-.487.058-1.121.082-3.642-.958-3.08-1.272-5.06-4.421-5.213-4.624-.153-.203-1.246-1.657-1.246-3.161 0-1.504.787-2.245 1.066-2.548.279-.303.61-.379.813-.379.203 0 .407.002.585.011.188.009.442-.07.69.525.254.61.864 2.11.94 2.263.076.153.127.33.025.534-.102.203-.153.33-.305.508-.153.178-.32.398-.458.534-.153.153-.313.319-.136.624.178.305.792 1.307 1.7 2.117 1.168 1.042 2.153 1.365 2.458 1.518.305.153.483.127.661-.076.178-.203.762-.89 0.966-1.195.203-.305.407-.254.686-.153.279.102 1.779.84 2.084.992.305.153.508.229.585.356.076.127.076.737-.161 1.404z"/>
-            </svg>
-            WhatsApp Danışma Hattı
-          </a>
-        </div>
       </div>
     </div>
   </section>
@@ -127,8 +116,8 @@ const waGeneralUrl = `https://wa.me/905393333303?text=${waGeneralMsg}`;
         <div class="tools-guide__card">
           <span class="tools-guide__num">01</span>
           <div>
-            <strong>WhatsApp ile Anında İletişim</strong>
-            <p>İlgilendiğiniz aracın butonuna tıklayarak doğrudan WhatsApp üzerinden Barış Bağırlar ile iletişime geçebilirsiniz.</p>
+            <strong>Shopier ile güvenli ödeme</strong>
+            <p>Satın Al, ürünün Shopier ödeme sayfasını açar. Fiyat KDV dahildir; teslimat e-posta ile yapılır.</p>
           </div>
         </div>
         <div class="tools-guide__card">
@@ -141,21 +130,14 @@ const waGeneralUrl = `https://wa.me/905393333303?text=${waGeneralMsg}`;
         <div class="tools-guide__card">
           <span class="tools-guide__num">03</span>
           <div>
-            <strong>Anında E-Posta & WhatsApp Teslimatı</strong>
-            <p>Sipariş sonrası .xlsx dosyası ve kullanım kılavuzu anında doğrudan tarafınıza iletilir.</p>
+            <strong>E-posta ile dijital teslimat</strong>
+            <p>Sipariş sonrası .xlsx dosyası kullanım kılavuzuyla birlikte e-posta üzerinden iletilir.</p>
           </div>
         </div>
       </aside>
     </div>
   </section>
 
-  <!-- Sticky WhatsApp Widget -->
-  <a href={waGeneralUrl} target="_blank" rel="noopener noreferrer" class="sticky-wa-btn" title="WhatsApp Danışma Hattı">
-    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-      <path d="M12.012 2c-5.508 0-9.987 4.479-9.987 9.987 0 1.763.459 3.484 1.332 5.003L2 22l5.127-1.341a9.96 9.96 0 0 0 4.885 1.328h.004c5.508 0 9.987-4.479 9.987-9.987 0-2.668-1.039-5.176-2.926-7.063A9.923 9.923 0 0 0 12.012 2zm5.727 14.129c-.237.667-1.378 1.282-1.905 1.345-.487.058-1.121.082-3.642-.958-3.08-1.272-5.06-4.421-5.213-4.624-.153-.203-1.246-1.657-1.246-3.161 0-1.504.787-2.245 1.066-2.548.279-.303.61-.379.813-.379.203 0 .407.002.585.011.188.009.442-.07.69.525.254.61.864 2.11.94 2.263.076.153.127.33.025.534-.102.203-.153.33-.305.508-.153.178-.32.398-.458.534-.153.153-.313.319-.136.624.178.305.792 1.307 1.7 2.117 1.168 1.042 2.153 1.365 2.458 1.518.305.153.483.127.661-.076.178-.203.762-.89 0.966-1.195.203-.305.407-.254.686-.153.279.102 1.779.84 2.084.992.305.153.508.229.585.356.076.127.076.737-.161 1.404z"/>
-    </svg>
-    <span>WhatsApp Sipariş</span>
-  </a>
 </CommerceLayout>
 
 <style>
@@ -219,23 +201,6 @@ const waGeneralUrl = `https://wa.me/905393333303?text=${waGeneralMsg}`;
     font-size: 9px;
     color: #64756b;
     margin-top: 2px;
-  }
-  .tools-hero__wp-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 12px;
-    border-radius: 10px;
-    background: #25d366;
-    color: #ffffff;
-    font-family: var(--font-body);
-    font-size: 15px;
-    font-weight: 700;
-    text-decoration: none;
-    box-shadow: 0 6px 16px rgba(37, 211, 102, 0.22);
-  }
-  .tools-hero__wp-pill:hover {
-    background: #20bd5a;
   }
 
   .catalog-section {
@@ -332,30 +297,6 @@ const waGeneralUrl = `https://wa.me/905393333303?text=${waGeneralMsg}`;
   .tools-guide__card strong { display: block; font-size: 13px; color: #0e1e14; }
   .tools-guide__card p { margin: 4px 0 0; font-size: 11.5px; line-height: 1.5; color: #526358; }
 
-  .sticky-wa-btn {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 99;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 20px;
-    border-radius: 999px;
-    background: #25d366;
-    color: #ffffff;
-    font-family: var(--font-body);
-    font-size: 14px;
-    font-weight: 700;
-    text-decoration: none;
-    box-shadow: 0 10px 28px rgba(37, 211, 102, 0.35);
-    transition: transform 200ms ease-out, background 200ms ease-out;
-  }
-  .sticky-wa-btn:hover {
-    background: #20bd5a;
-    transform: scale(1.04);
-  }
-
   @media (max-width: 900px) {
     .tools-hero__inner { grid-template-columns: 1fr; gap: 20px; }
     .tools-guide { grid-template-columns: 1fr; }
@@ -364,7 +305,5 @@ const waGeneralUrl = `https://wa.me/905393333303?text=${waGeneralMsg}`;
     .tools-hero h1 { font-size: 30px; }
     .tools-hero__proof { flex-wrap: wrap; }
     .tools-hero__proof-item { border-right: 0; }
-    .sticky-wa-btn span { display: none; }
-    .sticky-wa-btn { padding: 14px; }
   }
 </style>

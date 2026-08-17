@@ -1,6 +1,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { pickCatalogScreenshot } from './catalog-screenshot';
 import { getCategoryName, type CategorySlug } from './categories';
+import { shopierUrlForPrice } from './shopier';
 import type { SearchItem } from './search';
 
 export interface TemplateSheetMap {
@@ -30,6 +31,7 @@ export interface TemplateViewModel {
   preview?: TemplatePreview;
   screenshotFocus: ScreenshotFocus;
   url: string;
+  shopierUrl: string;
 }
 
 export type TemplateEntry = CollectionEntry<'templates'>;
@@ -51,6 +53,7 @@ export function toTemplateViewModel(entry: TemplateEntry): TemplateViewModel {
     preview: pickCatalogScreenshot(data.screenshots),
     screenshotFocus: 'result',
     url: `/sablon/${entry.id}`,
+    shopierUrl: shopierUrlForPrice(data.priceTL),
   };
 }
 

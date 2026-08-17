@@ -100,7 +100,7 @@ const orderIsExternal = /^https?:\/\//.test(orderUrl);
           class="card__cta card__cta--primary"
           href={orderUrl}
           target={orderIsExternal ? '_blank' : undefined}
-          rel={orderIsExternal ? 'noopener noreferrer' : undefined}
+          rel={orderIsExternal ? 'noopener noreferrer sponsored' : undefined}
         >{orderIsExternal ? 'Satın Al ↗' : 'Satın Al'}</a>
       </div>
     </div>

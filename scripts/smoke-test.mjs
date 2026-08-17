@@ -37,6 +37,9 @@ for (const page of pages) {
   if (!/<main[\s>]/.test(html)) {
     failures.push(`${page}: <main> eksik`);
   }
+  if (html.includes('wa.me')) {
+    failures.push(`${page}: WhatsApp sipariş linki yasak`);
+  }
 
   // Kırık iç link kontrolü: yalnızca kök-relative href'ler (dış linkler hariç).
   // Query string (?q=...) ve fragment (#...) yolun parçası değildir.
@@ -86,8 +89,8 @@ for (const page of pages) {
     }
     for (const match of orders) {
       const href = match[1];
-      if (!href.startsWith('/sablon/')) {
-        failures.push(`${page}: Satın Al Shopier ürün sayfasına gitmiyor -> ${href}`);
+      if (!/^https:\/\/www\.shopier\.com\/\d+$/.test(href)) {
+        failures.push(`${page}: Satın Al Shopier ürün linkine gitmiyor -> ${href}`);
       }
     }
     const details = [...html.matchAll(/class="card__cta card__cta--ghost"[^>]*href="([^"]+)"/g)];

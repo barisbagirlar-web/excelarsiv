@@ -56,11 +56,15 @@ test('listeleme ve sızıntı yüzeyleri tek kart bileşenine bağlı', () => {
   const home = readFileSync(resolve(ROOT, 'src/components/home/PremiumFeaturedTemplates.astro'), 'utf8');
   const visual = readFileSync(resolve(ROOT, 'src/components/ProductCard.astro'), 'utf8');
   const filter = readFileSync(resolve(ROOT, 'src/scripts/catalog-filter.ts'), 'utf8');
+  const tools = readFileSync(resolve(ROOT, 'src/pages/excel-araclari.astro'), 'utf8');
+  const legacy = readFileSync(resolve(ROOT, 'src/components/catalog/TemplateCard.astro'), 'utf8');
 
   assert.match(grid, /data-template-grid-wrap/);
   assert.match(grid, /KatalogUrunKarti/);
   assert.equal(/wa\.me/.test(grid), false);
-  assert.match(card, /orderUrl=\{template\.url\}/);
+  assert.match(card, /orderUrl=\{template\.shopierUrl\}/);
+  assert.equal(/wa\.me/.test(card), false);
+  assert.equal(/wa\.me/.test(visual), false);
   assert.match(product, /KatalogUrunKarti/);
   assert.equal(/TemplateCard/.test(product), false);
   assert.match(notFound, /KatalogUrunKarti/);
@@ -71,4 +75,8 @@ test('listeleme ve sızıntı yüzeyleri tek kart bileşenine bağlı', () => {
   assert.match(visual, /object-fit:\s*cover/);
   assert.match(visual, /border-radius:\s*0/);
   assert.match(filter, /data-template-grid-wrap/);
+  assert.equal(/wa\.me/.test(tools), false);
+  assert.equal(/wa\.me/.test(legacy), false);
+  const shopierSrc = readFileSync(resolve(ROOT, 'src/lib/shopier.ts'), 'utf8');
+  assert.match(shopierSrc, /export function shopierUrlForPrice/);
 });
