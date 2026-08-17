@@ -42,9 +42,6 @@ const price = priceTL.toLocaleString('tr-TR');
 const benefitItems = outputs.slice(0, 3);
 const structure = sheetMap.slice(0, 3);
 const kindLabel: Record<string, string> = { input: 'Girdi', calculation: 'Hesap', output: 'Çıktı' };
-
-const waMessage = encodeURIComponent(`Merhaba, ${name} (${price} TL) Excel şablonu hakkında bilgi almak ve sipariş vermek istiyorum.`);
-const waLink = `https://wa.me/905393333303?text=${waMessage}`;
 ---
 
 <article
@@ -112,12 +109,6 @@ const waLink = `https://wa.me/905393333303?text=${waMessage}`;
         <strong>{price} <span>TL</span></strong>
       </div>
       <div class="tcard__actions">
-        <a class="tcard__wp" href={waLink} target="_blank" rel="noopener noreferrer" title="WhatsApp üzerinden hızlı sipariş verin">
-          <svg class="tcard__wp-icon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
-            <path d="M12.012 2c-5.508 0-9.987 4.479-9.987 9.987 0 1.763.459 3.484 1.332 5.003L2 22l5.127-1.341a9.96 9.96 0 0 0 4.885 1.328h.004c5.508 0 9.987-4.479 9.987-9.987 0-2.668-1.039-5.176-2.926-7.063A9.923 9.923 0 0 0 12.012 2zm5.727 14.129c-.237.667-1.378 1.282-1.905 1.345-.487.058-1.121.082-3.642-.958-3.08-1.272-5.06-4.421-5.213-4.624-.153-.203-1.246-1.657-1.246-3.161 0-1.504.787-2.245 1.066-2.548.279-.303.61-.379.813-.379.203 0 .407.002.585.011.188.009.442-.07.69.525.254.61.864 2.11.94 2.263.076.153.127.33.025.534-.102.203-.153.33-.305.508-.153.178-.32.398-.458.534-.153.153-.313.319-.136.624.178.305.792 1.307 1.7 2.117 1.168 1.042 2.153 1.365 2.458 1.518.305.153.483.127.661-.076.178-.203.762-.89 0.966-1.195.203-.305.407-.254.686-.153.279.102 1.779.84 2.084.992.305.153.508.229.585.356.076.127.076.737-.161 1.404z"/>
-          </svg>
-          WP ile Sipariş
-        </a>
         <a class="tcard__cta" href={`/sablon/${slug}`}>Detay →</a>
       </div>
     </div>

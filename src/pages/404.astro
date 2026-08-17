@@ -3,11 +3,12 @@ import CommerceLayout from '../layouts/CommerceLayout.astro';
 import { getCollection } from 'astro:content';
 import Button from '../components/Button.astro';
 import CellGrid from '../components/CellGrid.astro';
-import TemplateCard from '../components/catalog/TemplateCard.astro';
+import KatalogUrunKarti from '../components/catalog/KatalogUrunKarti.astro';
 import Icon from '../components/Icon.astro';
+import { toTemplateViewModel } from '../lib/templates';
 
 const templates = await getCollection('templates');
-const featured = templates.slice(0, 3);
+const featured = templates.slice(0, 3).map(toTemplateViewModel);
 
 // Client-side arama için statik indeks — şablon adı + id
 const searchIndex = templates.map((template) => ({
@@ -92,13 +93,7 @@ const otherErrors = ['#NAME?', '#VALUE!', '#DIV/0!'];
             <CellGrid>
               {
                 featured.map((template) => (
-                  <TemplateCard
-                    slug={template.id}
-                    name={template.data.name}
-                    summary={template.data.summary}
-                    sheetCount={template.data.sheetCount}
-                    priceTL={template.data.priceTL}
-                  />
+                  <KatalogUrunKarti template={template} />
                 ))
               }
             </CellGrid>

@@ -1,0 +1,30 @@
+---
+import ProductCard from '../ProductCard.astro';
+import { catalogScreenshotAlt } from '../../lib/catalog-screenshot';
+import type { TemplateViewModel } from '../../lib/templates';
+
+interface Props {
+  template: TemplateViewModel;
+  priority?: boolean;
+}
+
+const { template, priority = false } = Astro.props;
+---
+
+<ProductCard
+  title={template.name}
+  categorySlug={template.categorySlug}
+  categoryLabel={template.categoryName}
+  benefit={template.summary}
+  pageCount={template.sheetCount}
+  format={(template.fileFormat ?? 'xlsx').toUpperCase()}
+  price={`₺${template.priceTL.toLocaleString('tr-TR')}`}
+  screenshotUrl={template.preview?.src ?? ''}
+  screenshotAlt={catalogScreenshotAlt(template.name)}
+  screenshotFocus={template.screenshotFocus}
+  detailUrl={template.url}
+  orderUrl={template.shopierUrl}
+  name={template.name}
+  summary={template.summary}
+  priority={priority}
+/>

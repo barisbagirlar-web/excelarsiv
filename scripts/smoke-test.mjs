@@ -37,6 +37,9 @@ for (const page of pages) {
   if (!/<main[\s>]/.test(html)) {
     failures.push(`${page}: <main> eksik`);
   }
+  if (html.includes('wa.me')) {
+    failures.push(`${page}: WhatsApp sipariş linki yasak`);
+  }
 
   // Kırık iç link kontrolü: yalnızca kök-relative href'ler (dış linkler hariç).
   // Query string (?q=...) ve fragment (#...) yolun parçası değildir.
@@ -67,6 +70,47 @@ for (const page of pages) {
       new Function(s.body);
     } catch (e) {
       failures.push(`${page}: geçersiz inline JS -> ${e.message}`);
+    }
+  }
+
+  if (html.includes('data-template-grid')) {
+    if (!html.includes('data-template-grid-wrap')) {
+      failures.push(`${page}: filtre boş durumu için data-template-grid-wrap yok`);
+    }
+    const cards = html.match(/<article\b[^>]*\bdata-template-card\b/g)?.length ?? 0;
+    if (cards < 1) failures.push(`${page}: katalog kartı yok`);
+    const fakeVisual = html.match(/product-visual|pv-kpi|●\s*Canlı/g);
+    if (fakeVisual) failures.push(`${page}: sahte KPI/Canlı rozeti -> ${fakeVisual[0]}`);
+    const canli = html.match(/Canlı/g)?.length ?? 0;
+    if (canli > 0) failures.push(`${page}: Gate 2 Canlı=${canli}`);
+    const orders = [...html.matchAll(/class="card__cta card__cta--primary"[^>]*href="([^"]+)"/g)];
+    if (orders.length !== cards) {
+      failures.push(`${page}: Satın Al CTA sayısı ${orders.length}, kart ${cards}`);
+    }
+    for (const match of orders) {
+      const href = match[1];
+      if (!/^https:\/\/www\.shopier\.com\/\d+$/.test(href)) {
+        failures.push(`${page}: Satın Al Shopier ürün linkine gitmiyor -> ${href}`);
+      }
+    }
+    const details = [...html.matchAll(/class="card__cta card__cta--ghost"[^>]*href="([^"]+)"/g)];
+    for (const match of details) {
+      if (!match[1].startsWith('/sablon/')) {
+        failures.push(`${page}: Detay slug'a gitmiyor -> ${match[1]}`);
+      }
+    }
+    const focuses = html.match(/data-focus="result"/g)?.length ?? 0;
+    if (focuses !== cards) {
+      failures.push(`${page}: screenshotFocus=result ${focuses}/${cards}`);
+    }
+  }
+
+  if (page === 'index.html') {
+    if (/product-visual|pv-kpi/.test(html)) {
+      failures.push(`${page}: ana sayfa sahte KPI görseli`);
+    }
+    if (!html.includes('premium-card__shot')) {
+      failures.push(`${page}: ana sayfa gerçek ekran görüntüsü yok`);
     }
   }
 }

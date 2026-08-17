@@ -18,4 +18,12 @@ export function getCommerceProduct(slug: string) {
   return catalog.products[slug as keyof typeof catalog.products] ?? null;
 }
 
+export function shopierUrlForPrice(priceTL: number): string {
+  const matched = getTierForPrice(priceTL);
+  if (!matched) {
+    throw new Error(`SHOPIER_TIER_MISSING:${priceTL}`);
+  }
+  return matched.tier.shopierUrl;
+}
+
 export { catalog as shopierCatalog };
