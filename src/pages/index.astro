@@ -3,28 +3,22 @@ import CommerceLayout from '../layouts/CommerceLayout.astro';
 import HeroSection from '../components/home/HeroSection.astro';
 import TrustStrip from '../components/home/TrustStrip.astro';
 import PremiumFeaturedTemplates from '../components/home/PremiumFeaturedTemplates.astro';
-import CommandCenter from '../components/home/CommandCenter.astro';
-import ProofGallery from '../components/home/ProofGallery.astro';
 import CategorySection from '../components/home/CategorySection.astro';
-import GainSection from '../components/home/GainSection.astro';
 import MoatStrip from '../components/home/MoatStrip.astro';
 import PurchaseProcess from '../components/home/PurchaseProcess.astro';
 import FinalCTA from '../components/home/FinalCTA.astro';
-import ExperienceRail from '../components/home/ExperienceRail.astro';
+import YazarKutusu from '../components/YazarKutusu.astro';
 import { getAllTemplates, getTemplateSearchIndex } from '../lib/templates';
 
 const allTemplates = await getAllTemplates();
-const coreFeaturedTemplates = allTemplates.slice(0, 6);
-const demandPickSlug = 'cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi';
-const demandPick = allTemplates.find((template) => template.slug === demandPickSlug);
-const featuredTemplates = demandPick && !coreFeaturedTemplates.some((template) => template.slug === demandPickSlug)
-  ? [...coreFeaturedTemplates, demandPick]
-  : coreFeaturedTemplates;
+const featuredTemplates = allTemplates.slice(0, 4);
 const searchIndex = await getTemplateSearchIndex();
+const showcaseTitle = 'Her ürün kendi karar ekranıyla gelir.';
 const homeItemListLd = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   '@id': new URL('/#itemlist', Astro.site).toString(),
+  name: showcaseTitle,
   numberOfItems: featuredTemplates.length,
   itemListElement: featuredTemplates.map((template, index) => ({
     '@type': 'ListItem',
@@ -37,33 +31,20 @@ const homeItemListLd = JSON.stringify({
 
 <CommerceLayout
   title="Excel Şablonları ve Finans Yönetim Sistemleri | Excel Arşiv"
-  description="KOBİ'ler için kasa defteri, nakit akış tablosu, cari hesap, stok takip, kârlılık ve maliyet hesaplama Excel şablonları. Gerçek ekranları ve demoları inceleyin."
+  description="KOBİ kasa defteri, nakit akış, cari hesap ve kârlılık Excel şablonları. Demo ile inceleyin."
 >
   <Fragment slot="head">
     <script type="application/ld+json" set:html={homeItemListLd} />
   </Fragment>
   <HeroSection searchIndex={searchIndex} />
   <TrustStrip />
-  <ExperienceRail />
 
   <div id="urunler" data-experience-stage>
     <PremiumFeaturedTemplates templates={featuredTemplates} />
   </div>
 
-  <div id="sistem" data-experience-stage data-mobile-deferred-rich>
-    <CommandCenter />
-  </div>
-
-  <div id="kanit" data-experience-stage data-mobile-deferred-rich>
-    <ProofGallery />
-  </div>
-
   <div id="kategoriler" data-experience-stage>
     <CategorySection />
-  </div>
-
-  <div id="deger" data-experience-stage data-mobile-deferred-rich>
-    <GainSection />
   </div>
 
   <div id="moat" data-experience-stage>
@@ -71,10 +52,11 @@ const homeItemListLd = JSON.stringify({
   </div>
 
   <div id="satin-alma" data-experience-stage>
-    <div data-mobile-deferred-rich>
-      <PurchaseProcess />
-    </div>
+    <PurchaseProcess />
     <FinalCTA />
+    <div class="home-yazar">
+      <YazarKutusu varyant="sablon" />
+    </div>
   </div>
 </CommerceLayout>
 
@@ -85,9 +67,15 @@ const homeItemListLd = JSON.stringify({
     contain-intrinsic-size: auto 760px;
   }
 
+  .home-yazar {
+    width: min(1180px, calc(100% - 48px));
+    margin: 0 auto 72px;
+  }
+
   @media (max-width: 720px) {
-    [data-mobile-deferred-rich] {
-      display: none;
+    .home-yazar {
+      width: calc(100% - 32px);
+      margin-bottom: 48px;
     }
   }
 </style>

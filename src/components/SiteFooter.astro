@@ -1,5 +1,8 @@
 ---
 const year = new Date().getFullYear();
+const sosyalProfiller = [
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/barisbagirlar/' },
+];
 const productLinks = [
   { label: 'Şablonlar', href: '/sablonlar' },
   { label: 'Excel Araçları', href: '/excel-araclari' },
@@ -39,6 +42,15 @@ const trustSignals = ['Shopier güvenli ödeme', 'KDV dahil', 'E-posta teslimat'
       <div class="site-footer__brand">
         <div class="site-footer__logo"><img src="/images/excel-logo.png" alt="Excel Arşiv logosu" width="30" height="28" loading="lazy" /><span>Excel Arşiv</span></div>
         <p class="site-footer__desc">İşletmeler için finans, muhasebe ve operasyon odaklı hazır Excel sistemleri.</p>
+        <ul class="site-footer__social" aria-label="Sosyal profiller">
+          {
+            sosyalProfiller.map((link) => (
+              <li>
+                <a href={link.href} rel="noopener noreferrer" target="_blank">{link.label}</a>
+              </li>
+            ))
+          }
+        </ul>
       </div>
       <nav class="site-footer__col" aria-label="Ürünler">
         <h3 class="site-footer__heading">Ürünler</h3>
@@ -132,10 +144,25 @@ const trustSignals = ['Shopier güvenli ödeme', 'KDV dahil', 'E-posta teslimat'
     line-height: 1.6;
     color: var(--xl-ink-3);
   }
+  .site-footer__social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .site-footer__social a {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--xl-ink-900);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
   .site-footer__heading {
     margin: 0 0 14px;
     font-family: var(--font-mono);
-    font-size: 11px;
+    font-size: 12.5px;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;

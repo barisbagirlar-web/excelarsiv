@@ -1,6 +1,6 @@
 ---
-interface Props { slug: string; name: string; }
-const { slug, name } = Astro.props;
+interface Props { slug: string; name: string; compact?: boolean; }
+const { slug, name, compact = false } = Astro.props;
 
 type Theme = {
   eyebrow: string; sheet: string; labels: [string,string,string,string]; metrics: [string,string,string,string];
@@ -58,11 +58,10 @@ let hash = 0; for (const ch of slug) hash = (hash * 31 + ch.charCodeAt(0)) >>> 0
 const bars = Array.from({ length: 7 });
 ---
 
-<div class={`product-visual pv-family-${config.family}`} style={`--pv-a:${config.accent};--pv-b:${config.accent2};--pv-c:${config.accent3};--pv-d:${config.accent4};--pv-tint:${config.tint}`} aria-label={`${name} ürününe özel Excel önizlemesi`}>
-  <div class="pv-backdrop"></div>
+<div class={`product-visual pv-family-${config.family}${compact ? ' is-compact' : ''}`} style={`--pv-a:${config.accent};--pv-b:${config.accent2};--pv-c:${config.accent3};--pv-d:${config.accent4};--pv-tint:${config.tint}`} aria-label={`${name} ürününe özel Excel önizlemesi`}>
   <div class="pv-card-window">
     <div class="pv-header">
-      <div class="pv-window-dots">
+      <div class="pv-window-dots" aria-hidden="true">
         <span class="dot dot-close"></span>
         <span class="dot dot-min"></span>
         <span class="dot dot-max"></span>
@@ -76,40 +75,41 @@ const bars = Array.from({ length: 7 });
         <div class={`pv-kpi-box pv-kpi-${i}`}>
           <span class="pv-kpi-label">{label}</span>
           <strong class="pv-kpi-val">{config.metrics[i]}</strong>
-          <span class="pv-kpi-trend">{i === 3 ? '● Canlı' : '↑ %' + (14 - i * 3)}</span>
         </div>
       ))}
     </div>
 
-    <div class="pv-body">
-      <div class="pv-chart-card">
-        <div class="pv-chart-top">
-          <span class="pv-sheet-title">{config.sheet} ANALİZİ</span>
-          <span class="pv-live-pill">Otomatik Hesaplama</span>
+    {!compact && (
+      <div class="pv-body">
+        <div class="pv-chart-card">
+          <div class="pv-chart-top">
+            <span class="pv-sheet-title">{config.sheet} ANALİZİ</span>
+            <span class="pv-live-pill">Otomatik Hesaplama</span>
+          </div>
+          <div class="pv-bars-container" aria-hidden="true">
+            {bars.map((_, i) => (
+              <div class="pv-bar-wrapper">
+                <div class="pv-bar-fill" style={`height: ${35 + ((hash >> (i % 7)) % 58)}%; background: ${i % 2 === 0 ? 'var(--pv-a)' : 'var(--pv-b)'}`}></div>
+              </div>
+            ))}
+          </div>
         </div>
-        <div class="pv-bars-container">
-          {bars.map((_, i) => (
-            <div class="pv-bar-wrapper">
-              <div class="pv-bar-fill" style={`height: ${35 + ((hash >> (i % 7)) % 58)}%; background: ${i % 2 === 0 ? 'var(--pv-a)' : 'var(--pv-b)'}`}></div>
-            </div>
-          ))}
-        </div>
-      </div>
 
-      <div class="pv-side-card">
-        <div class="pv-donut-box">
-          <span class="pv-donut-val">{config.metrics[2]}</span>
-          <small>Net Oran</small>
-        </div>
-        <div class="pv-status-chip">
-          <span>{config.labels[3]}</span>
-          <strong>{config.metrics[3]}</strong>
+        <div class="pv-side-card">
+          <div class="pv-donut-box">
+            <span class="pv-donut-val">{config.metrics[2]}</span>
+            <small>Net Oran</small>
+          </div>
+          <div class="pv-status-chip">
+            <span>{config.labels[3]}</span>
+            <strong>{config.metrics[3]}</strong>
+          </div>
         </div>
       </div>
-    </div>
+    )}
 
     <div class="pv-footer-strip">
-      <span class="pv-foot-check">✓ %100 Excel Formül Güvencesi</span>
+      <span class="pv-foot-check">✓ Formül güvencesi</span>
       <span class="pv-foot-brand">EXCEL ARŞİV</span>
     </div>
   </div>
@@ -127,13 +127,8 @@ const bars = Array.from({ length: 7 });
   font-family: var(--font-mono);
   isolation: isolate;
 }
-
-.pv-backdrop {
-  position: absolute;
-  inset: -20px;
-  background: radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--pv-a) 12%, transparent) 0%, transparent 60%);
-  pointer-events: none;
-}
+.product-visual.is-compact { min-height: 168px; padding: 10px; }
+.product-visual.is-compact .pv-kpi-grid { padding-bottom: 10px; }
 
 .pv-card-window {
   display: flex;
@@ -172,7 +167,7 @@ const bars = Array.from({ length: 7 });
   border-radius: 6px;
   background: color-mix(in srgb, var(--pv-a) 14%, #ffffff);
   color: var(--pv-a);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.04em;
 }
@@ -361,7 +356,17 @@ const bars = Array.from({ length: 7 });
 
 @media (max-width: 680px) {
   .product-visual { min-height: 190px; padding: 8px; }
-  .pv-kpi-val { font-size: 10px; }
+  .pv-badge-pill,
+  .pv-title,
+  .pv-kpi-label,
+  .pv-kpi-val,
+  .pv-kpi-trend,
+  .pv-chart-label,
+  .pv-side-label,
+  .pv-sheet,
+  .pv-footer-strip {
+    font-size: 12.5px !important;
+  }
   .pv-body { grid-template-columns: 1fr; }
   .pv-side-card { display: none; }
 }

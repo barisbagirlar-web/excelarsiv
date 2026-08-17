@@ -118,7 +118,7 @@ body {
 }
 
 .premium-card__live {
-  font-size: 11px !important;
+  font-size: 12.5px !important;
 }
 
 /* Katalog intro proof şeridi */
@@ -410,5 +410,64 @@ body {
   .catalog-intro__proof > div {
     min-width: 0 !important;
     flex: 1 1 42%;
+  }
+}
+
+/* Mobil kritik yazı tabanı — denetim: <12px yasak */
+@media (max-width: 720px) {
+  .section-head__kicker,
+  .section-head__link,
+  .premium-showcase__kicker,
+  .premium-card__meta span,
+  .premium-card__meta b,
+  .premium-card__meta i,
+  .premium-card__chips span,
+  .premium-card__live,
+  .site-footer__heading,
+  .site-footer__desc,
+  .site-footer__col a,
+  .site-footer__legal a,
+  .site-footer__signals li,
+  .site-footer__copy,
+  .trust-strip span,
+  .trust-strip small,
+  .mono-xs,
+  .eyebrow,
+  .product-visual,
+  .product-visual .pv-badge-pill,
+  .product-visual .pv-title,
+  .product-visual .pv-kpi-label,
+  .product-visual .pv-kpi-val,
+  .product-visual .pv-kpi-trend,
+  .product-visual .pv-chart-label,
+  .product-visual .pv-side-label,
+  .product-visual .pv-footer,
+  .product-visual .pv-sheet,
+  .consent-card p,
+  .consent-card button,
+  .announcement-bar,
+  .announcement-bar *,
+  .premium-close__kicker,
+  .premium-close__primary,
+  .premium-close__secondary,
+  .premium-close__signals,
+  .premium-close__package li,
+  .package-preview__top,
+  .package-preview__top span,
+  .package-preview__top b,
+  .package-preview__price span,
+  .purchase-band__step span,
+  .purchase-band__step p,
+  .hero-title + *,
+  .hero-copy,
+  .hero-kicker,
+  .hero-proof span,
+  .hero-proof small,
+  .hero-search label,
+  .hero-chip,
+  [class*="hero-"] [class*="kicker"],
+  [class*="hero-"] [class*="mono"] {
+    font-size: 12.5px !important;
+    line-height: 1.35 !important;
   }
 }

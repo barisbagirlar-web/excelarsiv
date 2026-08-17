@@ -28,8 +28,8 @@
   }
 
   .section-head__kicker {
-    font-size: 9px !important;
-    letter-spacing: .1em !important;
+    font-size: 12.5px !important;
+    letter-spacing: .08em !important;
   }
 
   .section-head__title {
@@ -47,7 +47,7 @@
   }
 
   .section-head__link {
-    font-size: 11px !important;
+    font-size: 12.5px !important;
     white-space: nowrap;
   }
 }
