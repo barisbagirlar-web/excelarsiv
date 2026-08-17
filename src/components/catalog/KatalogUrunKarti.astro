@@ -9,6 +9,14 @@ interface Props {
 }
 
 const { template, priority = false } = Astro.props;
+
+const outputTabs = (template.sheetMap ?? [])
+  .filter((sheet) => sheet.kind === 'output')
+  .map((sheet) => sheet.name);
+const sheetTabs = (outputTabs.length > 0
+  ? outputTabs
+  : (template.sheetMap ?? []).map((sheet) => sheet.name)
+).slice(0, 3);
 ---
 
 <ProductCard
@@ -22,6 +30,7 @@ const { template, priority = false } = Astro.props;
   screenshotUrl={template.preview?.src ?? ''}
   screenshotAlt={catalogScreenshotAlt(template.name)}
   screenshotFocus={template.screenshotFocus}
+  sheetTabs={sheetTabs}
   detailUrl={template.url}
   orderUrl={template.shopierUrl}
   name={template.name}
