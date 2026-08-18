@@ -6,10 +6,13 @@
     "node": ">=22.12.0"
   },
   "scripts": {
+    "predev": "node scripts/generate-catalog-covers.mjs",
     "dev": "astro dev",
+    "prebuild": "node scripts/generate-catalog-covers.mjs",
     "build": "npm run guard:source && astro build && npm run seo:generate && npm run seo:validate && npm run seo:test && npm run seo:guard",
     "preview": "astro preview",
     "astro": "astro",
+    "catalog:covers": "node scripts/generate-catalog-covers.mjs",
     "generate": "node scripts/validate-commerce.mjs",
     "validate:commerce": "node scripts/validate-commerce.mjs",
     "guard:source": "node scripts/guard-source-language.mjs",
