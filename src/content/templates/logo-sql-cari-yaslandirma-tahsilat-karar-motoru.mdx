@@ -1,0 +1,106 @@
+---
+name: 'Logo SQL Cari Yaşlandırma & Tahsilat Karar Motoru'
+summary: 'Yalnızca Windows Microsoft 365 Excel için: Logo/SQL cari hareket çıktısını FIFO açık kalem, yaşlandırma ve tahsilat kararına dönüştürür.'
+category: 'muhasebe-ve-vergi'
+priceTL: 7900
+vatIncluded: true
+fileFormat: xlsx
+sizeMB: 0.04
+sheetCount: 13
+hasMacros: false
+minExcelVersion: 'Microsoft 365 Excel Desktop — Windows'
+macCompatible: false
+sheetsCompatibility: none
+version: '1.0.0'
+updatedAt: '2026-08-18'
+sheetMap:
+  - name: 'KAPAK'
+    purpose: 'Ürün kimliği, kapsam ve Windows-only uyarısı'
+    kind: 'output'
+  - name: 'HIZLI_BASLANGIC'
+    purpose: 'Logo/SQL exportundan rapora beş adımlı kullanım akışı'
+    kind: 'output'
+  - name: 'AYARLAR'
+    purpose: 'Rapor tarihi, finansman oranı, risk ve VUK 323 ön-eleme eşikleri'
+    kind: 'input'
+  - name: 'LOGO_HAREKET_GIRIS'
+    purpose: 'Logo veya SQL cari hareket exportu için 5.000 satırlık standart veri alanı'
+    kind: 'input'
+  - name: 'NORMALIZE'
+    purpose: 'Microsoft 365 dinamik dizi tabanlı normalizasyon, FIFO açık kalem ve risk motoru'
+    kind: 'calculation'
+  - name: 'YASLANDIRMA'
+    purpose: 'Vadesi gelmemişten 365+ güne kadar alacak yaşlandırma özeti'
+    kind: 'calculation'
+  - name: 'CARI_OZET'
+    purpose: 'Cari bazında açık alacak, gecikme, ekonomik kayıp ve risk toplulaştırması'
+    kind: 'output'
+  - name: 'TAHSILAT_13H'
+    purpose: '13 haftalık tahsilat planlama senaryosu'
+    kind: 'output'
+  - name: 'VUK323_ON_ELEK'
+    purpose: 'Şüpheli alacak için belge ve koşul bazlı ön-eleme; kesin vergi hükmü üretmez'
+    kind: 'calculation'
+  - name: 'AKSIYON_KUYRUGU'
+    purpose: 'Risk, gecikme ve açık tutara göre ilk 20 tahsilat önceliği'
+    kind: 'output'
+  - name: 'PANO'
+    purpose: 'Açık alacak, yaşlandırma, ekonomik gecikme ve 13 haftalık plan yönetim panosu'
+    kind: 'output'
+  - name: 'KONTROLLER'
+    purpose: 'FIFO, yaşlandırma, veri bütünlüğü ve sıralama mutabakat kapıları'
+    kind: 'calculation'
+  - name: 'KILAVUZ'
+    purpose: 'Veri sözleşmesi, destek sınırları, FIFO ve Windows-only kullanım kuralları'
+    kind: 'output'
+inputs:
+  - 'Logo/SQL cari hareket exportu: cari kodu, işlem tarihi, vade tarihi, borç ve alacak tutarları'
+  - 'Rapor tarihi ve yıllık finansman maliyeti'
+  - 'VUK 323 ön eleği için ticari alacak, dava/icra, yazılı istem/protesto ve teminat bilgileri'
+outputs:
+  - 'FIFO açık kalem ve 7 kovalı cari alacak yaşlandırması'
+  - 'Risk + gecikme + tutar skoruna göre tahsilat aksiyon kuyruğu'
+  - '13 haftalık tahsilat planı ve ekonomik gecikme maliyeti'
+  - 'VUK 323 şüpheli alacak ön eleği ve veri/mutabakat kontrolleri'
+suitableFor:
+  - 'Logo kullanan ve cari hareketlerini Excel/SQL export olarak alabilen muhasebe ekipleri'
+  - 'Finans ve tahsilat ekipleri; açık alacağı müşteri ve belge bazında önceliklendiren işletmeler'
+  - 'Logo verisini değiştirmeden çevrimdışı Excel analizine almak isteyen şirketler'
+notSuitableFor:
+  - 'macOS veya Excel for Mac kullanıcıları — bu ürün desteklenmez; Mac kullanıyorsanız satın almayın'
+  - 'Excel Online, Google Sheets, LibreOffice veya Numbers kullanıcıları'
+  - 'Canlı SQL bağlantısı, Logo veritabanına veri yazma veya otomatik muhasebe fişi bekleyen kullanıcılar'
+requirements:
+  - 'Windows 10 veya Windows 11'
+  - 'Güncel Microsoft 365 Excel Desktop for Windows; LET, FILTER, MAP, HSTACK, TAKE ve SORTBY dinamik dizi işlevleri gerekir'
+  - 'Logo/SQL cari hareket verisini belirtilen 13 kolona export edebilme'
+  - 'Satırlar Cari Kodu → İşlem Tarihi → Sıra No sırasıyla olmalıdır; KONTROLLER aksi durumu KALDI olarak işaretler'
+  - 'Dosya SQL Server şifresi saklamaz ve Logo veritabanına INSERT/UPDATE/DELETE yapmaz'
+updatePolicy: 'Motor ve veri sözleşmesi iyileştirmeleri satın alma tarihinden itibaren 12 ay ücretsizdir; Logo sürümüne özel SQL sorgusu veya kurumsal uyarlama kapsam dışıdır.'
+faq:
+  - question: 'Mac veya Excel for Mac üzerinde çalışır mı?'
+    answer: 'Hayır. Bu ürün bilinçli olarak Windows + Microsoft 365 Excel Desktop için tasarlanmıştır. macOS ve Excel for Mac desteklenmez; Mac kullanıyorsanız satın almayın.'
+  - question: "Dosya Logo SQL Server'a doğrudan bağlanır mı?"
+    answer: 'Hayır. Güvenlik ve sürüm bağımlılığını azaltmak için Logo veya SQL tarafında alınan cari hareket exportunu işler. Dosya SQL parolası saklamaz ve Logo veritabanına hiçbir veri yazmaz.'
+  - question: 'Borç kapama yapmadan açık faturayı nasıl buluyor?'
+    answer: 'Gerçek kapama referansı bulunmayan standart exportta aynı cari içindeki tahsilatlar en eski borca FIFO varsayımıyla dağıtılır. KILAVUZ bu yaklaşımın yönetimsel açık-kalem varsayımı olduğunu açıkça belirtir.'
+  - question: 'Kaç hareket satırı işler?'
+    answer: 'Girdi sözleşmesi 5.000 hareket satırına kadar tanımlıdır. Motor binlerce kopya formül yerine Microsoft 365 dinamik dizi zinciri kullanır.'
+  - question: 'VUK 323 sayfası otomatik olarak karşılık ayır kararı verir mi?'
+    answer: 'Hayır. Yalnızca ADAY, KANIT EKSİK veya KOŞUL SAĞLANMIYOR türü ön-eleme üretir. Vergisel uygulama SMMM/YMM ve güncel mevzuat doğrulaması gerektirir.'
+  - question: 'Dövizli alacağı güncel kurla muhasebe bakiyesine çevirir mi?'
+    answer: 'Hayır. İşlem dövizi ile TL açık bakiyeyi ayrı gösterir; güncel kurla yeniden değerlemeyi muhasebe bakiyesi gibi sunmaz.'
+screenshots:
+  - src: '/screenshots/logo-sql-cari-yaslandirma-tahsilat-karar-motoru-1.svg'
+    alt: 'Logo SQL Cari Yaşlandırma ve Tahsilat Karar Motoru yönetim panosu — açık alacak yaş dağılımı ve 13 haftalık tahsilat planı'
+  - src: '/screenshots/logo-sql-cari-yaslandirma-tahsilat-karar-motoru-2.svg'
+    alt: 'Logo SQL Cari Yaşlandırma ve Tahsilat Karar Motoru yaşlandırma ekranı — açık alacak, pay ve ekonomik gecikme'
+  - src: '/screenshots/logo-sql-cari-yaslandirma-tahsilat-karar-motoru-3.svg'
+    alt: 'Logo SQL Cari Yaşlandırma ve Tahsilat Karar Motoru tahsilat aksiyon kuyruğu — risk ve gecikmeye göre öncelik'
+related:
+  - 'cari-hesap-tahsilat-ve-musteri-risk-takip-sistemi'
+  - '13-haftalik-nakit-akisi-ve-odeme-planlama-sistemi'
+  - 'doviz-acik-pozisyonu-ve-kur-riski-stres-testi'
+---
+
+Windows Microsoft 365 Excel Desktop için tasarlanmış Logo/SQL cari hareket analiz ürünüdür; macOS ve Excel for Mac desteklenmez.

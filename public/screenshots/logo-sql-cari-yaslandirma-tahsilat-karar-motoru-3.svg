@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650" role="img" aria-labelledby="t d">
+  <title id="t">Logo SQL tahsilat aksiyon kuyruğu</title><desc id="d">Risk, gecikme ve açık tutara göre sıralanan ilk tahsilat aksiyonları örnek ekranı.</desc>
+  <rect width="1200" height="650" fill="#f5f8f6"/><rect x="24" y="24" width="1152" height="76" rx="14" fill="#123a2a"/>
+  <text x="54" y="62" font-family="Arial,sans-serif" font-size="26" font-weight="700" fill="#fff">TAHSİLAT AKSİYON KUYRUĞU</text>
+  <text x="54" y="86" font-family="Arial,sans-serif" font-size="14" fill="#d7e5dd">Risk + gecikme + açık tutar skoruna göre ilk 20 öncelik</text>
+  <g font-family="Arial,sans-serif">
+    <rect x="24" y="124" width="1152" height="488" rx="14" fill="#fff" stroke="#dbe5df"/>
+    <rect x="50" y="154" width="1100" height="50" rx="8" fill="#0b7440"/>
+    <g font-size="13" font-weight="700" fill="#fff"><text x="70" y="185">ÖNCELİK</text><text x="180" y="185">CARİ</text><text x="430" y="185">AÇIK ALACAK</text><text x="620" y="185">GECİKME</text><text x="760" y="185">RİSK</text><text x="930" y="185">TAHSİLAT HAFTASI</text></g>
+    <g font-size="14" fill="#33453b">
+      <text x="88" y="242">1</text><text x="180" y="242">Bora Lojistik</text><text x="430" y="242">130.000 ₺</text><text x="620" y="242">126 gün</text><text x="760" y="242" font-weight="700" fill="#a61b1b">KRİTİK</text><text x="972" y="242">2</text>
+      <text x="88" y="298">2</text><text x="180" y="298">Atlas Yapı — FTR-1001</text><text x="430" y="298">125.000 ₺</text><text x="620" y="298">107 gün</text><text x="760" y="298" font-weight="700" fill="#a61b1b">KRİTİK</text><text x="972" y="298">2</text>
+      <text x="88" y="354">3</text><text x="180" y="354">Eksen Makine</text><text x="430" y="354">420.000 ₺</text><text x="620" y="354">0 gün</text><text x="760" y="354" font-weight="700" fill="#a61b1b">KRİTİK</text><text x="972" y="354">5</text>
+      <text x="88" y="410">4</text><text x="180" y="410">Delta Dış Ticaret</text><text x="430" y="410">234.500 ₺</text><text x="620" y="410">78 gün</text><text x="760" y="410" font-weight="700" fill="#b36a00">İZLE</text><text x="972" y="410">2</text>
+      <text x="88" y="466">5</text><text x="180" y="466">Atlas Yapı — FTR-1002</text><text x="430" y="466">185.000 ₺</text><text x="620" y="466">37 gün</text><text x="760" y="466" font-weight="700" fill="#b36a00">İZLE</text><text x="972" y="466">2</text>
+      <text x="88" y="522">6</text><text x="180" y="522">Cem Gıda</text><text x="430" y="522">145.000 ₺</text><text x="620" y="522">18 gün</text><text x="760" y="522" font-weight="700" fill="#0b7440">NORMAL</text><text x="972" y="522">2</text>
+    </g>
+    <g stroke="#e6ede9"><line x1="50" y1="260" x2="1150" y2="260"/><line x1="50" y1="316" x2="1150" y2="316"/><line x1="50" y1="372" x2="1150" y2="372"/><line x1="50" y1="428" x2="1150" y2="428"/><line x1="50" y1="484" x2="1150" y2="484"/><line x1="50" y1="540" x2="1150" y2="540"/></g>
+    <rect x="50" y="558" width="1100" height="32" rx="8" fill="#fff4e5"/><text x="70" y="580" font-size="12" font-weight="700" fill="#8c5300">Not: FIFO eşleştirmesi yönetimsel açık-kalem varsayımıdır; gerçek Logo kapama referansı değildir.</text>
+  </g>
+</svg>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="t d">
+  <title id="t">Logo SQL yaşlandırma yönetim panosu</title><desc id="d">Açık alacak, gecikme, yaş kovaları ve 13 haftalık tahsilat planı örnek ekranı.</desc>
+  <rect width="1200" height="700" fill="#f5f8f6"/><rect x="24" y="24" width="1152" height="76" rx="14" fill="#123a2a"/>
+  <text x="54" y="62" font-family="Arial,sans-serif" font-size="26" font-weight="700" fill="#fff">LOGO SQL CARİ YAŞLANDIRMA — YÖNETİM PANOSU</text>
+  <text x="54" y="86" font-family="Arial,sans-serif" font-size="14" fill="#d7e5dd">Örnek veri · Windows Microsoft 365 Excel · Rapor tarihi 18.08.2026</text>
+  <g font-family="Arial,sans-serif">
+    <g transform="translate(24 122)"><rect width="260" height="104" rx="12" fill="#fff" stroke="#dbe5df"/><text x="22" y="34" font-size="13" fill="#63736a">TOPLAM AÇIK ALACAK</text><text x="22" y="75" font-size="29" font-weight="700" fill="#123a2a">1.239.500 ₺</text></g>
+    <g transform="translate(306 122)"><rect width="260" height="104" rx="12" fill="#fff" stroke="#dbe5df"/><text x="22" y="34" font-size="13" fill="#63736a">VADESİ GEÇMİŞ</text><text x="22" y="75" font-size="29" font-weight="700" fill="#a61b1b">819.500 ₺</text></g>
+    <g transform="translate(588 122)"><rect width="260" height="104" rx="12" fill="#fff" stroke="#dbe5df"/><text x="22" y="34" font-size="13" fill="#63736a">90+ GÜN AÇIK</text><text x="22" y="75" font-size="29" font-weight="700" fill="#a61b1b">255.000 ₺</text></g>
+    <g transform="translate(870 122)"><rect width="306" height="104" rx="12" fill="#fff" stroke="#dbe5df"/><text x="22" y="34" font-size="13" fill="#63736a">EKONOMİK GECİKME</text><text x="22" y="75" font-size="29" font-weight="700" fill="#b36a00">66.165,53 ₺</text></g>
+    <rect x="24" y="252" width="550" height="420" rx="14" fill="#fff" stroke="#dbe5df"/><text x="48" y="288" font-size="18" font-weight="700" fill="#123a2a">Açık Alacak Yaş Dağılımı</text>
+    <g font-size="13" fill="#42534a"><text x="48" y="330">Vadesi Gelmemiş</text><text x="48" y="378">1–30 gün</text><text x="48" y="426">31–60 gün</text><text x="48" y="474">61–90 gün</text><text x="48" y="522">91–180 gün</text><text x="48" y="570">181–365 gün</text><text x="48" y="618">365+ gün</text></g>
+    <g fill="#0b7440"><rect x="185" y="310" width="330" height="25" rx="5"/><rect x="185" y="358" width="114" height="25" rx="5"/><rect x="185" y="406" width="145" height="25" rx="5"/><rect x="185" y="454" width="184" height="25" rx="5"/><rect x="185" y="502" width="200" height="25" rx="5"/></g>
+    <g font-size="12" fill="#123a2a"><text x="523" y="328" text-anchor="end">420.000</text><text x="307" y="376" text-anchor="end">145.000</text><text x="338" y="424" text-anchor="end">185.000</text><text x="377" y="472" text-anchor="end">234.500</text><text x="393" y="520" text-anchor="end">255.000</text></g>
+    <rect x="600" y="252" width="576" height="420" rx="14" fill="#fff" stroke="#dbe5df"/><text x="624" y="288" font-size="18" font-weight="700" fill="#123a2a">13 Haftalık Tahsilat Planı</text>
+    <line x1="646" y1="600" x2="1138" y2="600" stroke="#aab8b0"/><line x1="646" y1="330" x2="646" y2="600" stroke="#aab8b0"/>
+    <polyline points="646,600 684,335 722,600 760,600 798,464 836,600 874,600 912,600 950,600 988,600 1026,600 1064,600 1102,600" fill="none" stroke="#0b7440" stroke-width="5"/>
+    <g fill="#0b7440"><circle cx="684" cy="335" r="7"/><circle cx="798" cy="464" r="7"/></g>
+    <text x="684" y="319" font-size="12" text-anchor="middle" fill="#123a2a">819.500 ₺</text><text x="798" y="448" font-size="12" text-anchor="middle" fill="#123a2a">420.000 ₺</text>
+    <g font-size="11" fill="#63736a"><text x="646" y="625">1</text><text x="684" y="625">2</text><text x="722" y="625">3</text><text x="760" y="625">4</text><text x="798" y="625">5</text><text x="1102" y="625">13</text></g>
+    <rect x="925" y="42" width="222" height="38" rx="19" fill="#fde8e7"/><text x="1036" y="66" font-size="13" font-weight="700" fill="#a61b1b" text-anchor="middle">MAC DESTEKLENMEZ</text>
+  </g>
+</svg>
