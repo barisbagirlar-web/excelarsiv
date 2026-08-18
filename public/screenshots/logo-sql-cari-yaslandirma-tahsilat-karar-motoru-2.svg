@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="t d">
+  <title id="t">Logo SQL alacak yaşlandırma ekranı</title><desc id="d">FIFO sonrası yedi yaş kovası, açık alacak payı ve ekonomik gecikme örneği.</desc>
+  <rect width="1200" height="620" fill="#f5f8f6"/><rect x="24" y="24" width="1152" height="76" rx="14" fill="#123a2a"/>
+  <text x="54" y="62" font-family="Arial,sans-serif" font-size="26" font-weight="700" fill="#fff">ALACAK YAŞLANDIRMA</text><text x="54" y="86" font-family="Arial,sans-serif" font-size="14" fill="#d7e5dd">FIFO sonrası açık alacak · TL tutar, pay, ekonomik gecikme ve açık kalem sayısı</text>
+  <g font-family="Arial,sans-serif"><rect x="24" y="124" width="1152" height="462" rx="14" fill="#fff" stroke="#dbe5df"/>
+    <rect x="50" y="154" width="1100" height="50" rx="8" fill="#0b7440"/>
+    <g font-size="13" font-weight="700" fill="#fff"><text x="72" y="185">YAŞ KOVASI</text><text x="330" y="185">AÇIK ALACAK</text><text x="565" y="185">PAY</text><text x="720" y="185">EKONOMİK GECİKME</text><text x="1028" y="185">KALEM</text></g>
+    <g font-size="14" fill="#33453b">
+      <text x="72" y="238">Vadesi Gelmemiş</text><text x="330" y="238">420.000,00 ₺</text><text x="565" y="238">33,9%</text><text x="720" y="238">0,00 ₺</text><text x="1054" y="238">1</text>
+      <text x="72" y="286">1–30</text><text x="330" y="286">145.000,00 ₺</text><text x="565" y="286">11,7%</text><text x="720" y="286">3.003,29 ₺</text><text x="1054" y="286">1</text>
+      <text x="72" y="334">31–60</text><text x="330" y="334">185.000,00 ₺</text><text x="565" y="334">14,9%</text><text x="720" y="334">7.876,44 ₺</text><text x="1054" y="334">1</text>
+      <text x="72" y="382">61–90</text><text x="330" y="382">234.500,00 ₺</text><text x="565" y="382">18,9%</text><text x="720" y="382">21.047,18 ₺</text><text x="1054" y="382">1</text>
+      <text x="72" y="430">91–180</text><text x="330" y="430">255.000,00 ₺</text><text x="565" y="430">20,6%</text><text x="720" y="430">34.238,63 ₺</text><text x="1054" y="430">2</text>
+      <text x="72" y="478">181–365</text><text x="330" y="478">0,00 ₺</text><text x="565" y="478">0,0%</text><text x="720" y="478">0,00 ₺</text><text x="1054" y="478">0</text>
+      <text x="72" y="526">365+</text><text x="330" y="526">0,00 ₺</text><text x="565" y="526">0,0%</text><text x="720" y="526">0,00 ₺</text><text x="1054" y="526">0</text>
+    </g>
+    <g stroke="#e6ede9"><line x1="50" y1="252" x2="1150" y2="252"/><line x1="50" y1="300" x2="1150" y2="300"/><line x1="50" y1="348" x2="1150" y2="348"/><line x1="50" y1="396" x2="1150" y2="396"/><line x1="50" y1="444" x2="1150" y2="444"/><line x1="50" y1="492" x2="1150" y2="492"/></g>
+    <rect x="50" y="542" width="1100" height="44" fill="#eef5f1"/><g font-size="14" font-weight="700" fill="#123a2a"><text x="72" y="570">TOPLAM</text><text x="330" y="570">1.239.500,00 ₺</text><text x="565" y="570">100,0%</text><text x="720" y="570">66.165,53 ₺</text><text x="1054" y="570">6</text></g>
+  </g>
+</svg>

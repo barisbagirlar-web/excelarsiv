@@ -8,12 +8,15 @@
   "scripts": {
     "predev": "node scripts/generate-catalog-covers.mjs",
     "dev": "astro dev",
-    "prebuild": "node scripts/generate-catalog-covers.mjs",
+    "materialize:packed": "node scripts/materialize-packed-products.mjs",
+    "prebuild": "npm run materialize:packed && node scripts/generate-catalog-covers.mjs",
     "build": "npm run guard:source && astro build && npm run seo:generate && npm run seo:validate && npm run seo:test && npm run seo:guard",
     "preview": "astro preview",
     "astro": "astro",
     "catalog:covers": "node scripts/generate-catalog-covers.mjs",
+    "pregenerate": "npm run materialize:packed",
     "generate": "node scripts/validate-commerce.mjs",
+    "prevalidate:commerce": "npm run materialize:packed",
     "validate:commerce": "node scripts/validate-commerce.mjs",
     "guard:source": "node scripts/guard-source-language.mjs",
     "sbom": "node scripts/generate-sbom.mjs",
@@ -45,6 +48,7 @@
     "seo:programmatic": "node --experimental-strip-types scripts/seo/programmatic-contract.ts --site excelarsiv",
     "seo:valuation": "node --experimental-strip-types scripts/seo/valuation.ts --site excelarsiv",
     "seo:board": "node --experimental-strip-types scripts/seo/board-report.ts --site excelarsiv",
+    "pretest": "npm run materialize:packed",
     "test": "node scripts/validate-commerce.mjs && npm run build && node scripts/smoke-test.mjs && npm run seo:link-graph -- --check"
   },
   "dependencies": {

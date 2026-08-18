@@ -373,6 +373,13 @@
       "fileFormat": "xlsx",
       "storageKey": "paid-products/konkordato-nakit-akis-on-projesi/current.xlsx",
       "satista": true
+    },
+    "logo-sql-cari-yaslandirma-tahsilat-karar-motoru": {
+      "name": "Logo SQL Cari Yaşlandırma & Tahsilat Karar Motoru",
+      "tier": "EXCLUSIVE",
+      "fileFormat": "xlsx",
+      "storageKey": "paid-products/logo-sql-cari-yaslandirma-tahsilat-karar-motoru/current.xlsx",
+      "satista": true
     }
   }
 }
