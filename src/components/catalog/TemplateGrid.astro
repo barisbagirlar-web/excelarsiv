@@ -31,13 +31,24 @@ const { templates } = Astro.props;
   .template-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
     gap: 18px;
     margin: 0;
     padding: 0;
     list-style: none;
   }
   .template-grid > *,
-  .template-grid li { min-width: 0; }
+  .template-grid li {
+    min-width: 0;
+  }
+  .template-grid > li {
+    display: flex;
+    align-items: stretch;
+  }
+  .template-grid > li > :global(.card) {
+    width: 100%;
+    height: 100%;
+  }
   /* The first card is the mobile LCP candidate and must remain immediately
      renderable. Following cards preserve their footprint while deferring
      style/layout/paint until they approach the viewport. */
