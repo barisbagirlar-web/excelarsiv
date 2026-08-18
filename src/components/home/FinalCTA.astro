@@ -5,7 +5,7 @@ const modules = ['Kasa + banka + cari + POS bakiyeleri', 'Nakit girişi', 'Stok 
 const templates = await getCollection('templates');
 const packageEntry = templates.find((entry) => entry.id === 'kobi-finans-yonetim-paketi');
 const packagePrice = packageEntry?.data.priceTL.toLocaleString('tr-TR') ?? '7.900';
-const packageHref = packageEntry ? `/sablon/${packageEntry.id}` : '/paketler';
+const packageHref = packageEntry ? `/sablon/${packageEntry.id}` : '/sablonlar';
 ---
 
 <section class="premium-close" aria-labelledby="final-cta-title">
