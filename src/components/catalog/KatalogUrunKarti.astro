@@ -1,6 +1,7 @@
 ---
 import ProductCard from '../ProductCard.astro';
 import { catalogScreenshotAlt } from '../../lib/catalog-screenshot';
+import coverData from '../../data/catalog-covers.json';
 import type { TemplateViewModel } from '../../lib/templates';
 
 interface Props {
@@ -17,6 +18,14 @@ const sheetTabs = (outputTabs.length > 0
   ? outputTabs
   : (template.sheetMap ?? []).map((sheet) => sheet.name)
 ).slice(0, 3);
+
+const hasCatalogCover = coverData.some((item) => item.slug === template.slug);
+const visualUrl = hasCatalogCover
+  ? `/catalog-covers/${template.slug}.svg`
+  : (template.preview?.src ?? '');
+const visualAlt = hasCatalogCover
+  ? `${template.name} — örnek katalog görünümü; gösterilen değerler temsili örnektir`
+  : catalogScreenshotAlt(template.name);
 ---
 
 <ProductCard
@@ -27,9 +36,11 @@ const sheetTabs = (outputTabs.length > 0
   pageCount={template.sheetCount}
   format={(template.fileFormat ?? 'xlsx').toUpperCase()}
   price={`₺${template.priceTL.toLocaleString('tr-TR')}`}
-  screenshotUrl={template.preview?.src ?? ''}
-  screenshotAlt={catalogScreenshotAlt(template.name)}
+  screenshotUrl={visualUrl}
+  screenshotAlt={visualAlt}
   screenshotFocus={template.screenshotFocus}
+  visualMode={hasCatalogCover ? 'cover' : 'workbook'}
+  visualDisclosure={hasCatalogCover ? 'Örnek görünüm · değerler temsili' : undefined}
   sheetTabs={sheetTabs}
   detailUrl={template.url}
   orderUrl={template.shopierUrl}

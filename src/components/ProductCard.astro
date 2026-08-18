@@ -13,6 +13,8 @@ export interface Props {
   screenshotUrl: string;
   screenshotAlt: string;
   screenshotFocus?: 'result' | 'top' | 'center';
+  visualMode?: 'workbook' | 'cover';
+  visualDisclosure?: string;
   sheetTabs?: string[];
   detailUrl: string;
   orderUrl: string;
@@ -33,6 +35,8 @@ const {
   screenshotUrl,
   screenshotAlt,
   screenshotFocus = 'result',
+  visualMode = 'workbook',
+  visualDisclosure,
   sheetTabs,
   detailUrl,
   orderUrl,
@@ -51,6 +55,7 @@ const workbookName =
     : `${workbookTitle.slice(0, 34).trimEnd()}….${ext}`;
 const tabs = (sheetTabs && sheetTabs.length > 0 ? sheetTabs : ['PANO', 'Girdi', 'Hesap']).slice(0, 3);
 const activeTab = tabs[0];
+const usesCover = visualMode === 'cover';
 ---
 
 <article
@@ -64,45 +69,63 @@ const activeTab = tabs[0];
   aria-label={title}
 >
   <a
-    class="card__frame"
+    class:list={['card__frame', { 'card__frame--cover': usesCover }]}
     data-focus={screenshotFocus}
     href={detailUrl}
     aria-label={`${title} — demo önizlemesini gör`}
   >
-    {isMultiPage && <span class="card__stack" aria-hidden="true"></span>}
-    <span class="card__workbook">
-      <span class="card__titlebar">
-        <span class="card__filename">{workbookName}</span>
-        <span class="card__app">Excel</span>
-      </span>
-      <span class="card__fx" aria-hidden="true">
-        <span class="card__fx-label">fx</span>
-        <span class="card__fx-track"></span>
-      </span>
-      <span class="card__stage">
-        {screenshotUrl ? (
-          <img
-            class="card__screenshot"
-            src={screenshotUrl}
-            alt={screenshotAlt}
-            loading={priority ? 'eager' : 'lazy'}
-            fetchpriority={priority ? 'high' : 'auto'}
-            decoding="async"
-            width="640"
-            height="400"
-          />
-        ) : null}
-      </span>
-      <span class="card__sheets" aria-hidden="true">
-        {tabs.map((tab) => (
-          <span class:list={['card__sheet', { 'is-active': tab === activeTab }]}>{tab}</span>
-        ))}
-      </span>
-    </span>
-    <span class="card__tab">{categoryLabel}</span>
+    {usesCover ? (
+      screenshotUrl ? (
+        <img
+          class="card__cover"
+          src={screenshotUrl}
+          alt={screenshotAlt}
+          loading={priority ? 'eager' : 'lazy'}
+          fetchpriority={priority ? 'high' : 'auto'}
+          decoding="async"
+          width="800"
+          height="600"
+        />
+      ) : null
+    ) : (
+      <>
+        {isMultiPage && <span class="card__stack" aria-hidden="true"></span>}
+        <span class="card__workbook">
+          <span class="card__titlebar">
+            <span class="card__filename">{workbookName}</span>
+            <span class="card__app">Excel</span>
+          </span>
+          <span class="card__fx" aria-hidden="true">
+            <span class="card__fx-label">fx</span>
+            <span class="card__fx-track"></span>
+          </span>
+          <span class="card__stage">
+            {screenshotUrl ? (
+              <img
+                class="card__screenshot"
+                src={screenshotUrl}
+                alt={screenshotAlt}
+                loading={priority ? 'eager' : 'lazy'}
+                fetchpriority={priority ? 'high' : 'auto'}
+                decoding="async"
+                width="640"
+                height="400"
+              />
+            ) : null}
+          </span>
+          <span class="card__sheets" aria-hidden="true">
+            {tabs.map((tab) => (
+              <span class:list={['card__sheet', { 'is-active': tab === activeTab }]}>{tab}</span>
+            ))}
+          </span>
+        </span>
+        <span class="card__tab">{categoryLabel}</span>
+      </>
+    )}
   </a>
 
   <div class="card__body">
+    {visualDisclosure && <span class="card__visual-disclosure">{visualDisclosure}</span>}
     <h3 class="card__title">
       <a href={detailUrl}>{title}</a>
     </h3>
@@ -185,9 +208,21 @@ const activeTab = tabs[0];
     overflow: hidden;
   }
 
+  .card__frame--cover {
+    padding: 0;
+    background: #fff;
+  }
+
   .card__frame:focus-visible {
     outline: 2px solid var(--ea-clay);
     outline-offset: 2px;
+  }
+
+  .card__cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .card__workbook {
@@ -338,6 +373,16 @@ const activeTab = tabs[0];
     gap: 0.5rem;
     padding: 1rem 1.125rem 1.125rem;
     flex: 1;
+  }
+
+  .card__visual-disclosure {
+    align-self: flex-start;
+    font-family: var(--ea-mono);
+    font-size: 0.625rem;
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #6b7168;
   }
 
   .card__title {
